@@ -1,19 +1,73 @@
-#  3D Acupuncture assistant for browsers
+Assistant Énergétique par Radiestésie et Acupression
+Auteur : Bien-être et Géobiologie, Granville, France
 
-Acupuncture is a branch of traditional Chinese medicine based on the insertion of needles into specific points, which are connected by channels of energy and assist in health and in disease treatment.
+Présentation du Projet
+Cet outil est conçu pour soutenir les praticiens en radiestésie et en travail énergétique, en facilitant l’identification des points d’acupression selon les 12 méridiens de la Médecine Traditionnelle Chinoise (MTC). Il permet de localiser les points bloqués lors d’une séance, afin d’optimiser le travail énergétique.
+L’application utilise une approche 3D interactive pour visualiser les méridiens et les points d’acupuncture, offrant une aide visuelle et pratique pour les praticiens, qu’ils soient débutants ou expérimentés.
 
-However, the acupuncturists without extensive experience facing a problem on exact location of meridian points that should be used in patient care and, in cases where such points are known by the professional, the same must be confirmed using a theoretical framework.
+Fonctionnalités Clés
 
-Thus, this work consists of the construction of a application built with WebGl and Three.js in support of acupuncture treatment, through a dynamic tool for the query of the acupoints and a three-dimensional approach to the problem, namely, the use of 3D graphics in browsers. 
+Identification des points d’acupression : Localisation précise des points selon les 12 méridiens de la MTC.
+Détection des blocages énergétiques : Utilisation de la radiestésie pour repérer les points nécessitant un travail spécifique.
+Approche 3D : Visualisation dynamique des méridiens et des points, accessible directement depuis un navigateur.
+Interface intuitive : Accès rapide aux informations sur chaque point via une barre latérale dédiée.
 
-The program can be executed using the browsers Mozilla Firefox and Google Chrome. As the algorithm developed has linear complexity, even has a low computational cost and, by compressing of images, we make the program acceptable for a web application.
+Technologies Utilisées
 
-WebGl is supported by Google Chrome 46, Mozilla Firefox 42, Apple Safari 9.0,	MS Internet Explorer 11 and	MS Edge 13.
+WebGL et Three.js : Pour la modélisation 3D des méridiens et des points.
+Compatibilité navigateurs : Fonctionne sur Google Chrome, Mozilla Firefox, Apple Safari, MS Internet Explorer 11 et MS Edge 13.
+Algorithme léger : Complexité linéaire pour une exécution fluide, même avec des images compressées.
 
-#
+Fichiers Principaux
+README.md – Assistant Énergétique par Radiestésie et Acupression
 
-The file that must be initialized, containing the sidebar with the point information, is the 'acumaster.html'
+  
+    
+      Fichier
+      Description
+    
+  
+  
+    
+      acumaster.html
+      Fichier principal à initialiser, contenant la barre latérale avec les informations sur les points.
+    
+    
+      acu.html
+      Code source principal, entièrement commenté.
+    
+    
+      Acu_pos
+      Fichier indépendant pour obtenir les positions des points d’acupuncture, manipulables via les touches directionnelles et les signes +/-.
+    
+  
 
-The main code is in 'acu.html' and it's all commented
 
-'Acu_pos' is an independent file used to obtain the positions of an acupuncture point that can be moved by pressing the arrows and plus & minus
+
+Sources Documentaires
+Ce projet s’appuie sur les travaux suivants :
+
+3D Acupuncture Assistant for Browsers (projet original) : Base technique pour l’intégration de la 3D et de WebGL.
+Médecine Traditionnelle Chinoise (MTC) : Référentiel théorique pour la localisation des méridiens et des points d’acupuncture.
+Radiestésie : Méthode complémentaire pour l’identification des blocages énergétiques.
+
+Utilisation
+
+Ouvrir acumaster.html dans un navigateur compatible.
+Naviguer dans l’interface 3D pour visualiser les méridiens et les points.
+Utiliser les flèches et +/- pour ajuster la position des points si nécessaire.
+Identifier les points bloqués grâce à la radiestésie et les intégrer au travail énergétique de la séance.
+
+Compatibilité
+Testé et optimisé pour :
+
+Google Chrome (version 46 et ultérieures)
+Mozilla Firefox (version 42 et ultérieures)
+Apple Safari (version 9.0 et ultérieures)
+MS Internet Explorer 11
+MS Edge (version 13 et ultérieures)
+
+Auteur et Contact
+Bien-être et Géobiologie
+Granville, France
+
