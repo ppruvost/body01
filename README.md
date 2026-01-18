@@ -21,28 +21,17 @@ Algorithme léger : Complexité linéaire pour une exécution fluide, même avec
 Fichiers Principaux
 README.md – Assistant Énergétique par Radiestésie et Acupression
 
-  
-    
-      Fichier
-      Description
-    
-  
-  
-    
-      acumaster.html
-      Fichier principal à initialiser, contenant la barre latérale avec les informations sur les points.
-    
-    
-      acu.html
-      Code source principal, entièrement commenté.
-    
-    
-      Acu_pos
-      Fichier indépendant pour obtenir les positions des points d’acupuncture, manipulables via les touches directionnelles et les signes +/-.
-    
-  
+Fichier
+Description
 
+acumaster.html
+Fichier principal à initialiser, contenant la barre latérale avec les informations sur les points.
 
+acu.html
+Code source principal, entièrement commenté.
+
+Acu_pos
+Fichier indépendant pour obtenir les positions des points d’acupuncture, manipulables via les touches directionnelles et les signes +/-.
 
 Sources Documentaires
 Ce projet s’appuie sur les travaux suivants :
