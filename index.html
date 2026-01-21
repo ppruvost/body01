@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+	<meta charset="utf-8">
+	<title>ACU MASTER – Méridiens énergétiques</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+	<link href="css/font-awesome/css/font-awesome.min.css" rel="stylesheet"/>
+	<link href="css/simple-line-icons/simple-line-icons.min.css" rel="stylesheet"/>
+	<link href="css/bootstrap/css/bootstrap.min.css" rel="stylesheet"/>
+	<link href="css/sidebar.css" rel="stylesheet"/>
+	<link href="css/light.css" rel="stylesheet"/>
+</head>
+
+<body>
+
+<div id="panel" class="collapsed">
+	<div class="page-sidebar navbar-collapse collapse">
+
+		<ul class="page-sidebar-menu">
+
+			<!-- ================= ACCUEIL ================= -->
+			<li class="start active">
+				<a href="#" onclick="loadPage('src/home.html')">
+					<i class="icon-home"></i>
+					<span class="title"><strong>ACU</strong> MASTER</span>
+				</a>
+			</li>
+
+			<!-- ========== MÉRIDIENS EXTRAORDINAIRES ========== -->
+			<li class="open">
+				<a href="javascript:;">
+					<i class="icon-compass"></i>
+					<span class="title">Méridiens extraordinaires</span>
+					<span class="arrow"></span>
+				</a>
+
+				<ul class="sub-menu">
+					<li>
+						<a href="#" onclick="loadPage('src/vc.html')">
+							<i class="icon-energy"></i>
+							<span class="title">Vaisseau de Conception (Ren Mai)</span>
+						</a>
+					</li>
+
+					<li>
+						<a href="#" onclick="loadPage('src/vg.html')">
+							<i class="icon-energy"></i>
+							<span class="title">Vaisseau Gouverneur (Du Mai)</span>
+						</a>
+					</li>
+				</ul>
+			</li>
+
+			<!-- ========== MÉRIDIENS ORDINAIRES ========== -->
+			<li>
+				<a href="javascript:;">
+					<i class="icon-heart"></i>
+					<span class="title">Méridiens Yin</span>
+					<span class="arrow"></span>
+				</a>
+
+				<ul class="sub-menu">
+					<li><a href="#" onclick="loadPage('src/poumon.html')">Poumon</a></li>
+					<li><a href="#" onclick="loadPage('src/rate.html')">Rate</a></li>
+					<li><a href="#" onclick="loadPage('src/coeur.html')">Cœur</a></li>
+					<li><a href="#" onclick="loadPage('src/rein.html')">Rein</a></li>
+					<li><a href="#" onclick="loadPage('src/foie.html')">Foie</a></li>
+				</ul>
+			</li>
+
+			<li>
+				<a href="javascript:;">
+					<i class="icon-direction"></i>
+					<span class="title">Méridiens Yang</span>
+					<span class="arrow"></span>
+				</a>
+
+				<ul class="sub-menu">
+					<li><a href="#" onclick="loadPage('src/estomac.html')">Estomac</a></li>
+					<li><a href="#" onclick="loadPage('src/intestin-grele.html')">Intestin grêle</a></li>
+					<li><a href="#" onclick="loadPage('src/intestin-gros.html')">Gros intestin</a></li>
+					<li><a href="#" onclick="loadPage('src/vessie.html')">Vessie</a></li>
+					<li><a href="#" onclick="loadPage('src/vb.html')">Vésicule biliaire</a></li>
+					<li><a href="#" onclick="loadPage('src/triple-rechauffeur.html')">Triple réchauffeur</a></li>
+				</ul>
+			</li>
+
+		</ul>
+	</div>
+</div>
+
+<!-- ================== IFRAME CENTRAL ================== -->
+<iframe
+	id="viewer"
+	src="src/vc.html"
+	style="width:100%; height:100vh; border:none;">
+</iframe>
+
+<!-- ================== SCRIPTS ================== -->
+<script src="js/jquery-1.11.0.min.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<script src="js/metronic.js"></script>
+<script src="js/layout.js"></script>
+
+<script>
+	function loadPage(page) {
+		document.getElementById("viewer").src = page;
+	}
+</script>
+
+</body>
+</html>
