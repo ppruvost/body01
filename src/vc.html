@@ -1,31 +1,188 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
     <meta charset="utf-8">
-    <title>Vaisseau de Conception (Ren Mai)</title>
-    <!-- Liens CSS si nécessaire -->
+    <title>Vaisseau de Conception (Ren Mai) - Radiesthésie et Acupression</title>
     <link rel="stylesheet" href="css/light.css">
+    <style>
+        /* Styles de base pour les points */
+        .point {
+            cursor: pointer;
+            padding: 10px;
+            margin: 5px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+            display: inline-block;
+        }
+        .point:hover {
+            background-color: #e9e9e9;
+        }
+        .point-details {
+            display: none;
+            margin-top: 10px;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background-color: #fff;
+        }
+        .point-details.active {
+            display: block;
+        }
+        .main_content_list {
+            list-style-type: disc;
+            margin-left: 20px;
+        }
+    </style>
 </head>
 
 <body>
-    <!-- Contenu spécifique au Vaisseau de Conception -->
     <div class="container">
         <h1>Vaisseau de Conception (Ren Mai)</h1>
+        <p>Protocoles pour libérer les points bloqués et faire circuler les flux énergétiques par radiesthésie et acupression.</p>
 
-        <!-- Exemple : Points vc1 à vc24 -->
-        <div id="vc1" class="point" onclick="showPointDetails('vc1')">VC1</div>
-        <div id="vc2" class="point" onclick="showPointDetails('vc2')">VC2</div>
-        <!-- ... jusqu'à vc24 -->
+        <!-- Points VC1 et VC2 -->
+        <div id="vc1" class="point" onclick="showPointDetails('vc1')">VC1 (Huiyin)</div>
+        <div id="vc2" class="point" onclick="showPointDetails('vc2')">VC2 (Qugu)</div>
 
-        <!-- Scripts spécifiques aux points -->
+        <!-- Détails pour VC1 -->
+        <div id="vc1-details" class="point-details">
+            <h2>VC1 (Huiyin) - Rencontre du Yin</h2>
+            <img src="img/VC/VC1.jpg" class="img-responsive" alt="Localisation de VC1">
+
+            <h3>Caractéristiques</h3>
+            <ul class="main_content_list">
+                <li>Point de croisement avec les méridiens du Foie, de la Rate et du Rein.</li>
+                <li>Point d'ouverture du Vaisseau de Conception (Ren Mai).</li>
+            </ul>
+
+            <h3>Fonctions énergétiques</h3>
+            <ul class="main_content_list">
+                <li>Régule le Qi du bas-ventre et des organes génitaux.</li>
+                <li>Harmonise le Yin et le Yang dans le bas du corps.</li>
+                <li>Traite les troubles gynécologiques et urologiques.</li>
+                <li>Calme l'esprit et ancrage énergétique.</li>
+            </ul>
+
+            <h3>Localisation</h3>
+            <ul class="main_content_list">
+                <li>Entre l'anus et les organes génitaux, au centre du périnée.</li>
+            </ul>
+
+            <h3>Protocole par radiesthésie et acupression</h3>
+            <ul class="main_content_list">
+                <li>
+                    <strong>Adulte :</strong>
+                    <ul>
+                        <li>Détecter les blocages avec un pendule au-dessus de la zone.</li>
+                        <li>Appliquer une pression douce avec le pouce pendant 1 minute, en visualisant la libération du flux énergétique.</li>
+                        <li>Vérifier avec le pendule après 3 répétitions.</li>
+                    </ul>
+                </li>
+                <li>
+                    <strong>Enfant (3-12 ans) :</strong>
+                    <ul>
+                        <li>Utiliser un pendule léger pour détecter les blocages.</li>
+                        <li>Appliquer une pression très légère (avec le bout du doigt) pendant 10 secondes, en accompagnant l'enfant pour visualiser une lumière apaisante.</li>
+                        <li>Répéter 2 fois maximum.</li>
+                    </ul>
+                </li>
+                <li>
+                    <strong>Bébé (0-2 ans) :</strong>
+                    <ul>
+                        <li>Éviter toute pression directe. Passer le pendule à 10 cm au-dessus de la zone pour détecter les blocages.</li>
+                        <li>Si un blocage est détecté, passer doucement la main (sans toucher) en visualisant la circulation de l'énergie.</li>
+                        <li>Répéter 1 fois, puis vérifier avec le pendule après 5 minutes.</li>
+                    </ul>
+                </li>
+            </ul>
+
+            <h3>Précautions</h3>
+            <ul class="main_content_list">
+                <li>Respecter l'intimité et le confort de la personne.</li>
+                <li>Ne jamais appliquer de pression forte, surtout chez les enfants et les bébés.</li>
+                <li>Demander toujours l'accord verbal avant de commencer.</li>
+            </ul>
+        </div>
+
+        <!-- Détails pour VC2 -->
+        <div id="vc2-details" class="point-details">
+            <h2>VC2 (Qugu) - Os courbé</h2>
+            <img src="img/VC/VC2.jpg" class="img-responsive" alt="Localisation de VC2">
+
+            <h3>Caractéristiques</h3>
+            <ul class="main_content_list">
+                <li>Point de croisement avec le méridien du Foie.</li>
+            </ul>
+
+            <h3>Fonctions énergétiques</h3>
+            <ul class="main_content_list">
+                <li>Tonifie le Qi du Rein et comble ses carences.</li>
+                <li>Harmonise le Qi de la Vessie.</li>
+                <li>Dissipe la Chaleur et réchauffe le Froid.</li>
+                <li>Favorise la miction (énurésie).</li>
+                <li>Régule le cycle menstruel.</li>
+                <li>Renforce le Yang Qi.</li>
+                <li>Préserve l'Essence (Jing).</li>
+                <li>Soutient le Réchauffeur Moyen (Jiao Médio).</li>
+            </ul>
+
+            <h3>Localisation</h3>
+            <ul class="main_content_list">
+                <li>Sur la ligne médiane antérieure, au milieu du bord supérieur de la symphyse pubienne.</li>
+            </ul>
+
+            <h3>Protocole par radiesthésie et acupression</h3>
+            <ul class="main_content_list">
+                <li>
+                    <strong>Adulte :</strong>
+                    <ul>
+                        <li>Détecter les blocages avec un pendule au-dessus de la zone.</li>
+                        <li>Appliquer une pression douce avec le pouce pendant 30 secondes à 1 minute, en visualisant la libération du flux énergétique.</li>
+                        <li>Vérifier avec le pendule après 3 répétitions.</li>
+                    </ul>
+                </li>
+                <li>
+                    <strong>Enfant (3-12 ans) :</strong>
+                    <ul>
+                        <li>Utiliser un pendule léger pour détecter les blocages.</li>
+                        <li>Appliquer une pression très légère (avec le bout du doigt) pendant 10-15 secondes, en accompagnant l'enfant pour visualiser une lumière chaude.</li>
+                        <li>Répéter 2 fois maximum.</li>
+                    </ul>
+                </li>
+                <li>
+                    <strong>Bébé (0-2 ans) :</strong>
+                    <ul>
+                        <li>Éviter toute pression directe. Passer le pendule à 10 cm au-dessus de la zone pour détecter les blocages.</li>
+                        <li>Si un blocage est détecté, passer doucement la main (sans toucher) en visualisant la circulation de l'énergie.</li>
+                        <li>Répéter 1 fois, puis vérifier avec le pendule après 5 minutes.</li>
+                    </ul>
+                </li>
+            </ul>
+
+            <h3>Précautions</h3>
+            <ul class="main_content_list">
+                <li>Vérifier que la vessie est vide avant toute manipulation.</li>
+                <li>Ne jamais forcer la pression, surtout chez le bébé.</li>
+                <li>Toujours demander l'accord verbal de l'enfant ou du bébé (même non verbal) avant de commencer.</li>
+            </ul>
+        </div>
+
+        <!-- Script pour afficher les détails -->
         <script>
             function showPointDetails(pointId) {
-                // Logique pour afficher les détails du point
-                console.log("Point sélectionné :", pointId);
-                // Exemple : Charger des informations dynamiques
-            }
+                // Masquer tous les détails
+                const allDetails = document.querySelectorAll('.point-details');
+                allDetails.forEach(detail => {
+                    detail.classList.remove('active');
+                });
 
-            // Autres fonctions ou événements liés aux points
+                // Afficher les détails du point cliqué
+                const details = document.getElementById(pointId + '-details');
+                if (details) {
+                    details.classList.add('active');
+                }
+            }
         </script>
     </div>
 </body>
