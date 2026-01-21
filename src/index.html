@@ -5,6 +5,7 @@
     <title>RADIESTHÉSIE</title>
     <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
 
+    <!-- Styles CSS -->
     <link rel="stylesheet" href="css/font-awesome/css/font-awesome.min.css">
     <link rel="stylesheet" href="css/simple-line-icons/simple-line-icons.min.css">
     <link rel="stylesheet" href="css/bootstrap/css/bootstrap.min.css">
@@ -14,12 +15,10 @@
 
 <body>
 
-<!-- ================== ENTETE ================== -->
+<!-------------- Menu latéral ----------------->
 <div id="panel" class="collapsed">
     <div class="page-sidebar navbar-collapse collapse">
         <ul class="page-sidebar-menu">
-
-            <!-- ================== ACCUEIL ================== -->
             <li class="start active">
                 <a href="#">
                     <i class="icon-home"></i>
@@ -27,94 +26,38 @@
                     <span class="selected"></span>
                 </a>
             </li>
-
-            <!-- ========== MÉRIDIENS EXTRAORDINAIRES ========== -->
-            <li class="open">
-                <a href="javascript:;" id="vc">
-                    <i class="icon-cogs"></i>
-                    <span class="title">Méridiens extraordinaires</span>
-                    <span class="arrow "></span>
-                </a>
-            </li>
-
-            <!-- ========== MÉRIDIENS EXTRAORDINAIRES (sous-menu) ========== -->
-            <li>
-                <a href="javascript:;">
-                    <i class="icon-compass"></i>
-                    <span class="title">Méridiens extraordinaires</span>
-                    <span class="arrow"></span>
-                </a>
-
-                <ul class="sub-menu">
-                    <li>
-                        <a href="#" onclick="loadPage('vc.html')">
-                            <i class="icon-energy"></i>
-                            Vaisseau de Conception (Ren Mai)
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#" onclick="loadPage('vg.html')">
-                            <i class="icon-energy"></i>
-                            Vaisseau Gouverneur (Du Mai)
-                        </a>
-                    </li>
-                </ul>
-            </li>
-
-            <!-- ========== MÉRIDIENS YIN ========== -->
+            <!----------- Autres éléments du menu --------------->
             <li>
                 <a href="javascript:;">
                     <i class="icon-heart"></i>
                     <span class="title">Méridiens Yin</span>
                     <span class="arrow"></span>
                 </a>
-
                 <ul class="sub-menu">
                     <li><a href="#" onclick="loadPage('poumon.html')">Poumon</a></li>
                     <li><a href="#" onclick="loadPage('rate.html')">Rate</a></li>
                     <li><a href="#" onclick="loadPage('coeur.html')">Cœur</a></li>
-                    <li><a href="#" onclick="loadPage('rein.html')">Rein</a></li>
-                    <li><a href="#" onclick="loadPage('foie.html')">Foie</a></li>
                 </ul>
             </li>
-
-            <!-- ========== MÉRIDIENS YANG ========== -->
-            <li>
-                <a href="javascript:;">
-                    <i class="icon-direction"></i>
-                    <span class="title">Méridiens Yang</span>
-                    <span class="arrow"></span>
-                </a>
-
-                <ul class="sub-menu">
-                    <li><a href="#" onclick="loadPage('estomac.html')">Estomac</a></li>
-                    <li><a href="#" onclick="loadPage('intestin-grele.html')">Intestin grêle</a></li>
-                    <li><a href="#" onclick="loadPage('intestin-gros.html')">Gros intestin</a></li>
-                    <li><a href="#" onclick="loadPage('vessie.html')">Vessie</a></li>
-                    <li><a href="#" onclick="loadPage('vb.html')">Vésicule biliaire</a></li>
-                    <li><a href="#" onclick="loadPage('triple-rechauffeur.html')">Triple réchauffeur</a></li>
-                </ul>
-            </li>
-
+            <!-- Autres sections du menu -->
         </ul>
     </div>
 </div>
 
-<!-- ================== IFRAME CENTRAL ================== -->
+<!-- Iframe central -->
 <iframe
     id="viewer"
     src="acu.html"
-    style="width:100%; height:100vh; border:none;"
-    onload="onIframeLoaded()">
+    style="width:100%; height:100vh; border:none;">
 </iframe>
 
-<!-- ================== SCRIPTS ================== -->
+<!-- Scripts JavaScript -->
 <script src="js/jquery-1.11.0.min.js"></script>
 <script src="js/bootstrap.min.js"></script>
 <script src="js/metronic.js"></script>
 <script src="js/layout.js"></script>
 
-<!-- ================== LOAD PAGE FUNCTION ================== -->
+<!-- Fonction loadPage -->
 <script>
     document.addEventListener("DOMContentLoaded", function() {
         window.loadPage = function(url) {
@@ -124,14 +67,6 @@
             }
         };
     });
-
-    // Fonction appelée lorsque l'iframe est chargée
-    function onIframeLoaded() {
-        const iframe = document.getElementById('viewer');
-        const iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
-        // Ici, vous pouvez ajouter des scripts ou des écouteurs d'événements pour l'iframe
-        console.log("Iframe chargé avec succès !");
-    }
 </script>
 
 </body>
