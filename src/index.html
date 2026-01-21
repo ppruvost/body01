@@ -4,36 +4,40 @@
 	<meta charset="utf-8">
 	<title>RADIESTHÉSIE</title>
 	<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+
 	<link rel="stylesheet" href="css/font-awesome/css/font-awesome.min.css">
 	<link rel="stylesheet" href="css/simple-line-icons/simple-line-icons.min.css">
 	<link rel="stylesheet" href="css/bootstrap/css/bootstrap.min.css">
 	<link rel="stylesheet" href="css/sidebar.css">
 	<link rel="stylesheet" href="css/light.css" id="style_color">
-
 </head>
 
 <body>
 
-<!-- ================== SIDEBAR ================== -->
+<!-- ================== ENTETE ================== -->
 <div id="panel" class="collapsed">
 	<div class="page-sidebar navbar-collapse collapse">
 		<ul class="page-sidebar-menu">
 
+			<!-- ================== ACCUEIL ================== -->
 			<li class="start active">
 				<a href="#">
 					<i class="icon-home"></i>
 					<span class="title"><strong>RADISTHESIE</strong> MERIDIENS</span>
-				</a>
-			</li>
-
-			<li class="open">
-				<a href="javascript:;" id="vc">
-					<i class="icon-cogs"></i>
-					<span class="title">Menu principal</span>
+					<span class="selected"></span>
 				</a>
 			</li>
 
 			<!-- ========== MÉRIDIENS EXTRAORDINAIRES ========== -->
+			<li class="open">
+				<a href="javascript:;" id="vc">
+					<i class="icon-cogs"></i>
+					<span class="title">Méridiens extraordinaires</span>
+					<span class="arrow "></span>
+				</a>
+			</li>
+
+			<!-- ========== MÉRIDIENS EXTRAORDINAIRES (sous-menu) ========== -->
 			<li>
 				<a href="javascript:;">
 					<i class="icon-compass"></i>
@@ -111,13 +115,15 @@
 
 <!-- ================== LOAD PAGE FUNCTION ================== -->
 <script>
-	function loadPage(url) {
-		document.getElementById('viewer').src = url;
-	}
+	document.addEventListener("DOMContentLoaded", function() {
+		window.loadPage = function(url) {
+			const viewer = document.getElementById('viewer');
+			if (viewer) {
+				viewer.src = url;
+			}
+		}
+	});
 </script>
 
 </body>
 </html>
-
-
-
