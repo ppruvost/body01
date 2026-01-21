@@ -1,31 +1,31 @@
 <!DOCTYPE html>
-<html lang="fr">
-<head>
-	<meta charset="utf-8">
-	<title>ACU MASTER – Méridiens énergétiques</title>
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-	<link href="css/font-awesome/css/font-awesome.min.css" rel="stylesheet"/>
-	<link href="css/simple-line-icons/simple-line-icons.min.css" rel="stylesheet"/>
-	<link href="css/bootstrap/css/bootstrap.min.css" rel="stylesheet"/>
-	<link href="css/sidebar.css" rel="stylesheet"/>
-	<link href="css/light.css" rel="stylesheet"/>
-</head>
-
-<body>
-
-<div id="panel" class="collapsed">
-	<div class="page-sidebar navbar-collapse collapse">
-
-		<ul class="page-sidebar-menu">
-
-			<!-- ================= ACCUEIL ================= -->
-			<li class="start active">
-				<a href="#" onclick="loadPage('src/home.html')">
-					<i class="icon-home"></i>
-					<span class="title"><strong>ACU</strong> MASTER</span>
-				</a>
-			</li>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<title>RADIESTHÉSIE</title>
+		<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+		<!--<link href="http://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700&subset=all" rel="stylesheet" type="text/css"/>-->
+		<link href="css/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css"/>
+		<link href="css/simple-line-icons/simple-line-icons.min.css" rel="stylesheet" type="text/css"/>
+		<link href="css/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
+		<link href="css/sidebar.css" rel="stylesheet" type="text/css"/>
+		<link href="css/light.css" rel="stylesheet" type="text/css" id="style_color"/>
+	</head>
+	<body>
+		<!-- ACU.HTML-->
+		<div id="panel" class="collapsed">
+			<div class="page-sidebar navbar-collapse collapse">
+				<ul class="page-sidebar-menu">
+			 		<li class="start active ">
+			 			<a href="#">
+							<i class="icon-home"></i> 
+							<span class="title"><strong>ACU</strong> MASTER</span>          
+			      				<span class="selected"></span>
+			      			</a>
+			    		</li>
+			    		<li class="open">
+			      			<a href="javascript:;" id="vc"> <!--Point vc15 en relation avec id="vc15" -->
+			      				<i class="icon-cogs"></i> 
 
 			<!-- ========== MÉRIDIENS EXTRAORDINAIRES ========== -->
 			<li class="open">
@@ -93,8 +93,8 @@
 <!-- ================== IFRAME CENTRAL ================== -->
 <iframe
 	id="viewer"
-	src="src/vc.html"
-	style="width:100%; height:100vh; border:none;">
+	src="src/acu.html"
+	>
 </iframe>
 
 <!-- ================== SCRIPTS ================== -->
@@ -102,12 +102,5 @@
 <script src="js/bootstrap.min.js"></script>
 <script src="js/metronic.js"></script>
 <script src="js/layout.js"></script>
-
-<script>
-	function loadPage(page) {
-		document.getElementById("viewer").src = page;
-	}
-</script>
-
-</body>
+<</body>
 </html>
