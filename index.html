@@ -1,34 +1,40 @@
 <!DOCTYPE html>
-<html lang="en">
-	<head>
-		<meta charset="utf-8">
-		<title>RADIESTHÉSIE</title>
-		<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
-		<!--<link href="http://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700&subset=all" rel="stylesheet" type="text/css"/>-->
-		<link href="src/css/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css"/>
-		<link href="src/css/simple-line-icons/simple-line-icons.min.css" rel="stylesheet" type="text/css"/>
-		<link href="src/css/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
-		<link href="src/css/sidebar.css" rel="stylesheet" type="text/css"/>
-		<link href="src/css/light.css" rel="stylesheet" type="text/css" id="style_color"/>
-	</head>
-	<body>
-		<!-- ACU.HTML-->
-		<div id="panel" class="collapsed">
-			<div class="page-sidebar navbar-collapse collapse">
-				<ul class="page-sidebar-menu">
-			 		<li class="start active ">
-			 			<a href="#">
-							<i class="icon-home"></i> 
-							<span class="title"><strong>ACU</strong> MASTER</span>          
-			      				<span class="selected"></span>
-			      			</a>
-			    		</li>
-			    		<li class="open">
-			      			<a href="javascript:;" id="vc"> <!--Point vc15 en relation avec id="vc15" -->
-			      				<i class="icon-cogs"></i> 
+<html lang="fr">
+<head>
+	<meta charset="utf-8">
+	<title>RADIESTHÉSIE</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+	<link href="src/css/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+	<link href="src/css/simple-line-icons/simple-line-icons.min.css" rel="stylesheet">
+	<link href="src/css/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+	<link href="src/css/sidebar.css" rel="stylesheet">
+	<link href="src/css/light.css" rel="stylesheet" id="style_color">
+</head>
+
+<body>
+
+<!-- ================== SIDEBAR ================== -->
+<div id="panel" class="collapsed">
+	<div class="page-sidebar navbar-collapse collapse">
+		<ul class="page-sidebar-menu">
+
+			<li class="start active">
+				<a href="#">
+					<i class="icon-home"></i>
+					<span class="title"><strong>ACU</strong> MASTER</span>
+				</a>
+			</li>
+
+			<li class="open">
+				<a href="javascript:;" id="vc">
+					<i class="icon-cogs"></i>
+					<span class="title">Menu principal</span>
+				</a>
+			</li>
 
 			<!-- ========== MÉRIDIENS EXTRAORDINAIRES ========== -->
-			<li class="open">
+			<li>
 				<a href="javascript:;">
 					<i class="icon-compass"></i>
 					<span class="title">Méridiens extraordinaires</span>
@@ -39,20 +45,19 @@
 					<li>
 						<a href="#" onclick="loadPage('src/vc.html')">
 							<i class="icon-energy"></i>
-							<span class="title">Vaisseau de Conception (Ren Mai)</span>
+							Vaisseau de Conception (Ren Mai)
 						</a>
 					</li>
-
 					<li>
 						<a href="#" onclick="loadPage('src/vg.html')">
 							<i class="icon-energy"></i>
-							<span class="title">Vaisseau Gouverneur (Du Mai)</span>
+							Vaisseau Gouverneur (Du Mai)
 						</a>
 					</li>
 				</ul>
 			</li>
 
-			<!-- ========== MÉRIDIENS ORDINAIRES ========== -->
+			<!-- ========== MÉRIDIENS YIN ========== -->
 			<li>
 				<a href="javascript:;">
 					<i class="icon-heart"></i>
@@ -69,6 +74,7 @@
 				</ul>
 			</li>
 
+			<!-- ========== MÉRIDIENS YANG ========== -->
 			<li>
 				<a href="javascript:;">
 					<i class="icon-direction"></i>
@@ -94,7 +100,7 @@
 <iframe
 	id="viewer"
 	src="src/acu.html"
-	>
+	style="width:100%; height:100vh; border:none;">
 </iframe>
 
 <!-- ================== SCRIPTS ================== -->
@@ -102,7 +108,13 @@
 <script src="src/js/bootstrap.min.js"></script>
 <script src="src/js/metronic.js"></script>
 <script src="src/js/layout.js"></script>
-<</body>
+
+<!-- ================== LOAD PAGE FUNCTION ================== -->
+<script>
+	function loadPage(url) {
+		document.getElementById('viewer').src = url;
+	}
+</script>
+
+</body>
 </html>
-
-
