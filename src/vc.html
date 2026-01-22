@@ -1,189 +1,121 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <meta charset="utf-8">
-    <title>Vaisseau de Conception (Ren Mai) - Radiesthésie et Acupression</title>
-    <link rel="stylesheet" href="css/light.css">
-    <style>
-        /* Styles de base pour les points */
-        .point {
-            cursor: pointer;
-            padding: 10px;
-            margin: 5px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            background-color: #f9f9f9;
-            display: inline-block;
-        }
-        .point:hover {
-            background-color: #e9e9e9;
-        }
-        .point-details {
-            display: none;
-            margin-top: 10px;
-            padding: 15px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            background-color: #fff;
-        }
-        .point-details.active {
-            display: block;
-        }
-        .main_content_list {
-            list-style-type: disc;
-            margin-left: 20px;
-        }
-    </style>
+	<meta charset="utf-8">
+	<title>Vaisseau de Conception – Acupression & Énergétique</title>
+
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+	<!-- CSS THEME ACU -->
+	<link rel="stylesheet" href="css/acu-theme.css">
+
 </head>
 
 <body>
-    <div class="container">
-        <h1>Vaisseau de Conception (Ren Mai)</h1>
-        <p>Protocoles pour libérer les points bloqués et faire circuler les flux énergétiques par radiesthésie et acupression.</p>
 
-        <!-- Points VC1 et VC2 -->
-        <div id="vc1" class="point" onclick="showPointDetails('vc1')">VC1 (Huiyin)</div>
-        <div id="vc2" class="point" onclick="showPointDetails('vc2')">VC2 (Qugu)</div>
+	<div class="container">
 
-        <!-- Détails pour VC1 -->
-        <div id="vc1-details" class="point-details">
-            <h2>VC1 (Huiyin) - Rencontre du Yin</h2>
-            <img src="img/VC/VC1.jpg" class="img-responsive" alt="Localisation de VC1">
+		<h1>Vaisseau de Conception (Ren Mai)</h1>
 
-            <h3>Caractéristiques</h3>
-            <ul class="main_content_list">
-                <li>Point de croisement avec les méridiens du Foie, de la Rate et du Rein.</li>
-                <li>Point d'ouverture du Vaisseau de Conception (Ren Mai).</li>
-            </ul>
+		<p>
+			Le Vaisseau de Conception gouverne le Yin du corps, la structure profonde,
+			la sécurité intérieure et la régulation des fonctions vitales.
+			Il est central dans l’accompagnement énergétique de l’enfant comme de l’adulte.
+		</p>
 
-            <h3>Fonctions énergétiques</h3>
-            <ul class="main_content_list">
-                <li>Régule le Qi du bas-ventre et des organes génitaux.</li>
-                <li>Harmonise le Yin et le Yang dans le bas du corps.</li>
-                <li>Traite les troubles gynécologiques et urologiques.</li>
-                <li>Calme l'esprit et ancrage énergétique.</li>
-            </ul>
+		<!-- ================= VC1 ================= -->
 
-            <h3>Localisation</h3>
-            <ul class="main_content_list">
-                <li>Entre l'anus et les organes génitaux, au centre du périnée.</li>
-            </ul>
+		<div class="acuponto" id="vc1">
 
-            <h3>Protocole par radiesthésie et acupression</h3>
-            <ul class="main_content_list">
-                <li>
-                    <strong>Adulte :</strong>
-                    <ul>
-                        <li>Détecter les blocages avec un pendule au-dessus de la zone.</li>
-                        <li>Appliquer une pression douce avec le pouce pendant 1 minute, en visualisant la libération du flux énergétique.</li>
-                        <li>Vérifier avec le pendule après 3 répétitions.</li>
-                    </ul>
-                </li>
-                <li>
-                    <strong>Enfant (3-12 ans) :</strong>
-                    <ul>
-                        <li>Utiliser un pendule léger pour détecter les blocages.</li>
-                        <li>Appliquer une pression très légère (avec le bout du doigt) pendant 10 secondes, en accompagnant l'enfant pour visualiser une lumière apaisante.</li>
-                        <li>Répéter 2 fois maximum.</li>
-                    </ul>
-                </li>
-                <li>
-                    <strong>Bébé (0-2 ans) :</strong>
-                    <ul>
-                        <li>Éviter toute pression directe. Passer le pendule à 10 cm au-dessus de la zone pour détecter les blocages.</li>
-                        <li>Si un blocage est détecté, passer doucement la main (sans toucher) en visualisant la circulation de l'énergie.</li>
-                        <li>Répéter 1 fois, puis vérifier avec le pendule après 5 minutes.</li>
-                    </ul>
-                </li>
-            </ul>
+			<h2>VC-1 – Huiyin  
+			<small>(Réunion du Yin)</small></h2>
 
-            <h3>Précautions</h3>
-            <ul class="main_content_list">
-                <li>Respecter l'intimité et le confort de la personne.</li>
-                <li>Ne jamais appliquer de pression forte, surtout chez les enfants et les bébés.</li>
-                <li>Demander toujours l'accord verbal avant de commencer.</li>
-            </ul>
-        </div>
+			<img src="img/VC/VC1.jpg" alt="Point VC-1 Huiyin">
 
-        <!-- Détails pour VC2 -->
-        <div id="vc2-details" class="point-details">
-            <h2>VC2 (Qugu) - Os courbé</h2>
-            <img src="img/VC/VC2.jpg" class="img-responsive" alt="Localisation de VC2">
+			<h3>Caractéristiques</h3>
+			<ul class="main_content_list">
+				<li>Point de réunion des trois Yin (Rein, Foie, Rate).</li>
+				<li>Point de croisement du Ren Mai, Du Mai et Chong Mai.</li>
+				<li>Fondement de l’ancrage et de la sécurité énergétique.</li>
+			</ul>
 
-            <h3>Caractéristiques</h3>
-            <ul class="main_content_list">
-                <li>Point de croisement avec le méridien du Foie.</li>
-            </ul>
+			<h3>Fonctions énergétiques</h3>
+			<ul class="main_content_list">
+				<li>Ancre le Qi et stabilise l’énergie.</li>
+				<li>Préserve l’Essence (Jing).</li>
+				<li>Calme les peurs profondes.</li>
+			</ul>
 
-            <h3>Fonctions énergétiques</h3>
-            <ul class="main_content_list">
-                <li>Tonifie le Qi du Rein et comble ses carences.</li>
-                <li>Harmonise le Qi de la Vessie.</li>
-                <li>Dissipe la Chaleur et réchauffe le Froid.</li>
-                <li>Favorise la miction (énurésie).</li>
-                <li>Régule le cycle menstruel.</li>
-                <li>Renforce le Yang Qi.</li>
-                <li>Préserve l'Essence (Jing).</li>
-                <li>Soutient le Réchauffeur Moyen (Jiao Médio).</li>
-            </ul>
+			<h3>Indications</h3>
+			<ul class="main_content_list">
+				<li>Énurésie, encoprésie.</li>
+				<li>Anxiété, insécurité, agitation.</li>
+				<li>Fatigue chronique, vide énergétique.</li>
+			</ul>
 
-            <h3>Localisation</h3>
-            <ul class="main_content_list">
-                <li>Sur la ligne médiane antérieure, au milieu du bord supérieur de la symphyse pubienne.</li>
-            </ul>
+			<h3>Technique (adulte)</h3>
+			<ul class="main_content_list">
+				<li>Contact très léger ou intentionnel.</li>
+				<li>Durée : 30 secondes à 1 minute.</li>
+				<li>Intention : ancrage, sécurité, enracinement.</li>
+			</ul>
 
-            <h3>Protocole par radiesthésie et acupression</h3>
-            <ul class="main_content_list">
-                <li>
-                    <strong>Adulte :</strong>
-                    <ul>
-                        <li>Détecter les blocages avec un pendule au-dessus de la zone.</li>
-                        <li>Appliquer une pression douce avec le pouce pendant 30 secondes à 1 minute, en visualisant la libération du flux énergétique.</li>
-                        <li>Vérifier avec le pendule après 3 répétitions.</li>
-                    </ul>
-                </li>
-                <li>
-                    <strong>Enfant (3-12 ans) :</strong>
-                    <ul>
-                        <li>Utiliser un pendule léger pour détecter les blocages.</li>
-                        <li>Appliquer une pression très légère (avec le bout du doigt) pendant 10-15 secondes, en accompagnant l'enfant pour visualiser une lumière chaude.</li>
-                        <li>Répéter 2 fois maximum.</li>
-                    </ul>
-                </li>
-                <li>
-                    <strong>Bébé (0-2 ans) :</strong>
-                    <ul>
-                        <li>Éviter toute pression directe. Passer le pendule à 10 cm au-dessus de la zone pour détecter les blocages.</li>
-                        <li>Si un blocage est détecté, passer doucement la main (sans toucher) en visualisant la circulation de l'énergie.</li>
-                        <li>Répéter 1 fois, puis vérifier avec le pendule après 5 minutes.</li>
-                    </ul>
-                </li>
-            </ul>
+			<h3>Adaptation enfant – Tuina pédiatrique</h3>
+			<ul class="main_content_list">
+				<li>Aucun contact direct sur le périnée.</li>
+				<li>Main posée sur bas-ventre ou sacrum.</li>
+				<li>Durée : 20 à 30 secondes.</li>
+				<li>Intention : contenance et apaisement.</li>
+			</ul>
 
-            <h3>Précautions</h3>
-            <ul class="main_content_list">
-                <li>Vérifier que la vessie est vide avant toute manipulation.</li>
-                <li>Ne jamais forcer la pression, surtout chez le bébé.</li>
-                <li>Toujours demander l'accord verbal de l'enfant ou du bébé (même non verbal) avant de commencer.</li>
-            </ul>
-        </div>
+		</div>
 
-        <!-- Script pour afficher les détails -->
-        <script>
-            function showPointDetails(pointId) {
-                // Masquer tous les détails
-                const allDetails = document.querySelectorAll('.point-details');
-                allDetails.forEach(detail => {
-                    detail.classList.remove('active');
-                });
+		<!-- ================= VC2 ================= -->
 
-                // Afficher les détails du point cliqué
-                const details = document.getElementById(pointId + '-details');
-                if (details) {
-                    details.classList.add('active');
-                }
-            }
-        </script>
-    </div>
+		<div class="acuponto" id="vc2">
+
+			<h2>VC-2 – Qugu  
+			<small>(Os Courbé)</small></h2>
+
+			<img src="img/VC/VC2.jpg" alt="Point VC-2 Qugu">
+
+			<h3>Caractéristiques</h3>
+			<ul class="main_content_list">
+				<li>Point du Vaisseau de Conception lié aux fonctions uro-génitales.</li>
+				<li>Renforce l’énergie du Rein et le Yin fondamental.</li>
+			</ul>
+
+			<h3>Fonctions énergétiques</h3>
+			<ul class="main_content_list">
+				<li>Régule le bas-foyer.</li>
+				<li>Soutient la croissance et la maturation.</li>
+				<li>Stabilise les sphincters.</li>
+			</ul>
+
+			<h3>Indications</h3>
+			<ul class="main_content_list">
+				<li>Troubles urinaires.</li>
+				<li>Faiblesse du bas-ventre.</li>
+				<li>Retard de maturation énergétique chez l’enfant.</li>
+			</ul>
+
+			<h3>Technique (adulte)</h3>
+			<ul class="main_content_list">
+				<li>Pression douce, stable.</li>
+				<li>Durée : 1 minute.</li>
+				<li>Intention : stabilité, consolidation du Yin.</li>
+			</ul>
+
+			<h3>Adaptation enfant – Tuina pédiatrique</h3>
+			<ul class="main_content_list">
+				<li>Massage circulaire très doux sur le bas-ventre.</li>
+				<li>Durée : 30 secondes.</li>
+				<li>Intention : régulation, sécurité corporelle.</li>
+			</ul>
+
+		</div>
+
+	</div>
+
 </body>
 </html>
