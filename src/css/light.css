@@ -3,26 +3,26 @@ Page Header
 ***********/
 /* Header search bar, toggler button & top menu */
 .page-header.navbar {
-  background-color: #747f8c;
+  background-color: #80665B;
   /* Top notification menu/bar */
   /* Header seaech box */
   /* Toggler button for sidebar expand/collapse and responsive sidebar menu */
 }
 .page-header.navbar .top-menu .navbar-nav > li.dropdown .dropdown-toggle:hover {
-  background-color: #8a949e;
+  background-color: #6F574D;
 }
 .page-header.navbar .top-menu .navbar-nav > li.dropdown .dropdown-toggle > i {
   color: #9fa7b1;
 }
 .page-header.navbar .top-menu .navbar-nav > li.dropdown .dropdown-toggle .badge.badge-default {
-  background-color: #3fd5c0;
+  background-color: #E7DFD3;
   color: white;
 }
 .page-header.navbar .top-menu .navbar-nav > li.dropdown.open .dropdown-toggle {
-  background-color: #8a949e;
+  background-color: #80665B;
 }
 .page-header.navbar .top-menu .navbar-nav > li.dropdown-user .dropdown-toggle {
-  background-color: #6b7581;
+  background-color: #80665B;
 }
 .page-header.navbar .top-menu .navbar-nav > li.dropdown-user .dropdown-toggle .username {
   color: #dddddd;
@@ -31,10 +31,10 @@ Page Header
   color: #dddddd;
 }
 .page-header.navbar .search-form {
-  background: #6b7581;
+  background: #80665B;
 }
 .page-header.navbar .search-form:hover {
-  background: #8a949e;
+  background: #80665B;
 }
 .page-header.navbar .search-form .input-group .form-control {
   color: #c4c9d0;
@@ -53,7 +53,7 @@ Page Header
   color: #c4c9d0;
 }
 .page-header.navbar .search-form.open {
-  background: #8a949e;
+  background: #80665B;
 }
 .page-header.navbar .menu-toggler {
   background-image: url(../../img/sidebar_toggler_icon_light.png);
@@ -89,21 +89,21 @@ Page Header
 .page-header.navbar .hor-menu .navbar-nav > li.active > a:hover, .page-header.navbar .hor-menu .navbar-nav > li.current > a,
 .page-header.navbar .hor-menu .navbar-nav > li.current > a:hover {
   color: white;
-  background: #3fd5c0;
+  background: #80665B;
 }
 .page-header.navbar .hor-menu .navbar-nav > li.active .selected, .page-header.navbar .hor-menu .navbar-nav > li.current .selected {
   border-top: 6px solid #3fd5c0;
 }
 .page-header.navbar .hor-menu .navbar-nav > li .dropdown-menu {
   box-shadow: 5px 5px rgba(138, 148, 158, 0.2);
-  background: #8a949e;
+  background: #80665B;
 }
 .page-header.navbar .hor-menu .navbar-nav > li .dropdown-menu li > a {
   color: #dddddd;
 }
 .page-header.navbar .hor-menu .navbar-nav > li .dropdown-menu li > a:hover {
   color: white;
-  background: #3fd5c0;
+  background: #80665B;
 }
 
 /* Light Horizontal Menu */
@@ -862,3 +862,4 @@ body {
     color: #c1c6cc;
   }
 }
+
