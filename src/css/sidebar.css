@@ -256,11 +256,11 @@ Page sidebar
 }
 .page-container-bg-solid .page-sidebar .page-sidebar-menu > li.active > a > .selected, .page-container-bg-solid
 .page-sidebar-closed.page-sidebar-fixed .page-sidebar:hover .page-sidebar-menu > li.active > a > .selected {
-  border-color: transparent #f1f3fa transparent transparent;
+  border-color: transparent #D6CCBE transparent transparent;
 }
 .page-container-bg-solid.page-sidebar-reversed .page-sidebar .page-sidebar-menu > li.active > a > .selected, .page-container-bg-solid.page-sidebar-reversed
 .page-sidebar-closed.page-sidebar-fixed .page-sidebar:hover .page-sidebar-menu > li.active > a > .selected {
-  border-color: transparent transparent transparent #f1f3fa;
+  border-color: transparent transparent transparent #D6CCBE;
 }
 .page-sidebar .page-sidebar-menu li > a > .arrow:before,
 .page-sidebar-closed.page-sidebar-fixed .page-sidebar:hover .page-sidebar-menu li > a > .arrow:before {
@@ -841,3 +841,4 @@ Page sidebar
   }
 
 }
+
