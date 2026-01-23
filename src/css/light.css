@@ -849,18 +849,19 @@ body {
 @media (max-width: 480px) {
   /* 480px */
   body {
-    background: #98a0aa;
+    background: #E7DFD3;
   }
 
   .page-header.navbar .top-menu {
-    background-color: #98a0aa;
+    background-color: #D6CCBE;
   }
   .page-header-fixed-mobile .page-header.navbar .top-menu {
-    background-color: #747f8c;
+    background-color: #D6CCBE;
   }
   .page-header.navbar .top-menu .navbar-nav > li.dropdown .dropdown-toggle > i {
-    color: #c1c6cc;
+    color: #B8B0A6;
   }
 }
+
 
 
