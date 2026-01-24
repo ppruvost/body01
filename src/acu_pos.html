@@ -1,162 +1,164 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 	<head>
 		<title>Acupression</title>
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
 		<style>
 			body {
-    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-    font-size: 14px;
-    line-height: 1.42857143;
-    color: #333;
-    background-color: #fff; /* Fond blanc */
-    margin: 0;
-    padding: 0;
-    height: 100vh; /* Prend toute la hauteur de la fenêtre */
-    overflow: hidden; /* Désactive le défilement */
-}
+				font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+				font-size: 14px;
+				line-height: 1.42857143;
+				color: #333;
+				background-color: #fff; /* Fond blanc */
+				margin: 0;
+				padding: 0;
+				height: 100vh; /* Occupe toute la hauteur de la fenêtre */
+				overflow: hidden; /* Désactive le défilement */
+			}
 		
 			#div {
-    width: 100%;
-    height: 100%;
-}
-
+				width: 100%;
+				height: 100%;
+			}
 		</style>
 	</head>
 
 	<body>
-		<script src="three/build/three.js"></script>
 		<!-- CHARGER THREE.JS -->
+		<script src="three/build/three.js"></script>
+
+		<!-- CHARGER LE LOADER D’OBJETS -->
 		<script src="three/loaders/OBJLoader.js"></script>
-		<!-- CHARGER L'OBJET -->
+
+		<!-- CHARGER LES CONTRÔLES (ORBIT CONTROLS) -->
 		<script src="three/controls/OrbitControls.js"></script>
-		<!-- CHARGER CONTROLS -> ORBIT CONTROLS -->
+
 		<script>
 			var container;
-			// variavel comum declarada, quando ela for referenciada explico o propósito
+			// variable globale déclarée ; son rôle est expliqué lorsqu’elle est utilisée
+
 			var camera, scene, raycaster, renderer;
-			// variaveis comuns declaradas, quando elas forem referenciadas explico o propósito
+			// variables globales communes ; leur rôle est expliqué lors de leur utilisation
+
 			var mouse = new THREE.Vector2(), INTERSECTED;
-			// variavel mouse declarada, e referenciada a partir do construtor Vector2 (vetor bidimensional)
+			// variable souris déclarée à partir du constructeur Vector2 (vecteur bidimensionnel)
 
 			var mouseX = 0, mouseY = 0;
-			// variaveis comuns declaradas, quando elas forem referenciadas explico o propósito
+			// variables globales pour la position de la souris
 
 			var windowHalfX = window.innerWidth / 2;
-			// desconsiderar
+			// à ignorer
+
 			var windowHalfY = window.innerHeight / 2;
-			// desconsiderar
+			// à ignorer
 
 			var acuX = 0, acuY = 0, acuZ = 0;
-			//inicialização de variaveis globais a serem usadas para a animação de camera
+			// initialisation des variables globales utilisées pour l’animation de la caméra
 
 			var focoCamera = false;
-			//variavel global que controlará a animação de câmera (ativar/desativar animação)
+			// variable globale contrôlant l’animation de la caméra (activer/désactiver)
+
 			var uPressed = false;
 			var dPressed = false;
 			var rPressed = false;
 			var lPressed = false;
 			var pPressed = false;
 			var mPressed = false;
+
 			var idponto = 'e1';
 			var p = new THREE.Vector3( 0, 0, 0 );
 
 			init();
-			/* aqui é chamada a função init(); o fluxo de execução do código entra nesta função assim que ela é chamada, seguindo todas as instruções contidas em init(); e ao término, volta para este ponto e segue com a execução do comando na linha 87 */
+			/* appel de la fonction init()
+			   Le flux d’exécution entre dans cette fonction,
+			   exécute toutes les instructions,
+			   puis revient ici pour continuer */
+
 			animate();
-			/* aqui é chamada a função animate(), que é propriamente acessada logo após o controle de execução passar por toda a função init() que foi chamada anteriormente. Ao explicar a função animate, perceberá que ela é uma função recursiva. Quando essa função é chamada, o fluxo de execução não sai mais dela, uma vez que ela chama a si própria indefinidamente */
+			/* appel de la fonction animate()
+			   C’est une fonction récursive qui s’appelle elle-même indéfiniment
+			   pour maintenir l’animation */
 
 			function init() {
-				/* declaração da função init() => o propósito dela é exatamente como o próprio nome diz, inicialização. */
+				/* fonction d’initialisation */
+
 				container = document.createElement( 'div' );
 				document.body.appendChild( container );
-				/* anexa ao corpo BODY do HTML o container, que neste caso é um elemento DIV */
+				/* ajoute le conteneur DIV au corps de la page */
 
 				camera = new THREE.PerspectiveCamera( 45, window.innerWidth / window.innerHeight, 10, 2000 );
-				/* declara uma câmera, do tipo PerspectiveCamera. Vide documentação do Three.js para explicá-lo.
+				/* création d’une caméra de type PerspectiveCamera */
 
-				*/
 				camera.position.z = 250;
-				/* posiciona a câmera inicialmente 250 pixeis a frente do centro (0) */
+				/* position initiale de la caméra */
+
 				controls = new THREE.OrbitControls( camera );
-				/* declara os controles em função da câmera do tipo OrbitControls. Permite o uso de controles em volta de um objeto, segurando o botao direito do mouse faz a camera girar em função da câmera, girando o scroll faz aumentar/diminuir o eixo Z da câmera (zoom), segurando o botao esquerdo faz a posição como um todo da camera deslocar-se. Não possui documentação, portanto a explicação será breve. */
+				/* contrôles orbitaux :
+				   - clic droit : rotation autour de l’objet
+				   - molette : zoom
+				   - clic gauche : déplacement global */
+
 				controls.damping = 0.2;
 				controls.addEventListener( 'change', render );
 
 				scene = new THREE.Scene();
-				/* cria um novo objeto do tipo CENA, que permitirá o meio por onde a renderização será feita. Como também será onde adicionaremos objetos, luzes e câmeras.
-				Vide https://threejs.org/docs/?q=scene#Reference/Scenes/Scene
-				*/
+				/* création de la scène 3D */
 
 				var ambient = new THREE.AmbientLight( 0x101030 );
-				/* Cria uma luz ambiente de cor 0x101030, afetando globalmente os objetos na cena. Como se fosse o Sol.
-				Esse construtor recebe 2 parâmetros: cor RGB (no caso 0x101030) e INTENSIDADE (que no caso foi omitida [o que faz o programa usar a definição padrão de intensidade]) Vide documentação do Three.js para mais informações. https://threejs.org/docs/?q=ambient#Reference/Lights/AmbientLight
-				*/
+				/* lumière ambiante globale (équivalent lumière solaire diffuse) */
+
 				scene.add( ambient );
-				/* Invoca o método add do objeto scene que foi construído na linha 104, passando como parâmetro a variável ambient ( que recebeu a construção do método THREE.AmbientLight) - linha 107
-
-				Resumo: adiciona a luz ambiente na cena.
-				*/
-
+				/* ajout de la lumière ambiante à la scène */
 
 				var directionalLight = new THREE.DirectionalLight( 0xffeedd );
-				/* Armazena o resultado do construtor DirectionalLight na variavel directionalLight
-				é passado como parâmetro a cor RGB 0xffeedd.
-				Este construtor cria uma luz em modo direcional, como se fosse uma lâmpada.
-				Vide https://threejs.org/docs/?q=directional#Reference/Lights/DirectionalLight*/
+				/* lumière directionnelle (type projecteur) */
+
 				directionalLight.position.set( 0, 0, 1 );
-				/* acessando o objeto position e invocando o método set estamos definindo a posição da luz, que neste caso é (0, 0, 1) ou seja: uma lâmpada paralela ao eixo Z, emitindo a luz de frente. */
+				/* lumière orientée vers l’avant (axe Z positif) */
+
 				scene.add( directionalLight );
-
-				/* Invoca o método add do objeto scene que foi construído na linha 104, passando como parâmetro a variável directionalLight ( que recebeu a construção do método THREE.DirectionalLight) - linha 107
-
-				Resumo: adiciona a luz direcional na cena.
-				*/
 
 				var directionalLight = new THREE.DirectionalLight( 0xffeedd );
 				directionalLight.position.set( 0, 0, -1 );
-				/* Mesma coisa como na parte acima. A única diferença é que neste caso a direção da luz é (0, 0, -1) ou seja: uma lâmpada paralela ao eixo Z, porém inversa, emitindo a luz de trás. */
+				/* lumière orientée vers l’arrière (axe Z négatif) */
+
 				scene.add( directionalLight );
-				/* mesma coisa que em cima, adiciona a luz direcional na cena*/
 
 				var geometry = new THREE.SphereGeometry( 0.3, 32, 32 );
-				/* armazena em geometry o resultado do construtor SphereGeometry, que recebe como parâmetro 
+				/* géométrie des sphères :
+				   - rayon : 0.3
+				   - segments horizontaux : 32
+				   - segments verticaux : 32
+				   Utilisée pour tous les points d’acupression */
 
-				raio — raio da esfera. Neste caso 0.3.
-				widthSegments — número de segmentos horizontais isso influencia na lapidação da esfera. Neste caso 32.
-				heightSegments — número de segmentos verticais isso influencia na lapidação da esfera. Neste caso 32.
-
-				Geometria que será usada para todas as esferas no programa - ACUPONTOS 
-
-				*/
-
-				/*Aqui estão as declarações de todas as esferas, elas são análogas, a diferença será apenas os nomes e posicionamentos: */
-
-				var object = new THREE.Mesh( geometry, new THREE.MeshLambertMaterial( { color: Math.random() * 0xffffff } ) );
-				/* vide https://threejs.org/docs/#Reference/Objects/Mesh */
+				var object = new THREE.Mesh(
+					geometry,
+					new THREE.MeshLambertMaterial( { color: Math.random() * 0xffffff } )
+				);
 
 				object.nome = 'cs7';
-				/* cria um atributo nome, que será usado para mapear os botões na página pai. Para abrir a opção quando clica na esfera que é representada no espaço tridimensional */
+				/* nom du point d’acupuncture (utilisé pour interaction/interface) */
+
 				object.position.x = -24.71516683000315;
 				object.position.y = -6.555406638283143;
 				object.position.z = 0.6;
-				/*posições no espaço - definidas basicamente por testes exaustivos e comparação com o referencial*/
-				scene.add( object );
-				/* adiciona o acuponto */
+				/* position du point dans l’espace 3D */
 
-				/*abaixo estão declaradas as outras esferas da mesma forma, mudando apenas posicionamento e nomes*/
+				scene.add( object );
+				/* ajout du point d’acupuncture à la scène */
+
+				/* autres sphères déclarées ci-dessous de la même façon */
 
 				var geometry = new THREE.SphereGeometry( 0.3, 32, 32 );
 
-				/* INÍCIO MERIDIANO EXTRAORDINÁRIO - VASO CONCEPÇÃO */
+				/* DÉBUT MÉRIDIEN EXTRAORDINAIRE – VAISSEAU CONCEPTION */
 
 				var object = new THREE.Mesh( geometry, new THREE.MeshLambertMaterial( { color: Math.random() * 0xffffff } ) );
 				object.nome = 'vc2';
 				object.position.x = 0.05;
 				object.position.y = -6;
 				object.position.z = 6.4;
-
 				scene.add( object );
 
 				var object = new THREE.Mesh( geometry, new THREE.MeshLambertMaterial( { color: Math.random() * 0xffffff } ) );
@@ -164,21 +166,19 @@
 				object.position.x = 0.05;
 				object.position.y = -2.9;
 				object.position.z = 7.1;
-
 				scene.add( object );
 
 				var object = new THREE.Mesh( geometry, new THREE.MeshLambertMaterial( { color: Math.random() * 0xffffff } ) );
 				object.nome = 'vc4';
 				object.position.x = 0.05;
-				object.position.y = 0.20000000000000018;
+				object.position.y = 0.2;
 				object.position.z = 7.17;
-
 				scene.add( object );
 
 				var object = new THREE.Mesh( geometry, new THREE.MeshLambertMaterial( { color: Math.random() * 0xffffff } ) );
 				object.nome = 'vc5';
 				object.position.x = 0.05;
-				object.position.y = 3.3000000000000007;
+				object.position.y = 3.3;
 				object.position.z = 7.25;
 
 				scene.add( object );
@@ -341,9 +341,9 @@
 				console.log(object.position.y);
 
 				scene.add( object );
-				/* FIM MERIDIANO EXTRAORDINÁRIO - VASO CONCEPÇÃO */
+/* FIN DU MÉRIDIEN EXTRAORDINAIRE – VAISSEAU DE CONCEPTION */
 
-				/* INÍCIO MERIDIANO ZANG FU - PULMAO */
+/* DÉBUT DU MÉRIDIEN ZANG FU – POUMON */
 
 				var object = new THREE.Mesh( geometry, new THREE.MeshLambertMaterial( { color: Math.random() * 0xffffff } ) );
 				object.name = 'p1';
@@ -602,9 +602,9 @@
 				object.position.z = 4.3;
 				scene.add( object );
 
-				/* FIM MERIDIANO Shou Yang Ming Da Chang - INTESTINO GROSSO */
+/* FIN DU MÉRIDIEN Shou Yang Ming Da Chang – INTESTIN GROS */
 
-				/* INICIO MERIDIANO Estômago (Wei) - Zu Yang Ming Wei Jing */
+/* DÉBUT DU MÉRIDIEN Estomac (Wei) – Zu Yang Ming Wei Jing */
 
 				var object = new THREE.Mesh( geometry, new THREE.MeshLambertMaterial( { color: 0x006aff } ) );
 				object.name = 'e1k';
@@ -923,15 +923,15 @@
 				object.position.z = 11.299999999999976;
 				scene.add( object );
 
-				/* FIM MERIDIANO Estômago (Wei) - Zu Yang Ming Wei Jing */
+				/* FIN DU MÉRIDIEN Estomac (Wei) – Zu Yang Ming Wei Jing */
 				var manager = new THREE.LoadingManager();
 				manager.onProgress = function ( item, loaded, total ) {
 
 					console.log( item, loaded, total );
-					/* Escreve no console do browser o andamento do carregamento */
+				/* Affiche dans la console du navigateur la progression du chargement */
 
 				};
-				/* Gerenciador de carregamento vide https://threejs.org/docs/#Reference/Loaders/LoadingManager */
+				/* Gestionnaire de chargement vide (LoadingManager) */
 
 				var texture = new THREE.Texture();
 
@@ -945,275 +945,288 @@
 
 				var onError = function ( xhr ) {
 				};
-				/* desconsiderar*/
+/* à ignorer */
 
-				var loader = new THREE.ImageLoader( manager );
-				loader.load( 'three/textura/UV_Grid_Sm.jpg', function ( image ) {
+var loader = new THREE.ImageLoader( manager );
+loader.load( 'three/textura/UV_Grid_Sm.jpg', function ( image ) {
 
-					texture.image = image;
-					texture.needsUpdate = true;
+    texture.image = image;
+    texture.needsUpdate = true;
 
-				} );
-				/* Carrega a textura vide https://threejs.org/docs/#Reference/Loaders/ImageLoader */
+} );
+/* Charge la texture (ImageLoader) https://threejs.org/docs/#Reference/Loaders/ImageLoader */
 
-				var loader = new THREE.OBJLoader( manager );
-				/* instancia o carregador de objeto vide https://threejs.org/docs/#Reference/Loaders/OBJLoader */
-				var material = new THREE.MeshBasicMaterial({color: 'yellow', side: THREE.DoubleSide});
-				/* desconsiderar, aplica a cor ao objeto - só aparece sem a textura */
-				loader.load( 'three/modelo/corpo.obj', function ( object ) {
+var loader = new THREE.OBJLoader( manager );
+/* instancie le chargeur d’objets (OBJLoader) https://threejs.org/docs/#Reference/Loaders/OBJLoader */
 
-					object.traverse( function ( child ) {
+var material = new THREE.MeshBasicMaterial({color: 'yellow', side: THREE.DoubleSide});
+/* à ignorer, applique une couleur à l’objet — visible uniquement sans texture */
 
-						if ( child instanceof THREE.Mesh ) {
+loader.load( 'three/modelo/corpo.obj', function ( object ) {
 
-							child.material.map = texture;
+    object.traverse( function ( child ) {
 
-						}
+        if ( child instanceof THREE.Mesh ) {
 
-					} );
+            child.material.map = texture;
 
-					object.position.y = - 95;
-					scene.add( object );
+        }
 
-				}, onProgress, onError );
-				/* carrega o objeto corpo.obj e aplica a textura */
-				raycaster = new THREE.Raycaster();
-				/* declara a variavel raycaster, que é instanciada pelo construtor Raycaster(), usado para clicar em objetos tridimensionais - funciona como um raio projetado ao longo do eixo Z, (o mouse trabalha em 2 dimensoes), o raycaster faz um procedimento que quando o mouse é clicado, vai verificando-se ao longo da reta Z com os eixos X e Y fixados pela POSIÇÃO do mouse. Quando um objeto é encontrado, ele é adicionado à um vetor de INTERSECÇÕES. Podendo assim acessá-lo e verificar quais objetos estão no caminho. */
-				renderer = new THREE.WebGLRenderer();
-				/* O renderizador WebGL exibe a cena trabalhada usando o WebGL, se o dispositivo suportar.*/
+    } );
 
-				renderer.setPixelRatio( window.devicePixelRatio );
-				/* Define a proporção de pixel do dispositivo em questão, passando como parâmetro esta informação, obtida pelo comando window.devicePixelRatio. Geralmente usado para dispositivos HiDPI, a fim de evitar sobreposição de imagens no CANVAS*/
-				renderer.setSize( window.innerWidth, window.innerHeight );
-				/* Define o tamanho da tela de renderização - neste caso o tamanho de ALTURA e LARGURA da janela (total)*/
-				container.appendChild( renderer.domElement );
-				/* Insere o elemento CANVAS no container, onde será renderizado o WebGL
-				   A variável container foi declarada na linha 91 */
+    object.position.y = - 95;
+    scene.add( object );
 
-				window.addEventListener( 'keydown', keyDownTextField, false);
+}, onProgress, onError );
+/* charge l’objet corpo.obj et applique la texture */
 
-				document.addEventListener( 'mousemove', onDocumentMouseMove, false );
-				/*desconsiderar*/
+raycaster = new THREE.Raycaster();
+/* déclare la variable raycaster, instanciée par le constructeur Raycaster(),
+   utilisé pour cliquer sur des objets 3D.
+   Il projette un rayon le long de l’axe Z (le mouse travaille en 2D),
+   et détecte les objets traversés. */
 
-				document.addEventListener( 'mousedown', onDocumentMouseDown, false );
-				/*Declara uma escuta para eventos de click do mouse. Cada vez que o mouse é clicado, a função onDocumentMouseDown é chamada.*/
-				window.addEventListener( 'resize', onWindowResize, false );
-				/*desconsiderar*/
-			}
+renderer = new THREE.WebGLRenderer();
+/* Le renderer WebGL affiche la scène en utilisant WebGL, si le device le supporte. */
 
-			function keyDownTextField(e) {
-			    if (e.keyCode == '38') {
-			    	uPressed = true;
-			    }
-			    else if (e.keyCode == '40') {
-			        dPressed = true;
-			    }
-			    else if (e.keyCode == '37') {
-			        lPressed = true;
-			    }
-			    else if (e.keyCode == '39') {
-			    	rPressed = true;
-			    }
-			    else if (e.keyCode == '107') {
-			    	pPressed = true;
-			    }
-			    else if (e.keyCode == '109') {
-			    	mPressed = true;
-			    }
-			    else if (e.keyCode == '188') {
-			    	controls.enabled = false;
-			    }
-			    else if (e.keyCode == '190') {
-			    	controls.enabled = true;
-			    }
-			}
+renderer.setPixelRatio( window.devicePixelRatio );
+/* Définit le ratio de pixel du device, utile pour les écrans HiDPI
+   afin d’éviter la superposition d’images sur le CANVAS */
 
-			function onWindowResize() {
+renderer.setSize( window.innerWidth, window.innerHeight );
+/* Définit la taille de rendu (largeur et hauteur de la fenêtre) */
 
-				windowHalfX = window.innerWidth / 2;
-				windowHalfY = window.innerHeight / 2;
+container.appendChild( renderer.domElement );
+/* Insère l’élément CANVAS dans le container, où sera rendu le WebGL
+   La variable container a été déclarée à la ligne 91 */
 
-				camera.aspect = window.innerWidth / window.innerHeight;
-				camera.updateProjectionMatrix();
+window.addEventListener( 'keydown', keyDownTextField, false );
 
-				renderer.setSize( window.innerWidth, window.innerHeight );
+document.addEventListener( 'mousemove', onDocumentMouseMove, false );
+/* à ignorer */
 
-			}
-			/*desconsiderar*/
+document.addEventListener( 'mousedown', onDocumentMouseDown, false );
+/* Ajoute un listener pour les clics souris.
+   À chaque clic, la fonction onDocumentMouseDown est appelée. */
 
-			function onDocumentMouseMove( event ) {
+window.addEventListener( 'resize', onWindowResize, false );
+/* à ignorer */
+}
 
-				event.preventDefault();
+function keyDownTextField(e) {
+    if (e.keyCode == '38') {
+        uPressed = true;
+    }
+    else if (e.keyCode == '40') {
+        dPressed = true;
+    }
+    else if (e.keyCode == '37') {
+        lPressed = true;
+    }
+    else if (e.keyCode == '39') {
+        rPressed = true;
+    }
+    else if (e.keyCode == '107') {
+        pPressed = true;
+    }
+    else if (e.keyCode == '109') {
+        mPressed = true;
+    }
+    else if (e.keyCode == '188') {
+        controls.enabled = false;
+    }
+    else if (e.keyCode == '190') {
+        controls.enabled = true;
+    }
+}
 
-				mouse.x = ( event.clientX / window.innerWidth ) * 2 - 1;
-				mouse.y = - ( event.clientY / window.innerHeight ) * 2 + 1;
+function onWindowResize() {
 
-				mouseX = ( event.clientX - windowHalfX ) / 2;
-				mouseY = ( event.clientY - windowHalfY ) / 2;
+    windowHalfX = window.innerWidth / 2;
+    windowHalfY = window.innerHeight / 2;
 
-			}
-			/*desconsiderar*/
+    camera.aspect = window.innerWidth / window.innerHeight;
+    camera.updateProjectionMatrix();
 
-			function onDocumentMouseDown( event ) {
+    renderer.setSize( window.innerWidth, window.innerHeight );
 
-				event.preventDefault();
-				/* Faz cancelar qualquer ação padrão a ser executado durante o click do mouse. Prevenir uma ação inesperada, para tratar corretamente o clique do mouse */
+}
+/* à ignorer */
 
-				raycaster.setFromCamera( mouse, camera );
-				/* Atualiza as informações FromCamera do raycaster onde
-				mouse: coordenadas 2D do mouse.
-				camera: camera pela qual o raio tem origem*/
+function onDocumentMouseMove( event ) {
 
-				var intersects = raycaster.intersectObjects( scene.children );
-				/*
-					Executa o método que registra em um vetor os objetos encontrados ao longo do raio. Onde:
-					scene.children: todos os objetos que serão verificados pelo raio. Neste caso, usa-se scene.children para incluir TODOS os objetos (filhos da cena).
-				*/
-				if ( intersects.length > 0 ) {
-					/* intersects.lenght retorna a quantidade de elementos. Se a quantidade de elementos for > 0 faça: */
+    event.preventDefault();
 
-					if ( INTERSECTED != intersects[ 0 ].object ) {
-						/* se o objeto não for na primeira posição (pois este é o corpo humano e ele sempre vai estar lá)
-						FAÇA
-						*/						
-						if ( INTERSECTED ) INTERSECTED.material.emissive.setHex( INTERSECTED.currentHex );
-						/* Recupera a cor padrão do objeto (esfera no caso) */
-						INTERSECTED = intersects[ 0 ].object;
-						/* armazena na variavel INTERSECTED o objeto encontrado*/
-						INTERSECTED.currentHex = INTERSECTED.material.emissive.getHex();
-						INTERSECTED.material.emissive.setHex( 0xff0000 );
-						/* Altera a cor do objeto para vermelho(esfera no caso) */
-						animacao = parent.document.getElementById(INTERSECTED.nome);
-						/* recupera e armazena em animacao o elemento com o ID do nome da esfera*/
-						console.log(INTERSECTED.name);
-						console.log('\n\t\t\t\tobject.position.x = '+INTERSECTED.position.x+';\n\t\t\t\t'+'object.position.y = '+INTERSECTED.position.y+';\n'+'\t\t\t\tobject.position.z = '+INTERSECTED.position.z+';\n');
-						//console.log('object.position.y = '+INTERSECTED.position.y+';\n');
-						//console.log('object.position.z = '+INTERSECTED.position.z+';\n');
-						//console.log(INTERSECTED.position.x, INTERSECTED.position.y, INTERSECTED.position.z);
-						animacao.click();
-						/*clica-se involuntariamente no objeto com o ID igual ao do NOME da esfera, fazendo abrir na pagina pai o botão relacionado com a esfera clicada */
-					}
-				} else {
-					/* caso contrário */
-					if ( INTERSECTED ) INTERSECTED.material.emissive.setHex( INTERSECTED.currentHex );
-					/*  atualiza a esfera para a cor padrão, visto que o clique foi em outra coisa que não foi a última esfera clicada */
+    mouse.x = ( event.clientX / window.innerWidth ) * 2 - 1;
+    mouse.y = - ( event.clientY / window.innerHeight ) * 2 + 1;
 
-					INTERSECTED = null;
+    mouseX = ( event.clientX - windowHalfX ) / 2;
+    mouseY = ( event.clientY - windowHalfY ) / 2;
 
-				}
-			}
+}
+/* à ignorer */
 
-			function acuPonto(x, y, z) {
-			/* declaração da função acuPonto, que recebe apenas as 3 coordenadas onde a câmera irá se aproximar */
-				acuX = x;
-				acuY = y;
-				acuZ = z;
-				/* armazena as coordenadas recebidas por parâmetro nas variáveis globais para uso posterior */
-				
-				p.set( acuX, acuY, acuZ );
-				/* p é um vetor tridimensional declarado na linha 41
-				aqui estamos alterando os valores de sua coordenada, para os valores recebidos pela função */
+function onDocumentMouseDown( event ) {
 
-				focoCamera = true;
-				/* aqui definimos a variavel global focoCamera para TRUE, ela fora declarada como FALSE na linha 39 */
-			}
+    event.preventDefault();
+    /* Annule toute action par défaut du navigateur lors du clic */
 
-			function animate() {
-				/* pequena função com duas instruções, mas responsável por animar a câmera chamando-a recursivamente */
-				requestAnimationFrame( animate );
-				/* função nativa do javascript, introduzida recentemente. Sanou varios problemas que persistiam quando utilizávamos setInterval(), deixando todo o gerenciamento de tempo e hardware para o navegador. Seria interessante falar sobre isso,
-				mas basicamente com este comando podemos realizar uma animação por X frames por segundo, passando uma função que será re-executada infinitas vezes - neste caso a função animate está sendo chamada recursivamente. */
-				render();
-				/* chama a função render agora com os valores atualizados pela mesma função render, criando uma espécie de animação frame a frame*/
-			}
+    raycaster.setFromCamera( mouse, camera );
+    /* Met à jour le raycaster avec :
+       mouse : coordonnées 2D du mouse
+       camera : caméra d’origine du rayon */
 
-			function render() {
-				/* função responsável por renderizar a cena */
-				renderer.render( scene, camera );
-				/* renderiza uma cena utilizando uma câmera, neste caso, scene e camera */
-				if (uPressed) {
-					var obj = scene.getObjectByName(idponto);
-					obj.position.y = obj.position.y+0.1;
-					uPressed = false;
-				}
-				if (dPressed) {
-					var obj = scene.getObjectByName(idponto);
-					obj.position.y = obj.position.y-0.1;
-					dPressed = false;
-				}
-				if (lPressed) {
-					var obj = scene.getObjectByName(idponto);
-					obj.position.x = obj.position.x-0.1;
-					lPressed = false;
-				}
-				if (rPressed) {
-					var obj = scene.getObjectByName(idponto);
-					obj.position.x = obj.position.x+0.1;
-					rPressed = false;
-				}
-				if (pPressed) {
-					var obj = scene.getObjectByName(idponto);
-					obj.position.z = obj.position.z-0.1;
-					pPressed = false;
-				}
-				if (mPressed) {
-					var obj = scene.getObjectByName(idponto);
-					obj.position.z = obj.position.z+0.1;
-					mPressed = false;
-				}
-				if (focoCamera) { // SE (focoCamera == TRUE) faça
-					/* variável global que é definida como TRUE quando é clicado em uma esfera ou clicada em um botão referente à um acuponto na barra lateral
-					Basicamente, é a estrutura de condição que faz acontecer a animação da câmera
-					*/
-					if (camera.position.x != acuX) { /* Se a posição da câmera no eixo x for diferente do ponto que queremos chegar FAÇA */
-						if (camera.position.x > acuX) { // se a posição da camera em X for maior que o valor de X que queremos chegar
-							camera.position.x--; // Incrementa 1 unidade o valor da posição da camera.x
-						} else { // caso contrário
-							camera.position.x++; // Decrementa 1 unidade o valor da posição da camera.x
-						}
-						if (Math.round(camera.position.x) == Math.round(acuX)) { // Se o valor INTEIRO da posição da camera.x for IGUAL ao valor INTEIRO da posição do ponto pretendido
-							camera.position.x = acuX;
-							//a posição da camera em x recebe o valor exato do acuponto em x.
-						}
-					}
+    var intersects = raycaster.intersectObjects( scene.children );
+    /*
+       Enregistre dans un tableau les objets traversés par le rayon.
+       scene.children : tous les objets de la scène (tous les enfants).
+    */
+    if ( intersects.length > 0 ) {
+        /* Si au moins un objet est intersecté */
 
+        if ( INTERSECTED != intersects[ 0 ].object ) {
+            /* si l’objet n’est pas en première position (car le corps humain y est toujours)
+               ALORS */
 
-					if (camera.position.y != acuY) {
-						/* Se a posição da câmera no eixo y for diferente do ponto que queremos chegar FAÇA */
-						if (camera.position.y > acuY) { // se a posição da camera em Y for maior que o valor de Y do acuponto que queremos chegar
-							camera.position.y--; // Decrementa 1 unidade o valor da posição da camera.y
-						} else {
-							camera.position.y++; // Incrementa 1 unidade o valor da posição da camera.y
-						}
-						
-						if (Math.round(camera.position.y) == Math.round(acuY)) { // Se o valor INTEIRO da posição da camera.x for IGUAL ao valor INTEIRO da posição do ponto pretendido
-							camera.position.y = acuY;
-							//a posição da camera em y recebe o valor exato do acuponto em y.
-						}
-					}
+            if ( INTERSECTED ) INTERSECTED.material.emissive.setHex( INTERSECTED.currentHex );
+            /* Récupère la couleur initiale de l’objet (la sphère) */
 
-					if (camera.position.z != acuZ+45) {
-						/* Se a posição da câmera no eixo z for diferente do acuponto na posição Z+45 (+45 pois a camera do eixo Z deve ficar um pouco afastada e não grudada no ponto) que queremos chegar FAÇA */
-						if (camera.position.z > acuZ+45) { // se a posição da camera em Z for maior que o valor de Z+45 do acuponto que queremos chegar
-							camera.position.z--; // Decrementa 1 unidade o valor da posição da camera.z
-						} else {
-							camera.position.z++; // Incrementa 1 unidade o valor da posição da camera.z
-						}
-						if (Math.round(camera.position.z) == Math.round(acuZ+45)) { // Se o valor INTEIRO da posição da camera.z for IGUAL ao valor INTEIRO da posição z+45 do ponto pretendido
-							camera.position.z = acuZ+45;
-							//a posição da camera em z recebe o valor exato do acuponto em z.
-						}
-					}
-					if ((camera.position.z == acuZ+45)&&(camera.position.y == acuY)&&(camera.position.x == acuX)) {
-						focoCamera = false;
-						controls.target = p;
-						return;
-					} /* se todas as condições estiverem satisfeitas, que é a camera exatamente no acuponto selecionado (exceto em z, que é z+45 para a camera nao ficar grudada no ponto), então alteramos a variável global focoCamera para FALSE, portanto quando entrar na função render novamente será verificada esta variável, e como ela estará FALSE não entrará nessas condições para animação. A única forma de focoCamera tornar-se TRUE será quando for clicado em um acuponto ou em um botão na barra lateral */
-					camera.lookAt( p );
-					/* lookAt( p ) => Em p está armazenada a coordenada do ponto em questão (onde a camera deverá se aproximar), portanto invocamos o metodo da camera -> lookAt(p) que recebe como parâmetro um ponto do tipo vetor tridimensional (neste caso, p) para que a câmera fique "olhando" para o ponto enquanto ela se aproxima (torna a animação mais agradavel, fica focada no ponto)*/
-				}
-			}
+            INTERSECTED = intersects[ 0 ].object;
+            /* stocke l’objet trouvé */
 
-		</script>
-	</body>
-</html>
+            INTERSECTED.currentHex = INTERSECTED.material.emissive.getHex();
+            INTERSECTED.material.emissive.setHex( 0xff0000 );
+            /* Change la couleur de l’objet en rouge */
+
+            animacao = parent.document.getElementById(INTERSECTED.nome);
+            /* récupère l’élément avec l’ID du nom de la sphère */
+
+            console.log(INTERSECTED.name);
+            console.log('\n\t\t\t\tobject.position.x = '+INTERSECTED.position.x+';\n\t\t\t\t'+'object.position.y = '+INTERSECTED.position.y+';\n'+'\t\t\t\tobject.position.z = '+INTERSECTED.position.z+';\n');
+
+            animacao.click();
+            /* clique automatiquement sur l’élément de la page parente
+               correspondant à la sphère cliquée */
+        }
+    } else {
+        /* sinon */
+        if ( INTERSECTED ) INTERSECTED.material.emissive.setHex( INTERSECTED.currentHex );
+        /* remet la sphère à sa couleur initiale */
+
+        INTERSECTED = null;
+
+    }
+}
+
+function acuPonto(x, y, z) {
+/* déclaration de la fonction acuPonto, qui reçoit 3 coordonnées où la caméra doit se rapprocher */
+    acuX = x;
+    acuY = y;
+    acuZ = z;
+    /* stocke les coordonnées dans des variables globales */
+
+    p.set( acuX, acuY, acuZ );
+    /* p est un vecteur 3D déclaré à la ligne 41
+       on modifie ses coordonnées avec celles reçues */
+
+    focoCamera = true;
+    /* la variable globale focoCamera devient TRUE */
+}
+
+function animate() {
+    /* fonction responsable de l’animation de la caméra (récursive) */
+    requestAnimationFrame( animate );
+    /* permet d’exécuter l’animation à chaque frame */
+
+    render();
+    /* appelle render() à chaque frame */
+}
+
+function render() {
+    /* fonction qui rend la scène */
+    renderer.render( scene, camera );
+    /* rend la scène avec la caméra */
+
+    if (uPressed) {
+        var obj = scene.getObjectByName(idponto);
+        obj.position.y = obj.position.y+0.1;
+        uPressed = false;
+    }
+    if (dPressed) {
+        var obj = scene.getObjectByName(idponto);
+        obj.position.y = obj.position.y-0.1;
+        dPressed = false;
+    }
+    if (lPressed) {
+        var obj = scene.getObjectByName(idponto);
+        obj.position.x = obj.position.x-0.1;
+        lPressed = false;
+    }
+    if (rPressed) {
+        var obj = scene.getObjectByName(idponto);
+        obj.position.x = obj.position.x+0.1;
+        rPressed = false;
+    }
+    if (pPressed) {
+        var obj = scene.getObjectByName(idponto);
+        obj.position.z = obj.position.z-0.1;
+        pPressed = false;
+    }
+    if (mPressed) {
+        var obj = scene.getObjectByName(idponto);
+        obj.position.z = obj.position.z+0.1;
+        mPressed = false;
+    }
+
+    if (focoCamera) { // SI (focoCamera == TRUE) alors
+        /* variable globale mise à TRUE quand on clique sur une sphère
+           ou sur un bouton de la barre latérale */
+
+        if (camera.position.x != acuX) {
+            /* si la position de la caméra sur l’axe X est différente du point cible */
+            if (camera.position.x > acuX) {
+                camera.position.x--;
+            } else {
+                camera.position.x++;
+            }
+            if (Math.round(camera.position.x) == Math.round(acuX)) {
+                camera.position.x = acuX;
+            }
+        }
+
+        if (camera.position.y != acuY) {
+            if (camera.position.y > acuY) {
+                camera.position.y--;
+            } else {
+                camera.position.y++;
+            }
+
+            if (Math.round(camera.position.y) == Math.round(acuY)) {
+                camera.position.y = acuY;
+            }
+        }
+
+        if (camera.position.z != acuZ+45) {
+            /* la caméra doit rester à Z+45 pour ne pas être collée au point */
+            if (camera.position.z > acuZ+45) {
+                camera.position.z--;
+            } else {
+                camera.position.z++;
+            }
+            if (Math.round(camera.position.z) == Math.round(acuZ+45)) {
+                camera.position.z = acuZ+45;
+            }
+        }
+
+        if ((camera.position.z == acuZ+45)&&(camera.position.y == acuY)&&(camera.position.x == acuX)) {
+            focoCamera = false;
+            controls.target = p;
+            return;
+        }
+        /* si la caméra est exactement au point cible, on stoppe l’animation */
+
+        camera.lookAt( p );
+        /* la caméra regarde le point cible pendant l’animation */
+    }
+}
+
