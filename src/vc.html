@@ -1,289 +1,219 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <meta charset="utf-8">
-    <title>ACU MASTER – Vaisseau Conception</title>
-    <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
-    <link href="css/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css"/>
-    <link href="css/simple-line-icons/simple-line-icons.min.css" rel="stylesheet" type="text/css"/>
-    <link href="css/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
-    <link href="css/sidebar.css" rel="stylesheet" type="text/css"/>
-    <link href="css/light.css" rel="stylesheet" type="text/css" id="style_color"/>
-    <link href="css/acu-theme.css" rel="stylesheet" type="text/css"/>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Soin Énergétique CV1 – Bioénergie, Radiesthésie et Libération des Méridiens</title>
     <style>
-        html, body {
-            height: 100%;
+        /* CSS inspiré de la charte graphique de Bien-être et Géobiologie */
+        body {
+            font-family: 'Open Sans', Arial, sans-serif;
+            line-height: 1.6;
             margin: 0;
             padding: 0;
-            overflow: hidden;
+            color: #333;
+            background-color: #f8f8f6;
         }
 
-        #panel {
-            display: flex;
-            height: 100vh;
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
         }
 
-        .page-sidebar {
-            width: 400px !important;
-            background-color: #f5f5f5;
-            overflow-y: auto;
-            height: 100%;
+        header {
+            background-color: #fff;
+            padding: 20px 0;
+            border-bottom: 1px solid #e0e0e0;
+            text-align: center;
         }
 
-        #viewer {
-            flex: 1;
-            border: none;
-            height: 100%;
+        h1, h2, h3 {
+            color: #2d5a3d;
+            font-weight: 600;
         }
 
-        .page-sidebar-menu, .sub-menu {
-            padding-left: 0 !important;
+        h1 {
+            font-size: 2em;
+            margin-bottom: 10px;
         }
 
-        .page-sidebar-menu li > a {
-            white-space: normal !important;
-            padding: 10px 15px !important;
+        h2 {
+            font-size: 1.6em;
+            border-bottom: 2px solid #c8d6a3;
+            padding-bottom: 10px;
+            margin-top: 30px;
         }
 
-        .page-sidebar-menu li .title {
-            white-space: normal !important;
+        .section {
+            background-color: #fff;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
         }
 
-        .page-sidebar-menu li .arrow {
-            float: right;
+        p {
+            margin-bottom: 15px;
+            font-size: 1em;
         }
 
-        .acuponto {
+        ul {
+            margin-left: 20px;
+            margin-bottom: 15px;
+        }
+
+        li {
+            margin-bottom: 8px;
+        }
+
+        .highlight {
+            background-color: #e8f0e8;
             padding: 15px;
+            border-left: 4px solid #2d5a3d;
+            margin: 15px 0;
         }
 
-        .main_content_list {
-            padding-left: 20px;
+        .btn {
+            display: inline-block;
+            background-color: #2d5a3d;
+            color: #fff;
+            padding: 10px 20px;
+            text-decoration: none;
+            border-radius: 5px;
+            margin-top: 10px;
+            font-weight: 600;
         }
 
-        .main_content_list li {
-            padding: 5px 0;
+        .btn:hover {
+            background-color: #1e3d2a;
+        }
+
+        footer {
+            text-align: center;
+            padding: 20px;
+            background-color: #2d5a3d;
+            color: #fff;
+            margin-top: 30px;
         }
     </style>
 </head>
+
 <body>
-    <div id="panel">
-        <!-- Partie gauche : Menu latéral -->
-        <div class="page-sidebar navbar-collapse collapse">
-            <ul class="page-sidebar-menu">
-                <li class="start active">
-                    <a href="../../index.html">
-                        <i class="icon-home"></i>
-                        <span class="title"><strong>ACU</strong> MASTER</span>
-                        <span class="selected"></span>
-                    </a>
-                </li>
-                <li class="open">
-                    <a href="javascript:;">
-                        <i class="icon-cogs"></i>
-                        <span class="title">MÉRIDIEN EXTRAORDINAIRE VAISSEAU CONCEPTION</span>
-                        <span class="arrow"></span>
-                    </a>
-                    <ul class="sub-menu">
-                        <!-- ================================================= -->
-                        <!-- ===================== VC-1 ===================== -->
-                        <!-- ================================================= -->
-                        <li>
-                            <a href="javascript:;" id="vc1">
-                                <i class="icon-cogs"></i>
-                                <span class="title">VC-1 – Huiyin · Réunion du Yin</span>
-                                <span class="arrow"></span>
-                            </a>
-                            <ul class="sub-menu">
-                                <li>
-                                    <div class="row">
-                                        <div class="col-md-12">
-                                            <img src="img/VC/VC1.jpg" class="img-responsive">
-                                            <div class="acuponto">
-                                                <h3>Vibration Énergétique et Symbolique</h3>
-                                                <ul class="main_content_list">
-                                                    <li>Point de convergence des trois méridiens Yin (Rein, Foie, Rate).</li>
-                                                    <li>Porte d'entrée du Vaisseau Conception, Vaisseau Gouverneur et Vaisseau Pénétrant, canaux d'énergie vitale et spirituelle.</li>
-                                                    <li>Racine énergétique de sécurité et d'ancrage, reliant l'individu à la Terre-Mère.</li>
-                                                    <li>Utilisé en radiesthésie pour équilibrer les flux énergétiques subtils.</li>
-                                                </ul>
+    <header>
+        <div class="container">
+            <h1>Soin Énergétique : Point CV1 (Huiyin)</h1>
+            <p>Bioénergie, Radiesthésie et Libération des Méridiens</p>
+        </div>
+    </header>
 
-                                                <h3>Fonctions Énergétiques et Spirituelles</h3>
-                                                <ul class="main_content_list">
-                                                    <li>Harmonise l'axe énergétique central du corps, alignant les chakras.</li>
-                                                    <li>Renforce et préserve l'Essence (Jing), énergie vitale héritée et spirituelle.</li>
-                                                    <li>Régule les fonctions urinaires et intestinales, symbolisant la purification physique et émotionnelle.</li>
-                                                    <li>Apaise les peurs ancestrales et les agitations profondes de l'âme.</li>
-                                                </ul>
-
-                                                <h3>Bienfaits Holistiques</h3>
-                                                <ul class="main_content_list">
-                                                    <li>Soulage les troubles énergétiques liés à l'énurésie et à l'encoprésie (enfants/adultes).</li>
-                                                    <li>Rééquilibre les énergies en cas de fatigue chronique et de sensation de vide intérieur.</li>
-                                                    <li>Libère les blocages émotionnels profonds, favorisant un sommeil réparateur.</li>
-                                                    <li>Harmonise les énergies du périnée, prévenant les déséquilibres comme les prolapsus.</li>
-                                                </ul>
-
-                                                <h3>Effets Subtils et Radiesthésie</h3>
-                                                <ul class="main_content_list">
-                                                    <li>Renforce l'enracinement et la stabilité intérieure, essentiels pour une connexion terre-ciel.</li>
-                                                    <li>Reconnecte le corps à sa base énergétique, favorisant une présence consciente.</li>
-                                                    <li>Utilisation du pendule pour détecter et équilibrer les flux énergétiques liés à ce point.</li>
-                                                    <li>Favorise un sentiment de sécurité et de contenance, essentiel pour l'équilibre émotionnel.</li>
-                                                </ul>
-
-                                                <h3>Technique Énergétique pour Adulte</h3>
-                                                <ul class="main_content_list">
-                                                    <li>Utilisation d'un contact doux ou d'une intention énergétique pure.</li>
-                                                    <li>Durée : 30 secondes à 1 minute, en visualisant une lumière dorée enveloppant la zone.</li>
-                                                    <li>Intention : ancrage, sécurité, présence et connexion à la Terre.</li>
-                                                </ul>
-
-                                                <h3>Adaptation Énergétique pour Enfant – Bioénergie et Tuina</h3>
-                                                <ul class="main_content_list">
-                                                    <li>Éviter tout contact direct sur le périnée.</li>
-                                                    <li>Main posée sur le bas-ventre ou le sacrum, en visualisant une lumière apaisante.</li>
-                                                    <li>Durée : 20 à 30 secondes, en utilisant des mouvements circulaires doux.</li>
-                                                    <li>Intention : apaisement, contenance émotionnelle et équilibrage des énergies subtiles.</li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </li>
-                            </ul>
-                        </li>
-
-                        <!-- ================================================= -->
-                        <!-- ===================== VC-2 ===================== -->
-                        <!-- ================================================= -->
-                        <li>
-                            <a href="javascript:;" id="vc2">
-                                <i class="icon-cogs"></i>
-                                <span class="title">VC-2 – Qugu · Os Courbé</span>
-                                <span class="arrow"></span>
-                            </a>
-                            <ul class="sub-menu">
-                                <li>
-                                    <div class="row">
-                                        <div class="col-md-12">
-                                            <img src="img/VC/VC2.jpg" class="img-responsive">
-                                            <div class="acuponto">
-                                                <h3>Vibration Énergétique et Symbolique</h3>
-                                                <ul class="main_content_list">
-                                                    <li>Point clé pour les fonctions urinaires et génitales, relié à la vitalité du Rein.</li>
-                                                    <li>Renforce le Yang du Rein, symbolisant la chaleur vitale et la force intérieure.</li>
-                                                    <li>Agit sur le réchauffement du foyer inférieur, équilibrant les énergies masculines et féminines.</li>
-                                                </ul>
-
-                                                <h3>Fonctions Énergétiques et Spirituelles</h3>
-                                                <ul class="main_content_list">
-                                                    <li>Tonifie le Qi et le Yang du Rein, renforçant la vitalité profonde.</li>
-                                                    <li>Régule la Vessie et les liquides, symbolisant la purification et le flux énergétique.</li>
-                                                    <li>Harmonise le froid et la chaleur du bas-ventre, équilibrant les polarités Yin-Yang.</li>
-                                                    <li>Soutient la vitalité profonde et la force intérieure.</li>
-                                                </ul>
-
-                                                <h3>Bienfaits Holistiques</h3>
-                                                <ul class="main_content_list">
-                                                    <li>Soulage les déséquilibres énergétiques liés à l'énurésie et aux mictions fréquentes.</li>
-                                                    <li>Réchauffe et dynamise les énergies en cas de fatigue profonde et de frilosité.</li>
-                                                    <li>Équilibre les énergies féminines, soulageant les troubles gynécologiques fonctionnels.</li>
-                                                    <li>Renforce le Yang du Rein, vital pour la force intérieure et la détermination.</li>
-                                                </ul>
-
-                                                <h3>Effets Subtils et Radiesthésie</h3>
-                                                <ul class="main_content_list">
-                                                    <li>Réchauffe et dynamise l’énergie vitale, favorisant un sentiment de force intérieure.</li>
-                                                    <li>Renforce la stabilité et la force interne, essentielles pour l'équilibre émotionnel.</li>
-                                                    <li>Utilisation du pendule pour détecter les blocages énergétiques et les déséquilibres subtils.</li>
-                                                    <li>Soutient l’ancrage corporel et émotionnel, favorisant une connexion terre-ciel.</li>
-                                                </ul>
-
-                                                <h3>Technique Énergétique pour Adulte</h3>
-                                                <ul class="main_content_list">
-                                                    <li>Pression douce à modérée, en visualisant une lumière chaude enveloppant la zone.</li>
-                                                    <li>Durée : 1 à 2 minutes, en utilisant des mouvements circulaires pour activer l'énergie.</li>
-                                                    <li>Intention : chaleur douce, tonification et renforcement du Yang.</li>
-                                                </ul>
-
-                                                <h3>Adaptation Énergétique pour Enfant – Bioénergie et Tuina</h3>
-                                                <ul class="main_content_list">
-                                                    <li>Pressions très légères ou cercles doux, en visualisant une lumière apaisante.</li>
-                                                    <li>Durée : 20 à 40 secondes, en utilisant une intention de sécurité et de vitalité.</li>
-                                                    <li>Intention : sécurité, vitalité, régulation des énergies subtiles et apaisement.</li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </li>
-                            </ul>
-                        </li>
-                        <!-- ================================================= -->
-                        <!-- ===================== VC-24 ===================== -->
-                        <!-- ================================================= -->
-                        <li>
-                            <a href="javascript:;" id="vc24">
-                                <i class="icon-cogs"></i>
-                                <span class="title">VC-24 – Chengjiang · Réception de la Salive</span>
-                                <span class="arrow"></span>
-                            </a>
-                            <ul class="sub-menu">
-                                <li>
-                                    <div class="row">
-                                        <div class="col-md-12">
-                                            <img src="img/VC/VC24.jpg" class="img-responsive">
-                                            <div class="point-bioenergie">
-                                                <h3>Approche Bioénergétique Globale</h3>
-                                                <ul class="main_content_list">
-                                                    <li>Point majeur de régulation des flux énergétiques liés à l'expression et à la communication.</li>
-                                                    <li>Joue un rôle clé dans l'équilibrage des énergies subtiles entre le haut (tête) et le bas (racine).</li>
-                                                    <li>En bioénergie, ce point est utilisé pour libérer les blocages émotionnels liés à la parole et à l'expression de soi.</li>
-                                                    <li>Favorise l'harmonisation des corps physique, émotionnel et mental.</li>
-                                                    <li>Stimule la circulation du Qi dans le méridien, renforçant la vitalité globale.</li>
-                                                </ul>
-
-                                                <h3>Fonctions Énergétiques Spécifiques</h3>
-                                                <ul class="main_content_list">
-                                                    <li>Active la circulation des énergies dans la zone de la mâchoire et du cou.</li>
-                                                    <li>Libère les tensions accumulées, souvent liées au stress et aux non-dits.</li>
-                                                    <li>Renforce l'ancrage énergétique, essentiel pour une présence consciente.</li>
-                                                    <li>Stimule les capacités d'expression et de communication claire.</li>
-                                                    <li>Favorise un état de détente profonde, propice à la méditation et à l'introspection.</li>
-                                                </ul>
-
-                                                <h3>Soin Énergétique par Radiesthésie</h3>
-                                                <ul class="main_content_list">
-                                                    <li>Utilisation du pendule pour détecter les déséquilibres énergétiques au niveau de VC-24.</li>
-                                                    <li>Détection des blocages subtils liés aux émotions non exprimées ou aux traumatismes verbaux.</li>
-                                                    <li>Mesure du taux vibratoire du point pour évaluer son état énergétique.</li>
-                                                    <li>Rééquilibrage par visualisation ou intention pure, en utilisant des outils radiesthésiques (pendule, baguettes).</li>
-                                                    <li>Harmonisation des flux énergétiques entre VC-24 et les autres points clés du méridien.</li>
-                                                </ul>
-
-                                                <h3>Protocole de Soin par Acupression Bioénergétique (Adulte)</h3>
-                                                <ul class="main_content_list">
-                                                    <li>Position : Assis ou allongé, dans un état de détente profonde.</li>
-                                                    <li>Technique : Pose des doigts (pouce ou index) sur VC-24 avec une pression légère mais ferme.</li>
-                                                    <li>Durée : Maintenir 2 à 3 minutes en respirant consciemment.</li>
-                                                    <li>Visualisation : Imaginer une lumière dorée (énergie de guérison) pénétrant le point.</li>
-                                                    <li>Intention : "Je libère les blocages, j'harmonise mon énergie, j'exprime ma vérité avec amour."</li>
-                                                    <li>Respiration : Inspirer par le nez en visualisant l'énergie qui monte, expirer par la bouche en relâchant les tensions.</li>
-                                                </ul>
-
-                        <!-- Ajoutez les autres points VC ici en suivant le même format -->
-                    </ul>
-                </li>
-            </ul>
+    <div class="container">
+        <div class="section">
+            <h2>Le Point CV1 (Huiyin) : Un Carrefour Énergétique</h2>
+            <p>
+                Le point <strong>CV1 (Huiyin)</strong>, situé au périnée, est un point clé en bioénergie. Il relie les énergies <strong>telluriques</strong> (Terre) et <strong>cosmiques</strong> (Ciel), et joue un rôle essentiel dans l'équilibre des méridiens et la circulation du Qi.
+            </p>
+            <div class="highlight">
+                <p>
+                    <strong>Symbolique :</strong> Huiyin signifie "réunion du Yin". Ce point est associé à l'ancrage, la stabilité et la connexion entre la Terre et le Ciel.
+                </p>
+            </div>
         </div>
 
-        <!-- Partie droite : Iframe pour acu.html -->
-        <iframe id="viewer" src="acu.html"></iframe>
+        <div class="section">
+            <h2>Détection des Blocages par Radiesthésie</h2>
+            <p>
+                La <strong>radiesthésie</strong> permet de détecter les blocages énergétiques au niveau de CV1 et des méridiens associés. Utilisez un pendule pour identifier les déséquilibres et les zones de stagnation.
+            </p>
+            <h3>Méthode de Détection :</h3>
+            <ul>
+                <li>Tenez un pendule au-dessus de la zone du périnée.</li>
+                <li>Observez les mouvements du pendule :
+                    <ul>
+                        <li><strong>Mouvement circulaire</strong> : Énergie équilibrée.</li>
+                        <li><strong>Mouvement erratique ou bloqué</strong> : Blocage énergétique.</li>
+                    </ul>
+                </li>
+                <li>Notez les réactions pour cibler les soins.</li>
+            </ul>
+            <div class="highlight">
+                <p>
+                    <strong>Conseil :</strong> Utilisez une grille de radiesthésie pour cartographier les méridiens et localiser précisément les blocages.
+                </p>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>Libération des Blocages Énergétiques</h2>
+            <p>
+                Une fois les blocages identifiés, utilisez des techniques de <strong>bioénergie</strong> pour les libérer et harmoniser CV1.
+            </p>
+            <h3>Techniques de Soin :</h3>
+            <ul>
+                <li><strong>Acupression</strong> : Appliquez une pression douce sur CV1 pendant 1 à 2 minutes pour stimuler la circulation du Qi.</li>
+                <li><strong>Intention et Visualisation</strong> : Posez vos mains sur la zone et visualisez une lumière blanche ou dorée dissoudre les blocages.</li>
+                <li><strong>Pendule de Radiesthésie</strong> : Utilisez le pendule pour "nettoyer" l'énergie en effectuant des mouvements circulaires au-dessus de CV1.</li>
+            </ul>
+            <div class="highlight">
+                <p>
+                    <strong>Résultat :</strong> Libération des tensions, amélioration de la vitalité et rétablissement de l'équilibre Terre-Ciel.
+                </p>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>Harmonisation et Fixation des Énergies</h2>
+            <p>
+                Après la libération des blocages, il est essentiel d'<strong>harmoniser</strong> et de <strong>fixer</strong> les énergies pour maintenir l'équilibre.
+            </p>
+            <h3>Méthodes d'Harmonisation :</h3>
+            <ul>
+                <li><strong>Respiration Consciente</strong> : Inspirez profondément en visualisant l'énergie terrestre monter depuis CV1, expirez en envoyant cette énergie vers le Ciel.</li>
+                <li><strong>Cristaux et Pierres</strong> : Placez une pierre d'ancrage (comme l'hématite) sur CV1 pendant 5 à 10 minutes.</li>
+                <li><strong>Affirmations Positives</strong> : Répétez des phrases comme "Je suis ancré et connecté à l'énergie universelle".</li>
+            </ul>
+            <div class="highlight">
+                <p>
+                    <strong>Astuce :</strong> Utilisez un carillon ou un bol tibétain pour sceller l'harmonisation par le son.
+                </p>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>Quand Utiliser Chaque Technique ?</h2>
+            <p>
+                Le choix de la technique dépend de la situation et des besoins énergétiques :
+            </p>
+            <ul>
+                <li><strong>Acupression</strong> : Idéal pour les blocages physiques ou une fatigue générale.</li>
+                <li><strong>Pendule de Radiesthésie</strong> : Parfait pour détecter et nettoyer les déséquilibres subtils.</li>
+                <li><strong>Intention et Visualisation</strong> : Puissant pour les blocages émotionnels ou spirituels.</li>
+            </ul>
+            <div class="highlight">
+                <p>
+                    <strong>À retenir :</strong> Combinez les techniques pour un soin énergétique complet et personnalisé.
+                </p>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>Précautions et Conseils</h2>
+            <p>
+                CV1 est un point puissant. Respectez ces précautions :
+            </p>
+            <ul>
+                <li>Évitez de stimuler CV1 en cas de grossesse ou d'inflammation locale.</li>
+                <li>Ne forcez jamais la pression en acupression.</li>
+                <li>En cas de doute, consultez un praticien en énergétique ou en médecine chinoise.</li>
+            </ul>
+        </div>
     </div>
 
-    <script src="js/jquery-1.11.0.min.js" type="text/javascript"></script>
-    <script src="js/bootstrap.min.js" type="text/javascript"></script>
-    <script src="js/metronic.js" type="text/javascript"></script>
-    <script src="js/layout.js" type="text/javascript"></script>
+    <footer>
+        <div class="container">
+            <p><strong>Bien-être et Géobiologie</strong> – Harmonisation des Énergies Terre-Ciel</p>
+            <p>Contact : contact@bien-etre-geobiologie.fr | Tél : 01 23 45 67 89</p>
+        </div>
+    </footer>
 </body>
 </html>
-
