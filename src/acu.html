@@ -47,32 +47,15 @@
 			var obj = null;
 			var obj_aux = null;
 			/* INICIO LISTENERS VASO CONCEPÇÃO */
-
+			
+			vc1 = parent.document.getElementById('vc1');
+			vc2.onclick=function() {
+				acuPonto('vc1');
+			}			
 			vc2 = parent.document.getElementById('vc2');
-            /* o objeto DOCUMENT trabalha com os Nós html, esse escopo de trabalho é chamado de DOM (Document Object Model)
-               onde o document em si, é a RAIZ da árvore ( ou seja, todo o conteúdo HTML da página )
-               fazendo parent.document estamos acessando todos os NÓS HTML da página PAI.
-
-               Por quê página PAI ? Pois esta página aqui em questão, é chamada pela página acumaster.html, onde está a barra lateral contendo a lista de pontos. E é na página PAI que está o botão que queremos verificar o clique do mouse.
-	            fazendo vc2 = parent.document.getElementById('vc2') estamos SELECIONANDO um elemento HTML cujo id="vc2" e ARMAZENANDO na variável vc2.
-
-	            A seleção é feita utilizando o método getElementById(id), implementada nativamente no objeto DOCUMENT. Este método procura no conteúdo DOM, o elemento que possui o id com o parâmetro informado, no caso, vc2.
-
-	            Obs.: O elemento selecionado especificadamente é
-	            			    <a href="javascript:;" id="vc15"> * Perceba a flag id="vc2", por isso conseguimos buscá-lo.
-				      				<i class="icon-cogs"></i> 
-				      				<span class="title">VC 15</span>          
-				      				<span class="arrow "></span>
-				      			</a>
-				      			   --> Linha 26 da página acumaster.
-			*/
 			vc2.onclick=function() {
 				acuPonto('vc2');
 			}
-			/* Tendo o botão cujo id="vc15" armazenado na variavel vc15 podemos acessar a função
-			onclick, que funciona como uma escuta para o elemento - quando ele é clicado, é chamada a FUNÇÃO
-			acuPonto(x, y, z) -- que recebe como parâmetro as coordenadas do espaço tridimensional. A função acuPonto será explicada mais abaixo, quando ela é declarada. Os restantes são análogos.
-			*/
 			vc3 = parent.document.getElementById('vc3');
 			vc3.onclick=function() {
 				acuPonto('vc3');
@@ -573,200 +556,272 @@
 				/*abaixo estão declaradas as outras esferas da mesma forma, mudando apenas posicionamento e nomes*/
 
 				var geometry = new THREE.SphereGeometry( 0.3, 32, 32 );
+/* DÉBUT DU MÉRIDIEN EXTRAORDINAIRE – VAISSEAU CONCEPTION (REN MAI) */
 
-				/* INÍCIO MERIDIANO EXTRAORDINÁRIO - VASO CONCEPÇÃO */
+// VC1
+var object = new THREE.Mesh(
+    geometry,
+    new THREE.MeshLambertMaterial({ color: 0xa742f4 })
+);
+object.name = 'vc1';
+object.position.x = 0.05;
+object.position.y = -9.0;
+object.position.z = 6.0;
+scene.add(object);
 
-				var object = new THREE.Mesh( geometry, new THREE.MeshLambertMaterial( { color: 0xa742f4 } ) );
-				object.name = 'vc2';
-				object.position.x = 0.05;
-				object.position.y = -6;
-				object.position.z = 6.4;
+// VC2
+var object = new THREE.Mesh(
+    geometry,
+    new THREE.MeshLambertMaterial({ color: 0xa742f4 })
+);
+object.name = 'vc2';
+object.position.x = 0.05;
+object.position.y = -6;
+object.position.z = 6.4;
+scene.add(object);
 
-				scene.add( object );
+// VC3
+var object = new THREE.Mesh(
+    geometry,
+    new THREE.MeshLambertMaterial({ color: 0xa742f4 })
+);
+object.name = 'vc3';
+object.position.x = 0.05;
+object.position.y = -2.9;
+object.position.z = 7.1;
+scene.add(object);
 
-				var object = new THREE.Mesh( geometry, new THREE.MeshLambertMaterial( { color: 0xa742f4 } ) );
-				object.name = 'vc3';
-				object.position.x = 0.05;
-				object.position.y = -2.9;
-				object.position.z = 7.1;
+// VC4
+var object = new THREE.Mesh(
+    geometry,
+    new THREE.MeshLambertMaterial({ color: 0xa742f4 })
+);
+object.name = 'vc4';
+object.position.x = 0.05;
+object.position.y = 0.2;
+object.position.z = 7.17;
+scene.add(object);
 
-				scene.add( object );
+// VC5
+var object = new THREE.Mesh(
+    geometry,
+    new THREE.MeshLambertMaterial({ color: 0xa742f4 })
+);
+object.name = 'vc5';
+object.position.x = 0.05;
+object.position.y = 3.3;
+object.position.z = 7.25;
+scene.add(object);
 
-				var object = new THREE.Mesh( geometry, new THREE.MeshLambertMaterial( { color: 0xa742f4 } ) );
-				object.name = 'vc4';
-				object.position.x = 0.05;
-				object.position.y = 0.20000000000000018;
-				object.position.z = 7.17;
+// VC6
+var object = new THREE.Mesh(
+    geometry,
+    new THREE.MeshLambertMaterial({ color: 0xa742f4 })
+);
+object.name = 'vc6';
+object.position.x = 0.05;
+object.position.y = 6.4;
+object.position.z = 7.3;
+scene.add(object);
 
-				scene.add( object );
+// VC7
+var object = new THREE.Mesh(
+    geometry,
+    new THREE.MeshLambertMaterial({ color: 0xa742f4 })
+);
+object.name = 'vc7';
+object.position.x = 0.05;
+object.position.y = 9.5;
+object.position.z = 7.2;
+scene.add(object);
 
-				var object = new THREE.Mesh( geometry, new THREE.MeshLambertMaterial( { color: 0xa742f4 } ) );
-				object.name = 'vc5';
-				object.position.x = 0.05;
-				object.position.y = 3.3000000000000007;
-				object.position.z = 7.25;
+// VC8
+var object = new THREE.Mesh(
+    geometry,
+    new THREE.MeshLambertMaterial({ color: 0xa742f4 })
+);
+object.name = 'vc8';
+object.position.x = 0.05;
+object.position.y = 12.7;
+object.position.z = 6.1;
+scene.add(object);
 
-				scene.add( object );
+// VC9
+var object = new THREE.Mesh(
+    geometry,
+    new THREE.MeshLambertMaterial({ color: 0xa742f4 })
+);
+object.name = 'vc9';
+object.position.x = 0.05;
+object.position.y = 15.9;
+object.position.z = 6.1;
+scene.add(object);
 
-				var object = new THREE.Mesh( geometry, new THREE.MeshLambertMaterial( { color: 0xa742f4 } ) );
-				object.name = 'vc6';
-				object.position.x = 0.05;
-				object.position.y = 6.4;
-				object.position.z = 7.3;
+// VC10
+var object = new THREE.Mesh(
+    geometry,
+    new THREE.MeshLambertMaterial({ color: 0xa742f4 })
+);
+object.name = 'vc10';
+object.position.x = 0.05;
+object.position.y = 18.4;
+object.position.z = 6.38;
+scene.add(object);
 
-				scene.add( object );
+// VC11
+var object = new THREE.Mesh(
+    geometry,
+    new THREE.MeshLambertMaterial({ color: 0xa742f4 })
+);
+object.name = 'vc11';
+object.position.x = 0.05;
+object.position.y = 20.9;
+object.position.z = 6.38;
+scene.add(object);
 
-				var object = new THREE.Mesh( geometry, new THREE.MeshLambertMaterial( { color: 0xa742f4 } ) );
-				object.name = 'vc7';
-				object.position.x = 0.05;
-				object.position.y = 9.5;
-				object.position.z = 7.2;
+// VC12
+var object = new THREE.Mesh(
+    geometry,
+    new THREE.MeshLambertMaterial({ color: 0xa742f4 })
+);
+object.name = 'vc12';
+object.position.x = 0.05;
+object.position.y = 23.4;
+object.position.z = 6.58;
+scene.add(object);
 
-				scene.add( object );
+// VC13
+var object = new THREE.Mesh(
+    geometry,
+    new THREE.MeshLambertMaterial({ color: 0xa742f4 })
+);
+object.name = 'vc13';
+object.position.x = 0.05;
+object.position.y = 25.9;
+object.position.z = 6.6;
+scene.add(object);
 
-				var object = new THREE.Mesh( geometry, new THREE.MeshLambertMaterial( { color: 0xa742f4 } ) );
-				object.name = 'vc8';
-				object.position.x = 0.05;
-				object.position.y = 12.7;
-				object.position.z = 6.1;
+// VC14
+var object = new THREE.Mesh(
+    geometry,
+    new THREE.MeshLambertMaterial({ color: 0xa742f4 })
+);
+object.name = 'vc14';
+object.position.x = 0.05;
+object.position.y = 28.4;
+object.position.z = 5.95;
+scene.add(object);
 
-				scene.add( object );
-				
-				var object = new THREE.Mesh( geometry, new THREE.MeshLambertMaterial( { color: 0xa742f4 } ) );
-				object.name = 'vc9';
-				object.position.x = 0.05;
-				object.position.y = 15.9;
-				object.position.z = 6.1;
-				scene.add( object );
+// VC15
+var object = new THREE.Mesh(
+    geometry,
+    new THREE.MeshLambertMaterial({ color: 0xa742f4 })
+);
+object.name = 'vc15';
+object.position.x = 0.05;
+object.position.y = 30.9;
+object.position.z = 5.06;
+scene.add(object);
 
-				var object = new THREE.Mesh( geometry, new THREE.MeshLambertMaterial( { color: 0xa742f4 } ) );
-				object.name = 'vc10';
-				object.position.x = 0.05;
-				object.position.y = 18.4;
-				object.position.z = 6.38;
+// VC16
+var object = new THREE.Mesh(
+    geometry,
+    new THREE.MeshLambertMaterial({ color: 0xa742f4 })
+);
+object.name = 'vc16';
+object.position.x = 0.05;
+object.position.y = 33.4;
+object.position.z = 4.9;
+scene.add(object);
 
-				scene.add( object );
-				
-				var object = new THREE.Mesh( geometry, new THREE.MeshLambertMaterial( { color: 0xa742f4 } ) );
-				object.name = 'vc11';
-				object.position.x = 0.05;
-				object.position.y = 20.9;
-				object.position.z = 6.38;
+// VC17
+var object = new THREE.Mesh(
+    geometry,
+    new THREE.MeshLambertMaterial({ color: 0xa742f4 })
+);
+object.name = 'vc17';
+object.position.x = 0.05;
+object.position.y = 36;
+object.position.z = 4.7;
+scene.add(object);
 
-				scene.add( object );
-				
-				var object = new THREE.Mesh( geometry, new THREE.MeshLambertMaterial( { color: 0xa742f4 } ) );
-				object.name = 'vc12';
-				object.position.x = 0.05;
-				object.position.y = 23.4;
-				object.position.z = 6.58;
+// VC18
+var object = new THREE.Mesh(
+    geometry,
+    new THREE.MeshLambertMaterial({ color: 0xa742f4 })
+);
+object.name = 'vc18';
+object.position.x = 0.05;
+object.position.y = 38.6;
+object.position.z = 3.6;
+scene.add(object);
 
-				scene.add( object );
-				
-				var object = new THREE.Mesh( geometry, new THREE.MeshLambertMaterial( { color: 0xa742f4 } ) );
-				object.name = 'vc13';
-				object.position.x = 0.05;
-				object.position.y = 25.9;
-				object.position.z = 6.6;
+// VC19
+var object = new THREE.Mesh(
+    geometry,
+    new THREE.MeshLambertMaterial({ color: 0xa742f4 })
+);
+object.name = 'vc19';
+object.position.x = 0.05;
+object.position.y = 41.2;
+object.position.z = 2.4;
+scene.add(object);
 
-				scene.add( object );
+// VC20
+var object = new THREE.Mesh(
+    geometry,
+    new THREE.MeshLambertMaterial({ color: 0xa742f4 })
+);
+object.name = 'vc20';
+object.position.x = 0.05;
+object.position.y = 43.8;
+object.position.z = 1.2;
+scene.add(object);
 
-				var object = new THREE.Mesh( geometry, new THREE.MeshLambertMaterial( { color: 0xa742f4 } ) );
-				object.name = 'vc14';
-				object.position.x = 0.05;
-				object.position.y = 28.4;
-				object.position.z = 5.95;
+// VC21
+var object = new THREE.Mesh(
+    geometry,
+    new THREE.MeshLambertMaterial({ color: 0xa742f4 })
+);
+object.name = 'vc21';
+object.position.x = 0.05;
+object.position.y = 46.4;
+object.position.z = -0.9;
+scene.add(object);
 
-				scene.add( object );
+// VC22
+var object = new THREE.Mesh(
+    geometry,
+    new THREE.MeshLambertMaterial({ color: 0xa742f4 })
+);
+object.name = 'vc22';
+object.position.x = 0.05;
+object.position.y = 49;
+object.position.z = -2.1;
+scene.add(object);
 
-				var object = new THREE.Mesh( geometry, new THREE.MeshLambertMaterial( { color: 0xa742f4 } ) );
-				object.name = 'vc15';
-				object.name = 'vc15';
-				object.position.x = 0.05;
-				object.position.y = 30.9;
-				object.position.z = 5.06;
+// VC23
+var object = new THREE.Mesh(
+    geometry,
+    new THREE.MeshLambertMaterial({ color: 0xa742f4 })
+);
+object.name = 'vc23';
+object.position.x = 0.02;
+object.position.y = 56;
+object.position.z = -0.2;
+scene.add(object);
 
-				scene.add( object );
+// VC24
+var object = new THREE.Mesh(
+    geometry,
+    new THREE.MeshLambertMaterial({ color: 0xa742f4 })
+);
+object.name = 'vc24';
+object.position.x = 0.02;
+object.position.y = 60;
+object.position.z = 5;
+scene.add(object);
 
-				var object = new THREE.Mesh( geometry, new THREE.MeshLambertMaterial( { color: 0xa742f4 } ) );
-				object.name = 'vc16';
-				object.position.x = 0.05;
-				object.position.y = 33.4;
-				object.position.z = 4.9;
-
-				scene.add( object );
-
-				var object = new THREE.Mesh( geometry, new THREE.MeshLambertMaterial( { color: 0xa742f4 } ) );
-				object.name = 'vc17';
-				object.position.x = 0.05;
-				object.position.y = 36;
-				object.position.z = 4.7;
-				console.log(object.position.y);
-
-				scene.add( object );
-
-				var object = new THREE.Mesh( geometry, new THREE.MeshLambertMaterial( { color: 0xa742f4 } ) );
-				object.name = 'vc18';
-				object.position.x = 0.05;
-				object.position.y = 38.6;
-				object.position.z = 3.6;
-				console.log(object.position.y);
-
-				scene.add( object );
-
-				var object = new THREE.Mesh( geometry, new THREE.MeshLambertMaterial( { color: 0xa742f4 } ) );
-				object.name = 'vc19';
-				object.position.x = 0.05;
-				object.position.y = 41.2;
-				object.position.z = 2.4;
-				console.log(object.position.y);
-
-				scene.add( object );
-
-				var object = new THREE.Mesh( geometry, new THREE.MeshLambertMaterial( { color: 0xa742f4 } ) );
-				object.name = 'vc20';
-				object.position.x = 0.05;
-				object.position.y = 43.8;
-				object.position.z = 1.2;
-				console.log(object.position.y);
-
-				scene.add( object );
-
-				var object = new THREE.Mesh( geometry, new THREE.MeshLambertMaterial( { color: 0xa742f4 } ) );
-				object.name = 'vc21';
-				object.position.x = 0.05;
-				object.position.y = 46.4;
-				object.position.z = -0.9;
-				console.log(object.position.y);
-
-				scene.add( object );
-
-				var object = new THREE.Mesh( geometry, new THREE.MeshLambertMaterial( { color: 0xa742f4 } ) );
-				object.name = 'vc22';
-				object.position.x = 0.05;
-				object.position.y = 49;
-				object.position.z = -2.1;
-				console.log(object.position.y);
-
-				scene.add( object );
-
-				var object = new THREE.Mesh( geometry, new THREE.MeshLambertMaterial( { color: 0xa742f4 } ) );
-				object.name = 'vc23';
-				object.position.x = 0.02;
-				object.position.y = 56;
-				object.position.z = -0.2;
-				console.log(object.position.y);
-
-				scene.add( object );
-
-				var object = new THREE.Mesh( geometry, new THREE.MeshLambertMaterial( { color: 0xa742f4 } ) );
-				object.name = 'vc24';
-				object.position.x = 0.02;
-				object.position.y = 60;
-				object.position.z = 5;
-				console.log(object.position.y);
-
-				scene.add( object );
 				/* FIM MERIDIANO EXTRAORDINÁRIO - VASO CONCEPÇÃO */
 
 				/* INÍCIO MERIDIANO ZANG FU - PULMAO */
