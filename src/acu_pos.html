@@ -155,6 +155,13 @@
 				/* DÉBUT MÉRIDIEN EXTRAORDINAIRE – VAISSEAU CONCEPTION */
 
 				var object = new THREE.Mesh( geometry, new THREE.MeshLambertMaterial( { color: Math.random() * 0xffffff } ) );
+				object.nome = 'vc1';
+				object.position.x = 0.05;
+				object.position.y = -9.2;
+				object.position.z = 6.2;
+				scene.add( object );
+
+				var object = new THREE.Mesh( geometry, new THREE.MeshLambertMaterial( { color: Math.random() * 0xffffff } ) );
 				object.nome = 'vc2';
 				object.position.x = 0.05;
 				object.position.y = -6;
