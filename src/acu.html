@@ -33,11 +33,14 @@
 			var obj_aux = null;
 			
 			/* DEBUT AUDITEURS MÉRIDIEN EXTRAORDINAIRE – VAISSEAU DE CONCEPTION (Ren Mai)*/
-			
-			vc1 = parent.document.getElementById('vc1');
-            vc1.onclick=function() {
-				acuPonto('vc1');
-			}
+
+			var vc1 = parent.document.getElementById('vc1');
+			if (vc1) {
+    		vc1.onclick = function() {
+        		acuPonto('vc1');
+   			 };
+			}			
+
 			vc2 = parent.document.getElementById('vc2');
             vc2.onclick=function() {
 				acuPonto('vc2');
