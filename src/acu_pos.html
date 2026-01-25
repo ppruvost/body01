@@ -82,14 +82,7 @@
 
 				var geometry = new THREE.SphereGeometry( 0.3, 32, 32 );
 
-				/* DÉPART MÉRIDIEN EXTRAORDINAIRE – VAISSEAU DE CONCEPTION (Ren Mai) */
-				var object = new THREE.Mesh(geometry, new THREE.MeshLambertMaterial({ color: Math.random() * 0xffffff }));
-				object.name = 'vc1';
-				object.position.x = 0.05; // ou 0.02 si vous préférez une cohérence avec vc23 et vc24
-				object.position.y = -9;   // Position en y avant vc2 (-6)
-				object.position.z = 5.5;  // Position en z avant vc2 (6.4)
-
-				scene.add(object);
+				/* DÉPART MÉRIDIEN EXTRAORDINAIRE – VAISSEAU DE CONCEPTION (Ren Mai) */				
 
 				var object = new THREE.Mesh( geometry, new THREE.MeshLambertMaterial( { color: Math.random() * 0xffffff } ) );
 				object.name = 'vc2';
@@ -836,8 +829,7 @@
 				var manager = new THREE.LoadingManager();
 				manager.onProgress = function ( item, loaded, total ) {
 
-					console.log( item, loaded, total );
-					/* Escreve no console do browser o andamento do carregamento */
+					console.log( item, loaded, total );					
 
 				};
 				/* Gerenciador de carregamento vide https://threejs.org/docs/#Reference/Loaders/LoadingManager */
