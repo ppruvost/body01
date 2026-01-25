@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 	<head>
-		<title>TCC</title>
+		<title>Radiesthésie</title>
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
 		<style>
@@ -16,63 +16,36 @@
 	</head>
 
 	<body id="acu">
-		<script src="three/build/three.js"></script>
-		<!-- CARREGA O THREE.JS -->
-		<script src="three/loaders/OBJLoader.js"></script>
-		<!-- CARREGA O CARREGADOR DE OBJETO -->
-		<script src="three/controls/OrbitControls.js"></script>
-		<!-- CARREGA OS CONTROLES -> ORBIT CONTROLS -->
+		<script src="three/build/three.js"></script>		
+		<script src="three/loaders/OBJLoader.js"></script>		
+		<script src="three/controls/OrbitControls.js"></script>		
 		<script>
-			var container;
-			// variavel comum declarada
-			var camera, scene, raycaster, renderer;
-			// variaveis comuns declaradas
-			var mouse = new THREE.Vector2(), INTERSECTED;
-			// variavel mouse declarada, e referenciada a partir do construtor Vector2 (vetor bidimensional)
+			var container;			
+			var camera, scene, raycaster, renderer;			
+			var mouse = new THREE.Vector2(), INTERSECTED;			
 
-			var mouseX = 0, mouseY = 0;
-			// variaveis comuns declaradas
+			var mouseX = 0, mouseY = 0;			
 
 			var windowHalfX = window.innerWidth / 2;
 			var windowHalfY = window.innerHeight / 2;
 
-			var acuX = 0, acuY = 0, acuZ = 0; acuXF = 0, acuYF = 0, acuZF = 0;
-			//inicialização de variaveis globais a serem usadas para a animação de camera
+			var acuX = 0, acuY = 0, acuZ = 0; acuXF = 0, acuYF = 0, acuZF = 0;			
 
-			var focoCamera = false;
-			//variavel global que controlará a animação de câmera (ativar/desativar animação)
+			var focoCamera = false;			
 
-			var p = new THREE.Vector3( 0, 0, 0 );
-			/*variavel p declarada, e referenciada a partir do construtor Vector3 (vetor tridimensional), inicializada em 0,0,0*/
+			var p = new THREE.Vector3( 0, 0, 0 );			
 			var obj = null;
 			var obj_aux = null;
-			/* INICIO LISTENERS VASO CONCEPÇÃO */
+			/* DEBUT AUDITEURS MÉRIDIEN EXTRAORDINAIRE – VAISSEAU DE CONCEPTION (Ren Mai)*/
+			vc1 = parent.document.getElementById('vc1');
+            vc1.onclick=function() {
+				acuPonto('vc1');
+			}
 
 			vc2 = parent.document.getElementById('vc2');
-            /* o objeto DOCUMENT trabalha com os Nós html, esse escopo de trabalho é chamado de DOM (Document Object Model)
-               onde o document em si, é a RAIZ da árvore ( ou seja, todo o conteúdo HTML da página )
-               fazendo parent.document estamos acessando todos os NÓS HTML da página PAI.
-
-               Por quê página PAI ? Pois esta página aqui em questão, é chamada pela página acumaster.html, onde está a barra lateral contendo a lista de pontos. E é na página PAI que está o botão que queremos verificar o clique do mouse.
-	            fazendo vc2 = parent.document.getElementById('vc2') estamos SELECIONANDO um elemento HTML cujo id="vc2" e ARMAZENANDO na variável vc2.
-
-	            A seleção é feita utilizando o método getElementById(id), implementada nativamente no objeto DOCUMENT. Este método procura no conteúdo DOM, o elemento que possui o id com o parâmetro informado, no caso, vc2.
-
-	            Obs.: O elemento selecionado especificadamente é
-	            			    <a href="javascript:;" id="vc15"> * Perceba a flag id="vc2", por isso conseguimos buscá-lo.
-				      				<i class="icon-cogs"></i> 
-				      				<span class="title">VC 15</span>          
-				      				<span class="arrow "></span>
-				      			</a>
-				      			   --> Linha 26 da página acumaster.
-			*/
-			vc2.onclick=function() {
+            vc2.onclick=function() {
 				acuPonto('vc2');
-			}
-			/* Tendo o botão cujo id="vc15" armazenado na variavel vc15 podemos acessar a função
-			onclick, que funciona como uma escuta para o elemento - quando ele é clicado, é chamada a FUNÇÃO
-			acuPonto(x, y, z) -- que recebe como parâmetro as coordenadas do espaço tridimensional. A função acuPonto será explicada mais abaixo, quando ela é declarada. Os restantes são análogos.
-			*/
+			}			
 			vc3 = parent.document.getElementById('vc3');
 			vc3.onclick=function() {
 				acuPonto('vc3');
@@ -162,7 +135,7 @@
 				acuPonto('vc24');
 			}
 
-			/* FIM LISTENERS VASO CONCEPÇÃO */
+			/* FIN AUDITEURS MÉRIDIEN EXTRAORDINAIRE – VAISSEAU DE CONCEPTION (Ren Mai) */
 
 			/* INICIO LISTENERS PULMÃO */
 
