@@ -959,17 +959,12 @@
 			}
 
 			function animate() {				
-				requestAnimationFrame( animate );
-				/* função nativa do javascript, introduzida recentemente. Sanou varios problemas que persistiam quando utilizávamos setInterval(), deixando todo o gerenciamento de tempo e hardware para o navegador. Seria interessante falar sobre isso,
-				mas basicamente com este comando podemos realizar uma animação por X frames por segundo, passando uma função que será re-executada infinitas vezes - neste caso a função animate está sendo chamada recursivamente. */
-				render();
-				/* chama a função render agora com os valores atualizados pela mesma função render, criando uma espécie de animação frame a frame*/
+				requestAnimationFrame( animate );				
+				render();				
 			}
 
-			function render() {
-				/* função responsável por renderizar a cena */
-				renderer.render( scene, camera );
-				/* renderiza uma cena utilizando uma câmera, neste caso, scene e camera */
+			function render() {				
+				renderer.render( scene, camera );				
 				if (uPressed) {
 					var obj = scene.getObjectByName(idponto);
 					obj.position.y = obj.position.y+0.1;
@@ -1000,29 +995,24 @@
 					obj.position.z = obj.position.z+0.1;
 					mPressed = false;
 				}
-				if (focoCamera) { // SE (focoCamera == TRUE) faça
-					/* variável global que é definida como TRUE quando é clicado em uma esfera ou clicada em um botão referente à um acuponto na barra lateral
-					Basicamente, é a estrutura de condição que faz acontecer a animação da câmera
-					*/
-					if (camera.position.x != acuX) { /* Se a posição da câmera no eixo x for diferente do ponto que queremos chegar FAÇA */
-						if (camera.position.x > acuX) { // se a posição da camera em X for maior que o valor de X que queremos chegar
-							camera.position.x--; // Incrementa 1 unidade o valor da posição da camera.x
-						} else { // caso contrário
-							camera.position.x++; // Decrementa 1 unidade o valor da posição da camera.x
+				if (focoCamera) {					
+					if (camera.position.x != acuX) { 
+						if (camera.position.x > acuX) {
+							camera.position.x--;
+						} else {
+							camera.position.x++;
 						}
-						if (Math.round(camera.position.x) == Math.round(acuX)) { // Se o valor INTEIRO da posição da camera.x for IGUAL ao valor INTEIRO da posição do ponto pretendido
-							camera.position.x = acuX;
-							//a posição da camera em x recebe o valor exato do acuponto em x.
+						if (Math.round(camera.position.x) == Math.round(acuX)) {
+							camera.position.x = acuX;							
 						}
 					}
 
 
-					if (camera.position.y != acuY) {
-						/* Se a posição da câmera no eixo y for diferente do ponto que queremos chegar FAÇA */
-						if (camera.position.y > acuY) { // se a posição da camera em Y for maior que o valor de Y do acuponto que queremos chegar
-							camera.position.y--; // Decrementa 1 unidade o valor da posição da camera.y
+					if (camera.position.y != acuY) {						
+						if (camera.position.y > acuY) {
+							camera.position.y--;
 						} else {
-							camera.position.y++; // Incrementa 1 unidade o valor da posição da camera.y
+							camera.position.y++;
 						}
 						
 						if (Math.round(camera.position.y) == Math.round(acuY)) {
