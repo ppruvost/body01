@@ -509,7 +509,7 @@
 				/* INICIO MERIDIANO Estômago (Wei) - Zu Yang Ming Wei Jing */
 
 				var object = new THREE.Mesh( geometry, new THREE.MeshLambertMaterial( { color: 0x006aff } ) );
-				object.name = 'e1k';
+				object.name = 'e1';
 				object.position.x = -2.9677980068645167;
 				object.position.y = 66.70000000000014;
 				object.position.z = 3;
@@ -825,28 +825,23 @@
 				object.position.z = 11.299999999999976;
 				scene.add( object );
 
-				/* FIM MERIDIANO Estômago (Wei) - Zu Yang Ming Wei Jing */
+				/* FIN MERIDIEN ESTOMAC (Wei) - Zu Yang Ming Wei Jing */
 				var manager = new THREE.LoadingManager();
 				manager.onProgress = function ( item, loaded, total ) {
 
 					console.log( item, loaded, total );					
 
 				};
-				/* Gerenciador de carregamento vide https://threejs.org/docs/#Reference/Loaders/LoadingManager */
-
 				var texture = new THREE.Texture();
-
 				var onProgress = function ( xhr ) {
 					if ( xhr.lengthComputable ) {
 						var percentComplete = xhr.loaded / xhr.total * 100;
 						console.log( Math.round(percentComplete, 2) + '% downloaded' );
 					}
-				};
-				/* não sei do que se trata a variável xhr, mas essa função serve para retornar a quantidade em porcentagem de quanto já carregou e quanto falta carregar do OBJETO (corpo humano). Desconsiderar essa função */
+				};				
 
 				var onError = function ( xhr ) {
-				};
-				/* desconsiderar*/
+				};				
 
 				var loader = new THREE.ImageLoader( manager );
 				loader.load( 'three/textura/UV_Grid_Sm.jpg', function ( image ) {
@@ -854,23 +849,17 @@
 					texture.image = image;
 					texture.needsUpdate = true;
 
-				} );
-				/* Carrega a textura vide https://threejs.org/docs/#Reference/Loaders/ImageLoader */
+				} );				
 
-				var loader = new THREE.OBJLoader( manager );
-				/* instancia o carregador de objeto vide https://threejs.org/docs/#Reference/Loaders/OBJLoader */
-				var material = new THREE.MeshBasicMaterial({color: 'yellow', side: THREE.DoubleSide});
-				/* desconsiderar, aplica a cor ao objeto - só aparece sem a textura */
+				var loader = new THREE.OBJLoader( manager );				
+				var material = new THREE.MeshBasicMaterial({color: 'yellow', side: THREE.DoubleSide});				
 				loader.load( 'three/modelo/corpo.obj', function ( object ) {
 
 					object.traverse( function ( child ) {
-
 						if ( child instanceof THREE.Mesh ) {
-
 							child.material.map = texture;
 
 						}
-
 					} );
 
 					object.position.y = - 95;
