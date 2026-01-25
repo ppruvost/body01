@@ -136,7 +136,14 @@
 
 				var geometry = new THREE.SphereGeometry( 0.3, 32, 32 );
 
-				/* INÍCIO MERIDIANO EXTRAORDINÁRIO - VASO CONCEPÇÃO */
+				/* DÉPART MÉRIDIEN EXTRAORDINAIRE – VAISSEAU DE CONCEPTION (Ren Mai) */
+				var object = new THREE.Mesh(geometry, new THREE.MeshLambertMaterial({ color: Math.random() * 0xffffff }));
+				object.nome = 'vc1';
+				object.position.x = 0.05; // ou 0.02 si vous préférez une cohérence avec vc23 et vc24
+				object.position.y = -9;   // Position en y avant vc2 (-6)
+				object.position.z = 5.5;  // Position en z avant vc2 (6.4)
+
+				scene.add(object);
 
 				var object = new THREE.Mesh( geometry, new THREE.MeshLambertMaterial( { color: Math.random() * 0xffffff } ) );
 				object.nome = 'vc2';
@@ -328,7 +335,7 @@
 				console.log(object.position.y);
 
 				scene.add( object );
-				/* FIM MERIDIANO EXTRAORDINÁRIO - VASO CONCEPÇÃO */
+				/* FIN MÉRIDIEN EXTRAORDINAIRE – VAISSEAU DE CONCEPTION (Ren Mai) */
 
 				/* INÍCIO MERIDIANO ZANG FU - PULMAO */
 
