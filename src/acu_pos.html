@@ -1087,31 +1087,27 @@
 							camera.position.y++; // Incrementa 1 unidade o valor da posição da camera.y
 						}
 						
-						if (Math.round(camera.position.y) == Math.round(acuY)) { // Se o valor INTEIRO da posição da camera.x for IGUAL ao valor INTEIRO da posição do ponto pretendido
-							camera.position.y = acuY;
-							//a posição da camera em y recebe o valor exato do acuponto em y.
+						if (Math.round(camera.position.y) == Math.round(acuY)) {
+							camera.position.y = acuY;							
 						}
 					}
 
-					if (camera.position.z != acuZ+45) {
-						/* Se a posição da câmera no eixo z for diferente do acuponto na posição Z+45 (+45 pois a camera do eixo Z deve ficar um pouco afastada e não grudada no ponto) que queremos chegar FAÇA */
-						if (camera.position.z > acuZ+45) { // se a posição da camera em Z for maior que o valor de Z+45 do acuponto que queremos chegar
-							camera.position.z--; // Decrementa 1 unidade o valor da posição da camera.z
+					if (camera.position.z != acuZ+45) {						
+						if (camera.position.z > acuZ+45) {
+							camera.position.z--;
 						} else {
-							camera.position.z++; // Incrementa 1 unidade o valor da posição da camera.z
+							camera.position.z++;
 						}
-						if (Math.round(camera.position.z) == Math.round(acuZ+45)) { // Se o valor INTEIRO da posição da camera.z for IGUAL ao valor INTEIRO da posição z+45 do ponto pretendido
-							camera.position.z = acuZ+45;
-							//a posição da camera em z recebe o valor exato do acuponto em z.
+						if (Math.round(camera.position.z) == Math.round(acuZ+45)) {
+							camera.position.z = acuZ+45;							
 						}
 					}
 					if ((camera.position.z == acuZ+45)&&(camera.position.y == acuY)&&(camera.position.x == acuX)) {
 						focoCamera = false;
 						controls.target = p;
 						return;
-					} /* se todas as condições estiverem satisfeitas, que é a camera exatamente no acuponto selecionado (exceto em z, que é z+45 para a camera nao ficar grudada no ponto), então alteramos a variável global focoCamera para FALSE, portanto quando entrar na função render novamente será verificada esta variável, e como ela estará FALSE não entrará nessas condições para animação. A única forma de focoCamera tornar-se TRUE será quando for clicado em um acuponto ou em um botão na barra lateral */
-					camera.lookAt( p );
-					/* lookAt( p ) => Em p está armazenada a coordenada do ponto em questão (onde a camera deverá se aproximar), portanto invocamos o metodo da camera -> lookAt(p) que recebe como parâmetro um ponto do tipo vetor tridimensional (neste caso, p) para que a câmera fique "olhando" para o ponto enquanto ela se aproxima (torna a animação mais agradavel, fica focada no ponto)*/
+					} 
+					camera.lookAt( p );					
 				}
 			}
 
