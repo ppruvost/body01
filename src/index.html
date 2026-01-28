@@ -16,7 +16,7 @@
 			<div class="page-sidebar navbar-collapse collapse">
 				<ul class="page-sidebar-menu">
 			 		<li class="start active ">
-			 			<a href="../index.html">
+			 			<a href=""index.html" id="home-link">
 							<i class="icon-home"></i> 
 							<span class="title"><strong>Radiesthésie</strong>  et Soin énergétique</span>          
 			      				<span class="selected"></span>
@@ -2923,6 +2923,14 @@ document.addEventListener("DOMContentLoaded", function () {
             .catch(err => console.error("Erreur chargement :", err));
     });
 
+});
+</script>
+<script>
+document.getElementById('home-link').addEventListener('click', function () {
+    // fermer tous les sous-menus
+    document.querySelectorAll('.page-sidebar-menu li.open').forEach(function (li) {
+        li.classList.remove('open');
+    });
 });
 </script>
 
