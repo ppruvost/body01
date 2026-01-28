@@ -7,10 +7,10 @@
       }
 
       body {
-        background-color: #ffffff;
+        background-color:  #E7DFD3;
         margin: 0px;
         height: 100%;
-        color: #555;
+        color: #3A2D27;
         font-family: 'inconsolata';
         font-size: 15px;
         line-height: 18px;
@@ -23,7 +23,7 @@
         width: 600px;
         height: 100%;
         overflow: auto;
-        background: #fafafa;
+        background: #E7DFD3;
       }
 
         #panel #content {
@@ -31,13 +31,13 @@
         }
 
         #panel #content .link {
-          color: #2194CE;
+          color: #80665B;
           text-decoration: none;
           cursor: pointer;
         }
 
         #panel #content .selected {
-          color: #ff0000;
+          color: #3A2D27;
         }
 
           #panel #content .link:hover {
@@ -66,7 +66,7 @@
 
         #expandButton span {
           height: 2px;
-          background-color: #2194CE;
+          background-color: #3A2D27;
           width: 16px;
           position: absolute;
           left: 8px;
@@ -92,7 +92,7 @@
           right: 0;
           z-index: 100;
           overflow: hidden;
-          border-bottom: 1px solid #dedede;
+          border-bottom: 1px solid #80665B;
         }
         #content{
           position: absolute;
@@ -839,4 +839,5 @@ Page sidebar
   .page-sidebar.in {
     margin-top: 10px !important;
   }
+
 }
