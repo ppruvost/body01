@@ -3316,5 +3316,23 @@
     });
 });
   </script>
+      <script>
+      document.addEventListener('DOMContentLoaded', function() {
+        const menuLinks = document.querySelectorAll('.page-sidebar-menu > li > a');
+
+        menuLinks.forEach(link => {
+          link.addEventListener('click', function(e) {
+            e.preventDefault();
+            const parentLi = this.parentElement;
+            parentLi.classList.toggle('open');
+
+            const subMenu = parentLi.querySelector('.sub-menu');
+            if (subMenu) {
+              subMenu.style.display = subMenu.style.display === 'block' ? 'none' : 'block';
+            }
+          });
+        });
+      });
+    </script>
  </body>
 </html>
