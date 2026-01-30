@@ -2,7 +2,6 @@
    Charte graphique – https://www.bien-etre-geobiologie.fr/
    Style naturel et épuré
    ========================================================= */
-
 :root {
   /* Couleurs principales */
   --bg-main: #E7DFD3;
@@ -121,7 +120,8 @@ body {
 
 .page-sidebar .page-sidebar-menu > li > a {
   color: var(--text-main);
-  padding: 10px 15px;
+  padding: 12px 15px;
+  line-height: 1.8;
   transition: background 0.2s ease;
 }
 
@@ -152,9 +152,18 @@ body {
 /* Sous-menus */
 .page-sidebar .sub-menu {
   display: none;
-  margin-left: 10px;
-  padding-left: 10px;
+  margin-left: 12px;
+  padding-left: 12px;
+  padding-top: 6px;
+  padding-bottom: 6px;
   border-left: 1px solid var(--border-soft);
+}
+
+.page-sidebar .sub-menu li > a {
+  display: block;
+  padding: 8px 15px;
+  line-height: 1.7;
+  color: var(--text-soft);
 }
 
 .page-sidebar-menu li.open > .sub-menu {
