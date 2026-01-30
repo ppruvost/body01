@@ -223,17 +223,26 @@ body {
     display: block;
   }
 }
-/* Empêcher la fermeture visuelle du sous-menu */
-.page-sidebar,
-.page-sidebar-menu,
-.page-sidebar-menu li {
-  overflow: visible !important;
+
+/* =========================
+   Correctif sidebar
+   ========================= */
+
+/* Sidebar scrollable */
+.page-sidebar {
+  overflow-y: auto;
 }
 
-/* Forcer l'affichage quand open */
+/* Empêcher les sous-menus d'être coupés */
+.page-sidebar .page-sidebar-menu li {
+  overflow: visible;
+}
+
+/* Sous-menus visibles quand open */
 .page-sidebar-menu li.open > .sub-menu {
   display: block !important;
   height: auto !important;
-  opacity: 1;
-  visibility: visible;
+  opacity: 1 !important;
+  visibility: visible !important;
 }
+
