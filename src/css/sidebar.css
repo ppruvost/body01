@@ -1,21 +1,8 @@
-      *{
-        box-sizing: border-box;
-      }
 
       html {
         height: 100%;
       }
 
-      body {
-        background-color: #ffffff;
-        margin: 0px;
-        height: 100%;
-        color: #555;
-        font-family: 'inconsolata';
-        font-size: 15px;
-        line-height: 18px;
-        overflow: hidden;
-      }
 
       #panel {
         position: fixed;
@@ -839,4 +826,5 @@ Page sidebar
   .page-sidebar.in {
     margin-top: 10px !important;
   }
+
 }
