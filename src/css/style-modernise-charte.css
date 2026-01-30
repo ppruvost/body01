@@ -246,3 +246,66 @@ body {
   visibility: visible !important;
 }
 
+/* =========================
+   Typographie contenu texte
+   ========================= */
+
+/* Conteneur texte principal (si besoin) */
+.content,
+.text-content,
+.article-content {
+  background-color: #E7DFD3;
+  color: #84604C;
+  font-family: Helvetica, Arial, sans-serif;
+  font-size: 15px;
+  line-height: 1.8;
+}
+
+/* Titres principaux */
+.content h1,
+.content h2,
+.content h3 {
+  font-family: 'Questrial', sans-serif;
+  color: #84604C;
+  font-weight: 400;
+  letter-spacing: 0.04em;
+  margin-top: 24px;
+  margin-bottom: 12px;
+}
+
+/* Titre principal */
+.content h1 {
+  font-size: 26px;
+}
+
+/* Sous-titres */
+.content h2 {
+  font-size: 20px;
+}
+
+.content h3 {
+  font-size: 17px;
+}
+
+/* Paragraphes */
+.content p {
+  margin-bottom: 14px;
+}
+
+/* Listes */
+.content ul {
+  padding-left: 18px;
+  margin-bottom: 16px;
+}
+
+.content ul li {
+  margin-bottom: 8px;
+  line-height: 1.7;
+}
+
+/* Mise en valeur douce */
+.content strong {
+  font-weight: 600;
+  color: #6F4F3F;
+}
+
