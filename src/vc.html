@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <title>MERIDIEN VC</title>
-  <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
   <style>
     body {
       font-family: "Helvetica", Arial, sans-serif;
@@ -19,16 +19,14 @@
       margin: 0 auto;
       padding: 20px;
       background-color: #e7dfd3;
+      overflow: hidden; /* Empêche le débordement */
     }
 
-    h1, h2, h3 {
+    h3 {
       color: #80665b;
       margin-bottom: 10px;
+      font-size: 18px;
     }
-
-    h1 { font-size: 24px; }
-    h2 { font-size: 20px; }
-    h3 { font-size: 18px; }
 
     p, ul, li {
       margin: 0;
@@ -51,23 +49,17 @@
       margin-left: 20px;
     }
 
-    a {
-      color: #80665b;
-      text-decoration: none;
-    }
-
-    a:hover {
-      text-decoration: underline;
-    }
-
     .image-container {
       text-align: center;
-      margin: 20px 0;
+      margin: 20px auto; /* Centrer l'image */
+      max-width: 100%; /* Assure que l'image ne dépasse pas de la largeur du conteneur */
     }
 
     .image-container img {
-      max-width: 100%;
-      height: auto;
+      max-width: 100%; /* Assure que l'image s'adapte à la largeur du conteneur */
+      height: auto; /* Conserve les proportions de l'image */
+      display: block; /* Évite les espaces indésirables sous l'image */
+      margin: 0 auto; /* Centrer l'image */
     }
 
     .italic-note {
@@ -1289,6 +1281,7 @@
 </section>
 </body>
 </html>
+
 
 
 
