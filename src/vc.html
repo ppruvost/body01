@@ -10,16 +10,18 @@
       background-color: #e7dfd3;
       color: #3a2d27;
       line-height: 1.6;
-      padding: 20px;
+      padding: 10px;
       margin: 0;
+      box-sizing: border-box;
     }
 
     .container {
-      max-width: 1000px;
+      max-width: 100%;
       margin: 0 auto;
-      padding: 20px;
+      padding: 15px;
       background-color: #e7dfd3;
-      overflow: hidden; /* Empêche le débordement */
+      box-sizing: border-box;
+      overflow: hidden;
     }
 
     h3 {
@@ -40,32 +42,41 @@
 
     ul {
       margin-bottom: 20px;
+      padding-left: 20px;
     }
 
     li {
       font-size: 16px;
       margin-bottom: 8px;
       list-style-type: disc;
-      margin-left: 20px;
+      margin-left: 10px;
     }
 
     .image-container {
       text-align: center;
-      margin: 20px auto; /* Centrer l'image */
-      max-width: 100%; /* Assure que l'image ne dépasse pas de la largeur du conteneur */
+      margin: 15px auto;
+      max-width: 100%;
     }
 
     .image-container img {
-      max-width: 100%; /* Assure que l'image s'adapte à la largeur du conteneur */
-      height: auto; /* Conserve les proportions de l'image */
-      display: block; /* Évite les espaces indésirables sous l'image */
-      margin: 0 auto; /* Centrer l'image */
+      max-width: 100%;
+      height: auto;
+      display: block;
+      margin: 0 auto;
     }
 
     .italic-note {
       font-style: italic;
       color: #3a2d27;
       margin-top: 10px;
+      font-size: 14px;
+    }
+
+    @media (min-width: 768px) {
+      .container {
+        max-width: 900px;
+        padding: 20px;
+      }
     }
   </style>
 </head>
@@ -1281,6 +1292,7 @@
 </section>
 </body>
 </html>
+
 
 
 
