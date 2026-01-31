@@ -1,41 +1,17 @@
 <!DOCTYPE html>
 <html lang="fr">
-<head>
+ <head>
   <meta charset="utf-8"/>
-  <title>radiesthésie</title>
-
-  <meta content="width=device-width, user-scalable=yes, minimum-scale=1.0, maximum-scale=1.0" name="viewport"/>
-  <link rel="icon" href="/favicon.ico" type="image/x-icon">  
-
+  <title>
+   radiesthésie
+  </title>
+  <meta content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" name="viewport"/>
   <link href="css/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css"/>
   <link href="css/simple-line-icons/simple-line-icons.min.css" rel="stylesheet" type="text/css"/>
   <link href="css/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
   <link href="css/sidebar.css" rel="stylesheet" type="text/css"/>
   <link href="css/light.css" id="style_color" rel="stylesheet" type="text/css"/>
-  <link rel="stylesheet" href="css/style-modernise-charte.css">
-
-  <!-- ✅ CSS ACCORDÉON (À AJOUTER ICI) -->
-  <style>
-    .page-sidebar-menu .sub-menu {
-      display: none;
-    }
-
-    .page-sidebar-menu li.open > .sub-menu {
-      display: block;
-    }
-
-    /* optionnel : animation flèche */
-    .page-sidebar-menu .arrow {
-      transition: transform 0.2s ease;
-    }
-
-    .page-sidebar-menu li.open > a > .arrow {
-      transform: rotate(90deg);
-    }
-  </style>
-
-</head>
-
+ </head>
  <body>
   <div class="container-fluid">
    <div class="row">
@@ -55,28 +31,32 @@
          </span>
         </a>
        </li>
-       <li>
+       <li class="open">
         <a href="javascript:;" id="vc">
          <i class="icon-cogs">
          </i>
          <span class="title">
           MERIDIEN VAISSEAU EXTRAORDINAIRE DE CONCEPTION - Ren Mai
          </span>
-         <span class="arrow"></span>
+         <span class="arrow">
+         </span>
         </a>
         <ul class="sub-menu">
-         <a href="javascript:;" class="load-point" data-point="vc1">VC-1 (Huiyin)</a>
-            <li>
-              <a href="javascript:;" 
-                class="load-point"
-                data-load="vc.html#vc-1"
-                data-point="vc1">
-                <i class="icon-cogs"></i>
-                   <span class="title">
-                        VC-1 (Huiyin) · Ancrage profond et sécurité fondamentale
-                   </span>
-              </a>
-            </li>
+         <li class="">
+          <a href="javascript:;" id="vc1">
+           <i class="icon-cogs">
+           </i>
+           <span class="title">
+            VC-1 (Huiyin)· Ancrage Profond et Sécurité Fondamentale.
+           </span>
+           <span class="arrow">
+           </span>
+          </a>
+          <ul class="sub-menu">
+           <li data-load="vc.html#vc-1">
+           </li>
+          </ul>
+         </li>
          <li class="">
           <a href="javascript:;" id="vc2">
            <i class="icon-cogs">
@@ -87,7 +67,7 @@
            <span class="arrow">
            </span>
           </a>
-          <ul class="sub-menu">           
+          <ul class="sub-menu">
            <li data-load="vc.html#vc-2">
            </li>
           </ul>
@@ -443,10 +423,7 @@
            </i>
            <span class="title">
             P-1 (Huiyin) Ancrage primordial – Porte de l’incarnation.
-           </span>
-           <div style="font-style: italic; color: #3a2d27; margin-top: 10px;">
-            Point racine du champ énergétique humain. En soin bioénergétique, il stabilise l’âme dans le corps, renforce le sentiment de sécurité existentielle et corrige les fuites énergétiques profondes. Travail essentiel sur les mémoires de survie, de peur archaïque et de déconnexion à la Terre.
-           </div>
+           </span>           
            <span class="arrow">
            </span>
           </a>
@@ -462,9 +439,6 @@
            <span class="title">
             P-2 (Zhongfu) Ouverture du champ respiratoire de l’Être.
            </span>
-           <div style="font-style: italic; color: #3a2d27; margin-top: 10px;">
-            Point d’appel du Poumon sur le plan subtil. Il libère les charges émotionnelles liées au chagrin, aux pertes et aux deuils anciens (même transgénérationnels). En radiesthésie, il réinforme le champ respiratoire et rétablit la capacité à “reprendre sa place dans la vie”.
-           </div>
            <span class="arrow">
            </span>
           </a>
@@ -480,9 +454,6 @@
            <span class="title">
             P-3 (Yunmen) Porte vibratoire de l’inspiration.
            </span>
-           <div style="font-style: italic; color: #3a2d27; margin-top: 10px;">
-            Point clé pour relancer la circulation du Qi dans l’aura. Il agit sur la capacité à recevoir (air, vie, idées). En soin énergétique, il dissout les blocages liés au rejet, à l’oppression émotionnelle et aux chocs respiratoires (angoisses, stress répétés).
-           </div>
            <span class="arrow">
            </span>
           </a>
@@ -498,9 +469,6 @@
            <span class="title">
             P-4 (Tianfu) Ordonnateur du souffle et de l’identité intérieure.
            </span>
-           <div style="font-style: italic; color: #3a2d27; margin-top: 10px;">
-            Ce point structure le champ énergétique du Poumon. Il clarifie les confusions internes, aide à retrouver un axe intérieur stable et soutient la cohérence entre pensée, émotion et respiration. Très utile pour les personnes dispersées ou en perte de repères.
-           </div>
            <span class="arrow">
            </span>
           </a>
@@ -516,9 +484,6 @@
            <span class="title">
             P-5 (Xiabai) Descente consciente de l’énergie – Lâcher des tensions.
            </span>
-           <div style="font-style: italic; color: #3a2d27; margin-top: 10px;">
-            Point de drainage bioénergétique. Il facilite l’évacuation des charges stagnantes dans la poitrine et les bras. En radiesthésie, il aide à libérer les émotions retenues, les non-dits et les pressions accumulées, favorisant une détente profonde du champ thoracique.
-           </div>
            <span class="arrow">
            </span>
           </a>
@@ -534,9 +499,6 @@
            <span class="title">
             P-6 (Chize) Régulateur émotionnel et hydrique du champ pulmonaire.
            </span>
-           <div style="font-style: italic; color: #3a2d27; margin-top: 10px;">
-            Point de rééquilibrage des excès (émotionnels, énergétiques, inflammatoires). Il apaise les surcharges émotionnelles, calme les états de tristesse envahissante et réharmonise la circulation des liquides sur le plan subtil.
-           </div>
            <span class="arrow">
            </span>
           </a>
@@ -552,9 +514,6 @@
            <span class="title">
             P-7 (Kongzui) Libération d’urgence des mémoires enfouies.
            </span>
-           <div style="font-style: italic; color: #3a2d27; margin-top: 10px;">
-            Point très puissant en soin radiesthésique. Il agit comme un “déverrouilleur” de blocages anciens, parfois inconscients. Indiqué lors de crises, d’émotions intenses ou de mémoires traumatiques liées à l’étouffement, à la peur ou à l’urgence vitale.
-           </div>
            <span class="arrow">
            </span>
           </a>
@@ -570,9 +529,6 @@
            <span class="title">
             P-8 (Lieque) Ouverture relationnelle et lien Ciel–Terre.
            </span>
-           <div style="font-style: italic; color: #3a2d27; margin-top: 10px;">
-            Point de connexion au Ren Mai et au champ relationnel. En soin bioénergétique, il facilite le lâcher-prise, la capacité à entrer en relation sans se perdre, et l’harmonisation entre le monde intérieur et l’extérieur. Très utile sur les problématiques de limites personnelles.
-           </div>
            <span class="arrow">
            </span>
           </a>
@@ -588,9 +544,6 @@
            <span class="title">
             P-9 (Jingqu) Stabilisateur du rythme vital.
            </span>
-           <div style="font-style: italic; color: #3a2d27; margin-top: 10px;">
-            Point d’ajustement fin du rythme respiratoire et énergétique. Il harmonise les cycles internes, aide à sortir des états de stress chronique et soutient l’adaptation aux changements. En radiesthésie, il rééquilibre les oscillations du champ vibratoire. Très utile sur les problématiques de limites personnelles.
-           </div>
            <span class="arrow">
            </span>
           </a>
@@ -606,9 +559,6 @@
            <span class="title">
             P-10 (Taiyuan) Source du Qi du Poumon – Cœur énergétique du souffle.
            </span>
-           <div style="font-style: italic; color: #3a2d27; margin-top: 10px;">
-            Point majeur de recharge énergétique. Il renforce la vitalité globale, soutient l’immunité subtile et restaure la cohérence entre Poumon et Cœur. En soin, il nourrit le champ vital et aide à retrouver une respiration pleine, consciente et nourrissante.
-           </div>
            <span class="arrow">
            </span>
           </a>
@@ -624,9 +574,6 @@
            <span class="title">
             P-11 (Yuji) Purification émotionnelle et expression authentique.
            </span>
-           <div style="font-style: italic; color: #3a2d27; margin-top: 10px;">
-            Point de nettoyage du Feu du Poumon. Il libère les émotions refoulées, favorise l’expression juste (parole, respiration, créativité) et clarifie les tensions liées à la colère intériorisée ou à la frustration contenue.
-           </div>
            <span class="arrow">
            </span>
           </a>
@@ -642,9 +589,6 @@
            <span class="title">
             P-12 (Shaoshang) Renaissance du souffle – Point de libération finale.
            </span>
-           <div style="font-style: italic; color: #3a2d27; margin-top: 10px;">
-            Point terminal et hautement symbolique. En soin bioénergétique, il marque une fin de cycle et une relance du mouvement vital. Il aide à couper les anciens schémas respiratoires, émotionnels et énergétiques, ouvrant à une nouvelle dynamique de vie.
-           </div>
            <span class="arrow">
            </span>
           </a>
@@ -3290,17 +3234,11 @@
     </nav>
    </div>
    <!-- Contenu principal -->
-   <!-- Contenu principal -->
-<div class="col-12 col-md-8 col-lg-9" id="main-content">
-
-  <!-- Vue 3D -->
-  <div id="viewer3d"></div>
-
-  <!-- TEXTE CHARGÉ DYNAMIQUEMENT -->
-  <div id="content"></div>
-
+   <main class="col-12 col-md-8 col-lg-9" id="content">
+    <!-- Contenu chargé dynamiquement -->
+   </main>
   </div>
-  <!-- IFRAME pour src="acu.html"-->
+  <!-- IFRAME ONDE SERÁ EXECUTADO O PROGRAMA EM SI, chamado por src="acu.html"-->
   <iframe id="viewer" src="acu.html">
   </iframe>
   <script src="js/jquery-1.11.0.min.js" type="text/javascript">
@@ -3310,7 +3248,30 @@
   <script src="js/metronic.js" type="text/javascript">
   </script>
   <script src="js/layout.js" type="text/javascript">
-  
+  </script>
+  <script>
+   document.addEventListener("DOMContentLoaded", function () {
+
+    document.querySelectorAll("li[data-load]").forEach(li => {
+
+        const [file, anchor] = li.dataset.load.split("#");
+
+        fetch(file)
+            .then(res => res.text())
+            .then(html => {
+                const temp = document.createElement("div");
+                temp.innerHTML = html;
+
+                const content = temp.querySelector("#" + anchor);
+                if (content) {
+                    li.appendChild(content.cloneNode(true));
+                }
+            })
+            .catch(err => console.error("Erreur chargement :", err));
+    });
+
+});
+  </script>
   <script>
    document.getElementById('home-link').addEventListener('click', function () {
     // fermer tous les sous-menus
@@ -3319,56 +3280,5 @@
     });
 });
   </script>
-      <script>
-      document.addEventListener('DOMContentLoaded', function() {
-        const menuLinks = document.querySelectorAll('.page-sidebar-menu > li > a');
-
-        menuLinks.forEach(link => {
-          link.addEventListener('click', function(e) {
-            e.preventDefault();
-            const parentLi = this.parentElement;
-            parentLi.classList.toggle('open');
-
-            const subMenu = parentLi.querySelector('.sub-menu');
-            if (subMenu) {
-              subMenu.style.display = subMenu.style.display === 'block' ? 'none' : 'block';
-            }
-          });
-        });
-      });
-    </script>
-  <script>
-document.addEventListener('DOMContentLoaded', () => {
-
-  document.querySelectorAll('.load-point').forEach(link => {
-    link.addEventListener('click', () => {
-
-      const url = link.dataset.load;     // vc.html#vc-1
-      const point = link.dataset.point;  // vc1
-
-      // Charger le texte
-      fetch(url.split('#')[0])
-        .then(r => r.text())
-        .then(html => {
-          const parser = new DOMParser();
-          const doc = parser.parseFromString(html, 'text/html');
-          const section = doc.querySelector('#' + url.split('#')[1]);
-          if (section) {
-            document.getElementById('content').innerHTML = section.innerHTML;
-          }
-        });
-
-      // Activer le point 3D
-      if (window.scene) {
-        const obj = scene.getObjectByName(point);
-        if (obj) obj.material.color.set(0xff0000);
-      }
-
-    });
-  });
-
-});
-</script>
-
  </body>
 </html>
