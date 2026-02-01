@@ -8,7 +8,7 @@
 <style>
 body {
   margin: 0;
-  font-family: Arial, sans-serif;
+  font-family: helvetica, sans-serif;
   background: #e7dfd3;
 }
 
@@ -132,7 +132,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const container = document.getElementById("viewer3D");
 
   scene = new THREE.Scene();
-  scene.background = new THREE.Color(0xE7DFD3);
+  scene.background = new THREE.Color(#e7dfd3);
 
   camera = new THREE.PerspectiveCamera(
     45,
@@ -149,62 +149,27 @@ document.addEventListener("DOMContentLoaded", () => {
   controls = new THREE.OrbitControls(camera, renderer.domElement);
   controls.enableDamping = true;
 
-scene.add(new THREE.AmbientLight(0xffffff, 0.9));
-
-const keyLight = new THREE.DirectionalLight(0xffffff, 1.2);
-keyLight.position.set(0, 5, 5);
-scene.add(keyLight);
-
-const fillLight = new THREE.DirectionalLight(0xffffff, 0.6);
-fillLight.position.set(-5, 2, -5);
-scene.add(fillLight);
-
+  scene.add(new THREE.AmbientLight(0xffffff, 0.6));
+  const light = new THREE.DirectionalLight(0xffffff, 0.8);
+  light.position.set(5, 10, 7);
+  scene.add(light);
 
   const loader = new THREE.GLTFLoader();
-const loader = new THREE.GLTFLoader();
-loader.load(
-  "models/corps_humain.glb",
-  gltf => {
-    model = gltf.scene;
-
-    // 🔧 MATÉRIAUX visibles
-    model.traverse(o => {
-      if (o.isMesh) {
-        o.material = new THREE.MeshStandardMaterial({
-          color: 0xeaeaea,
-          roughness: 0.4,
-          metalness: 0.0
-        });
-        o.castShadow = true;
-        o.receiveShadow = true;
-      }
-    });
-
-    // 📐 CALCUL DU CENTRE (ACUMASTER)
-    const box = new THREE.Box3().setFromObject(model);
-    const center = box.getCenter(new THREE.Vector3());
-    const size = box.getSize(new THREE.Vector3());
-
-    // 🎯 RECENTRAGE
-    model.position.sub(center);
-
-    // 📏 MISE À L’ÉCHELLE
-    const maxDim = Math.max(size.x, size.y, size.z);
-    const scale = 1.8 / maxDim;
-    model.scale.setScalar(scale);
-
-    scene.add(model);
-
-    // 🎥 CAMÉRA FORCÉE SUR LE CORPS
-    camera.position.set(0, 1.6, 3);
-    camera.lookAt(0, 1, 0);
-    controls.target.set(0, 1, 0);
-    controls.update();
-  },
-  undefined,
-  err => console.error("Erreur chargement modèle :", err)
-);
-
+  loader.load(
+    "models/corps_humain.glb",
+    gltf => {
+      model = gltf.scene;
+      model.traverse(o => {
+        if (o.isMesh) {
+          o.material = o.material.clone();
+          o.material.color.copy(defaultColor);
+        }
+      });
+      scene.add(model);
+    },
+    undefined,
+    err => console.error("Erreur GLB :", err)
+  );
 
   function animate() {
     requestAnimationFrame(animate);
