@@ -828,3 +828,18 @@ Page sidebar
   }
 
 }
+/* Tous les sous-menus fermés par défaut */
+.page-sidebar-menu .sub-menu {
+  display: none;
+}
+
+/* Sous-menu ouvert */
+.page-sidebar-menu li.open > .sub-menu {
+  display: block;
+}
+
+/* Curseur visuel */
+.page-sidebar-menu a {
+  cursor: pointer;
+}
+
