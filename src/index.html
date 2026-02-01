@@ -149,10 +149,16 @@ document.addEventListener("DOMContentLoaded", () => {
   controls = new THREE.OrbitControls(camera, renderer.domElement);
   controls.enableDamping = true;
 
-  scene.add(new THREE.AmbientLight(0xffffff, 0.6));
-  const light = new THREE.DirectionalLight(0xffffff, 0.8);
-  light.position.set(5, 10, 7);
-  scene.add(light);
+scene.add(new THREE.AmbientLight(0xffffff, 0.9));
+
+const keyLight = new THREE.DirectionalLight(0xffffff, 1.2);
+keyLight.position.set(0, 5, 5);
+scene.add(keyLight);
+
+const fillLight = new THREE.DirectionalLight(0xffffff, 0.6);
+fillLight.position.set(-5, 2, -5);
+scene.add(fillLight);
+
 
   const loader = new THREE.GLTFLoader();
 const loader = new THREE.GLTFLoader();
