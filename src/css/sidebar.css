@@ -842,4 +842,62 @@ Page sidebar
 .page-sidebar-menu a {
   cursor: pointer;
 }
+/* ======================================================
+   SIDEBAR – MENU DÉROULANT AU CLIC UNIQUEMENT
+   (corrige les conflits active / hover / bootstrap)
+   ====================================================== */
+
+/* Curseur cliquable */
+.page-sidebar-menu a {
+  cursor: pointer;
+}
+
+/* Tous les sous-menus fermés par défaut */
+.page-sidebar-menu .sub-menu {
+  display: none !important;
+}
+
+/* Ouverture UNIQUEMENT via la classe .open (JS) */
+.page-sidebar-menu li.open > .sub-menu {
+  display: block !important;
+}
+
+/* Désactive l'ouverture automatique via .active */
+.page-sidebar .page-sidebar-menu li.active > .sub-menu {
+  display: none !important;
+}
+
+/* Désactive TOTALEMENT le hover */
+.page-sidebar-menu li:hover > .sub-menu {
+  display: none !important;
+}
+
+/* Flèche par défaut (fermée) */
+.page-sidebar-menu li > a > .arrow:before {
+  content: "\f104"; /* FontAwesome left */
+  transition: transform 0.2s ease;
+}
+
+/* Flèche ouverte */
+.page-sidebar-menu li.open > a > .arrow:before {
+  content: "\f107"; /* FontAwesome down */
+}
+
+/* Empêche Bootstrap de forcer l'ouverture */
+.page-sidebar-menu li.open > a {
+  background: inherit;
+}
+
+/* Sécurité mobile : pas de hover fantôme */
+@media (max-width: 991px) {
+  .page-sidebar-menu li:hover > .sub-menu {
+    display: none !important;
+  }
+}
+
+/* Mode sidebar fermée : ne jamais ouvrir automatiquement */
+.page-sidebar-closed .page-sidebar-menu li > .sub-menu {
+  display: none !important;
+}
+
 
