@@ -106,79 +106,50 @@ html {
    Sidebar menu
    ====================== */
 
-.page-sidebar-menu {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-}
+/* ==============================
+   MENU SIDEBAR – STABLE
+   ============================== */
 
-.page-sidebar-menu li {
-  display: block;
-}
-
-/* Liens */
-.page-sidebar-menu li > a {
-  display: block;
-  padding: 10px 15px;
-  font-size: 14px;
-  text-decoration: none;
-  cursor: pointer;
-}
-
-/* Sous-menus – logique AU CLIC */
+/* Sous-menus fermés */
 .page-sidebar-menu .sub-menu {
-  display: none !important;
-  list-style: none;
-  margin: 0;
-  padding: 0;
+  display: none;
 }
 
+/* Ouvert */
 .page-sidebar-menu li.open > .sub-menu {
-  display: block !important;
+  display: block;
 }
 
-/* Neutralisation comportements indésirables */
-.page-sidebar-menu li:hover > .sub-menu {
-  display: none !important;
+/* Lien */
+.page-sidebar-menu li > a {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: default;
 }
 
+/* Bouton toggle */
+.page-sidebar-menu .toggle-btn {
+  font-size: 16px;
+  width: 20px;
+  text-align: center;
+  cursor: pointer;
+  user-select: none;
+}
+
+/* Symbole fermé */
+.page-sidebar-menu li .toggle-btn::before {
+  content: "+";
+}
+
+/* Symbole ouvert */
+.page-sidebar-menu li.open > a .toggle-btn::before {
+  content: "−";
+}
+
+/* Désactive hover & active parasites */
+.page-sidebar-menu li:hover > .sub-menu,
 .page-sidebar-menu li.active > .sub-menu {
   display: none !important;
 }
 
-/* Flèches */
-.page-sidebar-menu li > a > .arrow:before {
-  content: "\f104";
-  font-family: FontAwesome;
-  float: right;
-}
-
-.page-sidebar-menu li.open > a > .arrow:before {
-  content: "\f107";
-}
-
-/* Niveaux */
-.page-sidebar-menu .sub-menu li > a {
-  padding-left: 45px;
-}
-
-.page-sidebar-menu .sub-menu .sub-menu li > a {
-  padding-left: 65px;
-}
-
-/* Sidebar fermée */
-.page-sidebar-closed .page-sidebar-menu .sub-menu {
-  display: none !important;
-}
-
-/* Mobile sécurité */
-@media (max-width: 991px) {
-  .page-sidebar-menu li:hover > .sub-menu {
-    display: none !important;
-  }
-}
-
-/* Divers */
-.acuponto {
-  padding: 10px;
-}
