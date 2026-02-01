@@ -1,99 +1,88 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="utf-8"/>
-  <title>Radiesthésie – Corps énergétique</title>
-  
-  <!-- Favicon -->
-  <link rel="icon" type="img/ico" href="favicon.ico" />
+<meta charset="UTF-8">
+<title>Radiesthésie – Corps énergétique</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <!-- Google Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
-  <meta content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" name="viewport"/>
-  <link href="css/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css"/>
-  <link href="css/simple-line-icons/simple-line-icons.min.css" rel="stylesheet" type="text/css"/>
-  <link href="css/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
-  <link href="css/sidebar.css" rel="stylesheet" type="text/css"/>
-  <link href="css/light.css" id="style_color" rel="stylesheet" type="text/css"/>
-  <link href="src/css/style-modernise-charte.css" rel="stylesheet" type="text/css"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+<style>
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: #e7dfd3;
+}
 
-  <style>
-    body {
-      margin: 0;
-      font-family: Roboto, Arial, sans-serif;
-      background: #e7dfd3;
-      color: #333;
-    }
+.layout {
+  display: flex;
+  height: 100vh;
+}
 
-    .layout {
-      display: flex;
-      height: 100vh;
-    }
+.sidebar {
+  width: 300px;
+  background: #f4efe6;
+  padding: 15px;
+  overflow-y: auto;
+  border-right: 1px solid #ccc;
+}
 
-    .sidebar {
-      width: 300px;
-      overflow-y: auto;
-      background: #f5f1ea;
-      padding: 20px;
-      border-right: 1px solid #ccc;
-    }
+.viewer {
+  flex: 1;
+  background: #111;
+}
 
-    .viewer {
-      flex: 1;
-      position: relative;
-    }
+#viewer3D {
+  width: 100%;
+  height: 100%;
+}
 
-    #viewer3D {
-      width: 100%;
-      height: 100%;
-    }
+/* MENU */
+.tree-menu {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
 
-    .tree-menu {
-      list-style: none;
-      padding: 0;
-      margin: 0;
-    }
+.tree-menu > li {
+  padding: 10px;
+  cursor: pointer;
+  border-bottom: 1px solid #ddd;
+  font-weight: bold;
+}
 
-    .tree-menu li {
-      padding: 10px;
-      cursor: pointer;
-      border-bottom: 1px solid #ddd;
-    }
+.tree-menu li:hover {
+  background: #e0d8cc;
+}
 
-    .tree-menu li:hover {
-      background: #eee;
-    }
+.submenu {
+  list-style: none;
+  padding-left: 15px;
+  margin-top: 5px;
+  display: none;
+}
 
-    .submenu {
-      display: none;
-      list-style: none;
-      padding-left: 15px;
-      margin-top: 5px;
-    }
+.tree-menu li.open > .submenu {
+  display: block;
+}
 
-    .open > .submenu {
-      display: block;
-    }
-
-    .submenu li {
-      font-size: 0.9em;
-      color: #555;
-    }
-  </style>
+.submenu li {
+  padding: 6px 0;
+  font-weight: normal;
+  cursor: pointer;
+}
+</style>
 </head>
 
 <body>
 
 <div class="layout">
 
-  <!-- MENU GAUCHE -->
+  <!-- MENU -->
   <aside class="sidebar">
     <h3>Soins énergétiques</h3>
 
     <ul class="tree-menu">
-      <li>Chakras
+      <li class="has-submenu">
+        Chakras
         <ul class="submenu">
           <li data-target="chakra-racine">Chakra racine</li>
           <li data-target="chakra-coeur">Chakra cœur</li>
@@ -101,102 +90,17 @@
         </ul>
       </li>
 
-      <li>Méridiens
+      <li class="has-submenu">
+        Méridiens
         <ul class="submenu">
           <li data-target="meridien-poumon">Poumon</li>
           <li data-target="meridien-coeur">Cœur</li>
         </ul>
       </li>
-      <ul class="tree-menu">
-      <!-- 12 menus avec 3 sous-menus -->
-      <li>Menu 1
-        <ul class="submenu">
-          <li>Sous‑menu 1.1</li>
-          <li>Sous‑menu 1.2</li>
-          <li>Sous‑menu 1.3</li>
-        </ul>
-      </li>
-      <li>Menu 2
-        <ul class="submenu">
-          <li>Sous‑menu 2.1</li>
-          <li>Sous‑menu 2.2</li>
-          <li>Sous‑menu 2.3</li>
-        </ul>
-      </li>
-      <li>Menu 3
-        <ul class="submenu">
-          <li>Sous‑menu 3.1</li>
-          <li>Sous‑menu 3.2</li>
-          <li>Sous‑menu 3.3</li>
-        </ul>
-      </li>
-      <li>Menu 4
-        <ul class="submenu">
-          <li>Sous‑menu 4.1</li>
-          <li>Sous‑menu 4.2</li>
-          <li>Sous‑menu 4.3</li>
-        </ul>
-      </li>
-      <li>Menu 5
-        <ul class="submenu">
-          <li>Sous‑menu 5.1</li>
-          <li>Sous‑menu 5.2</li>
-          <li>Sous‑menu 5.3</li>
-        </ul>
-      </li>
-      <li>Menu 6
-        <ul class="submenu">
-          <li>Sous‑menu 6.1</li>
-          <li>Sous‑menu 6.2</li>
-          <li>Sous‑menu 6.3</li>
-        </ul>
-      </li>
-      <li>Menu 7
-        <ul class="submenu">
-          <li>Sous‑menu 7.1</li>
-          <li>Sous‑menu 7.2</li>
-          <li>Sous‑menu 7.3</li>
-        </ul>
-      </li>
-      <li>Menu 8
-        <ul class="submenu">
-          <li>Sous‑menu 8.1</li>
-          <li>Sous‑menu 8.2</li>
-          <li>Sous‑menu 8.3</li>
-        </ul>
-      </li>
-      <li>Menu 9
-        <ul class="submenu">
-          <li>Sous‑menu 9.1</li>
-          <li>Sous‑menu 9.2</li>
-          <li>Sous‑menu 9.3</li>
-        </ul>
-      </li>
-      <li>Menu 10
-        <ul class="submenu">
-          <li>Sous‑menu 10.1</li>
-          <li>Sous‑menu 10.2</li>
-          <li>Sous‑menu 10.3</li>
-        </ul>
-      </li>
-      <li>Menu 11
-        <ul class="submenu">
-          <li>Sous‑menu 11.1</li>
-          <li>Sous‑menu 11.2</li>
-          <li>Sous‑menu 11.3</li>
-        </ul>
-      </li>
-      <li>Menu 12
-        <ul class="submenu">
-          <li>Sous‑menu 12.1</li>
-          <li>Sous‑menu 12.2</li>
-          <li>Sous‑menu 12.3</li>
-        </ul>
-      </li>
     </ul>
   </aside>
 
-  <!-- VIEWER 3D DROITE -->
+  <!-- VIEWER -->
   <main class="viewer">
     <div id="viewer3D"></div>
   </main>
@@ -209,20 +113,33 @@
 <script src="https://cdn.jsdelivr.net/npm/three@0.158.0/examples/js/loaders/GLTFLoader.js"></script>
 
 <script>
-let scene, camera, renderer, controls, model;
-const highlightColor = new THREE.Color(0xff5555);
-const defaultColor = new THREE.Color(0xffffff);
+document.addEventListener("DOMContentLoaded", () => {
 
-init();
-animate();
+  /* ================= MENU ================= */
+  document.querySelectorAll(".has-submenu").forEach(item => {
+    item.addEventListener("click", e => {
+      if (e.target === item) {
+        item.classList.toggle("open");
+      }
+    });
+  });
 
-function init() {
-  const container = document.getElementById('viewer3D');
+  /* ================= THREE ================= */
+  let scene, camera, renderer, controls, model;
+  const highlightColor = new THREE.Color(0xff5555);
+  const defaultColor = new THREE.Color(0xffffff);
+
+  const container = document.getElementById("viewer3D");
 
   scene = new THREE.Scene();
   scene.background = new THREE.Color(0x111111);
 
-  camera = new THREE.PerspectiveCamera(45, container.clientWidth / container.clientHeight, 0.1, 1000);
+  camera = new THREE.PerspectiveCamera(
+    45,
+    container.clientWidth / container.clientHeight,
+    0.1,
+    1000
+  );
   camera.position.set(0, 1.6, 3);
 
   renderer = new THREE.WebGLRenderer({ antialias: true });
@@ -239,61 +156,50 @@ function init() {
 
   const loader = new THREE.GLTFLoader();
   loader.load(
-    'models/corps_humain.glb',
+    "models/corps_humain.glb",
     gltf => {
       model = gltf.scene;
-      model.traverse(obj => {
-        if (obj.isMesh) {
-          obj.material = obj.material.clone();
-          obj.material.color.copy(defaultColor);
+      model.traverse(o => {
+        if (o.isMesh) {
+          o.material = o.material.clone();
+          o.material.color.copy(defaultColor);
         }
       });
       scene.add(model);
     },
     undefined,
-    err => console.error(err)
+    err => console.error("Erreur GLB :", err)
   );
 
-  window.addEventListener('resize', onResize);
-}
+  function animate() {
+    requestAnimationFrame(animate);
+    controls.update();
+    renderer.render(scene, camera);
+  }
+  animate();
 
-function onResize() {
-  const container = document.getElementById('viewer3D');
-  camera.aspect = container.clientWidth / container.clientHeight;
-  camera.updateProjectionMatrix();
-  renderer.setSize(container.clientWidth, container.clientHeight);
-}
-
-function animate() {
-  requestAnimationFrame(animate);
-  controls.update();
-  renderer.render(scene, camera);
-}
-
-function highlightPart(name) {
-  if (!model) return;
-
-  model.traverse(obj => {
-    if (obj.isMesh) {
-      obj.material.color.copy(
-        obj.name === name ? highlightColor : defaultColor
-      );
-    }
+  window.addEventListener("resize", () => {
+    camera.aspect = container.clientWidth / container.clientHeight;
+    camera.updateProjectionMatrix();
+    renderer.setSize(container.clientWidth, container.clientHeight);
   });
-}
 
-document.querySelectorAll('[data-target]').forEach(item => {
-  item.addEventListener('click', e => {
-    e.stopPropagation();
-    highlightPart(item.dataset.target);
-  });
-});
+  /* ====== HIGHLIGHT ====== */
+  document.querySelectorAll("[data-target]").forEach(item => {
+    item.addEventListener("click", e => {
+      e.stopPropagation();
+      if (!model) return;
 
-document.querySelectorAll('.tree-menu > li').forEach(item => {
-  item.addEventListener('click', e => {
-    e.stopPropagation();
-    item.classList.toggle('open');
+      model.traverse(o => {
+        if (o.isMesh) {
+          o.material.color.copy(
+            o.name === item.dataset.target ? highlightColor : defaultColor
+          );
+        }
+      });
+    });
   });
+
 });
 </script>
 
