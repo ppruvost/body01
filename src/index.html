@@ -3235,50 +3235,28 @@
 <script src="js/metronic.js" type="text/javascript"></script>
 <script src="js/layout.js" type="text/javascript"></script>
 
-<script>
+<!------------------------>
+  <script>
 $(document).ready(function () {
 
-    /* ===============================
-       Chargement dynamique du contenu
-       =============================== */
-    $("li[data-load]").each(function () {
-        const li = $(this);
-        const data = li.data("load");
+  /* Toggle UNIQUEMENT via le bouton */
+  $(".page-sidebar-menu").on("click", ".toggle-btn", function (e) {
 
-        if (!data) return;
+    e.preventDefault();
+    e.stopPropagation(); // 🔒 anti tremblement
 
-        const parts = data.split("#");
-        const file = parts[0];
-        const anchor = parts[1];
+    const li = $(this).closest("li");
+    li.toggleClass("open");
+  });
 
-        $.get(file, function (html) {
-            const content = $(html).find("#" + anchor);
-            if (content.length) {
-                li.append(content.clone());
-            }
-        });
-    });
+  /* Empêche le lien de toggler */
+  $(".page-sidebar-menu").on("click", "li > a", function (e) {
 
-    /* ===============================
-       Menu déroulant au CLIC uniquement
-       =============================== */
-    $(".page-sidebar-menu").on("click", "li > a", function (e) {
-
-        const parentLi = $(this).parent("li");
-        const submenu = parentLi.children(".sub-menu");
-
-        // S'il n'y a PAS de sous-menu → on laisse le clic normal
-        if (submenu.length === 0) {
-            return;
-        }
-
-        // Empêche navigation / repli automatique
-        e.preventDefault();
-        e.stopPropagation();
-
-        // Toggle ouverture / fermeture
-        parentLi.toggleClass("open");
-    });
+    const submenu = $(this).siblings(".sub-menu");
+    if (submenu.length) {
+      e.preventDefault(); // clic texte ≠ toggle
+    }
+  });
 
 });
 </script>
