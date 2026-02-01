@@ -3252,6 +3252,14 @@ jQuery(document).ready(function() {
     });
 });
 </script>
+<script>
+  $(document).ready(function() {
+    $('.page-sidebar-menu > li > a > .arrow').off('click').on('click', function(e) {
+      e.preventDefault();
+      $(this).parent().parent().toggleClass('open');
+    });
+  });
+</script>
 
 
  </body>
