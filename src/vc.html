@@ -3,8 +3,60 @@
 <head>
   <meta charset="utf-8" />
   <title>MERIDIEN VC</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
-  <link href="src/css/style-modernise-charte.css" rel="stylesheet" type="text/css"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- Lien vers Google Fonts si nécessaire -->
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+
+  <!-- CSS personnalisé respectant la charte -->
+  <style>
+    :root {
+      --couleur-fond: #E7DFD3;
+      --couleur-texte: #3a2d27;
+      --couleur-accent: #80665b;
+      --font-principale: 'Roboto', sans-serif;
+    }
+
+    body {
+      margin: 0;
+      font-family: var(--font-principale);
+      background-color: var(--couleur-fond);
+      color: var(--couleur-texte);
+    }
+
+    h1, h2, h3 {
+      color: var(--couleur-accent);
+    }
+
+    a {
+      color: var(--couleur-accent);
+      text-decoration: none;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+
+    button {
+      background-color: var(--couleur-accent);
+      color: var(--couleur-fond);
+      border: none;
+      border-radius: 8px;
+      padding: 10px 20px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    button:hover {
+      opacity: 0.85;
+    }
+
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+  </style>
 </head>
 
 <body>
@@ -996,6 +1048,7 @@
 <!-- ================================================= -->
 </body>
 </html>
+
 
 
 
