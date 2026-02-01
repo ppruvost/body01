@@ -1,0 +1,184 @@
+/* ======================================================
+   SIDEBAR.CSS – VERSION CORRIGÉE ET STABLE
+   Menu déroulant au clic uniquement (sans hover)
+   Compatible Bootstrap / Metronic
+   ====================================================== */
+
+/* ======================
+   Layout général
+   ====================== */
+
+html {
+  height: 100%;
+}
+
+#panel {
+  position: fixed;
+  left: 0;
+  width: 600px;
+  height: 100%;
+  overflow: auto;
+  background: #fafafa;
+}
+
+#panel #content {
+  padding: 0 20px;
+}
+
+#panel #content .link {
+  color: #2194CE;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+#panel #content .selected {
+  color: #ff0000;
+}
+
+#panel #content .link:hover {
+  text-decoration: underline;
+}
+
+#viewer {
+  position: absolute;
+  border: 0;
+  left: 500px;
+  width: calc(100% - 500px);
+  height: 100%;
+  overflow: auto;
+}
+
+/* ======================
+   Mobile header
+   ====================== */
+
+#expandButton {
+  display: none;
+  position: absolute;
+  right: 20px;
+  top: 12px;
+  width: 32px;
+  height: 32px;
+}
+
+#expandButton span {
+  height: 2px;
+  background-color: #2194CE;
+  width: 16px;
+  position: absolute;
+  left: 8px;
+}
+
+#expandButton span:nth-child(1) { top: 16px; }
+#expandButton span:nth-child(2) { top: 22px; }
+
+@media (max-width: 640px) {
+  #panel {
+    position: absolute;
+    width: 100%;
+    height: 480px;
+    z-index: 100;
+    overflow: hidden;
+    border-bottom: 1px solid #dedede;
+  }
+
+  #content {
+    position: absolute;
+    top: 60px;
+    bottom: 0;
+    width: 100%;
+    overflow: auto;
+  }
+
+  #viewer {
+    left: 0;
+    top: 56px;
+    width: 100%;
+    height: calc(100% - 56px);
+  }
+
+  #expandButton { display: block; }
+
+  #panel.collapsed { height: 56px; }
+}
+
+/* ======================
+   Sidebar menu
+   ====================== */
+
+.page-sidebar-menu {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.page-sidebar-menu li {
+  display: block;
+}
+
+/* Liens */
+.page-sidebar-menu li > a {
+  display: block;
+  padding: 10px 15px;
+  font-size: 14px;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+/* Sous-menus – logique AU CLIC */
+.page-sidebar-menu .sub-menu {
+  display: none !important;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.page-sidebar-menu li.open > .sub-menu {
+  display: block !important;
+}
+
+/* Neutralisation comportements indésirables */
+.page-sidebar-menu li:hover > .sub-menu {
+  display: none !important;
+}
+
+.page-sidebar-menu li.active > .sub-menu {
+  display: none !important;
+}
+
+/* Flèches */
+.page-sidebar-menu li > a > .arrow:before {
+  content: "\f104";
+  font-family: FontAwesome;
+  float: right;
+}
+
+.page-sidebar-menu li.open > a > .arrow:before {
+  content: "\f107";
+}
+
+/* Niveaux */
+.page-sidebar-menu .sub-menu li > a {
+  padding-left: 45px;
+}
+
+.page-sidebar-menu .sub-menu .sub-menu li > a {
+  padding-left: 65px;
+}
+
+/* Sidebar fermée */
+.page-sidebar-closed .page-sidebar-menu .sub-menu {
+  display: none !important;
+}
+
+/* Mobile sécurité */
+@media (max-width: 991px) {
+  .page-sidebar-menu li:hover > .sub-menu {
+    display: none !important;
+  }
+}
+
+/* Divers */
+.acuponto {
+  padding: 10px;
+}
