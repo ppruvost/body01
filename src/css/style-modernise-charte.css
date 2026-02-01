@@ -3,8 +3,11 @@
    Charte graphique – bien-etre-geobiologie.fr
    Style naturel et épuré
    ========================================================= */
-:root { /* Couleurs principales */ --bg-main: #E7DFD3; --text-main: #3A2D27; --accent: #80665B; --accent-soft: rgba(128, 102, 91, 0.15); --text-soft: rgba(58, 45, 39, 0.6); --border-soft: rgba(58, 45, 39, 0.15); --radius: 6px; }
-body { background-color: var(--bg-main); color: var(--text-main); font-family: Helvetica, Arial, sans-serif; font-size: 15px; line-height: 1.6; overflow: hidden; }
-.container { max-width: 100%; margin: 0 auto; padding: 15px; background-color: var(--bg-main); box-sizing: border-box; overflow: hidden; }
+
+:root { --bg-main: #F5F5DC; --text-main: #3A2D27; --accent: #80665B; }
+body, #viewer { background-color: var(--bg-main) !important; color: var(--text-main); font-family: Helvetica, Arial, sans-serif; }
+.container { max-width: 100%; margin: 0 auto; padding: 15px; box-sizing: border-box; overflow: hidden; }
 @media (min-width: 768px) { .container { max-width: 900px; padding: 20px; } }
 </style>
+
+
