@@ -11,6 +11,12 @@ h1, h2, h3, h4, h5, h6 {
   font-family: 'Questria', serif;
   color: #84606C;
 }
+
+p {
+  font-family: Helvetica, Arial, sans-serif;
+  color: #84606C;
+}
+
 /***************************************************
 PAGE HEADER
 ***************************************************/
@@ -148,3 +154,71 @@ FOOTER
   color: #ffffff;
 }
 
+/***************************************************
+ARBORESCENCE / TREE MENU
+***************************************************/
+.tree-menu {
+  list-style: none;
+  padding: 0;
+  max-width: 300px;
+  border: 1px solid #cbbfb8;
+  border-radius: 6px;
+  background-color: #E7DFD3;
+}
+
+.tree-menu li {
+  border-bottom: 1px solid #cbbfb8;
+}
+
+.tree-menu li:last-child {
+  border-bottom: none;
+}
+
+.tree-menu .label {
+  padding: 12px 15px;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  user-select: none;
+  color: #84606C;
+  font-weight: 500;
+}
+
+.tree-menu .label:hover {
+  background-color: #d8cdc3;
+  color: #84606C;
+}
+
+.tree-menu .label i {
+  margin-right: 10px;
+  transition: transform 0.2s ease;
+  color: #84606C;
+  opacity: 0.7;
+}
+
+.tree-menu li.open .label i {
+  transform: rotate(90deg);
+}
+
+/* Sous-menu */
+.submenu {
+  list-style: none;
+  padding-left: 30px;
+  padding-bottom: 8px;
+  display: none;
+}
+
+.tree-menu li.open .submenu {
+  display: block;
+}
+
+.submenu li {
+  padding: 6px 0;
+  color: #84606C;
+  cursor: pointer;
+  font-weight: 400;
+}
+
+.submenu li:hover {
+  color: #5f4650;
+}
