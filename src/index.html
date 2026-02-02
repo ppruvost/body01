@@ -21,10 +21,9 @@
     href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
   />
 
-  <!--------------style police et fond------------>
+ /* ------------ Style général : police & fond ------------ */  
   <style>
-    body {
-/* Fond général */
+
 body {
   background-color: #e7dfd3;
   font-family: Helvetica, Arial, sans-serif;
@@ -42,70 +41,74 @@ p {
   font-family: Helvetica, Arial, sans-serif;
   color: #84606C;
 }
-    }
-  <!--------------style arborescence------------>
-    .tree-menu {
-      list-style: none;
-      padding: 0;
-      max-width: 300px;
-      border: 1px solid #e4e4e4;
-      border-radius: 6px;
-    }
 
-    .tree-menu li {
-      border-bottom: 1px solid #e4e4e4;
-    }
+/* ------------ Style arborescence ------------ */
+.tree-menu {
+  list-style: none;
+  padding: 0;
+  max-width: 300px;
+  border: 1px solid #cbbfb8; /* ton sur ton avec le fond */
+  border-radius: 6px;
+  background-color: #e7dfd3;
+}
 
-    .tree-menu li:last-child {
-      border-bottom: none;
-    }
+.tree-menu li {
+  border-bottom: 1px solid #cbbfb8;
+}
 
-    .tree-menu .label {
-      padding: 12px 15px;
-      display: flex;
-      align-items: center;
-      cursor: pointer;
-      user-select: none;
-      color: #6B4423; /* marron foncé */
-      font-weight: 500;
-    }
+.tree-menu li:last-child {
+  border-bottom: none;
+}
 
-    .tree-menu .label:hover {
-      background: #7A4A2E;
-      color: #faf3e0;
-    }
+.tree-menu .label {
+  padding: 12px 15px;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  user-select: none;
+  color: #84606C; /* couleur police */
+  font-weight: 500;
+}
 
-    .tree-menu .label i {
-      margin-right: 10px;
-      transition: transform 0.2s ease;
-      color: #777;
-    }
+.tree-menu .label:hover {
+  background-color: #d8cdc3; /* léger contraste naturel */
+  color: #84606C;
+}
 
-    .tree-menu li.open .label i {
-      transform: rotate(90deg);
-    }
+.tree-menu .label i {
+  margin-right: 10px;
+  transition: transform 0.2s ease;
+  color: #84606C;
+  opacity: 0.7;
+}
 
-    .submenu {
-      list-style: none;
-      padding-left: 30px;
-      padding-bottom: 8px;
-      display: none;
-    }
+.tree-menu li.open .label i {
+  transform: rotate(90deg);
+}
 
-    .tree-menu li.open .submenu {
-      display: block;
-    }
+/* Sous-menu */
+.submenu {
+  list-style: none;
+  padding-left: 30px;
+  padding-bottom: 8px;
+  display: none;
+}
 
-    .submenu li {
-      padding: 6px 0;
-      color: #6B4423; /* marron foncé */
-      cursor: pointer;
-      font-weight: 400;
-    }
+.tree-menu li.open .submenu {
+  display: block;
+}
 
-    .submenu li:hover {
-      color: #7A4A2E;
-    }
+.submenu li {
+  padding: 6px 0;
+  color: #84606C;
+  cursor: pointer;
+  font-weight: 400;
+}
+
+.submenu li:hover {
+  color: #5f4650; /* version plus foncée de la couleur principale */
+}
+
   </style>
   <!--------------style menu fin------------>
 </head>
