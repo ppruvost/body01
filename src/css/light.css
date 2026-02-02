@@ -3,9 +3,14 @@ GENERAL
 ***************************************************/
 body {
   background-color: #E7DFD3;
+  font-family: Helvetica, Arial, sans-serif;
   color: #84606C;
 }
 
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Questria', serif;
+  color: #84606C;
+}
 /***************************************************
 PAGE HEADER
 ***************************************************/
@@ -142,3 +147,4 @@ FOOTER
 .page-footer .page-footer-tools .go-top i {
   color: #ffffff;
 }
+
