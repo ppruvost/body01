@@ -171,36 +171,6 @@
   });
 </script>
 <!-----Script Arborescence Ouverture / Fermeture Fin---------->
-<!---------Relation corps 3D et arborecence Début------------->
 
-    <iframe id="viewer" src="acu.html"></iframe>
-  <script src="js/jquery-1.11.0.min.js" type="text/javascript"></script>
-  <script src="js/bootstrap.min.js" type="text/javascript"></script>
-  <script src="js/metronic.js" type="text/javascript"></script>
-  <script src="js/layout.js" type="text/javascript"></script>
-  <script>
-document.addEventListener("DOMContentLoaded", function () {
-
-    document.querySelectorAll("li[data-load]").forEach(li => {
-
-        const [file, anchor] = li.dataset.load.split("#");
-
-        fetch(file)
-            .then(res => res.text())
-            .then(html => {
-                const temp = document.createElement("div");
-                temp.innerHTML = html;
-
-                const content = temp.querySelector("#" + anchor);
-                if (content) {
-                    li.appendChild(content.cloneNode(true));
-                }
-            })
-            .catch(err => console.error("Erreur chargement :", err));
-    });
-
-});
-</script>
-<!---------Relation corps 3D et arborecence Fin--------------->
 </body>
 </html>
