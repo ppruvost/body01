@@ -857,9 +857,9 @@
 				
 				raycaster = new THREE.Raycaster();				
 				renderer = new THREE.WebGLRenderer();
+				renderer.setClearColor(0xBD786C); 
 				renderer.setPixelRatio( window.devicePixelRatio );				
-				renderer.setSize( window.innerWidth, window.innerHeight );
-				
+				renderer.setSize( window.innerWidth, window.innerHeight );				
 				container.appendChild( renderer.domElement );
 				
 				window.addEventListener( 'keydown', keyDownTextField, false);
