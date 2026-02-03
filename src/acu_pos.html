@@ -863,12 +863,15 @@
 					object.position.y = - 95;
 					scene.add( object );
 
-				}, onProgress, onError );				
+				}, onProgress, onError );
+				
 				raycaster = new THREE.Raycaster();				
 				renderer = new THREE.WebGLRenderer();
 				renderer.setPixelRatio( window.devicePixelRatio );				
-				renderer.setSize( window.innerWidth, window.innerHeight );				
-				container.appendChild( renderer.domElement );				
+				renderer.setSize( window.innerWidth, window.innerHeight );
+				
+				container.appendChild( renderer.domElement );
+				
 				window.addEventListener( 'keydown', keyDownTextField, false);
 
 				document.addEventListener( 'mousemove', onDocumentMouseMove, false );
@@ -909,90 +912,57 @@
 
 				windowHalfX = window.innerWidth / 2;
 				windowHalfY = window.innerHeight / 2;
-
 				camera.aspect = window.innerWidth / window.innerHeight;
 				camera.updateProjectionMatrix();
-
 				renderer.setSize( window.innerWidth, window.innerHeight );
 
-			}
-			/*desconsiderar*/
+			}			
 
 			function onDocumentMouseMove( event ) {
-
 				event.preventDefault();
-
 				mouse.x = ( event.clientX / window.innerWidth ) * 2 - 1;
 				mouse.y = - ( event.clientY / window.innerHeight ) * 2 + 1;
-
 				mouseX = ( event.clientX - windowHalfX ) / 2;
 				mouseY = ( event.clientY - windowHalfY ) / 2;
 
-			}
-			/*desconsiderar*/
+			}			
 
 			function onDocumentMouseDown( event ) {
 
 				event.preventDefault();
-				/* Faz cancelar qualquer ação padrão a ser executado durante o click do mouse. Prevenir uma ação inesperada, para tratar corretamente o clique do mouse */
-
 				raycaster.setFromCamera( mouse, camera );
-				/* Atualiza as informações FromCamera do raycaster onde
-				mouse: coordenadas 2D do mouse.
-				camera: camera pela qual o raio tem origem*/
-
+				
 				var intersects = raycaster.intersectObjects( scene.children );
-				/*
-					Executa o método que registra em um vetor os objetos encontrados ao longo do raio. Onde:
-					scene.children: todos os objetos que serão verificados pelo raio. Neste caso, usa-se scene.children para incluir TODOS os objetos (filhos da cena).
-				*/
+				
 				if ( intersects.length > 0 ) {
-					/* intersects.lenght retorna a quantidade de elementos. Se a quantidade de elementos for > 0 faça: */
-
-					if ( INTERSECTED != intersects[ 0 ].object ) {
-						/* se o objeto não for na primeira posição (pois este é o corpo humano e ele sempre vai estar lá)
-						FAÇA
-						*/						
-						if ( INTERSECTED ) INTERSECTED.material.emissive.setHex( INTERSECTED.currentHex );
-						/* Recupera a cor padrão do objeto (esfera no caso) */
-						INTERSECTED = intersects[ 0 ].object;
-						/* armazena na variavel INTERSECTED o objeto encontrado*/
+					if ( INTERSECTED != intersects[ 0 ].object ) {											
+						if ( INTERSECTED ) INTERSECTED.material.emissive.setHex( INTERSECTED.currentHex );						
+						INTERSECTED = intersects[ 0 ].object;						
 						INTERSECTED.currentHex = INTERSECTED.material.emissive.getHex();
-						INTERSECTED.material.emissive.setHex( 0xff0000 );
-						/* Altera a cor do objeto para vermelho(esfera no caso) */
+						INTERSECTED.material.emissive.setHex( 0xff0000 );						
 						animacao = parent.document.getElementById(INTERSECTED.nome);
-						/* recupera e armazena em animacao o elemento com o ID do nome da esfera*/
+						
 						console.log(INTERSECTED.name);
 						console.log('\n\t\t\t\tobject.position.x = '+INTERSECTED.position.x+';\n\t\t\t\t'+'object.position.y = '+INTERSECTED.position.y+';\n'+'\t\t\t\tobject.position.z = '+INTERSECTED.position.z+';\n');
 						//console.log('object.position.y = '+INTERSECTED.position.y+';\n');
 						//console.log('object.position.z = '+INTERSECTED.position.z+';\n');
 						//console.log(INTERSECTED.position.x, INTERSECTED.position.y, INTERSECTED.position.z);
-						animacao.click();
-						/*clica-se involuntariamente no objeto com o ID igual ao do NOME da esfera, fazendo abrir na pagina pai o botão relacionado com a esfera clicada */
+						animacao.click();						
 					}
-				} else {
-					/* caso contrário */
+				} else {					
 					if ( INTERSECTED ) INTERSECTED.material.emissive.setHex( INTERSECTED.currentHex );
-					/*  atualiza a esfera para a cor padrão, visto que o clique foi em outra coisa que não foi a última esfera clicada */
-
 					INTERSECTED = null;
-
 				}
 			}
 
-			function acuPonto(x, y, z) {
-			/* declaração da função acuPonto, que recebe apenas as 3 coordenadas onde a câmera irá se aproximar */
+			function acuPonto(x, y, z) {			
 				acuX = x;
 				acuY = y;
 				acuZ = z;
-				/* armazena as coordenadas recebidas por parâmetro nas variáveis globais para uso posterior */
 				
-				p.set( acuX, acuY, acuZ );
-				/* p é um vetor tridimensional declarado na linha 41
-				aqui estamos alterando os valores de sua coordenada, para os valores recebidos pela função */
+				p.set( acuX, acuY, acuZ );				
 
-				focoCamera = true;
-				/* aqui definimos a variavel global focoCamera para TRUE, ela fora declarada como FALSE na linha 39 */
+				focoCamera = true;				
 			}
 
 			function animate() {
