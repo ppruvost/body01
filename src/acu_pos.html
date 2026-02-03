@@ -77,39 +77,35 @@
 				var directionalLight = new THREE.DirectionalLight( 0xffeedd );
 				directionalLight.position.set( 0, 0, -1 );
 				/* La direction de la lumière est (0, 0, -1), c'est-à-dire : une lampe parallèle à l'axe Z, mais inversée, émettant de la lumière par l'arrière */
-				scene.add( directionalLight );
-				/* mesma coisa que em cima, adiciona a luz direcional na cena*/
+				scene.add( directionalLight );				
 
 				var geometry = new THREE.SphereGeometry( 0.3, 32, 32 );
-				/* armazena em geometry o resultado do construtor SphereGeometry, que recebe como parâmetro 
-
-				raio — raio da esfera. Neste caso 0.3.
-				widthSegments — número de segmentos horizontais isso influencia na lapidação da esfera. Neste caso 32.
-				heightSegments — número de segmentos verticais isso influencia na lapidação da esfera. Neste caso 32.
-
-				Geometria que será usada para todas as esferas no programa - ACUPONTOS 
-
+				/* Stocke dans la géométrie le résultat du constructeur SphereGeometry, qui reçoit les paramètres suivants :
+					radius — rayon de la sphère. Ici, 0,3.
+					widthSegments — nombre de segments horizontaux ; influence le contour de la sphère. Ici, 32.
+					heightSegments — nombre de segments verticaux ; influence le contour de la sphère. Ici, 32.
+					Géométrie utilisée pour toutes les sphères du programme : ACUPONTOS
 				*/
 
-				/*Aqui estão as declarações de todas as esferas, elas são análogas, a diferença será apenas os nomes e posicionamentos: */
+				/*Déclarations de tous les domaines ; elles sont analogues, la seule différence résidant dans les noms et les positions : */
 
 				var object = new THREE.Mesh( geometry, new THREE.MeshLambertMaterial( { color: Math.random() * 0xffffff } ) );
-				/* vide https://threejs.org/docs/#Reference/Objects/Mesh */
+				/* voir https://threejs.org/docs/#Reference/Objects/Mesh */
 
-				object.nome = 'cs7';
-				/* cria um atributo nome, que será usado para mapear os botões na página pai. Para abrir a opção quando clica na esfera que é representada no espaço tridimensional */
+				object.name = 'cs7';
+				/* Crée un attribut de nom qui servira à associer les boutons de la page parente. L'option s'ouvrira en cliquant sur la sphère représentée dans l'espace tridimensionnel. */
 				object.position.x = -24.71516683000315;
 				object.position.y = -6.555406638283143;
 				object.position.z = 0.6;
-				/*posições no espaço - definidas basicamente por testes exaustivos e comparação com o referencial*/
+				/*Positions dans l'espace - définies principalement par des tests exhaustifs et une comparaison avec un point de référence.*/
 				scene.add( object );
-				/* adiciona o acuponto */
+				/* ajouter le point d'acupression */
 
-				/*abaixo estão declaradas as outras esferas da mesma forma, mudando apenas posicionamento e nomes*/
+				/*Ci-dessous figurent les autres sphères déclarées de la même manière, seules leur position et leurs noms changent.*/
 
 				var geometry = new THREE.SphereGeometry( 0.3, 32, 32 );
 
-				/* INÍCIO MERIDIANO EXTRAORDINÁRIO - VASO CONCEPÇÃO */
+				/* DÉPART MERIDIEN EXTRAORDINAIRE VAISSEAUX CONCEPTION */
 
 				var object = new THREE.Mesh( geometry, new THREE.MeshLambertMaterial( { color: Math.random() * 0xffffff } ) );
 				object.nome = 'vc2';
