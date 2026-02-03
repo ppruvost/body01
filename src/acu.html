@@ -17,62 +17,58 @@
 
 	<body id="acu">
 		<script src="three/build/three.js"></script>
-		<!-- CARREGA O THREE.JS -->
+		<!-- CHARGE THREE.JS -->
 		<script src="three/loaders/OBJLoader.js"></script>
-		<!-- CARREGA O CARREGADOR DE OBJETO -->
+		<!-- CHARGER L'OBJET -->
 		<script src="three/controls/OrbitControls.js"></script>
-		<!-- CARREGA OS CONTROLES -> ORBIT CONTROLS -->
+		<!-- CHARGER LES COMMANDES -> COMMANDES ORBITALES -->
 		<script>
-			var container;
-			// variavel comum declarada
-			var camera, scene, raycaster, renderer;
-			// variaveis comuns declaradas
+			var container;			
+			var camera, scene, raycaster, renderer;			
 			var mouse = new THREE.Vector2(), INTERSECTED;
-			// variavel mouse declarada, e referenciada a partir do construtor Vector2 (vetor bidimensional)
-
 			var mouseX = 0, mouseY = 0;
-			// variaveis comuns declaradas
-
 			var windowHalfX = window.innerWidth / 2;
 			var windowHalfY = window.innerHeight / 2;
-
 			var acuX = 0, acuY = 0, acuZ = 0; acuXF = 0, acuYF = 0, acuZF = 0;
-			//inicialização de variaveis globais a serem usadas para a animação de camera
-
 			var focoCamera = false;
-			//variavel global que controlará a animação de câmera (ativar/desativar animação)
-
-			var p = new THREE.Vector3( 0, 0, 0 );
-			/*variavel p declarada, e referenciada a partir do construtor Vector3 (vetor tridimensional), inicializada em 0,0,0*/
+			var p = new THREE.Vector3( 0, 0, 0 );			
 			var obj = null;
 			var obj_aux = null;
-			/* INICIO LISTENERS VASO CONCEPÇÃO */
+			
+			/* DEBUT ECOUTEUR MERIDIEN EXTRAORDINAIRE VAISSEAUX CONCEPTION */
 
-			vc2 = parent.document.getElementById('vc2');
-            /* o objeto DOCUMENT trabalha com os Nós html, esse escopo de trabalho é chamado de DOM (Document Object Model)
-               onde o document em si, é a RAIZ da árvore ( ou seja, todo o conteúdo HTML da página )
-               fazendo parent.document estamos acessando todos os NÓS HTML da página PAI.
+			/* L'objet DOCUMENT interagit avec les nœuds HTML ; ce cadre d'analyse est appelé DOM (Document Object Model).
+				Le document lui-même constitue la racine de l'arbre (c'est-à-dire tout le contenu HTML de la page).
+				En utilisant parent.document, nous accédons à tous les nœuds HTML de la page parente.
 
-               Por quê página PAI ? Pois esta página aqui em questão, é chamada pela página acumaster.html, onde está a barra lateral contendo a lista de pontos. E é na página PAI que está o botão que queremos verificar o clique do mouse.
-	            fazendo vc2 = parent.document.getElementById('vc2') estamos SELECIONANDO um elemento HTML cujo id="vc2" e ARMAZENANDO na variável vc2.
+               Pourquoi la page parente ? Parce que cette page est appelée par la page index.html, qui contient la barre latérale affichant la liste des points.
+			   C'est sur la page parente que se trouve le bouton dont nous voulons vérifier le clic de souris.
+			   En effectuant l'opération vc2 = parent.document.getElementById('vc2'), nous sélectionnons l'élément HTML dont l'id est « vc2 » et nous le stockons dans la variable vc2.
+	           La sélection s'effectue à l'aide de la méthode `getElementById(id)`, implémentée nativement dans l'objet `DOCUMENT`.
+			   Cette méthode recherche dans le DOM l'élément dont l'identifiant correspond à l'ID fourni en paramètre, ici `vc2`.
 
-	            A seleção é feita utilizando o método getElementById(id), implementada nativamente no objeto DOCUMENT. Este método procura no conteúdo DOM, o elemento que possui o id com o parâmetro informado, no caso, vc2.
-
-	            Obs.: O elemento selecionado especificadamente é
-	            			    <a href="javascript:;" id="vc15"> * Perceba a flag id="vc2", por isso conseguimos buscá-lo.
-				      				<i class="icon-cogs"></i> 
-				      				<span class="title">VC 15</span>          
-				      				<span class="arrow "></span>
-				      			</a>
-				      			   --> Linha 26 da página acumaster.
+	            Remarque : L’élément sélectionné est :
+					<a href="javascript:;" id="vc2"> * Remarquez l’attribut id="vc2", c’est ce qui nous a permis de le trouver.
+					<i class="icon-cogs"></i> 
+					<span class="title">VC 2</span> 
+					<span class="arrow "></span>
+					</a>
+						--> Ligne 26 de la page index.
 			*/
+			/* Le bouton dont l'identifiant est « vc2 » étant stocké dans la variable vc2, nous pouvons accéder à la fonction
+			onclick, qui détecte l'événement de l'élément. Lorsqu'on clique dessus, la fonction
+			acuPonto(x, y, z) est appelée. Cette fonction prend en paramètre les coordonnées dans l'espace tridimensionnel.
+			La fonction acuPonto sera expliquée plus en détail ci-dessous, lors de sa déclaration. Le reste est analogue.
+			*/
+
+			vc1 = parent.document.getElementById('vc1');
+			vc1.onclick=function() {
+				acuPonto('vc1');
+			}
+			vc2 = parent.document.getElementById('vc2');            
 			vc2.onclick=function() {
 				acuPonto('vc2');
-			}
-			/* Tendo o botão cujo id="vc15" armazenado na variavel vc15 podemos acessar a função
-			onclick, que funciona como uma escuta para o elemento - quando ele é clicado, é chamada a FUNÇÃO
-			acuPonto(x, y, z) -- que recebe como parâmetro as coordenadas do espaço tridimensional. A função acuPonto será explicada mais abaixo, quando ela é declarada. Os restantes são análogos.
-			*/
+			}			
 			vc3 = parent.document.getElementById('vc3');
 			vc3.onclick=function() {
 				acuPonto('vc3');
@@ -162,9 +158,9 @@
 				acuPonto('vc24');
 			}
 
-			/* FIM LISTENERS VASO CONCEPÇÃO */
+			/* FIN ECOUTEUR MERIDIEN EXTRAORDINAIRE VAISSEAUX CONCEPTION */
 
-			/* INICIO LISTENERS PULMÃO */
+			/* DEBUT ECOUTEUR MERIDIEN POUMON */
 
 			p1 = parent.document.getElementById('p1');
 			p1.onclick=function() {
@@ -211,9 +207,9 @@
 				acuPonto('p11');
 			}
 
-			/* FIM LISTENERS PULMÃO */
+			/* FIN ECOUTEUR MERIDIEN POUMON */
 
-			/* INICIO LISTENERS INTESTINO GROSSO */
+			/* DEBUT ECOUTEUR MERIDIEN GROS INTESTIN */
 
 			ig1 = parent.document.getElementById('ig1');
 			ig1.onclick=function() {
@@ -296,9 +292,9 @@
 				acuPonto('ig20');
 			}
 
-			/* FIM LISTENERS PULMÃO */
+			/* FIN ECOUTEUR MERIDIEN GROS INTESTIN */
 
-			/* INICIO LISTENERS ESTOMAGO */
+			/* DEBUT ECOUTEUR MERIDIEN ESTOMAC */
 			e1 = parent.document.getElementById('e1');
 			e1.onclick=function() {
 				acuPonto('e1');
@@ -481,63 +477,39 @@
 				acuPonto('e45');
 			}
 
-			/* FIM LISTENERS ESTOMAGO */
+			/* FIN ECOUTEUR MERIDIEN ESTOMAC */
 
-			// ponto avulso
+			/* DEBUT POINT UNIQUE
+			
 			cs7 = parent.document.getElementById('cs7');
 			cs7.onclick=function() {
 				acuPonto('cs7');
 			}
+			/* fin POINT UNIQUE
 
-			init();
-			/* aqui é chamada a função init(); o fluxo de execução do código entra nesta função assim que ela é chamada, seguindo todas as instruções contidas em init(); e ao término, volta para este ponto e segue com a execução do comando na linha 87 */
-			animate();
-			/* aqui é chamada a função animate(), que é propriamente acessada logo após o controle de execução passar por toda a função init() que foi chamada anteriormente. Ao explicar a função animate, perceberá que ela é uma função recursiva. Quando essa função é chamada, o fluxo de execução não sai mais dela, uma vez que ela chama a si própria indefinidamente */
+			init();			
+			animate();			
 
 			function init() {
-				/* declaração da função init() => o propósito dela é exatamente como o próprio nome diz, inicialização. */
+			
 				container = document.createElement( 'div' );
 				document.body.appendChild( container );
-				/* anexa ao corpo BODY do HTML o container, que neste caso é um elemento DIV */
+				/* Attache le conteneur, qui dans ce cas est un élément DIV, au corps du HTML */
 
-				camera = new THREE.PerspectiveCamera( 45, window.innerWidth / window.innerHeight, 0.5, 2000 );
-				/* declara uma câmera, do tipo PerspectiveCamera.*/
-				camera.position.z = 250;
-				/* posiciona a câmera inicialmente 250 pixeis a frente do centro (0) */
-				controls = new THREE.OrbitControls( camera );
-				/* declara os controles em função da câmera do tipo OrbitControls. Permite o uso de controles em volta de um objeto, segurando o botao direito do mouse faz a camera girar em função da câmera, girando o scroll faz aumentar/diminuir o eixo Z da câmera (zoom), segurando o botao esquerdo faz a posição como um todo da camera deslocar-se. Não possui documentação. */
+				camera = new THREE.PerspectiveCamera( 45, window.innerWidth / window.innerHeight, 0.5, 2000 );				
+				camera.position.z = 250;				
+				controls = new THREE.OrbitControls( camera );				
 				controls.damping = 0.2;
 				controls.addEventListener( 'change', render );
+				scene = new THREE.Scene();				
 
-				scene = new THREE.Scene();
-				/* cria um novo objeto do tipo CENA, que permitirá o meio por onde a renderização será feita. Como também será onde adicionaremos objetos, luzes e câmeras.
-				Vide https://threejs.org/docs/?q=scene#Reference/Scenes/Scene
-				*/
-
-				var ambient = new THREE.AmbientLight( 0x101030 );
-				/* Cria uma luz ambiente de cor 0x101030, afetando globalmente os objetos na cena. Como se fosse o Sol.
-				Esse construtor recebe 2 parâmetros: cor RGB (no caso 0x101030) e INTENSIDADE (que no caso foi omitida [o que faz o programa usar a definição padrão de intensidade]) Vide documentação do Three.js para mais informações. https://threejs.org/docs/?q=ambient#Reference/Lights/AmbientLight
-				*/
+				var ambient = new THREE.AmbientLight( 0x101030 );				
 				scene.add( ambient );
-				/* Invoca o método add do objeto scene que foi construído na linha 104, passando como parâmetro a variável ambient ( que recebeu a construção do método THREE.AmbientLight) - linha 107
-
-				Resumo: adiciona a luz ambiente na cena.
-				*/
-
 
 				var directionalLight = new THREE.DirectionalLight( 0xffeedd );
-				/* Armazena o resultado do construtor DirectionalLight na variavel directionalLight
-				é passado como parâmetro a cor RGB 0xffeedd.
-				Este construtor cria uma luz em modo direcional, como se fosse uma lâmpada.
-				Vide https://threejs.org/docs/?q=directional#Reference/Lights/DirectionalLight*/
-				directionalLight.position.set( 0, 0, 1 );
-				/* acessando o objeto position e invocando o método set estamos definindo a posição da luz, que neste caso é (0, 0, 1) ou seja: uma lâmpada paralela ao eixo Z, emitindo a luz de frente. */
-				scene.add( directionalLight );
-
-				/* Invoca o método add do objeto scene que foi construído na linha 104, passando como parâmetro a variável directionalLight ( que recebeu a construção do método THREE.DirectionalLight) - linha 107
-
-				Resumo: adiciona a luz direcional na cena.
-				*/
+				
+				directionalLight.position.set( 0, 0, 1 );				
+				scene.add( directionalLight );				
 
 				var directionalLight = new THREE.DirectionalLight( 0xffeedd );
 				directionalLight.position.set( 0, 0, -1 );
