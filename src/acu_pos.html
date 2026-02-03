@@ -857,38 +857,25 @@
 						if ( child instanceof THREE.Mesh ) {
 
 							child.material.map = texture;
-
 						}
-
 					} );
 
 					object.position.y = - 95;
 					scene.add( object );
 
-				}, onProgress, onError );
-				/* carrega o objeto corpo.obj e aplica a textura */
-				raycaster = new THREE.Raycaster();
-				/* declara a variavel raycaster, que é instanciada pelo construtor Raycaster(), usado para clicar em objetos tridimensionais - funciona como um raio projetado ao longo do eixo Z, (o mouse trabalha em 2 dimensoes), o raycaster faz um procedimento que quando o mouse é clicado, vai verificando-se ao longo da reta Z com os eixos X e Y fixados pela POSIÇÃO do mouse. Quando um objeto é encontrado, ele é adicionado à um vetor de INTERSECÇÕES. Podendo assim acessá-lo e verificar quais objetos estão no caminho. */
+				}, onProgress, onError );				
+				raycaster = new THREE.Raycaster();				
 				renderer = new THREE.WebGLRenderer();
-				/* O renderizador WebGL exibe a cena trabalhada usando o WebGL, se o dispositivo suportar.*/
-
-				renderer.setPixelRatio( window.devicePixelRatio );
-				/* Define a proporção de pixel do dispositivo em questão, passando como parâmetro esta informação, obtida pelo comando window.devicePixelRatio. Geralmente usado para dispositivos HiDPI, a fim de evitar sobreposição de imagens no CANVAS*/
-				renderer.setSize( window.innerWidth, window.innerHeight );
-				/* Define o tamanho da tela de renderização - neste caso o tamanho de ALTURA e LARGURA da janela (total)*/
-				container.appendChild( renderer.domElement );
-				/* Insere o elemento CANVAS no container, onde será renderizado o WebGL
-				   A variável container foi declarada na linha 91 */
-
+				renderer.setPixelRatio( window.devicePixelRatio );				
+				renderer.setSize( window.innerWidth, window.innerHeight );				
+				container.appendChild( renderer.domElement );				
 				window.addEventListener( 'keydown', keyDownTextField, false);
 
 				document.addEventListener( 'mousemove', onDocumentMouseMove, false );
-				/*desconsiderar*/
-
 				document.addEventListener( 'mousedown', onDocumentMouseDown, false );
-				/*Declara uma escuta para eventos de click do mouse. Cada vez que o mouse é clicado, a função onDocumentMouseDown é chamada.*/
+				
 				window.addEventListener( 'resize', onWindowResize, false );
-				/*desconsiderar*/
+				
 			}
 
 			function keyDownTextField(e) {
