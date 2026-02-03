@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
 	<head>
-		<title>TCC</title>
+		<title>Radiesthésie</title>
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
 		<style>
 			body {
 				font-family: Monospace;
-				background-color: #000;
+				background-color: #AFA08B;
 				color: #fff;
 				margin: 0px;
 				overflow: hidden;
@@ -17,32 +17,22 @@
 
 	<body>
 		<script src="three/build/three.js"></script>
-		<!-- CARREGA O THREE.JS -->
+		<!-- CHARGE THREE.JS  -->
 		<script src="three/loaders/OBJLoader.js"></script>
-		<!-- CARREGA O CARREGADOR DE OBJETO -->
+		<!-- CHARGER L'OBJET -->
 		<script src="three/controls/OrbitControls.js"></script>
-		<!-- CARREGA OS CONTROLES -> ORBIT CONTROLS -->
+		<!-- CHARGER LES COMMANDES -> COMMANDES ORBITALES-->
 		<script>
-			var container;
-			// variavel comum declarada, quando ela for referenciada explico o propósito
-			var camera, scene, raycaster, renderer;
-			// variaveis comuns declaradas, quando elas forem referenciadas explico o propósito
+			var container;			
+			var camera, scene, raycaster, renderer;			
 			var mouse = new THREE.Vector2(), INTERSECTED;
-			// variavel mouse declarada, e referenciada a partir do construtor Vector2 (vetor bidimensional)
-
 			var mouseX = 0, mouseY = 0;
-			// variaveis comuns declaradas, quando elas forem referenciadas explico o propósito
-
-			var windowHalfX = window.innerWidth / 2;
-			// desconsiderar
+			var windowHalfX = window.innerWidth / 2;			
 			var windowHalfY = window.innerHeight / 2;
-			// desconsiderar
-
 			var acuX = 0, acuY = 0, acuZ = 0;
-			//inicialização de variaveis globais a serem usadas para a animação de camera
-
+			//nitialisation des variables globales utilisées pour l'animation de la caméra
 			var focoCamera = false;
-			//variavel global que controlará a animação de câmera (ativar/desativar animação)
+			//Variable globale qui contrôlera l'animation de la caméra (activer/désactiver l'animation)
 			var uPressed = false;
 			var dPressed = false;
 			var rPressed = false;
@@ -53,60 +43,40 @@
 			var p = new THREE.Vector3( 0, 0, 0 );
 
 			init();
-			/* aqui é chamada a função init(); o fluxo de execução do código entra nesta função assim que ela é chamada, seguindo todas as instruções contidas em init(); e ao término, volta para este ponto e segue com a execução do comando na linha 87 */
-			animate();
-			/* aqui é chamada a função animate(), que é propriamente acessada logo após o controle de execução passar por toda a função init() que foi chamada anteriormente. Ao explicar a função animate, perceberá que ela é uma função recursiva. Quando essa função é chamada, o fluxo de execução não sai mais dela, uma vez que ela chama a si própria indefinidamente */
+			
+			animate();			
 
 			function init() {
-				/* declaração da função init() => o propósito dela é exatamente como o próprio nome diz, inicialização. */
+				
 				container = document.createElement( 'div' );
-				document.body.appendChild( container );
-				/* anexa ao corpo BODY do HTML o container, que neste caso é um elemento DIV */
+				document.body.appendChild( container );				
 
-				camera = new THREE.PerspectiveCamera( 45, window.innerWidth / window.innerHeight, 10, 2000 );
-				/* declara uma câmera, do tipo PerspectiveCamera. Vide documentação do Three.js para explicá-lo.
-
-				*/
+				camera = new THREE.PerspectiveCamera( 45, window.innerWidth / window.innerHeight, 10, 2000 );				
+				
 				camera.position.z = 250;
-				/* posiciona a câmera inicialmente 250 pixeis a frente do centro (0) */
+				
 				controls = new THREE.OrbitControls( camera );
-				/* declara os controles em função da câmera do tipo OrbitControls. Permite o uso de controles em volta de um objeto, segurando o botao direito do mouse faz a camera girar em função da câmera, girando o scroll faz aumentar/diminuir o eixo Z da câmera (zoom), segurando o botao esquerdo faz a posição como um todo da camera deslocar-se. Não possui documentação, portanto a explicação será breve. */
+				
 				controls.damping = 0.2;
 				controls.addEventListener( 'change', render );
 
-				scene = new THREE.Scene();
-				/* cria um novo objeto do tipo CENA, que permitirá o meio por onde a renderização será feita. Como também será onde adicionaremos objetos, luzes e câmeras.
-				Vide https://threejs.org/docs/?q=scene#Reference/Scenes/Scene
-				*/
+				scene = new THREE.Scene();				
 
-				var ambient = new THREE.AmbientLight( 0x101030 );
-				/* Cria uma luz ambiente de cor 0x101030, afetando globalmente os objetos na cena. Como se fosse o Sol.
-				Esse construtor recebe 2 parâmetros: cor RGB (no caso 0x101030) e INTENSIDADE (que no caso foi omitida [o que faz o programa usar a definição padrão de intensidade]) Vide documentação do Three.js para mais informações. https://threejs.org/docs/?q=ambient#Reference/Lights/AmbientLight
-				*/
+				var ambient = new THREE.AmbientLight( 0x101030 );				
+				
 				scene.add( ambient );
-				/* Invoca o método add do objeto scene que foi construído na linha 104, passando como parâmetro a variável ambient ( que recebeu a construção do método THREE.AmbientLight) - linha 107
 
-				Resumo: adiciona a luz ambiente na cena.
-				*/
-
-
-				var directionalLight = new THREE.DirectionalLight( 0xffeedd );
-				/* Armazena o resultado do construtor DirectionalLight na variavel directionalLight
-				é passado como parâmetro a cor RGB 0xffeedd.
-				Este construtor cria uma luz em modo direcional, como se fosse uma lâmpada.
-				Vide https://threejs.org/docs/?q=directional#Reference/Lights/DirectionalLight*/
+				var directionalLight = new THREE.DirectionalLight( 0xffeedd );				
+				
 				directionalLight.position.set( 0, 0, 1 );
-				/* acessando o objeto position e invocando o método set estamos definindo a posição da luz, que neste caso é (0, 0, 1) ou seja: uma lâmpada paralela ao eixo Z, emitindo a luz de frente. */
+				/* En accédant à l'objet position et en invoquant la méthode set, nous définissons la position de la lumière, qui dans ce cas est (0, 0, 1), c'est-à-dire : une lampe parallèle à l'axe Z, émettant de la lumière depuis l'avant. */
 				scene.add( directionalLight );
 
-				/* Invoca o método add do objeto scene que foi construído na linha 104, passando como parâmetro a variável directionalLight ( que recebeu a construção do método THREE.DirectionalLight) - linha 107
-
-				Resumo: adiciona a luz direcional na cena.
-				*/
+				/* Ajoute la lumière directionnelle à la scène	*/
 
 				var directionalLight = new THREE.DirectionalLight( 0xffeedd );
 				directionalLight.position.set( 0, 0, -1 );
-				/* Mesma coisa como na parte acima. A única diferença é que neste caso a direção da luz é (0, 0, -1) ou seja: uma lâmpada paralela ao eixo Z, porém inversa, emitindo a luz de trás. */
+				/* La direction de la lumière est (0, 0, -1), c'est-à-dire : une lampe parallèle à l'axe Z, mais inversée, émettant de la lumière par l'arrière */
 				scene.add( directionalLight );
 				/* mesma coisa que em cima, adiciona a luz direcional na cena*/
 
