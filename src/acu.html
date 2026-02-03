@@ -512,41 +512,32 @@
 				scene.add( directionalLight );				
 
 				var directionalLight = new THREE.DirectionalLight( 0xffeedd );
-				directionalLight.position.set( 0, 0, -1 );
-				/* Mesma coisa como na parte acima. A única diferença é que neste caso a direção da luz é (0, 0, -1) ou seja: uma lâmpada paralela ao eixo Z, porém inversa, emitindo a luz de trás. */
-				scene.add( directionalLight );
-				/* mesma coisa que em cima, adiciona a luz direcional na cena*/
+				directionalLight.position.set( 0, 0, -1 );				
+				scene.add( directionalLight );		
 
 				var geometry = new THREE.SphereGeometry( 0.3, 32, 32 );
-				/* armazena em geometry o resultado do construtor SphereGeometry, que recebe como parâmetro 
+				var object = new THREE.Mesh( geometry, new THREE.MeshLambertMaterial( { color: Math.random() * 0xffffff } ) );			
 
-				raio — raio da esfera. Neste caso 0.3.
-				widthSegments — número de segmentos horizontais isso influencia na lapidação da esfera. Neste caso 32.
-				heightSegments — número de segmentos verticais isso influencia na lapidação da esfera. Neste caso 32.
-
-				Geometria que será usada para todas as esferas no programa - ACUPONTOS 
-
-				*/
-
-				/*Aqui estão as declarações de todas as esferas, elas são análogas, a diferença será apenas os nomes e posicionamentos: */
-
-				var object = new THREE.Mesh( geometry, new THREE.MeshLambertMaterial( { color: Math.random() * 0xffffff } ) );
-				/* vide https://threejs.org/docs/#Reference/Objects/Mesh */
-
-				object.name = 'cs7';
-				/* cria um atributo nome, que será usado para mapear os botões na página pai. Para abrir a opção quando clica na esfera que é representada no espaço tridimensional */
+				object.name = 'cs7';				
 				object.position.x = -24.71516683000315;
 				object.position.y = -6.555406638283143;
 				object.position.z = 0.6;
-				/*posições no espaço - definidas basicamente por testes exaustivos e comparação com o referencial*/
 				scene.add( object );
-				/* adiciona o acuponto */
+			
+				/* ajouter le point d'acupression */
 
-				/*abaixo estão declaradas as outras esferas da mesma forma, mudando apenas posicionamento e nomes*/
+				/*Ci-dessous figurent les autres sphères déclarées de la même manière, seules leur position et leurs noms changent.*/
 
 				var geometry = new THREE.SphereGeometry( 0.3, 32, 32 );
 
-				/* INÍCIO MERIDIANO EXTRAORDINÁRIO - VASO CONCEPÇÃO */
+				/* DÉBUT MERIDIEN EXTRAORDINAIRE VAISSEAUX CONCEPTION */
+
+				var object = new THREE.Mesh( geometry, new THREE.MeshLambertMaterial( { color: 0xa742f4 } ) );
+				object.name = 'vc1';
+				object.position.x = 0.05;
+				object.position.y = -12.7;
+				object.position.z = -4.2;
+				scene.add(object);
 
 				var object = new THREE.Mesh( geometry, new THREE.MeshLambertMaterial( { color: 0xa742f4 } ) );
 				object.name = 'vc2';
@@ -739,9 +730,9 @@
 				console.log(object.position.y);
 
 				scene.add( object );
-				/* FIM MERIDIANO EXTRAORDINÁRIO - VASO CONCEPÇÃO */
+				/* FIN MERIDIEN EXTRAORDINAIRE VAISSEAUX CONCEPTION */
 
-				/* INÍCIO MERIDIANO ZANG FU - PULMAO */
+				/* DÉBUT MERIDIEN POUMON */
 
 				var object = new THREE.Mesh( geometry, new THREE.MeshLambertMaterial( { color: 0xf4e842 } ) );
 				object.name = 'p1';
@@ -825,9 +816,9 @@
 				object.position.z = 5.999999999999995;
 				scene.add( object );
 
-				/* FIM MERIDIANO Shou Tai Yin Fei Jing - PULMAO */
+				/* FIN MERIDIEN POUMON */
 
-				/* INICIO MERIDIANO Shou Yang Ming Da Chang - INTESTINO GROSSO */
+				/* DÉBUT MÉRIDIEN GROS INTESTIN */
 
 				var object = new THREE.Mesh( geometry, new THREE.MeshLambertMaterial( { color: 0x77f442 } ) );
 				object.name = 'ig1';
@@ -985,9 +976,9 @@
 				object.position.z = 4.3;
 				scene.add( object );
 
-				/* FIM MERIDIANO Shou Yang Ming Da Chang - INTESTINO GROSSO */
+				/* FIN MÉRIDIEN GROS INTESTIN */
 
-				/* INICIO MERIDIANO Estômago (Wei) - Zu Yang Ming Wei Jing */
+				/* DÉBUT MÉRIDIEN ESTOMAC */
 
 				var object = new THREE.Mesh( geometry, new THREE.MeshLambertMaterial( { color: 0x006aff } ) );
 				object.name = 'e1';
@@ -1311,26 +1302,19 @@
 				object.position.z = 11.299999999999976;
 				scene.add( object );
 
-				/* FIM MERIDIANO Estômago (Wei) - Zu Yang Ming Wei Jing */
+				/* FIN MÉRIDIEN ESTOMAC */
 				var manager = new THREE.LoadingManager();
 				manager.onProgress = function ( item, loaded, total ) {
 
 					console.log( item, loaded, total );
-					/* Escreve no console do browser o andamento do carregamento */
-
 				};
-				/* Gerenciador de carregamento vide https://threejs.org/docs/#Reference/Loaders/LoadingManager */
-
 				var texture = new THREE.Texture();
-
 				var onProgress = function ( xhr ) {
 					if ( xhr.lengthComputable ) {
 						var percentComplete = xhr.loaded / xhr.total * 100;
 						console.log( Math.round(percentComplete, 2) + '% downloaded' );
 					}
-				};
-				/* essa função serve para retornar a quantidade em porcentagem de quanto já carregou e quanto falta carregar do OBJETO (corpo humano). */
-
+				};				
 				var onError = function ( xhr ) {
 				};
 
@@ -1340,13 +1324,10 @@
 					texture.image = image;
 					texture.needsUpdate = true;
 
-				} );
-				/* Carrega a textura vide https://threejs.org/docs/#Reference/Loaders/ImageLoader */
+				} );		
 
-				var loader = new THREE.OBJLoader( manager );
-				/* instancia o carregador de objeto vide https://threejs.org/docs/#Reference/Loaders/OBJLoader */
-				var material = new THREE.MeshBasicMaterial({color: 'yellow', side: THREE.DoubleSide});
-				/* aplica a cor ao objeto - só aparece sem a textura */
+				var loader = new THREE.OBJLoader( manager );				
+				var material = new THREE.MeshBasicMaterial({color: 'yellow', side: THREE.DoubleSide});				
 				loader.load( 'three/modelo/corpo.obj', function ( object ) {
 
 					object.traverse( function ( child ) {
