@@ -108,6 +108,14 @@
 				/* DÉPART MERIDIEN EXTRAORDINAIRE VAISSEAUX CONCEPTION */
 
 				var object = new THREE.Mesh( geometry, new THREE.MeshLambertMaterial( { color: Math.random() * 0xffffff } ) );
+				object.name = 'vc1';
+				object.position.x = 0.05;
+				object.position.y = -9.5;
+				object.position.z = 5.4;
+
+				scene.add(object);
+
+				var object = new THREE.Mesh( geometry, new THREE.MeshLambertMaterial( { color: Math.random() * 0xffffff } ) );
 				object.name = 'vc2';
 				object.position.x = 0.05;
 				object.position.y = -6;
