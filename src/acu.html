@@ -1375,57 +1375,34 @@
 			function onDocumentMouseDown( event ) {
 
 				event.preventDefault();
-				/* Faz cancelar qualquer ação padrão a ser executado durante o click do mouse. Prevenir uma ação inesperada, para tratar corretamente o clique do mouse */
-
-				raycaster.setFromCamera( mouse, camera );
-				/* Atualiza as informações FromCamera do raycaster onde
-				mouse: coordenadas 2D do mouse.
-				camera: camera pela qual o raio tem origem*/
+				raycaster.setFromCamera( mouse, camera );			
 
 				var intersects = raycaster.intersectObjects( scene.children );
-				/*
-					Executa o método que registra em um vetor os objetos encontrados ao longo do raio. Onde:
-					scene.children: todos os objetos que serão verificados pelo raio. Neste caso, usa-se scene.children para incluir TODOS os objetos (filhos da cena).
-				*/
+				
 				console.log(intersects);
 				if ( intersects.length > 0 ) {
-					/* intersects.lenght retorna a quantidade de elementos. Se a quantidade de elementos for > 0 faça: */
-
-					if ( INTERSECTED != intersects[ 0 ].object ) {
-						/* se o objeto não for na primeira posição (pois este é o corpo humano e ele sempre vai estar lá)
-						FAÇA
-						*/
-						INTERSECTED = intersects[ 0 ].object;
-						/* armazena na variavel INTERSECTED o objeto encontrado*/
+					if ( INTERSECTED != intersects[ 0 ].object ) {						
+						INTERSECTED = intersects[ 0 ].object;						
     					mer = INTERSECTED.name.replace(/[0-9]+/,"");
     					meridiano = parent.document.getElementById(mer);
-						animacao = parent.document.getElementById(INTERSECTED.name);
-						/* recupera e armazena em animacao o elemento com o ID do nome da esfera*/
+						animacao = parent.document.getElementById(INTERSECTED.name);						
 						console.log();
 						meridiano.click();
-						animacao.click();
-						/*clica-se involuntariamente no objeto com o ID igual ao do NOME da esfera, fazendo abrir na pagina pai o botão relacionado com a esfera clicada */
+						animacao.click();						
 					}
 				} else {
-					/* caso contrário */
-					/*  atualiza a esfera para a cor padrão, visto que o clique foi em outra coisa que não foi a última esfera clicada */
-
 					INTERSECTED = null;
-
 				}
 				console.log(camera.position.x, camera.position.y, camera.position.z);
 				//console.log(teste);
 			}
 
 			function acuPonto(pto) {
-			/* declaração da função acuPonto, que recebe apenas as 3 coordenadas onde a câmera irá se aproximar */
+			
 				if (obj_aux != null) {
-					obj_aux.material.emissive.setHex( obj_aux.currentHex );
-					/* pelo método setHex alteramos a cor da esfera para o padrão, que está armazenado no atributo .currentHex */
-				}
-				/* obj_aux é uma variavel auxiliar para armazenar o ultimo objeto clicado, para então fazer a restauração da cor normal da esfera */
-				obj = scene.getObjectByName(pto);
-				/* chamada do método que faz a busca pelo nome do objeto tridimensional, armazenando-o na variavel obj */
+					obj_aux.material.emissive.setHex( obj_aux.currentHex );					
+				}				
+				obj = scene.getObjectByName(pto);				
 				obj.currentHex = obj.material.emissive.getHex();
 				/* chamada do método que retorna o valor em RGB da cor do objeto, armazenando-a em um novo atributo criado na esfera: .currentHex */
 				obj.material.emissive.setHex( 0xff0000 );
@@ -1524,9 +1501,9 @@
 						focoCamera = false;
 						controls.target = p;
 						return;
-					} /* se todas as condições estiverem satisfeitas, que é a camera exatamente no acuponto selecionado (exceto em z, que é z+45 para a camera nao ficar grudada no ponto), então alteramos a variável global focoCamera para FALSE, portanto quando entrar na função render novamente será verificada esta variável, e como ela estará FALSE não entrará nessas condições para animação. A única forma de focoCamera tornar-se TRUE será quando for clicado em um acuponto ou em um botão na barra lateral */
+					} 
 					camera.lookAt( p );
-					/* lookAt( p ) => Em p está armazenada a coordenada do ponto em questão (onde a camera deverá se aproximar), portanto invocamos o metodo da camera -> lookAt(p) que recebe como parâmetro um ponto do tipo vetor tridimensional (neste caso, p) para que a câmera fique "olhando" para o ponto enquanto ela se aproxima (torna a animação mais agradavel, fica focada no ponto)*/
+					
 				}
 			}
 
