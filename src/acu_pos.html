@@ -827,22 +827,18 @@
 					console.log( item, loaded, total );
 					/* Escreve no console do browser o andamento do carregamento */
 
-				};
-				/* Gerenciador de carregamento vide https://threejs.org/docs/#Reference/Loaders/LoadingManager */
+				};				
 
 				var texture = new THREE.Texture();
-
 				var onProgress = function ( xhr ) {
 					if ( xhr.lengthComputable ) {
 						var percentComplete = xhr.loaded / xhr.total * 100;
 						console.log( Math.round(percentComplete, 2) + '% downloaded' );
 					}
-				};
-				/* não sei do que se trata a variável xhr, mas essa função serve para retornar a quantidade em porcentagem de quanto já carregou e quanto falta carregar do OBJETO (corpo humano). Desconsiderar essa função */
+				};				
 
 				var onError = function ( xhr ) {
-				};
-				/* desconsiderar*/
+				};				
 
 				var loader = new THREE.ImageLoader( manager );
 				loader.load( 'three/textura/UV_Grid_Sm.jpg', function ( image ) {
@@ -850,13 +846,10 @@
 					texture.image = image;
 					texture.needsUpdate = true;
 
-				} );
-				/* Carrega a textura vide https://threejs.org/docs/#Reference/Loaders/ImageLoader */
+				} );				
 
-				var loader = new THREE.OBJLoader( manager );
-				/* instancia o carregador de objeto vide https://threejs.org/docs/#Reference/Loaders/OBJLoader */
-				var material = new THREE.MeshBasicMaterial({color: 'yellow', side: THREE.DoubleSide});
-				/* desconsiderar, aplica a cor ao objeto - só aparece sem a textura */
+				var loader = new THREE.OBJLoader( manager );				
+				var material = new THREE.MeshBasicMaterial({color: 'yellow', side: THREE.DoubleSide});				
 				loader.load( 'three/modelo/corpo.obj', function ( object ) {
 
 					object.traverse( function ( child ) {
