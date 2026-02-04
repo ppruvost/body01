@@ -11,7 +11,7 @@
   <link href="css/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
   <link href="css/sidebar.css" rel="stylesheet" type="text/css"/>
   <link href="css/light.css" rel="stylesheet" type="text/css" id="style_color"/>
-  <link rel="icon" type="image/x-icon" href="src/img/favicon.ico">
+  <link rel="icon" type="image/x-icon" href="img/favicon.ico">
 
 <!-- Google Fonts : Questria -->
 <link
@@ -24,15 +24,7 @@
   rel="stylesheet"
   href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
 />
-
-<!-- Thème principal -->
-<link
-  href="css/light.css"
-  rel="stylesheet"
-  type="text/css"
-  id="style_color"
-/>
- 
+  
 </head>
  <!--------------style général fin------------>
 <body>
@@ -167,46 +159,38 @@
 </div>
       <!--------------- Zone d’affichage du contenu Fin---------->
   <!--------------------Arborescence Fin------------------------->
-<!-----Script Arborescence Ouverture / Fermeture Début---------> 
-  <script>
+<!----------------------Script Début-----------------------------> 
+<script>
 document.addEventListener('DOMContentLoaded', () => {
+  // Arborescence
   document.querySelectorAll('.tree-menu .label').forEach(label => {
     label.addEventListener('click', () => {
       label.parentElement.classList.toggle('open');
     });
   });
-});
-</script>
-<!--------------Script Arborescence Ouverture / Fermeture Fin------------>
-<!--------------Script Titre dynamique Début----------------------------->
-<script>
-document.getElementById('dynamic-title').textContent = item.dataset.title || item.textContent;
-</script>
-<!--------------Script Titre dynamique Fin------------------------------->  
-<!--------------Script import contenu sous menu Début--------------------> 
-<script>
-document.addEventListener('DOMContentLoaded', () => {
 
+  // Chargement contenu dynamique
   document.querySelectorAll('.load-content').forEach(item => {
     item.addEventListener('click', () => {
-
       const targetId = item.id;
+
+      // Mettre à jour le titre
+      document.getElementById('dynamic-title').textContent = item.dataset.title || item.textContent;
 
       fetch('poumon.html')
         .then(response => response.text())
         .then(html => {
           const doc = new DOMParser().parseFromString(html, 'text/html');
-          const content = doc.querySelector('#' + targetId);
-
+          // Cherche par ID dans tout le document
+          const content = doc.getElementById(targetId);
           document.getElementById('content-p').innerHTML =
             content ? content.innerHTML : '<p>Contenu introuvable.</p>';
         })
-        .catch(err => console.error(err));
+        .catch(err => console.error('Erreur lors du chargement du contenu :', err));
     });
   });
-
 });
 </script>
- <!---------------Script import contenu sous menu Fin------------------------>
+ <!---------------Script Fin------------------------>
 </body>
 </html>
