@@ -181,7 +181,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
       const targetId = item.id;
 
-      fetch('/src/poumon.html')
+      fetch('src/poumon.html')
         .then(response => response.text())
         .then(html => {
           const doc = new DOMParser().parseFromString(html, 'text/html');
