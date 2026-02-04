@@ -162,6 +162,17 @@
 </div>
 <!--------------------Arborescence Fin------------------------->
 <!-----Script Arborescence Ouverture / Fermeture Début---------> 
+  <script>
+document.addEventListener('DOMContentLoaded', () => {
+  document.querySelectorAll('.tree-menu .label').forEach(label => {
+    label.addEventListener('click', () => {
+      label.parentElement.classList.toggle('open');
+    });
+  });
+});
+</script>
+<!--------------Script Arborescence Ouverture / Fermeture Fin------------>
+<!---------------Script 
 <script>
 document.addEventListener('DOMContentLoaded', () => {
 
