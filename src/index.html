@@ -175,7 +175,8 @@ document.addEventListener('DOMContentLoaded', () => {
 <!-----Script Arborescence Ouverture / Fermeture Fin---------->
 
 <!------------Chargement du contenu P1------------------------>
-  document.querySelectorAll('.load-content').forEach(item => {
+ <script>
+   document.querySelectorAll('.load-content').forEach(item => {
     item.addEventListener('click', () => {
 
       fetch('/src/poumon.html')
@@ -196,6 +197,6 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
 });
-  
+   </script>  
 </body>
 </html>
