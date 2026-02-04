@@ -44,8 +44,31 @@
     <!-- Boucle pour Menu 1 à 12 -->
     <li>
       <div class="label"><i class="fas fa-chevron-right"></i> Méridien du poumon</div>
+      <div id="content-p"></div>
+
       <ul class="submenu">
         <li>P1 – Mémoires émotionnelles lourdes</li>
+        <script>
+document.getElementById('p1').addEventListener('click', function (e) {
+    e.preventDefault();
+
+    fetch('/src/poumon.html')
+        .then(response => response.text())
+        .then(html => {
+            const parser = new DOMParser();
+            const doc = parser.parseFromString(html, 'text/html');
+            const p1Content = doc.querySelector('#p1');
+
+            if (p1Content) {
+                document.getElementById('content-p').innerHTML = p1Content.innerHTML;
+            } else {
+                console.error('p1 introuvable dans poumon.html');
+            }
+        })
+        .catch(err => console.error(err));
+});
+</script>
+
         <li>P2 – Oppression émotionnelle</li>
         <li>P3 – Perte de sens</li>
         <li>P4 – Accumulation d’émotions non exprimées</li>
