@@ -1330,72 +1330,72 @@
 				var material = new THREE.MeshBasicMaterial({color: 'yellow', side: THREE.DoubleSide});				
 				loader.load( 'three/modelo/corpo.obj', function ( object ) {
 
-					object.traverse( function ( child ) {
-						if ( child instanceof THREE.Mesh ) {
-							child.material.map = texture;
-						}
-					} );
+<script>
+// Initialisation des variables globales
+const raycaster = new THREE.Raycaster();
+const mouse = new THREE.Vector2();
+let INTERSECTED = null;
 
-					object.position.y = - 95;
-					scene.add( object );
+// Chargement du modèle OBJ
+const loader = new THREE.OBJLoader(manager);
+const material = new THREE.MeshBasicMaterial({ color: 'yellow', side: THREE.DoubleSide });
 
-				}, onProgress, onError );				
-				raycaster = new THREE.Raycaster();				
-				renderer = new THREE.WebGLRenderer();
-				renderer.setClearColor(0xBD786C);
-				renderer.setPixelRatio( window.devicePixelRatio );				
-				renderer.setSize( window.innerWidth, window.innerHeight );				
-				container.appendChild( renderer.domElement );
-				
-				document.addEventListener( 'mousemove', onDocumentMouseMove, false );
-				document.addEventListener( 'mousedown', onDocumentMouseDown, false );
-				
-				window.addEventListener( 'resize', onWindowResize, false );
-			}
+loader.load('three/modelo/corpo.obj', (object) => {
+    object.traverse((child) => {
+        if (child instanceof THREE.Mesh) {
+            child.material.map = texture;
+        }
+    });
+    object.position.y = -95;
+    scene.add(object);
+}, onProgress, onError);
 
-			function onWindowResize() {
+// Configuration du rendu
+const renderer = new THREE.WebGLRenderer();
+renderer.setClearColor(0xBD786C);
+renderer.setPixelRatio(window.devicePixelRatio);
+renderer.setSize(window.innerWidth, window.innerHeight);
+container.appendChild(renderer.domElement);
 
-				windowHalfX = window.innerWidth / 2;
-				windowHalfY = window.innerHeight / 2;
-				camera.aspect = window.innerWidth / window.innerHeight;
-				camera.updateProjectionMatrix();
-				renderer.setSize( window.innerWidth, window.innerHeight );
-			}
+// Gestion des événements
+window.addEventListener('resize', onWindowResize);
+window.addEventListener('mousemove', onDocumentMouseMove);
+window.addEventListener('click', onDocumentClick);
 
-			function onDocumentMouseMove( event ) {
+// Fonctions de gestion des événements
+function onWindowResize() {
+    camera.aspect = window.innerWidth / window.innerHeight;
+    camera.updateProjectionMatrix();
+    renderer.setSize(window.innerWidth, window.innerHeight);
+}
 
-				event.preventDefault();
-				mouse.x = ( event.clientX / window.innerWidth ) * 2 - 1;
-				mouse.y = - ( event.clientY / window.innerHeight ) * 2 + 1;
-				mouseX = ( event.clientX - windowHalfX ) / 2;
-				mouseY = ( event.clientY - windowHalfY ) / 2;
+function onDocumentMouseMove(event) {
+    mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+    mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
+}
 
-			}
+function onDocumentClick(event) {
+    raycaster.setFromCamera(mouse, camera);
+    const intersects = raycaster.intersectObjects(scene.children);
 
-			function onDocumentMouseDown( event ) {
+    if (intersects.length > 0) {
+        INTERSECTED = intersects[0].object;
+        const mer = INTERSECTED.name.replace(/[0-9]+/, '');
+        const meridiano = parent.document.getElementById(mer);
+        const animacao = parent.document.getElementById(INTERSECTED.name);
 
-				event.preventDefault();
-				raycaster.setFromCamera( mouse, camera );			
+        meridiano?.click();
+        animacao?.click();
 
-				var intersects = raycaster.intersectObjects( scene.children );
-				
-				console.log(intersects);
-				if ( intersects.length > 0 ) {
-					if ( INTERSECTED != intersects[ 0 ].object ) {						
-						INTERSECTED = intersects[ 0 ].object;						
-    					mer = INTERSECTED.name.replace(/[0-9]+/,"");
-    					meridiano = parent.document.getElementById(mer);
-						animacao = parent.document.getElementById(INTERSECTED.name);						
-						console.log();
-						meridiano.click();
-						animacao.click();						
-					}
-				} else {
-					INTERSECTED = null;
-				}
-				console.log(camera.position.x, camera.position.y, camera.position.z);
-				//console.log(teste);
-			}
+        // Envoi du point sélectionné vers index.html
+        window.parent.postMessage(
+            { type: 'selectPoint', point: INTERSECTED.name },
+            '*'
+        );
+    }
+}
+</script>
+
 
 			function acuPonto(pto) {
 			
