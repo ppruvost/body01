@@ -165,38 +165,26 @@
 <script>
 document.addEventListener('DOMContentLoaded', () => {
 
-  // Ouverture / fermeture du sous-menu
-  document.querySelectorAll('.tree-menu .label').forEach(label => {
-    label.addEventListener('click', () => {
-      label.parentElement.classList.toggle('open');
-    });
-  });  
-</script>
-<!-----Script Arborescence Ouverture / Fermeture Fin---------->
-
-<!------------Chargement du contenu P1------------------------>
- <script>
-   document.querySelectorAll('.load-content').forEach(item => {
+  document.querySelectorAll('.load-content').forEach(item => {
     item.addEventListener('click', () => {
+
+      const targetId = item.id;
 
       fetch('/src/poumon.html')
         .then(response => response.text())
         .then(html => {
           const doc = new DOMParser().parseFromString(html, 'text/html');
-          const content = doc.querySelector('#p1');
+          const content = doc.querySelector('#' + targetId);
 
-          if (content) {
-            document.getElementById('content-p').innerHTML = content.innerHTML;
-          } else {
-            document.getElementById('content-p').innerHTML =
-              '<p>Contenu introuvable.</p>';
-          }
+          document.getElementById('content-p').innerHTML =
+            content ? content.innerHTML : '<p>Contenu introuvable.</p>';
         })
         .catch(err => console.error(err));
     });
   });
 
 });
-   </script>  
+</script>
+ 
 </body>
 </html>
