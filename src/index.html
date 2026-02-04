@@ -40,45 +40,22 @@
   <h3>Soins énergétiques par radiesthésie</h3>
   
 <!----------Arborescence Début---------------->
-  <ul class="tree-menu">
-    <!-- Boucle pour Menu 1 à 12 -->
+  <ul class="tree-menu">    
     <li>
       <div class="label"><i class="fas fa-chevron-right"></i> Méridien du poumon</div>
       <div id="content-p"></div>
-
       <ul class="submenu">
-        <li>P1 – Mémoires émotionnelles lourdes</li>
-        <script>
-document.getElementById('p1').addEventListener('click', function (e) {
-    e.preventDefault();
-
-    fetch('/src/poumon.html')
-        .then(response => response.text())
-        .then(html => {
-            const parser = new DOMParser();
-            const doc = parser.parseFromString(html, 'text/html');
-            const p1Content = doc.querySelector('#p1');
-
-            if (p1Content) {
-                document.getElementById('content-p').innerHTML = p1Content.innerHTML;
-            } else {
-                console.error('p1 introuvable dans poumon.html');
-            }
-        })
-        .catch(err => console.error(err));
-});
-</script>
-
-        <li>P2 – Oppression émotionnelle</li>
-        <li>P3 – Perte de sens</li>
-        <li>P4 – Accumulation d’émotions non exprimées</li>
-        <li>P5 – Colère refoulée derrière la tristesse</li>
-        <li>P6 – Choc émotionnel ancien</li>
-        <li>P7 – Difficulté à lâcher prise</li>
-        <li>P8 – Respiration courte (physique ou symbolique)</li>
-        <li>P9 – Vide intérieur - manque d'ancrage</li>
-        <li>P10 – Agitation intérieure - Hypersensibilité</li>
-        <li>P11 – Fin de cycle émotionnel - Reset énergétique</li>        
+         <li id="p1" class="load-content">P1 – Mémoires émotionnelles lourdes</li>
+        <li id="p2" class="load-content">P2 – Oppression émotionnelle</li>
+        <li id="p3" class="load-content">P3 – Perte de sens</li>
+        <li id="p4" class="load-content">P4 – Accumulation d’émotions non exprimées</li>
+        <li id="p5" class="load-content">P5 – Colère refoulée derrière la tristesse</li>
+        <li id="p6" class="load-content">P6 – Choc émotionnel ancien</li>
+        <li id="p7" class="load-content">P7 – Difficulté à lâcher prise</li>
+        <li id="p8" class="load-content">P8 – Respiration courte (physique ou symbolique)</li>
+        <li id="p9" class="load-content">P9 – Vide intérieur - manque d'ancrage</li>
+        <li id="p10" class="load-content">P10 – Agitation intérieure - Hypersensibilité</li>
+        <li id="p11" class="load-content">P11 – Fin de cycle émotionnel - Reset énergétique</li>        
       </ul>
     </li>
 
