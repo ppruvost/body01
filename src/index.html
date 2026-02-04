@@ -45,7 +45,6 @@
     <li>
       <div class="label"><i class="fas fa-chevron-right"></i> Méridien du poumon</div>     
       <ul class="submenu">
-        <div id="content-p"></div>
         <li id="p1" class="load-content" data-title="P1 – Mémoires émotionnelles lourdes">P1 – Mémoires émotionnelles lourdes</li>
         <li id="p2" class="load-content" data-title="P2 – Oppression émotionnelle">P2 – Oppression émotionnelle</li>
         <li id="p3" class="load-content" data-title="P3 – Perte de sens">P3 – Perte de sens</li>
@@ -161,11 +160,13 @@
     </li>
 
   </ul>
-<!--------------- Zone d’affichage du contenu ----------------->
+    <!------------ Zone d’affichage du contenu Début------------->
 <h2 id="dynamic-title"></h2>
 <div id="content-p"></div>
+
 </div>
-<!--------------------Arborescence Fin------------------------->
+      <!--------------- Zone d’affichage du contenu Fin---------->
+  <!--------------------Arborescence Fin------------------------->
 <!-----Script Arborescence Ouverture / Fermeture Début---------> 
   <script>
 document.addEventListener('DOMContentLoaded', () => {
@@ -177,7 +178,12 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 </script>
 <!--------------Script Arborescence Ouverture / Fermeture Fin------------>
-<!---------------Script import contenu sous menu Début-------------------> 
+<!--------------Script Titre dynamique Début----------------------------->
+        // Titre dynamique
+      document.getElementById('dynamic-title').textContent =
+        item.dataset.title || item.textContent;
+<!--------------Script Titre dynamique Fin------------------------------->  
+<!--------------Script import contenu sous menu Début--------------------> 
 <script>
 document.addEventListener('DOMContentLoaded', () => {
 
