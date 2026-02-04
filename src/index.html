@@ -4,48 +4,39 @@
   <meta charset="utf-8"/>
   <title>Radiesthésie</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
   <!-- CSS -->
   <link href="css/bootstrap/css/bootstrap.min.css" rel="stylesheet"/>
   <link href="css/sidebar.css" rel="stylesheet"/>
   <link href="css/light.css" rel="stylesheet"/>
-
   <!-- Google Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Questria&display=swap" rel="stylesheet">
-
   <!-- Font Awesome -->
   <link rel="stylesheet"
         href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"/>
 
   <style>
     body { font-family: 'Questria', sans-serif; }
-
     .tree-menu,
     .tree-menu ul {
       list-style: none;
       padding-left: 0;
     }
-
     .tree-menu .label {
       cursor: pointer;
       font-weight: bold;
       margin: 8px 0;
     }
-
     .submenu {
       display: none;
       padding-left: 20px;
     }
-
     .open > .submenu {
       display: block;
     }
-
     .submenu li {
       cursor: pointer;
       padding: 4px 0;
     }
-
     .submenu li.active {
       font-weight: bold;
       color: #007bff;
@@ -56,56 +47,15 @@
 <body>
 <div class="container py-4">
   <h3>Soins énergétiques par radiesthésie</h3>
-<!---------------- 3 colonnes -------------------->
+<!-- 3 colonnes -->
   <div class="container-fluid">
     <div class="row">
 
-<!----------- Colonne 1 : Menu ------------------->
-      <div class="col-md-3">
-        <select id="menuMeridien" class="form-select">
-          <option value="poumon.html">Poumon</option>
-          <option value="intestin-gros.html">Gros intestin</option>
-          <option value="estomac.html">Estomac</option>
-          <option value="rate.html">Rate Pancréas</option>
-          <option value="intestin-grele.html">Intestin Grêle</option>
-          <option value="vessie.html">Vessie</option>
-          <option value="rein.html">Rein</option>
-          <option value="maitre-coeur.html">Maître du Coeur</option>
-          <option value="triple-rechauffeur.html">Triple Rechauffeur</option>
-          <option value="foie.html">Foie</option>
-          <option value="vb.html">Vésicule Billaire</option>
-          <option value="meridiens/coeur.html">Cœur</option>
-          <option value="vc.html">Vaisseau conception</option>
-          <option value="vg.html">Vaisseau gouverneur</option>         
-
-        </select>
-      </div>
-
-      <!-- Colonne 2 : Contenu dynamique -->
-      <div class="col-md-5" id="contenu">
-    <!------------ Zone d’affichage du contenu Début------------->
-        <hr>
-          <h2 id="dynamic-title"></h2>
-          <div id="content-p"></div>
-      </div>
-    <!------------ Zone d’affichage du contenu Fin------------->
-      </div>
-
-      <!-- Colonne 3 : iframe acu.html -->
-      <div class="col-md-4">
-        <iframe src="acu.html" style="width:100%; height:100vh; border:none;"></iframe>
-      </div>
-
-    </div>
-  </div>
-  <!-- FIN du code HTML principal des colonnes -->
-
-  <!-- Arborescence -->
+<!-- Colonne 1 : Arborescence -->
+<div class="col-md-3">
   <ul class="tree-menu">
     <li>
-      <div class="label">
-        <i class="fas fa-chevron-right"></i> Méridien du poumon
-      </div>
+      <div class="label"><i class="fas fa-chevron-right"></i> Méridien du poumon</div>
 
       <ul class="submenu">
         <li class="load-content" data-id="p1" data-title="P1 – Mémoires émotionnelles lourdes">P1 – Mémoires émotionnelles lourdes</li>
@@ -122,8 +72,8 @@
       </ul>
     </li>
 
-<!----Arborescence Méridien Poumon Fin------>
-<!----Arborescence Méridien Gros intestin Début------>    
+<!--Arborescence Méridien Poumon Fin-->
+<!--Arborescence Méridien Gros intestin Début-->    
     <li>
       <div class="label">
         <i class="fas fa-chevron-right"></i> Méridien du Gros intestin</div>
@@ -242,8 +192,25 @@
         <li>Sous-menu 12.3</li>
       </ul>
     </li>
-
   </ul>
+          <!-- Colonne 2 : Contenu dynamique -->
+      <div class="col-md-5" id="contenu">
+    <!------------ Zone d’affichage du contenu Début------------->
+        <hr>
+          <h2 id="dynamic-title"></h2>
+          <div id="content-p"></div>
+      </div>
+    <!------------ Zone d’affichage du contenu Fin------------->
+      </div>
+
+      <!-- Colonne 3 : iframe acu.html -->
+      <div class="col-md-4">
+        <iframe src="acu.html" style="width:100%; height:100vh; border:none;"></iframe>
+      </div>
+
+    </div>
+  </div>
+  <!-- FIN du code HTML principal des colonnes -->
 
     <!------------ Scrpits  Début------------------------------>
 <script>
