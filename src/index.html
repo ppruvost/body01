@@ -3,53 +3,83 @@
 <head>
   <meta charset="utf-8"/>
   <title>Radiesthésie</title>
-  <meta name="viewport" content="width=device-width, user-scalable=yes, minimum-scale=1.0, maximum-scale=1.0">
-  <link rel="icon" type="image/x-icon" href="src/img/favicon.ico">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
   <!-- CSS -->
-  <link href="css/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css"/>
-  <link href="css/simple-line-icons/simple-line-icons.min.css" rel="stylesheet" type="text/css"/>
-  <link href="css/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
-  <link href="css/sidebar.css" rel="stylesheet" type="text/css"/>
-  <link href="css/light.css" rel="stylesheet" type="text/css" id="style_color"/>
-  <link rel="icon" type="image/x-icon" href="img/favicon.ico">
+  <link href="css/bootstrap/css/bootstrap.min.css" rel="stylesheet"/>
+  <link href="css/sidebar.css" rel="stylesheet"/>
+  <link href="css/light.css" rel="stylesheet"/>
 
-<!-- Google Fonts : Questria -->
-<link
-  href="https://fonts.googleapis.com/css2?family=Questria&display=swap"
-  rel="stylesheet"
-/>
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Questria&display=swap" rel="stylesheet">
 
-<!-- Font Awesome 5 -->
-<link
-  rel="stylesheet"
-  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
-/>
-  
+  <!-- Font Awesome -->
+  <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"/>
+
+  <style>
+    body { font-family: 'Questria', sans-serif; }
+
+    .tree-menu,
+    .tree-menu ul {
+      list-style: none;
+      padding-left: 0;
+    }
+
+    .tree-menu .label {
+      cursor: pointer;
+      font-weight: bold;
+      margin: 8px 0;
+    }
+
+    .submenu {
+      display: none;
+      padding-left: 20px;
+    }
+
+    .open > .submenu {
+      display: block;
+    }
+
+    .submenu li {
+      cursor: pointer;
+      padding: 4px 0;
+    }
+
+    .submenu li.active {
+      font-weight: bold;
+      color: #007bff;
+    }
+  </style>
 </head>
- <!--------------style général fin------------>
+
 <body>
 <div class="container py-4">
   <h3>Soins énergétiques par radiesthésie</h3>
-  
-<!----------Arborescence Début---------------->
+
+  <!-- Arborescence -->
   <ul class="tree-menu">
-<!----Arborescence Méridien Poumon Début------>   
+
     <li>
-      <div class="label"><i class="fas fa-chevron-right"></i> Méridien du poumon</div>     
+      <div class="label">
+        <i class="fas fa-chevron-right"></i> Méridien du poumon
+      </div>
+
       <ul class="submenu">
-        <li id="p1" class="load-content" data-title="P1 – Mémoires émotionnelles lourdes"P1 – Mémoires émotionnelles lourdes></li>
-        <li id="p2" class="load-content" data-title="P2 – Oppression émotionnelle"P2 – Oppression émotionnelle></li>
-        <li id="p3" class="load-content" data-title="P3 – Perte de sens"></li>
-        <li id="p4" class="load-content" data-title="P4 – Accumulation d’émotions non exprimées"></li>
-        <li id="p5" class="load-content" data-title="P5 – Colère refoulée derrière la tristesse"></li>
-        <li id="p6" class="load-content" data-title="P6 – Choc émotionnel ancien"></li>
-        <li id="p7" class="load-content" data-title="P7 – Difficulté à lâcher prise"></li>
-        <li id="p8" class="load-content" data-title="P8 – Respiration courte (physique ou symbolique)"></li>
-        <li id="p9" class="load-content" data-title="P9 – Vide intérieur - manque d'ancrage"></li>
-        <li id="p10" class="load-content" data-title="P10 – Agitation intérieure - Hypersensibilité"></li>
-        <li id="p11" class="load-content" data-title="P11 – Fin de cycle émotionnel - Reset énergétique"></li>        
+        <li class="load-content" data-id="p1" data-title="P1 – Mémoires émotionnelles lourdes">P1 – Mémoires émotionnelles lourdes</li>
+        <li class="load-content" data-id="p2" data-title="P2 – Oppression émotionnelle">P2 – Oppression émotionnelle</li>
+        <li class="load-content" data-id="p3" data-title="P3 – Perte de sens">P3 – Perte de sens</li>
+        <li class="load-content" data-id="p4" data-title="P4 – Accumulation d’émotions non exprimées">P4 – Accumulation d’émotions non exprimées</li>
+        <li class="load-content" data-id="p5" data-title="P5 – Colère refoulée derrière la tristesse">P5 – Colère refoulée derrière la tristesse</li>
+        <li class="load-content" data-id="p6" data-title="P6 – Choc émotionnel ancien">P6 – Choc émotionnel ancien</li>
+        <li class="load-content" data-id="p7" data-title="P7 – Difficulté à lâcher prise">P7 – Difficulté à lâcher prise</li>
+        <li class="load-content" data-id="p8" data-title="P8 – Respiration courte">P8 – Respiration courte</li>
+        <li class="load-content" data-id="p9" data-title="P9 – Vide intérieur">P9 – Vide intérieur</li>
+        <li class="load-content" data-id="p10" data-title="P10 – Hypersensibilité">P10 – Hypersensibilité</li>
+        <li class="load-content" data-id="p11" data-title="P11 – Reset énergétique">P11 – Reset énergétique</li>
       </ul>
     </li>
+
 <!----Arborescence Méridien Poumon Fin------>
     
     <li>
@@ -153,44 +183,63 @@
 
   </ul>
     <!------------ Zone d’affichage du contenu Début------------->
-<h2 id="dynamic-title"></h2>
-<div id="content-p"></div>
+<hr>
+  <h2 id="dynamic-title"></h2>
+  <div id="content-p"></div>
 
 </div>
-      <!--------------- Zone d’affichage du contenu Fin---------->
-  <!--------------------Arborescence Fin------------------------->
-<!----------------------Script Début-----------------------------> 
+    <!------------ Zone d’affichage du contenu Fin------------->
+    <!------------ Scrpits  Début------------------------------>
 <script>
 document.addEventListener('DOMContentLoaded', () => {
-  // Arborescence
+
+  /* Ouverture / fermeture des menus */
   document.querySelectorAll('.tree-menu .label').forEach(label => {
     label.addEventListener('click', () => {
-      label.parentElement.classList.toggle('open');
+      const parent = label.parentElement;
+
+      document.querySelectorAll('.tree-menu > li').forEach(li => {
+        if (li !== parent) li.classList.remove('open');
+      });
+
+      parent.classList.toggle('open');
     });
   });
 
-  // Chargement contenu dynamique
+  /* Chargement dynamique */
   document.querySelectorAll('.load-content').forEach(item => {
-    item.addEventListener('click', () => {
-      const targetId = item.id;
+    item.addEventListener('click', e => {
+      e.stopPropagation();
 
-      // Mettre à jour le titre
-      document.getElementById('dynamic-title').textContent = item.dataset.title || item.textContent;
+      document.querySelectorAll('.load-content')
+        .forEach(li => li.classList.remove('active'));
+
+      item.classList.add('active');
+
+      const id = item.dataset.id;
+      const title = item.dataset.title;
+
+      document.getElementById('dynamic-title').textContent = title;
 
       fetch('poumon.html')
-        .then(response => response.text())
+        .then(res => res.text())
         .then(html => {
           const doc = new DOMParser().parseFromString(html, 'text/html');
-          // Cherche par ID dans tout le document
-          const content = doc.getElementById(targetId);
+          const content = doc.getElementById(id);
+
           document.getElementById('content-p').innerHTML =
             content ? content.innerHTML : '<p>Contenu introuvable.</p>';
         })
-        .catch(err => console.error('Erreur lors du chargement du contenu :', err));
+        .catch(() => {
+          document.getElementById('content-p').innerHTML =
+            '<p>Erreur de chargement.</p>';
+        });
     });
   });
+
 });
 </script>
+
  <!---------------Script Fin------------------------>
 </body>
 </html>
