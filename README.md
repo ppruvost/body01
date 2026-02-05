@@ -1,49 +1,117 @@
-Assistant Énergétique par Radiestésie et Acupression
+# 🌀 Radiesthésie & Lecture des Points Énergétiques Bloqués
 
-Présentation du Projet
-Cet outil est conçu pour soutenir les praticiens en radiestésie et en travail énergétique, en facilitant l’identification des points d’acupression selon les 12 méridiens de la Médecine Traditionnelle Chinoise (MTC). Il permet de localiser les points bloqués lors d’une séance, afin d’optimiser le travail énergétique.
-L’application utilise une approche 3D interactive pour visualiser les méridiens et les points d’acupuncture, offrant une aide visuelle et pratique pour les praticiens, qu’ils soient débutants ou expérimentés.
+Ce site propose une **approche de lecture énergétique du corps par radiesthésie au pendule**, centrée sur l’identification et l’interprétation des **points bloqués** le long des méridiens.
 
-Fonctionnalités Clés
+Il s’agit d’un outil d’exploration et de compréhension des déséquilibres énergétiques, émotionnels et symboliques pouvant impacter le bien-être global.
 
-Identification des points d’acupression : Localisation précise des points selon les 12 méridiens de la MTC.
-Détection des blocages énergétiques : Utilisation de la radiestésie pour repérer les points nécessitant un travail spécifique.
-Approche 3D : Visualisation dynamique des méridiens et des points, accessible directement depuis un navigateur.
-Interface intuitive : Accès rapide aux informations sur chaque point via une barre latérale dédiée.
+---
 
-Technologies Utilisées
+## 🎯 Intention du site
 
-WebGL et Three.js : Pour la modélisation 3D des méridiens et des points.
-Fichiers Principaux
+L’objectif principal est de fournir un **support de lecture et d’aide à l’interprétation radiesthésique**, à travers :
 
-README.md – Assistant Énergétique par Radiestésie et Acupression
-Fichier Description
+- une cartographie des **méridiens énergétiques**
+- une liste structurée de **points associés à chaque méridien**
+- une interprétation possible des **blocages énergétiques détectés au pendule**
+- un outil d’aide à la conscience corporelle et émotionnelle
 
-acumaster.html
-Fichier principal à initialiser, contenant la barre latérale avec les informations sur les points.
+Le **menu déroulant** du site reflète cette intention :  
+chaque section correspond à un méridien ou à une zone énergétique spécifique, avec ses points et leurs significations.
 
-acu.html
-Code source principal, entièrement commenté.
+---
 
-Acu_pos
-Fichier indépendant pour obtenir les positions des points d’acupuncture, manipulables via les touches directionnelles et les signes +/-.
+## 🧭 Principe de la radiesthésie utilisée
 
-Sources Documentaires
-Ce projet s’appuie sur les travaux suivants :
+La radiesthésie est une pratique de perception énergétique utilisant un **pendule comme amplificateur de réponses subtiles**.
 
-3D Acupuncture Assistant for Browsers (projet original) : Base technique pour l’intégration de la 3D et de WebGL.
-Médecine Traditionnelle Chinoise (MTC) : Référentiel théorique pour la localisation des méridiens et des points d’acupuncture.
-Radiestésie : Méthode complémentaire pour l’identification des blocages énergétiques.
+Le pendule est utilisé pour :
 
-Utilisation
+- interroger l’état énergétique d’un point ou d’un méridien
+- détecter un **blocage, une surcharge ou un déséquilibre**
+- orienter la lecture vers un aspect émotionnel, symbolique ou énergétique
 
-Ouvrir acumaster.html dans un navigateur compatible.
-Naviguer dans l’interface 3D pour visualiser les méridiens et les points.
-Utiliser les flèches et +/- pour ajuster la position des points si nécessaire.
-Identifier les points bloqués grâce à la radiestésie et les intégrer au travail énergétique de la séance.
+Les réponses sont interprétées selon :
+- le type de mouvement
+- son intensité
+- la clarté de l’intention posée
+
+> ⚠️ Les résultats dépendent fortement de la qualité de centrage, de l’intention et de la neutralité de l’observateur.
+
+---
+
+## 📌 Contenu du site
+
+Le site est organisé autour des **méridiens énergétiques traditionnels**.
+
+Pour chaque méridien, tu trouveras :
+
+- une **liste de points numérotés**
+- une **interprétation énergétique ou émotionnelle** associée
+- une aide à la lecture des réponses obtenues au pendule
+
+### Exemples de méridiens abordés
+
+- Méridien du Poumon  
+- Méridien du Gros Intestin  
+- Méridien de l’Estomac  
+- Méridien de la Rate / Pancréas  
+- Méridien du Cœur  
+- Méridien de l’Intestin Grêle  
+- Méridien de la Vessie  
+- Méridien du Rein  
+- Méridien du Maître du Cœur  
+- Méridien du Triple Réchauffeur  
+- Méridien de la Vésicule Biliaire  
+- Méridien du Foie  
+
+*(la liste complète est accessible via le menu du site)*
+
+---
+
+## 🧠 Lecture des points bloqués
+
+Lorsqu’un point est identifié comme « bloqué » au pendule, cela peut indiquer :
+
+- une **tension énergétique persistante**
+- une **mémoire émotionnelle non intégrée**
+- un conflit interne, conscient ou inconscient
+- une difficulté d’adaptation ou de circulation énergétique
+
+Les interprétations proposées sur le site sont **indicatives** et servent de support de lecture, non de diagnostic.
+
+---
+
+## 🛠️ Conseils d’utilisation
+
+- Pose des **questions simples, claires et neutres**
+- Travaille dans un état de calme et de centrage
+- Évite les questions émotionnellement chargées
+- Prends des notes pour observer les récurrences
+- Utilise ce support comme un **outil d’exploration**, pas comme une vérité absolue
+
+---
+
+## ⚖️ Avertissement
+
+Ce site est destiné à un usage personnel, pédagogique et exploratoire.
+
+Il ne remplace en aucun cas :
+- un avis médical
+- un diagnostic professionnel
+- un suivi thérapeutique
+
+Toute pratique énergétique engage la responsabilité de l’utilisateur.
+
+---
+
+## 🌱 Conclusion
+
+Ce projet vise à offrir une **lecture symbolique et énergétique du corps**, accessible et structurée, pour accompagner une démarche de compréhension de soi, d’écoute corporelle et de cheminement personnel.
+
+Bonne exploration ✨
 
 
 Auteur et Contact
 Bien-être et Géobiologie
 Granville, France
-
+bien-etre-geobiologie.fr
