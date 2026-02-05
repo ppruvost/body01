@@ -175,7 +175,7 @@ ARBORESCENCE / TREE MENU
 }
 
 .tree-menu .label {
-  padding: 12px 15px;
+  padding: 8px 8px;
   display: flex;
   align-items: center;
   cursor: pointer;
@@ -190,7 +190,7 @@ ARBORESCENCE / TREE MENU
 }
 
 .tree-menu .label i {
-  margin-right: 10px;
+  margin-right: 5px;
   transition: transform 0.2s ease;
   color: #84606C;
   opacity: 0.7;
@@ -203,7 +203,7 @@ ARBORESCENCE / TREE MENU
 /* Sous-menu */
 .submenu {
   list-style: none;
-  padding-left: 30px;
+  padding-left: 15px;
   padding-bottom: 8px;
   display: none;
 }
@@ -222,3 +222,4 @@ ARBORESCENCE / TREE MENU
 .submenu li:hover {
   color: #5f4650;
 }
+
