@@ -175,7 +175,7 @@
                 createSphere(pos.name, 0xf5f5f0, pos.x, pos.y, pos.z);
             });
 
-            // Gros Intestin
+            // Intestin grêle
             const igPositions = [
                 { name: 'ig1', x: 29.232201993135632, y: -20.00000000000036, z: 6.199999999999994, view: 1 },
                 { name: 'ig2', x: 29.332201993135634, y: -14.700000000000307, z: 2.8000000000000007, view: 1 },
@@ -408,6 +408,42 @@
         init();
         initEventListeners();
         animate();
+
+        // Ajoutez cette variable globale pour stocker le dernier point cliqué
+    let lastClickedPoint = null;
+
+    function onDocumentClick(event) {
+        event.preventDefault();
+        raycaster.setFromCamera(mouse, camera);
+        const intersects = raycaster.intersectObjects(scene.children);
+
+        if (intersects.length > 0) {
+            const clickedObject = intersects[0].object;
+            // Si un point était déjà cliqué, restaurer sa couleur
+            if (lastClickedPoint && lastClickedPoint !== clickedObject) {
+                lastClickedPoint.material.color.setHex(lastClickedPoint.originalColor);
+            }
+            // Stocker la couleur originale si ce n'est pas déjà fait
+            if (!clickedObject.originalColor) {
+                clickedObject.originalColor = clickedObject.material.color.getHex();
+            }
+            // Changer la couleur du nouveau point cliqué en rouge
+            clickedObject.material.color.setHex(0xFF0000);
+            lastClickedPoint = clickedObject;
+
+            const mer = clickedObject.name.replace(/[0-9]+/, '');
+            const meridiano = parent.document.getElementById(mer);
+            const animacao = parent.document.getElementById(clickedObject.name);
+
+            meridiano?.click();
+            animacao?.click();
+
+            window.parent.postMessage(
+                { type: 'selectPoint', point: clickedObject.name },
+                '*'
+            );
+        }
+    }
     </script>
 </body>
 </html>
