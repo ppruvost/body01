@@ -327,6 +327,19 @@ window.addEventListener("message", event => {
 });
 
 </script>
+  <ul class="submenu" id="pointsMenu">
+    <!-- Les éléments <li> sont générés dynamiquement -->
+</ul>
+<script>
+document.querySelectorAll('.submenu li').forEach(li => {
+    li.addEventListener('click', function() {
+        const pointId = this.getAttribute('data-id');
+        document.getElementById('acu').contentWindow.acuPonto(pointId);
+        document.getElementById('acu').contentWindow.focusPoint(pointId);
+    });
+});
+</script>
+
 
  <!---------------Script Fin------------------------>
 </body>
