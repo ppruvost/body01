@@ -16,6 +16,32 @@
 <!-- Favicon -->
   <link rel="icon" href="img/favicon.ico" type="image/x-icon">
 
+  /* colonne 3 uniquement */
+.col-3d {
+  overflow: hidden; /* évite les débordements lors du zoom */
+}
+
+/* conteneur iframe */
+.iframe-wrapper {
+  width: 100%;
+  height: 100vh;
+  perspective: 1200px;
+}
+
+/* iframe */
+.iframe-wrapper iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+  transform-origin: center center;
+  transition: transform 0.4s ease;
+}
+
+/* effet au survol de la colonne */
+.col-3d:hover .iframe-wrapper iframe {
+  transform: rotateY(15deg) scale(1.1);
+}
+
   <style>
     body { font-family: 'Questria', sans-serif; }
     .tree-menu,
@@ -243,10 +269,12 @@
       <div id="content-p"></div>
     </div>
 
-    <!-- Colonne 3 : iframe -->
-    <div class="col-md-4">
-      <iframe src="acu.html" style="width:100%; height:100vh; border:none;"></iframe>
-    </div>
+<!-- Colonne 3 : iframe -->
+<div class="col-md-4 col-3d">
+  <div class="iframe-wrapper">
+    <iframe src="acu.html"></iframe>
+  </div>
+</div>
 
   </div>
 </div>
