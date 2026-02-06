@@ -112,12 +112,25 @@ p  { font-size: 12px; line-height: 1.4; }
 
 /* Layout */
 #contenu {
-  overflow-y: auto;
-  max-height: 100vh;
+  overflow: visible;        /* supprime les scrolls internes */
+  max-height: none;         /* enlève toute contrainte de hauteur */
+  white-space: normal;      /* retour à la ligne normal */
+  word-wrap: break-word;
+  overflow-wrap: break-word;
 }
 
 .row {
-  overflow: hidden;
+  overflow: visible;
+}
+#content-p {
+  white-space: normal;
+  word-break: normal;
+overflow-wrap: anywhere;
+}
+
+#content-p p,
+#content-p li {
+  max-width: 100%;
 }
 
 iframe {
