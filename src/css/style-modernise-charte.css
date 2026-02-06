@@ -134,9 +134,12 @@ p  { font-size: 12px; line-height: 1.4; }
   display: block;
 }
 
+/* Sous-menu : taille réduite */
 .submenu li {
   cursor: pointer;
   padding: 3px 0;
+  font-size: 12px;  /* <- taille du texte réduite */
+  line-height: 1.4; /* optionnel : espace entre lignes plus compact */
 }
 
 .submenu li.active {
