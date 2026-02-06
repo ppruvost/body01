@@ -4,12 +4,125 @@
    Style naturel et épuré
    ========================================================= */
 
-:root { --bg-main: #F5F5DC; --text-main: #3A2D27; --accent: #80665B; }
-body, #viewer { background-color: var(--bg-main) !important; color: var(--text-main); font-family: Helvetica, Arial, sans-serif; }
-.container { max-width: 100%; margin: 0 auto; padding: 15px; box-sizing: border-box; overflow: hidden; }
-@media (min-width: 768px) { .container { max-width: 900px; padding: 20px; } }
-  h1 { font-size: 20px; color: var(--text-main); }
-  h2 { font-size: 18px; color: var(--text-main); }
+:root {
+  --bg-main: #F5F5DC;
+  --text-main: #3A2D27;
+  --accent: #80665B;
+}
+
+/* Base */
+body,
+#viewer {
+  background-color: var(--bg-main) !important;
+  color: var(--text-main);
+  font-family: 'Questria', Helvetica, Arial, sans-serif;
+}
+
+/* Typographie */
+h1 { font-size: 18px; }
+h2 { font-size: 16px; }
+h3 { font-size: 14px; }
+p  { font-size: 12px; line-height: 1.4; }
+
+/* Conteneur personnalisé (évite conflit Bootstrap) */
+.container-custom {
+  width: 100%;
+  margin: 0 auto;
+  padding: 15px;
+  box-sizing: border-box;
+}
+
+@media (min-width: 768px) {
+  .container-custom {
+    max-width: 900px;
+    padding: 20px;
+  }
+}
+
+/* ===============================
+   Colonne 3 – iframe 3D
+   =============================== */
+/* colonne 3 */
+.col-3d {
+  overflow: hidden;
+}
+
+/* conteneur iframe */
+.iframe-wrapper {
+  width: 100%;
+  height: 100vh;
+  perspective: 1200px;
+}
+
+/* iframe */
+.iframe-wrapper iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+
+  transform-origin: center center;
+
+  /* animation douce et naturelle */
+  transition: transform 0.6s cubic-bezier(.22,.61,.36,1);
+
+  /* optimisation visuelle */
+  backface-visibility: hidden;
+  will-change: transform;
+}
+
+/* effet au survol */
+.col-3d:hover .iframe-wrapper iframe {
+  transform: rotateY(15deg) rotateX(6deg) scale(1.08);
+}
+
+/* ===============================
+   Menu arbre
+   =============================== */
+
+.tree-menu,
+.tree-menu ul {
+  list-style: none;
+  padding-left: 5px;
+}
+
+.tree-menu .label {
+  cursor: pointer;
+  font-weight: bold;
+  margin: 5px 0;
+}
+
+.submenu {
+  display: none;
+  padding-left: 15px;
+}
+
+.open > .submenu {
+  display: block;
+}
+
+.submenu li {
+  cursor: pointer;
+  padding: 3px 0;
+}
+
+.submenu li.active {
+  font-weight: bold;
+  color: var(--text-main);
+}
+
+/* Layout */
+#contenu {
+  overflow-y: auto;
+  max-height: 100vh;
+}
+
+.row {
+  overflow: hidden;
+}
+
+iframe {
+  min-height: 100vh;
+}
 </style>
 
 
