@@ -7,8 +7,10 @@
 
   <!-- CSS -->
   <link href="css/bootstrap/css/bootstrap.min.css" rel="stylesheet"/>
+  <link rel="stylesheet" href="css/style-modernise-charte.css">
   <link href="css/sidebar.css" rel="stylesheet"/>
   <link href="css/light.css" rel="stylesheet"/>
+
 
   <!-- Google Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Questria&display=swap" rel="stylesheet">
@@ -21,85 +23,7 @@
   <link rel="icon" href="img/favicon.ico" type="image/x-icon">
 
   <!-- CSS spécifique iframe colonne 3 -->
-  <style>
-    /* colonne 3 uniquement */
-    .col-3d {
-      overflow: hidden;
-    }
-
-    /* conteneur iframe */
-    .iframe-wrapper {
-      width: 100%;
-      height: 100vh;
-      perspective: 1200px;
-    }
-
-    /* iframe */
-    .iframe-wrapper iframe {
-      width: 100%;
-      height: 100%;
-      border: none;
-      transform-origin: center center;
-      transition: transform 0.4s ease;
-    }
-
-    /* effet au survol de la colonne */
-    .col-3d:hover .iframe-wrapper iframe {
-      transform: rotateY(15deg) scale(1.1);
-    }
-
-    /* styles existants */
-    body { font-family: 'Questria', sans-serif; }
-
-    .tree-menu,
-    .tree-menu ul {
-      list-style: none;
-      padding-left: 5px;
-    }
-
-    .tree-menu .label {
-      cursor: pointer;
-      font-weight: bold;
-      margin: 5px 0;
-    }
-
-    .submenu {
-      display: none;
-      padding-left: 15px;
-    }
-
-    .open > .submenu {
-      display: block;
-    }
-
-    .submenu li {
-      cursor: pointer;
-      padding: 3px 0;
-    }
-
-    .submenu li.active {
-      font-weight: bold;
-      color: #3A2D27;
-    }
-
-    #contenu {
-      overflow-y: auto;
-      max-height: 100vh;
-    }
-
-    .row {
-      overflow: hidden;
-    }
-
-    iframe {
-      min-height: 100vh;
-    }
-
-    h1 { font-size: 20px; color: var(--text-main); }
-    h2 { font-size: 18px; color: var(--text-main); }
-    h3 { font-size: 14px; color: var(--text-main); }
-    p  { font-size: 12px; line-height: 1.4; }
-  </style>
+  
 </head>
 
 
