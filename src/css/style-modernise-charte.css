@@ -52,7 +52,7 @@ p  { font-size: 12px; line-height: 1.4; }
 }
 
 /* ===============================
-   Layout colonnes – correction débordement
+   Layout colonnes – version corrigée
    =============================== */
 
 /* Conteneur global des colonnes */
@@ -60,12 +60,14 @@ p  { font-size: 12px; line-height: 1.4; }
   display: flex;           /* aligne les colonnes horizontalement */
   flex-wrap: nowrap;       /* empêche le texte de passer sous l'iframe */
   gap: 20px;               /* espace entre colonnes */
+  align-items: flex-start; /* aligne les colonnes en haut */
 }
 
 /* Colonne 2 – texte */
 .col-text {
-  flex: 1 1 60%;           /* prend 60% de l'espace mais peut rétrécir */
-  min-width: 250px;        /* largeur minimale */
+  flex: 1 1 auto;          /* prend l'espace restant mais peut rétrécir */
+  max-width: 60%;           /* ne dépassera jamais 60% du conteneur */
+  min-width: 250px;         /* largeur minimale */
   overflow-wrap: break-word; /* coupe les mots trop longs */
   word-break: break-word;
 }
@@ -73,6 +75,7 @@ p  { font-size: 12px; line-height: 1.4; }
 /* Colonne 3 – iframe 3D */
 .col-3d {
   flex: 0 0 35%;           /* largeur fixe pour l'iframe */
+  max-width: 35%;           /* ne dépassera jamais 35% */
   min-width: 200px;
   overflow: hidden;
 }
@@ -84,7 +87,7 @@ p  { font-size: 12px; line-height: 1.4; }
 /* conteneur iframe */
 .iframe-wrapper {
   width: 100%;
-  height: 100vh;
+  aspect-ratio: 16/9;      /* conserve les proportions sans forcer la hauteur */
   perspective: 1200px;
 }
 
@@ -108,6 +111,14 @@ p  { font-size: 12px; line-height: 1.4; }
 .col-3d:hover .iframe-wrapper iframe {
   transform: rotateY(15deg) rotateX(6deg) scale(1.08);
 }
+
+/* ===============================
+   Ajustements pour textes internes
+   =============================== */
+.col-text p {
+  margin: 0 0 1em 0; /* marge inférieure standard, pas excessive */
+}
+
 
 /* ===============================
    Menu arbre
