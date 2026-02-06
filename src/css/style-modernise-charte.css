@@ -125,16 +125,22 @@ p  { font-size: 12px; line-height: 1.4; }
 
 /* Layout */
 #contenu {
-  overflow: visible;        /* supprime les scrolls internes */
-  max-height: none;         /* enlève toute contrainte de hauteur */
-  white-space: normal;      /* retour à la ligne normal */
+  max-height: none;
+  white-space: normal;
+  line-height: 1.3;
+
+  overflow-x: hidden;
   word-wrap: break-word;
   overflow-wrap: break-word;
 }
 
-.row {
-  overflow: visible;
+#contenu p,
+#contenu ul,
+#contenu li {
+  margin: 0.2em 0;
 }
+
+
 #content-p {
   white-space: normal;
   word-break: normal;
