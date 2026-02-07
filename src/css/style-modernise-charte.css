@@ -52,10 +52,6 @@ p  { font-size: 12px; line-height: 1.4; }
 }
 
 /* ===============================
-   Layout colonnes – version corrigée
-   =============================== */
-
-/* ===============================
    Layout colonnes – anti-débordement, pas de scroll
    =============================== */
 
@@ -167,39 +163,39 @@ p  { font-size: 12px; line-height: 1.4; }
 /* ===============================
    Contenu texte
    =============================== */
-
-#contenu {
-  max-height: none;
-  white-space: normal;        /* permet le wrapping du texte */
-  line-height: 1.3;
-  overflow-x: hidden;
-  word-wrap: break-word;      /* pour couper les mots longs si besoin */
-  overflow-wrap: break-word;
-}
-
-#contenu p,
-#contenu ul,
-#contenu li {
-  margin: 0.2em 0;
-  display: block;             /* chaque li prend toute la largeur */
-  word-break: break-word;     /* force le retour à la ligne si mot trop long */
-}
-
-#content-p {
-  white-space: normal;        /* permet le retour à la ligne */
-  word-break: break-word;     /* coupure des mots trop longs */
-  overflow-wrap: anywhere;    /* alternative pour assurer le wrapping */
-}
-
-#content-p p,
-#content-p li {
-  max-width: 100%;            /* limite à la largeur du conteneur */
-  display: block;
-}
-
-
 /* iframe pleine hauteur */
 iframe {
   min-height: 100vh;
 }
+
+#contenu {
+  max-height: none;          /* autorise la hauteur illimitée */
+  height: auto;              /* laisse le contenu définir la hauteur */
+  white-space: normal;       /* retour à la ligne automatique */
+  line-height: 1.3;
+  overflow: visible;         /* ne coupe pas le texte */
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+}
+
+#contenu ul,
+#contenu li,
+#contenu p {
+  margin: 0.2em 0;
+  display: block;
+  word-break: break-word;    /* coupe les mots trop longs si nécessaire */
+}
+
+#content-p {
+  white-space: normal;
+  word-break: break-word;
+  overflow: visible;         /* autorise le texte à dépasser verticalement */
+}
+
+#content-p p,
+#content-p li {
+  max-width: 100%;
+  display: block;
+}
+
 </style>
