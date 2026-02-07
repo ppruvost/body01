@@ -12,16 +12,26 @@
             margin: 0px;
             overflow: hidden;
         }
+        .label {
+            color: #fff;
+            background-color: rgba(0,0,0,0.5);
+            padding: 2px 4px;
+            border-radius: 3px;
+            font-size: 12px;
+            pointer-events: none;
+            white-space: nowrap;
+        }
     </style>
 </head>
 <body id="acu">
     <script src="three/build/three.js"></script>
     <script src="three/loaders/OBJLoader.js"></script>
     <script src="three/controls/OrbitControls.js"></script>
+    <script src="three/examples/js/renderers/CSS2DRenderer.js"></script>
 
     <script>
         // Variables globales
-        let container, camera, scene, renderer, controls;
+        let container, camera, scene, renderer, labelRenderer, controls;
         let raycaster = new THREE.Raycaster();
         let mouse = new THREE.Vector2();
         let INTERSECTED = null;
@@ -32,6 +42,9 @@
         let focoCamera = false;
         let p = new THREE.Vector3(0, 0, 0);
         let obj = null, obj_aux = null;
+
+        // Stockage des labels
+        const labels = [];
 
         // Initialisation des écouteurs pour les points d'acupression
         function initEventListeners() {
@@ -88,6 +101,16 @@
             object.position.set(x, y, z);
             if (view !== null) object.view = view;
             scene.add(object);
+        }
+
+            // Création du label HTML
+            const div = document.createElement('div');
+            div.className = 'label';
+            div.textContent = name;
+            const label = new THREE.CSS2DObject(div);
+            label.position.set(0, 0.5, 0); // légèrement au-dessus de la sphère
+            object.add(label);
+            labels.push(label);
         }
 
         // Initialisation de la scène
@@ -291,6 +314,14 @@
             renderer.setPixelRatio(window.devicePixelRatio);
             renderer.setSize(window.innerWidth, window.innerHeight);
             container.appendChild(renderer.domElement);
+            
+            // Rendu des labels
+            labelRenderer = new THREE.CSS2DRenderer();
+            labelRenderer.setSize(window.innerWidth, window.innerHeight);
+            labelRenderer.domElement.style.position = 'absolute';
+            labelRenderer.domElement.style.top = '0px';
+            labelRenderer.domElement.style.pointerEvents = 'none';
+            container.appendChild(labelRenderer.domElement);            
 
             // Gestion des événements
             window.addEventListener('resize', onWindowResize);
@@ -314,14 +345,23 @@
             mouseX = (event.clientX - windowHalfX) / 2;
             mouseY = (event.clientY - windowHalfY) / 2;
         }
+        let lastClickedPoint = null;   
 
         function onDocumentClick(event) {
             event.preventDefault();
             raycaster.setFromCamera(mouse, camera);
             const intersects = raycaster.intersectObjects(scene.children);
-
+            
             if (intersects.length > 0) {
                 INTERSECTED = intersects[0].object;
+
+                if (lastClickedPoint && lastClickedPoint !== clickedObject) {
+                    lastClickedPoint.material.color.setHex(lastClickedPoint.originalColor);
+                }
+                if (!clickedObject.originalColor) clickedObject.originalColor = clickedObject.material.color.getHex();
+                clickedObject.material.color.setHex(0xFF0000);
+                lastClickedPoint = clickedObject;
+                
                 const mer = INTERSECTED.name.replace(/[0-9]+/, '');
                 const meridiano = parent.document.getElementById(mer);
                 const animacao = parent.document.getElementById(INTERSECTED.name);
@@ -366,7 +406,9 @@
         // Animation
         function animate() {
             requestAnimationFrame(animate);
-            render();
+            controls.update();
+            renderer.render(scene, camera);
+            labelRenderer.render(scene, camera);
         }
 
         // Rendu
