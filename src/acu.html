@@ -34,50 +34,35 @@
         let container, camera, scene, renderer, labelRenderer, controls;
         let raycaster = new THREE.Raycaster();
         let mouse = new THREE.Vector2();
-        let INTERSECTED = null;
         let mouseX = 0, mouseY = 0;
         let windowHalfX = window.innerWidth / 2;
         let windowHalfY = window.innerHeight / 2;
-        let acuX = 0, acuY = 0, acuZ = 0, acuXF = 0, acuYF = 0, acuZF = 0;
+        let acuX = 0, acuY = 0, acuZ = 0;
+        let acuXF = 0, acuYF = 0, acuZF = 0;
         let focoCamera = false;
         let p = new THREE.Vector3(0, 0, 0);
-        let obj = null, obj_aux = null;
+        let obj_aux = null;
 
-        // Stockage des labels
         const labels = [];
+        let lastClickedPoint = null;
 
         // Initialisation des écouteurs pour les points d'acupression
         function initEventListeners() {
             const meridianPoints = [
-                // Poumon
                 { id: 'p', count: 11 },
-                // Gros Intestin
                 { id: 'gi', count: 20 },
-                 // Estomac
                 { id: 'e', count: 45 },
-                // Rate
                 { id: 'rp', count: 21 },
-                // Coeur
                 { id: 'c', count: 9 },
-               // intestin grêle
                 { id: 'ig', count: 19 },
-                // vessie
                 { id: 'v', count: 67 },
-                // rein
                 { id: 'r', count: 27 },
-                // péricarde
                 { id: 'pc', count: 9 },
-                // triple réchaufeur
                 { id: 'tr', count: 23 },
-                // vésicule biliaire
                 { id: 'vb', count: 44 },
-                // foie
                 { id: 'f', count: 14 },
-                // Vaisseau gouverneur
                 { id: 'vg', count: 28 },
-                // Vaisseau conception
                 { id: 'vc', count: 24 },
-                // Point unique
                 { id: 'cs', count: 1 }
             ];
 
@@ -92,7 +77,7 @@
             });
         }
 
-        // Fonction pour créer une sphère
+        // Création d'une sphère avec label
         function createSphere(name, color, x, y, z, view = null) {
             const geometry = new THREE.SphereGeometry(0.3, 32, 32);
             const material = new THREE.MeshLambertMaterial({ color });
@@ -101,14 +86,13 @@
             object.position.set(x, y, z);
             if (view !== null) object.view = view;
             scene.add(object);
-        }
 
-            // Création du label HTML
+            // Création du label
             const div = document.createElement('div');
             div.className = 'label';
             div.textContent = name;
             const label = new THREE.CSS2DObject(div);
-            label.position.set(0, 0.5, 0); // légèrement au-dessus de la sphère
+            label.position.set(0, 0.5, 0);
             object.add(label);
             labels.push(label);
         }
@@ -122,16 +106,14 @@
             camera.position.z = 250;
 
             controls = new THREE.OrbitControls(camera);
-            controls.damping = 0.2;
+            controls.dampingFactor = 0.2;
             controls.addEventListener('change', render);
 
             scene = new THREE.Scene();
 
-            // Lumière ambiante
             const ambient = new THREE.AmbientLight(0x101030);
             scene.add(ambient);
 
-            // Lumière directionnelle
             const directionalLight1 = new THREE.DirectionalLight(0xffeedd);
             directionalLight1.position.set(0, 0, 1);
             scene.add(directionalLight1);
@@ -275,67 +257,51 @@
                 createSphere(pos.name, 0xFFD700, pos.x, pos.y, pos.z, pos.view);
             });
 
-            // Chargement du modèle OBJ
+             // Chargement OBJ
             const manager = new THREE.LoadingManager();
-            manager.onProgress = (item, loaded, total) => {
-                console.log(item, loaded, total);
-            };
-
             const texture = new THREE.Texture();
-            const onProgress = (xhr) => {
-                if (xhr.lengthComputable) {
-                    const percentComplete = (xhr.loaded / xhr.total) * 100;
-                    console.log(Math.round(percentComplete, 2) + '% downloaded');
-                }
-            };
-
-            const onError = () => {};
-
             const loaderImage = new THREE.ImageLoader(manager);
-            loaderImage.load('three/textura/UV_Grid_Sm.jpg', (image) => {
+            loaderImage.load('three/textura/UV_Grid_Sm.jpg', image => {
                 texture.image = image;
                 texture.needsUpdate = true;
             });
 
             const loaderObj = new THREE.OBJLoader(manager);
-            loaderObj.load('three/modelo/corpo.obj', (object) => {
-                object.traverse((child) => {
+            loaderObj.load('three/modelo/corpo.obj', object => {
+                object.traverse(child => {
                     if (child instanceof THREE.Mesh) {
                         child.material.map = texture;
                     }
                 });
                 object.position.y = -95;
                 scene.add(object);
-            }, onProgress, onError);
+            });
 
-            // Configuration du rendu
             renderer = new THREE.WebGLRenderer();
             renderer.setClearColor(0xBD786C);
             renderer.setPixelRatio(window.devicePixelRatio);
             renderer.setSize(window.innerWidth, window.innerHeight);
             container.appendChild(renderer.domElement);
-            
-            // Rendu des labels
+
             labelRenderer = new THREE.CSS2DRenderer();
             labelRenderer.setSize(window.innerWidth, window.innerHeight);
             labelRenderer.domElement.style.position = 'absolute';
             labelRenderer.domElement.style.top = '0px';
             labelRenderer.domElement.style.pointerEvents = 'none';
-            container.appendChild(labelRenderer.domElement);            
+            container.appendChild(labelRenderer.domElement);
 
-            // Gestion des événements
             window.addEventListener('resize', onWindowResize);
             window.addEventListener('mousemove', onDocumentMouseMove);
             window.addEventListener('click', onDocumentClick);
         }
 
-        // Fonctions de gestion des événements
         function onWindowResize() {
             windowHalfX = window.innerWidth / 2;
             windowHalfY = window.innerHeight / 2;
             camera.aspect = window.innerWidth / window.innerHeight;
             camera.updateProjectionMatrix();
             renderer.setSize(window.innerWidth, window.innerHeight);
+            labelRenderer.setSize(window.innerWidth, window.innerHeight);
         }
 
         function onDocumentMouseMove(event) {
@@ -345,15 +311,14 @@
             mouseX = (event.clientX - windowHalfX) / 2;
             mouseY = (event.clientY - windowHalfY) / 2;
         }
-        let lastClickedPoint = null;   
 
         function onDocumentClick(event) {
             event.preventDefault();
             raycaster.setFromCamera(mouse, camera);
-            const intersects = raycaster.intersectObjects(scene.children);
-            
+            const intersects = raycaster.intersectObjects(scene.children, true);
+
             if (intersects.length > 0) {
-                INTERSECTED = intersects[0].object;
+                const clickedObject = intersects[0].object;
 
                 if (lastClickedPoint && lastClickedPoint !== clickedObject) {
                     lastClickedPoint.material.color.setHex(lastClickedPoint.originalColor);
@@ -361,127 +326,73 @@
                 if (!clickedObject.originalColor) clickedObject.originalColor = clickedObject.material.color.getHex();
                 clickedObject.material.color.setHex(0xFF0000);
                 lastClickedPoint = clickedObject;
-                
-                const mer = INTERSECTED.name.replace(/[0-9]+/, '');
-                const meridiano = parent.document.getElementById(mer);
-                const animacao = parent.document.getElementById(INTERSECTED.name);
 
-                meridiano?.click();
-                animacao?.click();
+                const mer = clickedObject.name.replace(/[0-9]+/, '');
+                parent.document.getElementById(mer)?.click();
+                parent.document.getElementById(clickedObject.name)?.click();
 
-                // Envoi du point sélectionné vers index.html
-                window.parent.postMessage(
-                    { type: 'selectPoint', point: INTERSECTED.name },
-                    '*'
-                );
+                window.parent.postMessage({ type: 'selectPoint', point: clickedObject.name }, '*');
             }
         }
 
-        // Fonction pour gérer les points d'acupression
         function acuPonto(pto) {
-            if (obj_aux !== null) {
-                obj_aux.material.emissive.setHex(obj_aux.currentHex);
-            }
+            if (obj_aux) obj_aux.material.emissive.setHex(obj_aux.currentHex || 0);
 
-            obj = scene.getObjectByName(pto);
-            if (obj) {
-                obj.currentHex = obj.material.emissive.getHex();
-                obj.material.emissive.setHex(0xff0000);
-                obj_aux = obj;
+            const obj = scene.getObjectByName(pto);
+            if (!obj) return;
 
-                acuX = obj.position.x;
-                acuY = obj.position.y;
-                acuZ = obj.position.z;
+            obj.currentHex = obj.material.emissive.getHex();
+            obj.material.emissive.setHex(0xff0000);
+            obj_aux = obj;
 
-                if (obj.view === undefined) acuZF = 45;
-                else if (obj.view === 1) acuXF = 45;
-                else if (obj.view === -1) acuXF = -45;
-                else if (obj.view === -2) acuZF = -45;
+            acuX = obj.position.x;
+            acuY = obj.position.y;
+            acuZ = obj.position.z;
 
-                p.set(acuX, acuY, acuZ);
-                focoCamera = true;
-            }
+            acuXF = 0;
+            acuYF = 0;
+            acuZF = 0;
+
+            if (obj.view === 1) acuXF = 45;
+            else if (obj.view === -1) acuXF = -45;
+            else if (obj.view === -2) acuZF = -45;
+            else acuZF = 45;
+
+            p.set(acuX, acuY, acuZ);
+            focoCamera = true;
         }
 
-        // Animation
         function animate() {
             requestAnimationFrame(animate);
             controls.update();
-            renderer.render(scene, camera);
+            render();
             labelRenderer.render(scene, camera);
         }
 
-        // Rendu
         function render() {
             renderer.render(scene, camera);
 
             if (focoCamera) {
-                if (camera.position.x !== acuX + acuXF) {
-                    camera.position.x += (acuX + acuXF - camera.position.x) / 10;
-                }
+                camera.position.x += (acuX + acuXF - camera.position.x) / 10;
+                camera.position.y += (acuY - camera.position.y) / 10;
+                camera.position.z += (acuZ + acuZF - camera.position.z) / 10;
 
-                if (camera.position.y !== acuY) {
-                    camera.position.y += (acuY - camera.position.y) / 10;
-                }
-
-                if (camera.position.z !== acuZ + acuZF) {
-                    camera.position.z += (acuZ + acuZF - camera.position.z) / 10;
-                }
+                camera.lookAt(p);
 
                 if (Math.round(camera.position.x) === Math.round(acuX + acuXF) &&
                     Math.round(camera.position.y) === Math.round(acuY) &&
                     Math.round(camera.position.z) === Math.round(acuZ + acuZF)) {
-                    acuZF = 0;
-                    acuYF = 0;
-                    acuXF = 0;
+                    acuXF = 0; acuYF = 0; acuZF = 0;
                     focoCamera = false;
                     controls.target = p;
                 }
-
-                camera.lookAt(p);
             }
         }
 
-        // Initialisation
+        // Lancement
         init();
         initEventListeners();
         animate();
-
-        // Ajoutez cette variable globale pour stocker le dernier point cliqué
-    let lastClickedPoint = null;
-
-    function onDocumentClick(event) {
-        event.preventDefault();
-        raycaster.setFromCamera(mouse, camera);
-        const intersects = raycaster.intersectObjects(scene.children);
-
-        if (intersects.length > 0) {
-            const clickedObject = intersects[0].object;
-            // Si un point était déjà cliqué, restaurer sa couleur
-            if (lastClickedPoint && lastClickedPoint !== clickedObject) {
-                lastClickedPoint.material.color.setHex(lastClickedPoint.originalColor);
-            }
-            // Stocker la couleur originale si ce n'est pas déjà fait
-            if (!clickedObject.originalColor) {
-                clickedObject.originalColor = clickedObject.material.color.getHex();
-            }
-            // Changer la couleur du nouveau point cliqué en rouge
-            clickedObject.material.color.setHex(0xFF0000);
-            lastClickedPoint = clickedObject;
-
-            const mer = clickedObject.name.replace(/[0-9]+/, '');
-            const meridiano = parent.document.getElementById(mer);
-            const animacao = parent.document.getElementById(clickedObject.name);
-
-            meridiano?.click();
-            animacao?.click();
-
-            window.parent.postMessage(
-                { type: 'selectPoint', point: clickedObject.name },
-                '*'
-            );
-        }
-    }
     </script>
 </body>
 </html>
