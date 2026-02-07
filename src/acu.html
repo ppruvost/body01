@@ -311,7 +311,7 @@
                 const clickedObject = intersects[0].object;
 
                 // Mettre à jour le label
-                document.getElementById('pointLabel').textContent = `Point sélectionné : ${clickedObject.name} © bien-etre-geobiologie.fr`;
+                document.getElementById('pointLabel').textContent = `${clickedObject.name} © bien-etre-geobiologie.fr`;
 
                 // Si un point était déjà cliqué, restaurer sa couleur
                 if (lastClickedPoint && lastClickedPoint !== clickedObject) {
@@ -354,7 +354,7 @@
                 obj_aux = obj;
 
                 // Mettre à jour le label
-                document.getElementById('pointLabel').textContent = `Point sélectionné : ${pto} © bien-etre-geobiologie.fr`;
+                document.getElementById('pointLabel').textContent = `${pto} © bien-etre-geobiologie.fr`;
 
                 acuX = obj.position.x;
                 acuY = obj.position.y;
