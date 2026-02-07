@@ -15,6 +15,7 @@
     </style>
 </head>
 <body id="acu">
+    <div id="pointLabel" style="position: absolute; top: 10px; left: 10px; background: rgba(0,0,0,0.7); color: white; padding: 10px; border-radius: 5px; font-family: Monospace; z-index: 100;"></div>
     <script src="three/build/three.js"></script>
     <script src="three/loaders/OBJLoader.js"></script>
     <script src="three/controls/OrbitControls.js"></script>
@@ -32,39 +33,25 @@
         let focoCamera = false;
         let p = new THREE.Vector3(0, 0, 0);
         let obj = null, obj_aux = null;
+        let lastClickedPoint = null;
 
         // Initialisation des écouteurs pour les points d'acupression
         function initEventListeners() {
             const meridianPoints = [
-                // Poumon
                 { id: 'p', count: 11 },
-                // Gros Intestin
                 { id: 'gi', count: 20 },
-                 // Estomac
                 { id: 'e', count: 45 },
-                // Rate
                 { id: 'rp', count: 21 },
-                // Coeur
                 { id: 'c', count: 9 },
-               // intestin grêle
                 { id: 'ig', count: 19 },
-                // vessie
                 { id: 'v', count: 67 },
-                // rein
                 { id: 'r', count: 27 },
-                // péricarde
                 { id: 'pc', count: 9 },
-                // triple réchaufeur
                 { id: 'tr', count: 23 },
-                // vésicule biliaire
                 { id: 'vb', count: 44 },
-                // foie
                 { id: 'f', count: 14 },
-                // Vaisseau gouverneur
                 { id: 'vg', count: 28 },
-                // Vaisseau conception
                 { id: 'vc', count: 24 },
-                // Point unique
                 { id: 'cs', count: 1 }
             ];
 
@@ -321,17 +308,34 @@
             const intersects = raycaster.intersectObjects(scene.children);
 
             if (intersects.length > 0) {
-                INTERSECTED = intersects[0].object;
-                const mer = INTERSECTED.name.replace(/[0-9]+/, '');
+                const clickedObject = intersects[0].object;
+
+                // Mettre à jour le label
+                document.getElementById('pointLabel').textContent = `Point sélectionné : ${clickedObject.name}`;
+
+                // Si un point était déjà cliqué, restaurer sa couleur
+                if (lastClickedPoint && lastClickedPoint !== clickedObject) {
+                    lastClickedPoint.material.color.setHex(lastClickedPoint.originalColor);
+                }
+
+                // Stocker la couleur originale si ce n'est pas déjà fait
+                if (!clickedObject.originalColor) {
+                    clickedObject.originalColor = clickedObject.material.color.getHex();
+                }
+
+                // Changer la couleur du nouveau point cliqué en rouge
+                clickedObject.material.color.setHex(0xFF0000);
+                lastClickedPoint = clickedObject;
+
+                const mer = clickedObject.name.replace(/[0-9]+/, '');
                 const meridiano = parent.document.getElementById(mer);
-                const animacao = parent.document.getElementById(INTERSECTED.name);
+                const animacao = parent.document.getElementById(clickedObject.name);
 
                 meridiano?.click();
                 animacao?.click();
 
-                // Envoi du point sélectionné vers index.html
                 window.parent.postMessage(
-                    { type: 'selectPoint', point: INTERSECTED.name },
+                    { type: 'selectPoint', point: clickedObject.name },
                     '*'
                 );
             }
@@ -348,6 +352,9 @@
                 obj.currentHex = obj.material.emissive.getHex();
                 obj.material.emissive.setHex(0xff0000);
                 obj_aux = obj;
+
+                // Mettre à jour le label
+                document.getElementById('pointLabel').textContent = `Point sélectionné : ${pto}`;
 
                 acuX = obj.position.x;
                 acuY = obj.position.y;
@@ -404,42 +411,6 @@
         init();
         initEventListeners();
         animate();
-
-        // Ajoutez cette variable globale pour stocker le dernier point cliqué
-    let lastClickedPoint = null;
-
-    function onDocumentClick(event) {
-        event.preventDefault();
-        raycaster.setFromCamera(mouse, camera);
-        const intersects = raycaster.intersectObjects(scene.children);
-
-        if (intersects.length > 0) {
-            const clickedObject = intersects[0].object;
-            // Si un point était déjà cliqué, restaurer sa couleur
-            if (lastClickedPoint && lastClickedPoint !== clickedObject) {
-                lastClickedPoint.material.color.setHex(lastClickedPoint.originalColor);
-            }
-            // Stocker la couleur originale si ce n'est pas déjà fait
-            if (!clickedObject.originalColor) {
-                clickedObject.originalColor = clickedObject.material.color.getHex();
-            }
-            // Changer la couleur du nouveau point cliqué en rouge
-            clickedObject.material.color.setHex(0xFF0000);
-            lastClickedPoint = clickedObject;
-
-            const mer = clickedObject.name.replace(/[0-9]+/, '');
-            const meridiano = parent.document.getElementById(mer);
-            const animacao = parent.document.getElementById(clickedObject.name);
-
-            meridiano?.click();
-            animacao?.click();
-
-            window.parent.postMessage(
-                { type: 'selectPoint', point: clickedObject.name },
-                '*'
-            );
-        }
-    }
     </script>
 </body>
 </html>
