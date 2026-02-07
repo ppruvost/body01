@@ -3,48 +3,41 @@
 <head>
     <title>Liaison Points d'Énergie</title>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
         body {
-            font-family: Monospace;
-            background-color: #BD786C;
-            color: #fff;
-            margin: 0px;
+            margin: 0;
             overflow: hidden;
+            background-color: #BD786C;
+            font-family: monospace;
         }
         .label {
             color: #fff;
-            background-color: rgba(0,0,0,0.5);
-            padding: 2px 4px;
-            border-radius: 3px;
-            font-size: 12px;
-            pointer-events: none;
+            background: rgba(0,0,0,0.6);
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 11px;
             white-space: nowrap;
+            pointer-events: none;
         }
     </style>
 </head>
-<body id="acu">
-    <script src="three/build/three.js"></script>
-    <script src="three/loaders/OBJLoader.js"></script>
-    <script src="three/controls/OrbitControls.js"></script>
-    <script src="three/examples/js/renderers/CSS2DRenderer.js"></script>
 
-    <script>
-        // Variables globales
-        let container, camera, scene, renderer, labelRenderer, controls;
-        let raycaster = new THREE.Raycaster();
-        let mouse = new THREE.Vector2();
-        let mouseX = 0, mouseY = 0;
-        let windowHalfX = window.innerWidth / 2;
-        let windowHalfY = window.innerHeight / 2;
-        let acuX = 0, acuY = 0, acuZ = 0;
-        let acuXF = 0, acuYF = 0, acuZF = 0;
-        let focoCamera = false;
-        let p = new THREE.Vector3(0, 0, 0);
-        let obj_aux = null;
+<body>
+<script src="three/build/three.js"></script>
+<script src="three/controls/OrbitControls.js"></script>
+<script src="three/loaders/OBJLoader.js"></script>
+<script src="three/examples/js/renderers/CSS2DRenderer.js"></script>
 
-        const labels = [];
-        let lastClickedPoint = null;
+<script>
+let scene, camera, renderer, labelRenderer, controls;
+let raycaster = new THREE.Raycaster();
+let mouse = new THREE.Vector2();
+let lastClickedPoint = null;
+let focoCamera = false;
+let p = new THREE.Vector3();
+let acuX=0, acuY=0, acuZ=0, acuXF=0, acuZF=0;
+let obj_aux = null;
 
         // Initialisation des écouteurs pour les points d'acupression
         function initEventListeners() {
@@ -77,50 +70,36 @@
             });
         }
 
-        // Création d'une sphère avec label
-        function createSphere(name, color, x, y, z, view = null) {
-            const geometry = new THREE.SphereGeometry(0.3, 32, 32);
-            const material = new THREE.MeshLambertMaterial({ color });
-            const object = new THREE.Mesh(geometry, material);
-            object.name = name;
-            object.position.set(x, y, z);
-            if (view !== null) object.view = view;
-            scene.add(object);
+/* ================= INIT ================= */
 
-            // Création du label
-            const div = document.createElement('div');
-            div.className = 'label';
-            div.textContent = name;
-            const label = new THREE.CSS2DObject(div);
-            label.position.set(0, 0.5, 0);
-            object.add(label);
-            labels.push(label);
-        }
+function init() {
+    scene = new THREE.Scene();
 
-        // Initialisation de la scène
-        function init() {
-            container = document.createElement('div');
-            document.body.appendChild(container);
+    camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 3000);
+    camera.position.set(0, 50, 250);
 
-            camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.5, 2000);
-            camera.position.z = 250;
+    renderer = new THREE.WebGLRenderer({ antialias: true });
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.setClearColor(0xBD786C);
+    document.body.appendChild(renderer.domElement);
 
-            controls = new THREE.OrbitControls(camera);
-            controls.dampingFactor = 0.2;
-            controls.addEventListener('change', render);
+    labelRenderer = new THREE.CSS2DRenderer();
+    labelRenderer.setSize(window.innerWidth, window.innerHeight);
+    labelRenderer.domElement.style.position = 'absolute';
+    labelRenderer.domElement.style.top = '0';
+    labelRenderer.domElement.style.pointerEvents = 'none';
+    document.body.appendChild(labelRenderer.domElement);
 
-            scene = new THREE.Scene();
+    controls = new THREE.OrbitControls(camera, renderer.domElement);
+    controls.enableDamping = true;
+    controls.dampingFactor = 0.08;
 
-            const ambient = new THREE.AmbientLight(0x101030);
-            scene.add(ambient);
+    scene.add(new THREE.AmbientLight(0xffffff, 0.7));
 
-            const directionalLight1 = new THREE.DirectionalLight(0xffeedd);
-            directionalLight1.position.set(0, 0, 1);
-            scene.add(directionalLight1);
+    const dir = new THREE.DirectionalLight(0xffffff, 0.7);
+    dir.position.set(100,100,100);
+    scene.add(dir);
 
-            const directionalLight2 = new THREE.DirectionalLight(0xffeedd);
-            directionalLight2.position.set(0, 0, -1);
-            scene.add(directionalLight2);
 
             // Création des sphères
             createSphere('cs7', Math.random() * 0x0000FF, -24.71516683000315, -6.555406638283143, 0.6);
@@ -257,142 +236,125 @@
                 createSphere(pos.name, 0xFFD700, pos.x, pos.y, pos.z, pos.view);
             });
 
-             // Chargement OBJ
-            const manager = new THREE.LoadingManager();
-            const texture = new THREE.Texture();
-            const loaderImage = new THREE.ImageLoader(manager);
-            loaderImage.load('three/textura/UV_Grid_Sm.jpg', image => {
-                texture.image = image;
-                texture.needsUpdate = true;
-            });
+    loadBody();
 
-            const loaderObj = new THREE.OBJLoader(manager);
-            loaderObj.load('three/modelo/corpo.obj', object => {
-                object.traverse(child => {
-                    if (child instanceof THREE.Mesh) {
-                        child.material.map = texture;
-                    }
-                });
-                object.position.y = -95;
-                scene.add(object);
-            });
+    window.addEventListener('resize', onResize);
+    window.addEventListener('click', onClick);
+}
 
-            renderer = new THREE.WebGLRenderer();
-            renderer.setClearColor(0xBD786C);
-            renderer.setPixelRatio(window.devicePixelRatio);
-            renderer.setSize(window.innerWidth, window.innerHeight);
-            container.appendChild(renderer.domElement);
+/* ================= SPHÈRES ================= */
 
-            labelRenderer = new THREE.CSS2DRenderer();
-            labelRenderer.setSize(window.innerWidth, window.innerHeight);
-            labelRenderer.domElement.style.position = 'absolute';
-            labelRenderer.domElement.style.top = '0px';
-            labelRenderer.domElement.style.pointerEvents = 'none';
-            container.appendChild(labelRenderer.domElement);
+function createSphere(name, color, x, y, z, view=null) {
+    const geo = new THREE.SphereGeometry(0.6, 24, 24);
+    const mat = new THREE.MeshLambertMaterial({ color });
+    const mesh = new THREE.Mesh(geo, mat);
+    mesh.name = name;
+    mesh.position.set(x, y, z);
+    if (view !== null) mesh.view = view;
+    scene.add(mesh);
 
-            window.addEventListener('resize', onWindowResize);
-            window.addEventListener('mousemove', onDocumentMouseMove);
-            window.addEventListener('click', onDocumentClick);
+    const div = document.createElement('div');
+    div.className = 'label';
+    div.textContent = name;
+    const label = new THREE.CSS2DObject(div);
+    label.position.set(0, 1, 0);
+    mesh.add(label);
+}
+
+/* ================= OBJ ================= */
+
+function loadBody() {
+    const manager = new THREE.LoadingManager();
+
+    const texture = new THREE.Texture();
+    new THREE.ImageLoader(manager).load(
+        'three/textura/UV_Grid_Sm.jpg',
+        img => {
+            texture.image = img;
+            texture.needsUpdate = true;
         }
+    );
 
-        function onWindowResize() {
-            windowHalfX = window.innerWidth / 2;
-            windowHalfY = window.innerHeight / 2;
-            camera.aspect = window.innerWidth / window.innerHeight;
-            camera.updateProjectionMatrix();
-            renderer.setSize(window.innerWidth, window.innerHeight);
-            labelRenderer.setSize(window.innerWidth, window.innerHeight);
-        }
-
-        function onDocumentMouseMove(event) {
-            event.preventDefault();
-            mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
-            mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
-            mouseX = (event.clientX - windowHalfX) / 2;
-            mouseY = (event.clientY - windowHalfY) / 2;
-        }
-
-        function onDocumentClick(event) {
-            event.preventDefault();
-            raycaster.setFromCamera(mouse, camera);
-            const intersects = raycaster.intersectObjects(scene.children, true);
-
-            if (intersects.length > 0) {
-                const clickedObject = intersects[0].object;
-
-                if (lastClickedPoint && lastClickedPoint !== clickedObject) {
-                    lastClickedPoint.material.color.setHex(lastClickedPoint.originalColor);
+    new THREE.OBJLoader(manager).load(
+        'three/modelo/corpo.obj',
+        obj => {
+            obj.traverse(c => {
+                if (c.isMesh) {
+                    c.material = new THREE.MeshLambertMaterial({ map: texture });
                 }
-                if (!clickedObject.originalColor) clickedObject.originalColor = clickedObject.material.color.getHex();
-                clickedObject.material.color.setHex(0xFF0000);
-                lastClickedPoint = clickedObject;
-
-                const mer = clickedObject.name.replace(/[0-9]+/, '');
-                parent.document.getElementById(mer)?.click();
-                parent.document.getElementById(clickedObject.name)?.click();
-
-                window.parent.postMessage({ type: 'selectPoint', point: clickedObject.name }, '*');
-            }
+            });
+            obj.position.y = -95;
+            scene.add(obj);
         }
+    );
+}
 
-        function acuPonto(pto) {
-            if (obj_aux) obj_aux.material.emissive.setHex(obj_aux.currentHex || 0);
+/* ================= EVENTS ================= */
 
-            const obj = scene.getObjectByName(pto);
-            if (!obj) return;
+function onClick(e) {
+    mouse.x = (e.clientX / window.innerWidth) * 2 - 1;
+    mouse.y = -(e.clientY / window.innerHeight) * 2 + 1;
 
-            obj.currentHex = obj.material.emissive.getHex();
-            obj.material.emissive.setHex(0xff0000);
-            obj_aux = obj;
+    raycaster.setFromCamera(mouse, camera);
+    const intersects = raycaster.intersectObjects(scene.children, true);
 
-            acuX = obj.position.x;
-            acuY = obj.position.y;
-            acuZ = obj.position.z;
+    if (!intersects.length) return;
 
-            acuXF = 0;
-            acuYF = 0;
-            acuZF = 0;
+    const obj = intersects[0].object;
+    if (!(obj.geometry instanceof THREE.SphereGeometry)) return;
 
-            if (obj.view === 1) acuXF = 45;
-            else if (obj.view === -1) acuXF = -45;
-            else if (obj.view === -2) acuZF = -45;
-            else acuZF = 45;
+    if (lastClickedPoint && lastClickedPoint.material) {
+        lastClickedPoint.material.color.setHex(lastClickedPoint.originalColor);
+    }
 
-            p.set(acuX, acuY, acuZ);
-            focoCamera = true;
-        }
+    if (!obj.originalColor) {
+        obj.originalColor = obj.material.color.getHex();
+    }
 
-        function animate() {
-            requestAnimationFrame(animate);
-            controls.update();
-            render();
-            labelRenderer.render(scene, camera);
-        }
+    obj.material.color.setHex(0xff0000);
+    lastClickedPoint = obj;
 
-        function render() {
-            renderer.render(scene, camera);
+    acuX = obj.position.x;
+    acuY = obj.position.y;
+    acuZ = obj.position.z;
+    acuXF = obj.view === 1 ? 45 : obj.view === -1 ? -45 : 0;
+    acuZF = obj.view === -2 ? -45 : 45;
 
-            if (focoCamera) {
-                camera.position.x += (acuX + acuXF - camera.position.x) / 10;
-                camera.position.y += (acuY - camera.position.y) / 10;
-                camera.position.z += (acuZ + acuZF - camera.position.z) / 10;
+    p.set(acuX, acuY, acuZ);
+    focoCamera = true;
+}
 
-                camera.lookAt(p);
+/* ================= RENDER ================= */
 
-                if (Math.round(camera.position.x) === Math.round(acuX + acuXF) &&
-                    Math.round(camera.position.y) === Math.round(acuY) &&
-                    Math.round(camera.position.z) === Math.round(acuZ + acuZF)) {
-                    acuXF = 0; acuYF = 0; acuZF = 0;
-                    focoCamera = false;
-                    controls.target = p;
-                }
-            }
-        }
+function animate() {
+    requestAnimationFrame(animate);
+    controls.update();
+    render();
+}
 
-        // Lancement
-        init();
-        initEventListeners();
-        animate();
-    </script>
+function render() {
+    if (focoCamera) {
+        camera.position.x += (acuX + acuXF - camera.position.x) * 0.1;
+        camera.position.y += (acuY - camera.position.y) * 0.1;
+        camera.position.z += (acuZ + acuZF - camera.position.z) * 0.1;
+        camera.lookAt(p);
+    }
+    renderer.render(scene, camera);
+    labelRenderer.render(scene, camera);
+}
+
+function onResize() {
+    camera.aspect = window.innerWidth / window.innerHeight;
+    camera.updateProjectionMatrix();
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    labelRenderer.setSize(window.innerWidth, window.innerHeight);
+}
+
+/* ================= START ================= */
+
+init();
+animate();
+</script>
 </body>
 </html>
+
