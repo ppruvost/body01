@@ -24,7 +24,7 @@
             font-family: Arial, sans-serif;
             white-space: nowrap;
 
-            z-index: 9999;   /* 🔥 ESSENTIEL */
+            z-index: 9999;
             pointer-events: none;
         }
 
@@ -338,6 +338,8 @@
             if (intersects.length === 0) return;
 
             const clickedObject = intersects[0].object;
+            if (!clickedObject.geometry || clickedObject.geometry.type !== "SphereGeometry") return;
+
 
             // Sécurité : ignorer objets sans nom (corps, lumières…)
             if (!clickedObject.name) return;
