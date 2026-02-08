@@ -12,18 +12,22 @@
             overflow: hidden;
         }
 
-                #pointLabel {
-          position: absolute;
-          left: 10px;                  /* à gauche de l’image */
-          top: 50%;
-          transform: translateY(-50%) rotate(-90deg);
-          transform-origin: left top;
+        #pointLabel {
+            position: absolute;
+            left: 10px;
+            top: 50%;
+            transform: translateY(-50%) rotate(-90deg);
+            transform-origin: left top;
 
-          background: transparent;     /* fond incolore */
-          color: #3a2d27;              /* marron foncé */
-          font-family: Arial, sans-serif;
-          white-space: nowrap;
+            background: transparent;
+            color: #3a2d27;
+            font-family: Arial, sans-serif;
+            white-space: nowrap;
+
+            z-index: 9999;   /* 🔥 ESSENTIEL */
+            pointer-events: none;
         }
+
 
                 #pointLabel .point-name {
           font-weight: bold;
@@ -112,8 +116,7 @@
             controls = new THREE.OrbitControls(camera);
             controls.damping = 0.2;
             controls.enableRotate = false;
-            controls.enablePan = false;
-            // controls.enableZoom = false; // si besoin
+            controls.enablePan = false;            
             controls.addEventListener('change', render);
 
 
@@ -308,8 +311,7 @@
             container.appendChild(renderer.domElement);
 
             // Gestion des événements
-            window.addEventListener('resize', onWindowResize);
-            window.addEventListener('mousemove', onDocumentMouseMove);
+            window.addEventListener('resize', onWindowResize);            
             window.addEventListener('click', onDocumentClick);
         }
 
@@ -320,19 +322,16 @@
             camera.aspect = window.innerWidth / window.innerHeight;
             camera.updateProjectionMatrix();
             renderer.setSize(window.innerWidth, window.innerHeight);
-        }
-
-        function onDocumentMouseMove(event) {
-            event.preventDefault();
-            mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
-            mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
-            mouseX = (event.clientX - windowHalfX) / 2;
-            mouseY = (event.clientY - windowHalfY) / 2;
-        }
+        }        
 
         function onDocumentClick(event) {
             event.preventDefault();
+
+            mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+            mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
+
             raycaster.setFromCamera(mouse, camera);
+
             const intersects = raycaster.intersectObjects(scene.children);
 
             if (intersects.length > 0) {
