@@ -50,6 +50,9 @@
 
     <script>
         // Variables globales
+        let selectedPoint = null;
+        let originalColor = null;
+        let originalScale = null;
         let container, camera, scene, renderer, controls;
         let raycaster = new THREE.Raycaster();
         let mouse = new THREE.Vector2();
@@ -326,46 +329,59 @@
 
         function onDocumentClick(event) {
             event.preventDefault();
-
             mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
             mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
-
             raycaster.setFromCamera(mouse, camera);
 
-            const intersects = raycaster.intersectObjects(scene.children);
+            const intersects = raycaster.intersectObjects(scene.children, true);
 
-            if (intersects.length > 0) {
-                const clickedObject = intersects[0].object;
+            if (intersects.length === 0) return;
 
-                // Mettre à jour le label
-                document.getElementById('pointLabel').innerHTML = `<span class="point-name">${clickedObject.name.toUpperCase()}</span> <span class="copyright">© bien-etre-geobiologie.fr</span>`;
+            const clickedObject = intersects[0].object;
 
-                // Si un point était déjà cliqué, restaurer sa couleur
-                if (lastClickedPoint && lastClickedPoint !== clickedObject) {
-                    lastClickedPoint.material.color.setHex(lastClickedPoint.originalColor);
-                }
+            // Sécurité : ignorer objets sans nom (corps, lumières…)
+            if (!clickedObject.name) return;
 
-                // Stocker la couleur originale si ce n'est pas déjà fait
-                if (!clickedObject.originalColor) {
-                    clickedObject.originalColor = clickedObject.material.color.getHex();
-                }
-
-                // Changer la couleur du nouveau point cliqué en rouge
-                clickedObject.material.color.setHex(0xFF0000);
-                lastClickedPoint = clickedObject;
-
-                const mer = clickedObject.name.replace(/[0-9]+/, '');
-                const meridiano = parent.document.getElementById(mer);
-                const animacao = parent.document.getElementById(clickedObject.name);
-
-                meridiano?.click();
-                animacao?.click();
-
-                window.parent.postMessage(
-                    { type: 'selectPoint', point: clickedObject.name },
-                    '*'
-                );
+            // Réinitialiser l’ancien point
+            if (selectedPoint) {
+                selectedPoint.material.color.copy(originalColor);
+                selectedPoint.scale.copy(originalScale);
             }
+
+            // Sauvegarde état d’origine
+            selectedPoint = clickedObject;
+            originalColor = clickedObject.material.color.clone();
+            originalScale = clickedObject.scale.clone();
+
+            // Rouge
+            clickedObject.material.color.setHex(0xFF0000);
+
+            // Agrandissement ×2,5
+            clickedObject.scale.set(
+                originalScale.x * 2.5,
+                originalScale.y * 2.5,
+                originalScale.z * 2.5
+            );
+
+            // Label
+            document.getElementById('pointLabel').innerHTML = `
+                <span class="point-name">${clickedObject.name.toUpperCase()}</span>
+                <span class="copyright">© bien-etre-geobiologie.fr</span>
+            `;
+
+            // Interaction parent
+            const mer = clickedObject.name.replace(/[0-9]+/, '');
+            const meridiano = parent.document.getElementById(mer);
+            const animacao = parent.document.getElementById(clickedObject.name);
+
+            meridiano?.click();
+            animacao?.click();
+
+            window.parent.postMessage(
+                { type: 'selectPoint', point: clickedObject.name },
+                '*'
+            );
+        }
         }
 
         // Fonction pour gérer les points d'acupression
