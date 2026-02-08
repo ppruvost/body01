@@ -7,8 +7,7 @@
     <style>
         body {
             font-family: Monospace;
-            background-color: #BD786C;
-            color: #fff;
+            background-color: #BD786C;            
             margin: 0px;
             overflow: hidden;
         }
@@ -40,7 +39,7 @@
     </style>
 </head>
 <body id="acu">
-    <div id="pointLabel" style="position: absolute; top: 10px; left: 10px; background: rgba(0,0,0,0.7); color: white; padding: 10px; border-radius: 5px; font-family: Monospace; z-index: 100;"></div>
+    <div id="pointLabel"></div>
     <script src="three/build/three.js"></script>
     <script src="three/loaders/OBJLoader.js"></script>
     <script src="three/controls/OrbitControls.js"></script>
@@ -112,7 +111,11 @@
 
             controls = new THREE.OrbitControls(camera);
             controls.damping = 0.2;
+            controls.enableRotate = false;
+            controls.enablePan = false;
+            // controls.enableZoom = false; // si besoin
             controls.addEventListener('change', render);
+
 
             scene = new THREE.Scene();
 
