@@ -12,6 +12,31 @@
             margin: 0px;
             overflow: hidden;
         }
+
+                #pointLabel {
+          position: absolute;
+          left: 10px;                  /* à gauche de l’image */
+          top: 50%;
+          transform: translateY(-50%) rotate(-90deg);
+          transform-origin: left top;
+
+          background: transparent;     /* fond incolore */
+          color: #3a2d27;              /* marron foncé */
+          font-family: Arial, sans-serif;
+          white-space: nowrap;
+        }
+
+                #pointLabel .point-name {
+          font-weight: bold;
+      font-size: 18px;
+      margin-right: 6px;
+        }
+
+                #pointLabel .copyright {
+          font-size: 11px;
+          font-weight: normal;
+        }
+
     </style>
 </head>
 <body id="acu">
@@ -311,7 +336,7 @@
                 const clickedObject = intersects[0].object;
 
                 // Mettre à jour le label
-                document.getElementById('pointLabel').textContent = `${clickedObject.name} © bien-etre-geobiologie.fr`;
+                document.getElementById('pointLabel').innerHTML = `<span class="point-name">${clickedObject.name.toUpperCase()}</span> <span class="copyright">© bien-etre-geobiologie.fr</span>`;
 
                 // Si un point était déjà cliqué, restaurer sa couleur
                 if (lastClickedPoint && lastClickedPoint !== clickedObject) {
@@ -354,7 +379,7 @@
                 obj_aux = obj;
 
                 // Mettre à jour le label
-                document.getElementById('pointLabel').textContent = `${pto} © bien-etre-geobiologie.fr`;
+                document.getElementById('pointLabel').innerHTML = `<span class="point-name">${pto.toUpperCase()}</span> <span class="copyright">© bien-etre-geobiologie.fr</span>`;
 
                 acuX = obj.position.x;
                 acuY = obj.position.y;
