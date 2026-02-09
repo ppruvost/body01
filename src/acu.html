@@ -292,13 +292,13 @@
 
             // --- Création des lignes de tous les méridiens ---
             const meridians = [
-                { positions: pPositions, color: 0xf5f5f0 },
-                { positions: pPositionsLeft, color: 0xf5f5f0 },
-                { positions: vcPositions, color: 0x9370DB }
-                { positions: giPositions, color: 0x00CED1 },
-                { positions: ePositions, color: 0xFFD700 },
-            ];
-            meridians.forEach(m => createMeridianLine(m.positions, m.color));
+    { positions: pPositions, color: 0xf5f5f0 },
+    { positions: pPositionsLeft, color: 0xf5f5f0 },
+    { positions: vcPositions, color: 0x9370DB },
+    { positions: giPositions, color: 0x00CED1 },
+    { positions: ePositions, color: 0xFFD700 },
+];
+meridians.forEach(m => createMeridianLine(m.positions, m.color));
 // --- Chargement du modèle OBJ ---
             const manager = new THREE.LoadingManager();
             const texture = new THREE.Texture();
