@@ -300,22 +300,36 @@
 ];
 meridians.forEach(m => createMeridianLine(m.positions, m.color));
 // --- Chargement du modèle OBJ ---
-            const manager = new THREE.LoadingManager();
-            const texture = new THREE.Texture();
-            const loaderImage = new THREE.ImageLoader(manager);
-            loaderImage.load('three/textura/UV_Grid_Sm.jpg', (image) => {
-                texture.image = image;
-                texture.needsUpdate = true;
-            });
+const manager = new THREE.LoadingManager();
+const texture = new THREE.Texture();
+const loaderImage = new THREE.ImageLoader(manager);
+loaderImage.load('three/textura/UV_Grid_Sm.jpg',
+    (image) => {
+        texture.image = image;
+        texture.needsUpdate = true;
+    },
+    undefined,
+    (error) => { console.error('Erreur de chargement de la texture :', error); }
+);
 
-            const loaderObj = new THREE.OBJLoader(manager);
-            loaderObj.load('three/modelo/corpo.obj', (object) => {
-                object.traverse(child => {
-                    if (child instanceof THREE.Mesh) child.material.map = texture;
-                });
-                object.position.y = -95;
-                scene.add(object);
-            });
+const loaderObj = new THREE.OBJLoader(manager);
+loaderObj.load('three/modelo/corpo.obj',
+    (object) => {
+        object.traverse(child => {
+            if (child instanceof THREE.Mesh) {
+                child.material.map = texture;
+                child.material.needsUpdate = true;
+            }
+        });
+        object.position.y = -95;
+        scene.add(object);
+        // Force un rendu après le chargement
+        render();
+    },
+    undefined,
+    (error) => { console.error('Erreur de chargement du modèle OBJ :', error); }
+);
+
 
             // --- Renderer ---
             renderer = new THREE.WebGLRenderer();
