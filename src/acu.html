@@ -354,6 +354,12 @@
                 clickedObject.material.color.setHex(0xFF0000);
                 lastClickedPoint = clickedObject;
 
+                // Agrandissement ×2
+                clickedObject.scale.set(
+                originalScale.x * 2,
+                originalScale.y * 2,
+                originalScale.z * 2);
+
                 const mer = clickedObject.name.replace(/[0-9]+/, '');
                 const meridiano = parent.document.getElementById(mer);
                 const animacao = parent.document.getElementById(clickedObject.name);
