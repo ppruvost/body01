@@ -24,7 +24,7 @@
             font-family: Arial, sans-serif;
             white-space: nowrap;
 
-            z-index: 9999;
+            z-index: 9999;   /* 🔥 ESSENTIEL */
             pointer-events: none;
         }
 
@@ -352,11 +352,6 @@
 
                 // Changer la couleur du nouveau point cliqué en rouge
                 clickedObject.material.color.setHex(0xFF0000);
-                // Agrandissement ×2,5
-                clickedObject.scale.set(
-                originalScale.x * 2.5,
-                originalScale.y * 2.5,
-                originalScale.z * 2.5
                 lastClickedPoint = clickedObject;
 
                 const mer = clickedObject.name.replace(/[0-9]+/, '');
