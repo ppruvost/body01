@@ -188,22 +188,17 @@
                 { name: 'p10', x: -27.66779800686464, y: -7.7000000000003315, z: 2.1000000000000005 },
                 { name: 'p11', x: -30.56779800686468, y: -13.200000000000312, z: 5.999999999999995 }
             ];
+
             pPositions.forEach(pos => {
                 createSphere(pos.name, 0xf5f5f0, pos.x, pos.y, pos.z);
             });
-            
+
             // Création de la ligne du méridien du poumon
-            const pPoints = pPositions.map(pos =>
-                new THREE.Vector3(pos.x, pos.y, pos.z)
-            );
+            const pPoints = pPositions.map(pos => new THREE.Vector3(pos.x, pos.y, pos.z));
             const pGeometry = new THREE.BufferGeometry().setFromPoints(pPoints);
-            const pMaterial = new THREE.LineBasicMaterial({
-                color: 0xf5f5f0, // même couleur que les points
-                linewidth: 1     // ligne fine (note : dépend du GPU)
-            });
+            const pMaterial = new THREE.LineBasicMaterial({ color: 0xf5f5f0, linewidth: 1 });
             const pMeridianLine = new THREE.Line(pGeometry, pMaterial);
             scene.add(pMeridianLine);
-
 
             // Poumon – bras gauche
             const pPositionsLeft = [
@@ -219,9 +214,17 @@
                 { name: 'p10_L', x:  27.66779800686464,  y:  -7.7000000000003315, z:  2.1000000000000005 },
                 { name: 'p11_L', x:  30.56779800686468,  y: -13.200000000000312, z:  5.999999999999995 }
             ];
-            plPositions.forEach(pos => {
+
+            pPositionsLeft.forEach(pos => {
                 createSphere(pos.name, 0xf5f5f0, pos.x, pos.y, pos.z);
             });
+
+            // Ligne du méridien bras gauche (facultatif, mais logique)
+            const pPointsLeft = pPositionsLeft.map(pos => new THREE.Vector3(pos.x, pos.y, pos.z));
+            const pGeometryLeft = new THREE.BufferGeometry().setFromPoints(pPointsLeft);
+            const pMeridianLineLeft = new THREE.Line(pGeometryLeft, pMaterial);
+            scene.add(pMeridianLineLeft);
+
 
             // Gros Intestin
             const igPositions = [
