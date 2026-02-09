@@ -7,7 +7,7 @@
     <style>
         body {
             font-family: Monospace;
-            background-color: #BD786C;
+            background-color: #BD786C;            
             margin: 0px;
             overflow: hidden;
         }
@@ -28,16 +28,18 @@
             pointer-events: none;
         }
 
-        #pointLabel .point-name {
-            font-weight: bold;
-            font-size: 18px;
-            margin-right: 6px;
+
+                #pointLabel .point-name {
+          font-weight: bold;
+      font-size: 18px;
+      margin-right: 6px;
         }
 
-        #pointLabel .copyright {
-            font-size: 11px;
-            font-weight: normal;
+                #pointLabel .copyright {
+          font-size: 11px;
+          font-weight: normal;
         }
+
     </style>
 </head>
 <body id="acu">
@@ -60,44 +62,6 @@
         let p = new THREE.Vector3(0, 0, 0);
         let obj = null, obj_aux = null;
         let lastClickedPoint = null;
-
-        // Fonction pour créer une ligne entre deux points en passant par le sommet des sphères
-        function createLineBetweenPoints(pointA, pointB, color = 0x3A2D27) {
-            // Calculer la direction entre les deux points
-            const direction = new THREE.Vector3().subVectors(pointB.position, pointA.position);
-            const distance = direction.length();
-
-            // Normaliser la direction
-            direction.normalize();
-
-            // Calculer les points de départ et d'arrivée en ajoutant le rayon de la sphère
-            const radius = 0.3; // Rayon des sphères
-            const startPoint = new THREE.Vector3().copy(pointA.position).add(direction.clone().multiplyScalar(radius));
-            const endPoint = new THREE.Vector3().copy(pointB.position).add(direction.clone().multiplyScalar(-radius));
-
-            // Créer la géométrie de la ligne
-            const points = [];
-            points.push(startPoint);
-            points.push(endPoint);
-
-            const geometry = new THREE.BufferGeometry().setFromPoints(points);
-            const material = new THREE.LineBasicMaterial({ color: color });
-            const line = new THREE.Line(geometry, material);
-
-            scene.add(line);
-            return line;
-        }
-
-        // Fonction pour dessiner les lignes d'un méridien
-        function drawMeridianLines(meridianPoints) {
-            for (let i = 0; i < meridianPoints.length - 1; i++) {
-                const pointA = scene.getObjectByName(meridianPoints[i].name);
-                const pointB = scene.getObjectByName(meridianPoints[i + 1].name);
-                if (pointA && pointB) {
-                    createLineBetweenPoints(pointA, pointB, 0xFFFFFF);
-                }
-            }
-        }
 
         // Initialisation des écouteurs pour les points d'acupression
         function initEventListeners() {
@@ -152,8 +116,9 @@
             controls = new THREE.OrbitControls(camera);
             controls.damping = 0.2;
             controls.enableRotate = false;
-            controls.enablePan = false;
+            controls.enablePan = false;            
             controls.addEventListener('change', render);
+
 
             scene = new THREE.Scene();
 
@@ -204,7 +169,6 @@
             vcPositions.forEach(pos => {
                 createSphere(pos.name, 0x9370DB, pos.x, pos.y, pos.z);
             });
-            drawMeridianLines(vcPositions);
 
             // Poumon
             const pPositions = [
@@ -224,7 +188,6 @@
             pPositions.forEach(pos => {
                 createSphere(pos.name, 0xf5f5f0, pos.x, pos.y, pos.z);
             });
-            drawMeridianLines(pPositions);
 
             // Gros Intestin
             const giPositions = [
@@ -253,7 +216,6 @@
             giPositions.forEach(pos => {
                 createSphere(pos.name, 0x00CED1, pos.x, pos.y, pos.z, pos.view);
             });
-            drawMeridianLines(giPositions);
 
             // Estomac
             const ePositions = [
@@ -270,7 +232,7 @@
                 { name: 'e11', x: -2.9677980068645167, y: 47.600000000000065, z: -1.2000000000000015 },
                 { name: 'e12', x: -6.667798006864508, y: 48.60000000000008, z: -2.2000000000000024 },
                 { name: 'e13', x: -7.067798006864507, y: 47.600000000000065, z: -1.0000000000000013 },
-                { name: 'e14', x: -7.667798006864505, y: 44.80000000000026, z: 0.8999999999999986 },
+                { name: 'e14', x: -7.667798006864505, y: 44.800000000000026, z: 0.8999999999999986 },
                 { name: 'e15', x: -8.767798006864501, y: 42.29999999999999, z: 2.3999999999999995 },
                 { name: 'e16', x: -9.867798006864497, y: 38.89999999999994, z: 4.2 },
                 { name: 'e17', x: -12.06779800686449, y: 33.19999999999986, z: 4.999999999999997 },
@@ -307,7 +269,6 @@
             ePositions.forEach(pos => {
                 createSphere(pos.name, 0xFFD700, pos.x, pos.y, pos.z, pos.view);
             });
-            drawMeridianLines(ePositions);
 
             // Chargement du modèle OBJ
             const manager = new THREE.LoadingManager();
@@ -391,10 +352,12 @@
 
                 // Changer la couleur du nouveau point cliqué en rouge
                 clickedObject.material.color.setHex(0xFF0000);
+                // Agrandissement ×2,5
+                clickedObject.scale.set(
+                originalScale.x * 2.5,
+                originalScale.y * 2.5,
+                originalScale.z * 2.5
                 lastClickedPoint = clickedObject;
-                // Agrandissement ×2
-                clickedObject.scale.set(2, 2, 2);
-
 
                 const mer = clickedObject.name.replace(/[0-9]+/, '');
                 const meridiano = parent.document.getElementById(mer);
@@ -410,7 +373,6 @@
             }
         }
 
-        
         // Fonction pour gérer les points d'acupression
         function acuPonto(pto) {
             if (obj_aux !== null) {
