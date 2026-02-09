@@ -62,7 +62,7 @@
         let lastClickedPoint = null;
 
         // Fonction pour créer une ligne entre deux points en passant par le sommet des sphères
-        function createLineBetweenPoints(pointA, pointB, color = 0xFFFFFF) {
+        function createLineBetweenPoints(pointA, pointB, color = 0x3A2D27) {
             // Calculer la direction entre les deux points
             const direction = new THREE.Vector3().subVectors(pointB.position, pointA.position);
             const distance = direction.length();
@@ -139,7 +139,6 @@
             object.position.set(x, y, z);
             if (view !== null) object.view = view;
             scene.add(object);
-            return object;
         }
 
         // Initialisation de la scène
@@ -351,7 +350,7 @@
             container.appendChild(renderer.domElement);
 
             // Gestion des événements
-            window.addEventListener('resize', onWindowResize);
+            window.addEventListener('resize', onWindowResize);            
             window.addEventListener('click', onDocumentClick);
         }
 
@@ -362,7 +361,7 @@
             camera.aspect = window.innerWidth / window.innerHeight;
             camera.updateProjectionMatrix();
             renderer.setSize(window.innerWidth, window.innerHeight);
-        }
+        }        
 
         function onDocumentClick(event) {
             event.preventDefault();
@@ -372,53 +371,46 @@
 
             raycaster.setFromCamera(mouse, camera);
 
-            const intersects = raycaster.intersectObjects(scene.children, true);
+            const intersects = raycaster.intersectObjects(scene.children);
 
-            if (intersects.length === 0) return;
+            if (intersects.length > 0) {
+                const clickedObject = intersects[0].object;
 
-            const clickedObject = intersects[0].object;
-            if (!clickedObject.geometry || clickedObject.geometry.type !== "SphereGeometry") return;
+                // Mettre à jour le label
+                document.getElementById('pointLabel').innerHTML = `<span class="point-name">${clickedObject.name.toUpperCase()}</span> <span class="copyright">© bien-etre-geobiologie.fr</span>`;
 
-            // Sécurité : ignorer objets sans nom (corps, lumières…)
-            if (!clickedObject.name) return;
+                // Si un point était déjà cliqué, restaurer sa couleur
+                if (lastClickedPoint && lastClickedPoint !== clickedObject) {
+                    lastClickedPoint.material.color.setHex(lastClickedPoint.originalColor);
+                }
 
-            // Réinitialiser l’ancien point
-            if (lastClickedPoint) {
-                lastClickedPoint.material.color.setHex(lastClickedPoint.originalColor);
-                lastClickedPoint.scale.set(1, 1, 1);
+                // Stocker la couleur originale si ce n'est pas déjà fait
+                if (!clickedObject.originalColor) {
+                    clickedObject.originalColor = clickedObject.material.color.getHex();
+                }
+
+                // Changer la couleur du nouveau point cliqué en rouge
+                clickedObject.material.color.setHex(0xFF0000);
+                lastClickedPoint = clickedObject;
+                // Agrandissement ×2
+                clickedObject.scale.set(2, 2, 2);
+
+
+                const mer = clickedObject.name.replace(/[0-9]+/, '');
+                const meridiano = parent.document.getElementById(mer);
+                const animacao = parent.document.getElementById(clickedObject.name);
+
+                meridiano?.click();
+                animacao?.click();
+
+                window.parent.postMessage(
+                    { type: 'selectPoint', point: clickedObject.name },
+                    '*'
+                );
             }
-
-            // Sauvegarde état d’origine
-            clickedObject.originalColor = clickedObject.material.color.getHex();
-
-            // Rouge
-            clickedObject.material.color.setHex(0xFF0000);
-
-            // Agrandissement ×2
-            clickedObject.scale.set(2, 2, 2);
-
-            // Label
-            document.getElementById('pointLabel').innerHTML = `
-                <span class="point-name">${clickedObject.name.toUpperCase()}</span>
-                <span class="copyright">© bien-etre-geobiologie.fr</span>
-            `;
-
-            // Interaction parent
-            const mer = clickedObject.name.replace(/[0-9]+/, '');
-            const meridiano = parent.document.getElementById(mer);
-            const animacao = parent.document.getElementById(clickedObject.name);
-
-            meridiano?.click();
-            animacao?.click();
-
-            window.parent.postMessage(
-                { type: 'selectPoint', point: clickedObject.name },
-                '*'
-            );
-
-            lastClickedPoint = clickedObject;
         }
 
+        
         // Fonction pour gérer les points d'acupression
         function acuPonto(pto) {
             if (obj_aux !== null) {
