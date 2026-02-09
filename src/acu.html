@@ -8,7 +8,7 @@
         body {
             font-family: Monospace;
             background-color: #BD786C;            
-            margin: 0px;
+            margin: 0;
             overflow: hidden;
         }
 
@@ -18,38 +18,34 @@
             top: 50%;
             transform: translateY(-50%) rotate(-90deg);
             transform-origin: left top;
-
             background: transparent;
             color: #3a2d27;
             font-family: Arial, sans-serif;
             white-space: nowrap;
-
             z-index: 9999;
             pointer-events: none;
         }
 
-
-                #pointLabel .point-name {
-          font-weight: bold;
-      font-size: 18px;
-      margin-right: 6px;
+        #pointLabel .point-name {
+            font-weight: bold;
+            font-size: 18px;
+            margin-right: 6px;
         }
 
-                #pointLabel .copyright {
-          font-size: 11px;
-          font-weight: normal;
+        #pointLabel .copyright {
+            font-size: 11px;
+            font-weight: normal;
         }
-
     </style>
 </head>
 <body id="acu">
     <div id="pointLabel"></div>
+
     <script src="three/build/three.js"></script>
     <script src="three/loaders/OBJLoader.js"></script>
     <script src="three/controls/OrbitControls.js"></script>
 
     <script>
-        // Variables globales
         let selectedPoint = null;
         let originalColor = null;
         let originalScale = null;
@@ -64,7 +60,6 @@
         let focoCamera = false;
         let p = new THREE.Vector3(0, 0, 0);
         let obj = null, obj_aux = null;
-        let lastClickedPoint = null;
 
         // Initialisation des écouteurs pour les points d'acupression
         function initEventListeners() {
@@ -90,15 +85,13 @@
             meridianPoints.forEach(meridian => {
                 for (let i = 1; i <= meridian.count; i++) {
                     const pointId = `${meridian.id}${i}`;
-                    const element = parent.document.getElementById(pointId);
-                    if (element) {
-                        element.onclick = () => acuPonto(pointId);
-                    }
+                    const element = parent?.document?.getElementById(pointId);
+                    if (element) element.onclick = () => acuPonto(pointId);
                 }
             });
         }
 
-        // Fonction pour créer une sphère
+        // Créer une sphère
         function createSphere(name, color, x, y, z, view = null) {
             const geometry = new THREE.SphereGeometry(0.3, 32, 32);
             const material = new THREE.MeshLambertMaterial({ color });
@@ -118,11 +111,11 @@
             camera.position.z = 250;
 
             controls = new THREE.OrbitControls(camera);
-            controls.damping = 0.2;
+            controls.enableDamping = true;
+            controls.dampingFactor = 0.2;
             controls.enableRotate = false;
-            controls.enablePan = false;            
+            controls.enablePan = false;
             controls.addEventListener('change', render);
-
 
             scene = new THREE.Scene();
 
@@ -307,22 +300,9 @@
                 createSphere(pos.name, 0xFFD700, pos.x, pos.y, pos.z, pos.view);
             });
 
-            // Chargement du modèle OBJ
+            // Chargement modèle OBJ et texture
             const manager = new THREE.LoadingManager();
-            manager.onProgress = (item, loaded, total) => {
-                console.log(item, loaded, total);
-            };
-
             const texture = new THREE.Texture();
-            const onProgress = (xhr) => {
-                if (xhr.lengthComputable) {
-                    const percentComplete = (xhr.loaded / xhr.total) * 100;
-                    console.log(Math.round(percentComplete, 2) + '% downloaded');
-                }
-            };
-
-            const onError = () => {};
-
             const loaderImage = new THREE.ImageLoader(manager);
             loaderImage.load('three/textura/UV_Grid_Sm.jpg', (image) => {
                 texture.image = image;
@@ -331,14 +311,12 @@
 
             const loaderObj = new THREE.OBJLoader(manager);
             loaderObj.load('three/modelo/corpo.obj', (object) => {
-                object.traverse((child) => {
-                    if (child instanceof THREE.Mesh) {
-                        child.material.map = texture;
-                    }
+                object.traverse(child => {
+                    if (child instanceof THREE.Mesh) child.material.map = texture;
                 });
                 object.position.y = -95;
                 scene.add(object);
-            }, onProgress, onError);
+            });
 
             // Configuration du rendu
             renderer = new THREE.WebGLRenderer();
@@ -393,11 +371,7 @@
             clickedObject.material.color.setHex(0xFF0000);
 
             // Agrandissement ×2,5
-            clickedObject.scale.set(
-                originalScale.x * 2.5,
-                originalScale.y * 2.5,
-                originalScale.z * 2.5
-            );
+            clickedObject.scale.multiplyScalar(2.5);
 
             // Label
             document.getElementById('pointLabel').innerHTML = `
@@ -413,17 +387,12 @@
             meridiano?.click();
             animacao?.click();
 
-            window.parent.postMessage(
-                { type: 'selectPoint', point: clickedObject.name },
-                '*'
-            );
+            window.parent.postMessage({ type: 'selectPoint', point: clickedObject.name }, '*');
         }
 
         // Fonction pour gérer les points d'acupression
         function acuPonto(pto) {
-            if (obj_aux !== null) {
-                obj_aux.material.emissive.setHex(obj_aux.currentHex);
-            }
+            if (obj_aux !== null) obj_aux.material.emissive.setHex(obj_aux.currentHex);
 
             obj = scene.getObjectByName(pto);
             if (obj) {
@@ -431,12 +400,14 @@
                 obj.material.emissive.setHex(0xff0000);
                 obj_aux = obj;
 
-                // Mettre à jour le label
-                document.getElementById('pointLabel').innerHTML = `<span class="point-name">${pto.toUpperCase()}</span> <span class="copyright">© bien-etre-geobiologie.fr</span>`;
+                document.getElementById('pointLabel').innerHTML =
+                    `<span class="point-name">${pto.toUpperCase()}</span> <span class="copyright">© bien-etre-geobiologie.fr</span>`;
 
                 acuX = obj.position.x;
                 acuY = obj.position.y;
                 acuZ = obj.position.z;
+                acuXF = 0;
+                acuZF = 0;
 
                 if (obj.view === undefined) acuZF = 45;
                 else if (obj.view === 1) acuXF = 45;
@@ -459,24 +430,19 @@
             renderer.render(scene, camera);
 
             if (focoCamera) {
-                if (camera.position.x !== acuX + acuXF) {
+                const epsilon = 0.01;
+                if (Math.abs(camera.position.x - (acuX + acuXF)) > epsilon)
                     camera.position.x += (acuX + acuXF - camera.position.x) / 10;
-                }
-
-                if (camera.position.y !== acuY) {
+                if (Math.abs(camera.position.y - acuY) > epsilon)
                     camera.position.y += (acuY - camera.position.y) / 10;
-                }
-
-                if (camera.position.z !== acuZ + acuZF) {
+                if (Math.abs(camera.position.z - (acuZ + acuZF)) > epsilon)
                     camera.position.z += (acuZ + acuZF - camera.position.z) / 10;
-                }
 
-                if (Math.round(camera.position.x) === Math.round(acuX + acuXF) &&
-                    Math.round(camera.position.y) === Math.round(acuY) &&
-                    Math.round(camera.position.z) === Math.round(acuZ + acuZF)) {
-                    acuZF = 0;
-                    acuYF = 0;
+                if (Math.abs(camera.position.x - (acuX + acuXF)) < epsilon &&
+                    Math.abs(camera.position.y - acuY) < epsilon &&
+                    Math.abs(camera.position.z - (acuZ + acuZF)) < epsilon) {
                     acuXF = 0;
+                    acuZF = 0;
                     focoCamera = false;
                     controls.target = p;
                 }
