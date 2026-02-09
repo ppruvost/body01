@@ -46,17 +46,16 @@
     <script src="three/controls/OrbitControls.js"></script>
 
     <script>
+        // --- Variables globales ---
         let selectedPoint = null;
         let originalColor = null;
         let originalScale = null;
         let container, camera, scene, renderer, controls;
         let raycaster = new THREE.Raycaster();
         let mouse = new THREE.Vector2();
-        let INTERSECTED = null;
-        let mouseX = 0, mouseY = 0;
         let windowHalfX = window.innerWidth / 2;
         let windowHalfY = window.innerHeight / 2;
-        let acuX = 0, acuY = 0, acuZ = 0, acuXF = 0, acuYF = 0, acuZF = 0;
+        let acuX = 0, acuY = 0, acuZ = 0, acuXF = 0, acuZF = 0;
         let focoCamera = false;
         let p = new THREE.Vector3(0, 0, 0);
         let obj = null, obj_aux = null;
@@ -102,6 +101,16 @@
             scene.add(object);
         }
 
+        // --- Fonction pour créer une ligne de méridien ---
+        function createMeridianLine(positions, color) {
+            const points = positions.map(pos => new THREE.Vector3(pos.x, pos.y, pos.z));
+            const geometry = new THREE.BufferGeometry().setFromPoints(points);
+            const material = new THREE.LineBasicMaterial({ color: color, linewidth: 1 });
+            const line = new THREE.Line(geometry, material);
+            scene.add(line);
+            return line;
+        }
+
         // Initialisation de la scène
         function init() {
             container = document.createElement('div');
@@ -132,8 +141,45 @@
             directionalLight2.position.set(0, 0, -1);
             scene.add(directionalLight2);
 
-            // Création des sphères
-            createSphere('cs7', Math.random() * 0x0000FF, -24.71516683000315, -6.555406638283143, 0.6);
+            // --- Création des sphères pour les méridiens ---
+
+                        // Poumon bras droit
+            const pPositions = [
+                { name: 'p1', x: -13.2678, y: 46.0, z: -1.1 },
+                { name: 'p2', x: -14.2678, y: 48.6, z: -4.2 },
+                { name: 'p3', x: -22.9678, y: 32.4, z: -4.7 },
+                { name: 'p4', x: -23.5678, y: 28.7, z: -5.0 },
+                { name: 'p5', x: -24.1678, y: 15.7, z: -4.6 },
+                { name: 'p6', x: -25.7678, y: 7.5, z: -2.7 },
+                { name: 'p7', x: -26.9678, y: -1.5, z: -1.5 },
+                { name: 'p8', x: -26.2678, y: -3.5, z: -0.5 },
+                { name: 'p9', x: -27.3678, y: -5.5, z: -0.3 },
+                { name: 'p10', x: -27.6678, y: -7.7, z: 2.1 },
+                { name: 'p11', x: -30.5678, y: -13.2, z: 6.0 }
+            ];
+            pPositions.forEach(pos => createSphere(pos.name, 0xf5f5f0, pos.x, pos.y, pos.z));
+
+            // Poumon bras gauche
+            const pPositionsLeft = [
+                { name: 'p1_L', x: 13.2678, y: 46.0, z: -1.1 },
+                { name: 'p2_L', x: 14.2678, y: 48.6, z: -3.4 },
+                { name: 'p3_L', x: 22.9678, y: 32.4, z: -4.7 },
+                { name: 'p4_L', x: 23.5678, y: 28.7, z: -5.0 },
+                { name: 'p5_L', x: 24.1678, y: 15.7, z: -4.6 },
+                { name: 'p6_L', x: 25.7678, y: 7.5, z: -2.7 },
+                { name: 'p7_L', x: 26.9678, y: -1.5, z: -1.5 },
+                { name: 'p8_L', x: 26.2678, y: -3.5, z: -0.5 },
+                { name: 'p9_L', x: 27.3678, y: -5.5, z: -0.3 },
+                { name: 'p10_L', x: 27.6678, y: -7.7, z: 2.1 },
+                { name: 'p11_L', x: 30.5678, y: -13.2, z: 6.0 }
+            ];
+            pPositionsLeft.forEach(pos => createSphere(pos.name, 0xf5f5f0, pos.x, pos.y, pos.z));
+
+            // Maitre coeur
+            const csPositions = [
+                { name: 'cs7', x: -24.71516683000315, y: -6.555406638283143, z: 0.6 },
+                ];
+            csPositions.forEach(pos => createSphere(pos.name, 0x0000FF, pos.x, pos.y, pos.z));
 
             // Vaisseaux Conception
             const vcPositions = [
@@ -162,65 +208,11 @@
                 { name: 'vc23', x: 0.02, y: 56, z: -0.2 },
                 { name: 'vc24', x: 0.02, y: 60, z: 5 }
             ];
-
             vcPositions.forEach(pos => {
                 createSphere(pos.name, 0x9370DB, pos.x, pos.y, pos.z);
-            });            
 
-            // Poumon
-            const pPositions = [
-                { name: 'p1', x: -13.267798006864483, y: 46.00000000000004, z: -1.0999999999999999 },
-                { name: 'p2', x: -14.26779800686449, y: 48.60000000000008, z: -4.2000000000000026 },
-                { name: 'p3', x: -22.967798006864573, y: 32.39999999999985, z: -4.7 },
-                { name: 'p4', x: -23.56779800686458, y: 28.699999999999797, z: -4.999999999999999 },
-                { name: 'p5', x: -24.16779800686459, y: 15.69999999999962, z: -4.6000000000000005 },
-                { name: 'p6', x: -25.767798006864613, y: 7.499999999999648, z: -2.7000000000000015 },
-                { name: 'p7', x: -26.96779800686463, y: -1.5000000000003426, z: -1.5000000000000004 },
-                { name: 'p8', x: -26.26779800686462, y: -3.500000000000344, z: -0.5000000000000001 },
-                { name: 'p9', x: -27.367798006864636, y: -5.500000000000339, z: -0.30000000000000016 },
-                { name: 'p10', x: -27.66779800686464, y: -7.7000000000003315, z: 2.1000000000000005 },
-                { name: 'p11', x: -30.56779800686468, y: -13.200000000000312, z: 5.999999999999995 }
-            ];
-
-            pPositions.forEach(pos => {
-                createSphere(pos.name, 0xf5f5f0, pos.x, pos.y, pos.z);
-            });
-
-            // Création de la ligne du méridien du poumon
-            const pPoints = pPositions.map(pos => new THREE.Vector3(pos.x, pos.y, pos.z));
-            const pGeometry = new THREE.BufferGeometry().setFromPoints(pPoints);
-            const pMaterial = new THREE.LineBasicMaterial({ color: 0xf5f5f0, linewidth: 1 });
-            const pMeridianLine = new THREE.Line(pGeometry, pMaterial);
-            scene.add(pMeridianLine);
-
-            // Poumon – bras gauche
-            const pPositionsLeft = [
-                { name: 'p1_L',  x:  13.267798006864483, y:  46.00000000000004,  z: -1.0999999999999999 },
-                { name: 'p2_L',  x:  14.26779800686449,  y:  48.60000000000008,  z: -3.4000000000000026 },
-                { name: 'p3_L',  x:  22.967798006864573, y:  32.39999999999985,  z: -4.7 },
-                { name: 'p4_L',  x:  23.56779800686458,  y:  28.699999999999797, z: -4.999999999999999 },
-                { name: 'p5_L',  x:  24.16779800686459,  y:  15.69999999999962,  z: -4.6000000000000005 },
-                { name: 'p6_L',  x:  25.767798006864613, y:   7.499999999999648, z: -2.7000000000000015 },
-                { name: 'p7_L',  x:  26.96779800686463,  y:  -1.5000000000003426, z: -1.5000000000000004 },
-                { name: 'p8_L',  x:  26.26779800686462,  y:  -3.500000000000344,  z: -0.5000000000000001 },
-                { name: 'p9_L',  x:  27.367798006864636, y:  -5.500000000000339,  z: -0.30000000000000016 },
-                { name: 'p10_L', x:  27.66779800686464,  y:  -7.7000000000003315, z:  2.1000000000000005 },
-                { name: 'p11_L', x:  30.56779800686468,  y: -13.200000000000312, z:  5.999999999999995 }
-            ];
-
-            pPositionsLeft.forEach(pos => {
-                createSphere(pos.name, 0xf5f5f0, pos.x, pos.y, pos.z);
-            });
-
-            // Ligne du méridien bras gauche (facultatif, mais logique)
-            const pPointsLeft = pPositionsLeft.map(pos => new THREE.Vector3(pos.x, pos.y, pos.z));
-            const pGeometryLeft = new THREE.BufferGeometry().setFromPoints(pPointsLeft);
-            const pMeridianLineLeft = new THREE.Line(pGeometryLeft, pMaterial);
-            scene.add(pMeridianLineLeft);
-
-
-            // Gros Intestin
-            const igPositions = [
+                // Gros Intestin
+            const giPositions = [
                 { name: 'gi1', x: 29.232201993135632, y: -20.00000000000036, z: 6.199999999999994, view: 1 },
                 { name: 'gi2', x: 29.332201993135634, y: -14.700000000000307, z: 2.8000000000000007, view: 1 },
                 { name: 'gi3', x: 29.532201993135637, y: -12.200000000000315, z: 1.7999999999999998, view: 1 },
@@ -243,11 +235,10 @@
                 { name: 'gi20', x: 1.9322019931354855, y: 62.90000000000028, z: 4.3 }
             ];
 
-            igPositions.forEach(pos => {
+            giPositions.forEach(pos => {
                 createSphere(pos.name, 0x00CED1, pos.x, pos.y, pos.z, pos.view);
-            });
 
-            // Estomac
+                // Estomac
             const ePositions = [
                 { name: 'e1', x: -2.9677980068645167, y: 66.70000000000014, z: 3 },
                 { name: 'e2', x: -2.9677980068645167, y: 66.00000000000018, z: 3.2 },
@@ -297,10 +288,18 @@
             ];
 
             ePositions.forEach(pos => {
-                createSphere(pos.name, 0xFFD700, pos.x, pos.y, pos.z, pos.view);
-            });
+                createSphere(pos.name, 0xFFD700, pos.x, pos.y, pos.z, pos.view);                
 
-            // Chargement modèle OBJ et texture
+            // --- Création des lignes de tous les méridiens ---
+            const meridians = [
+                { positions: pPositions, color: 0xf5f5f0 },
+                { positions: pPositionsLeft, color: 0xf5f5f0 },
+                { positions: vcPositions, color: 0x9370DB }
+                { positions: giPositions, color: 0x00CED1 },
+                { positions: ePositions, color: 0xFFD700 },
+            ];
+            meridians.forEach(m => createMeridianLine(m.positions, m.color));
+// --- Chargement du modèle OBJ ---
             const manager = new THREE.LoadingManager();
             const texture = new THREE.Texture();
             const loaderImage = new THREE.ImageLoader(manager);
@@ -318,7 +317,7 @@
                 scene.add(object);
             });
 
-            // Configuration du rendu
+            // --- Renderer ---
             renderer = new THREE.WebGLRenderer();
             renderer.setClearColor(0xBD786C);
             renderer.setPixelRatio(window.devicePixelRatio);
@@ -337,8 +336,9 @@
             camera.aspect = window.innerWidth / window.innerHeight;
             camera.updateProjectionMatrix();
             renderer.setSize(window.innerWidth, window.innerHeight);
-        }        
+        }
 
+        // --- Gestion du clic sur un point ---
         function onDocumentClick(event) {
             event.preventDefault();
             mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
@@ -346,15 +346,13 @@
             raycaster.setFromCamera(mouse, camera);
 
             const intersects = raycaster.intersectObjects(scene.children, true);
-
             if (intersects.length === 0) return;
 
             const clickedObject = intersects[0].object;
             if (!clickedObject.geometry || clickedObject.geometry.type !== "SphereGeometry") return;
-
-
+            
             // Sécurité : ignorer objets sans nom (corps, lumières…)
-            if (!clickedObject.name) return;
+            if (!clickedObject.name) return;            
 
             // Réinitialiser l’ancien point
             if (selectedPoint) {
@@ -383,7 +381,6 @@
             const mer = clickedObject.name.replace(/[0-9]+/, '');
             const meridiano = parent.document.getElementById(mer);
             const animacao = parent.document.getElementById(clickedObject.name);
-
             meridiano?.click();
             animacao?.click();
 
@@ -392,7 +389,7 @@
 
         // Fonction pour gérer les points d'acupression
         function acuPonto(pto) {
-            if (obj_aux !== null) obj_aux.material.emissive.setHex(obj_aux.currentHex);
+            if (obj_aux) obj_aux.material.emissive.setHex(obj_aux.currentHex);
 
             obj = scene.getObjectByName(pto);
             if (obj) {
@@ -419,13 +416,12 @@
             }
         }
 
-        // Animation
+        // --- Animation ---
         function animate() {
             requestAnimationFrame(animate);
             render();
         }
 
-        // Rendu
         function render() {
             renderer.render(scene, camera);
 
@@ -451,9 +447,8 @@
             }
         }
 
-        // Initialisation
+        // --- Initialisation complète ---
         init();
-        initEventListeners();
         animate();
     </script>
 </body>
