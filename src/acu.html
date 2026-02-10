@@ -157,13 +157,6 @@
             camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.5, 2000);
             camera.position.z = 250;
 
-            controls = new THREE.OrbitControls(camera);
-            controls.damping = 0.2;
-            controls.enableRotate = false;
-            controls.enablePan = false;            
-            controls.addEventListener('change', render);
-
-
             scene = new THREE.Scene();
 
             // Lumière ambiante
@@ -356,6 +349,13 @@
             renderer.setPixelRatio(window.devicePixelRatio);
             renderer.setSize(window.innerWidth, window.innerHeight);
             container.appendChild(renderer.domElement);
+            
+            controls = new THREE.OrbitControls(camera, renderer.domElement);
+            controls.damping = 0.2;
+            controls.enableRotate = false;
+            controls.enablePan = false;
+            controls.addEventListener('change', render);
+
 
             // TRACÉ DES COURBES DES MÉRIDIENS
             drawMeridianLine('vc', 0x9370DB); // Vaisseau Conception
