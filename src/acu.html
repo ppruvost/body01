@@ -334,12 +334,18 @@
 
             const loaderObj = new THREE.OBJLoader(manager);
             loaderObj.load('three/modelo/corpo.obj', (object) => {
-                object.traverse((child) => {
+                object.traverse(child => {
                     if (child instanceof THREE.Mesh) {
-                        child.material.map = texture;
+                        child.material = new THREE.MeshLambertMaterial({
+                            map: texture,
+                            transparent: true,
+                            opacity: 0.85
+                        });
+                        child.material.needsUpdate = true;
                     }
                 });
-                object.position.y = -95;
+
+                object.position.y = -40;
                 scene.add(object);
             }, onProgress, onError);
 
