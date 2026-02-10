@@ -103,6 +103,7 @@
             object.position.set(x, y, z);
             if (view !== null) object.view = view;
             scene.add(object);
+            object.renderOrder = -1;
         }
 
         // LIGNES VECTORIELLES DES MÉRIDIENS
@@ -312,28 +313,17 @@
 
             // Chargement du modèle OBJ
             const manager = new THREE.LoadingManager();
+
             manager.onProgress = (item, loaded, total) => {
                 console.log(item, loaded, total);
             };
 
-            const texture = new THREE.Texture();
-            const onProgress = (xhr) => {
-                if (xhr.lengthComputable) {
-                    const percentComplete = (xhr.loaded / xhr.total) * 100;
-                    console.log(Math.round(percentComplete, 2) + '% downloaded');
-                }
-            };
-
-            const onError = () => {};
-
-            const loaderImage = new THREE.ImageLoader(manager);
-            loaderImage.load('three/textura/UV_Grid_Sm.jpg', (image) => {
-                texture.image = image;
-                texture.needsUpdate = true;
-            });
+            const texture = new THREE.TextureLoader(manager)
+                .load('three/textura/UV_Grid_Sm.jpg');
 
             const loaderObj = new THREE.OBJLoader(manager);
-            loaderObj.load('three/modelo/corpo.obj', (object) => {
+            loaderObj.load('three/modelo/corpo.obj', object => {
+
                 object.traverse(child => {
                     if (child instanceof THREE.Mesh) {
                         child.material = new THREE.MeshLambertMaterial({
@@ -345,9 +335,15 @@
                     }
                 });
 
-                object.position.y = -40;
+                object.scale.set(1.5, 1.5, 1.5);
+                object.position.set(0, -40, 0);
+                object.renderOrder = -1;
+
                 scene.add(object);
-            }, onProgress, onError);
+
+            }, onProgress, () => {
+                console.error('Erreur chargement OBJ');
+            });
 
             // Configuration du rendu
             renderer = new THREE.WebGLRenderer();
