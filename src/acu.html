@@ -105,19 +105,19 @@
             scene.add(object);
         }
 
-// LIGNES VECTORIELLES DES MÉRIDIENS
+        // LIGNES VECTORIELLES DES MÉRIDIENS
 
-const meridianLines = {};
+        const meridianLines = {};
 
-function drawMeridianLine(prefix, color) {
-    // récupérer tous les points du méridien
-    const points = scene.children
-        .filter(obj => obj.isMesh && obj.name.startsWith(prefix))
-        .sort((a, b) => {
-            const na = parseInt(a.name.replace(prefix, ''), 10);
-            const nb = parseInt(b.name.replace(prefix, ''), 10);
-            return na - nb;
-        });
+        function drawMeridianLine(prefix, color) {
+            // récupérer tous les points du méridien
+            const points = scene.children
+                .filter(obj => obj.type === 'Mesh' && obj.name.startsWith(prefix))
+                .sort((a, b) => {
+                    const na = parseInt(a.name.replace(prefix, ''), 10);
+                    const nb = parseInt(b.name.replace(prefix, ''), 10);
+                    return na - nb;
+                });
 
     if (points.length < 2) return;
 
@@ -135,8 +135,12 @@ function drawMeridianLine(prefix, color) {
 
     const material = new THREE.LineBasicMaterial({
         color: color,
-        linewidth: 1
+        linewidth: 1,
+        depthTest: false,
+        transparent: true,
+        opacity: 0.9
     });
+
 
     const line = new THREE.Line(geometry, material);
     line.name = `${prefix}_line`;
