@@ -112,7 +112,7 @@
         function drawMeridianLine(prefix, color) {
             // récupérer tous les points du méridien
             const points = scene.children
-                .filter(obj => obj.type === 'Mesh' && obj.name.startsWith(prefix))
+                .filter(obj => obj.type === 'Mesh' && obj.name && obj.name.startsWith(prefix))
                 .sort((a, b) => {
                     const na = parseInt(a.name.replace(prefix, ''), 10);
                     const nb = parseInt(b.name.replace(prefix, ''), 10);
