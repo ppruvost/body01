@@ -24,7 +24,7 @@
             font-family: Arial, sans-serif;
             white-space: nowrap;
 
-            z-index: 9999;   /* 🔥 ESSENTIEL */
+            z-index: 9999;
             pointer-events: none;
         }
 
@@ -104,6 +104,47 @@
             if (view !== null) object.view = view;
             scene.add(object);
         }
+        // ===============================
+// LIGNES VECTORIELLES DES MÉRIDIENS
+// ===============================
+
+const meridianLines = {};
+
+function drawMeridianLine(prefix, color) {
+    // récupérer tous les points du méridien
+    const points = scene.children
+        .filter(obj => obj.isMesh && obj.name.startsWith(prefix))
+        .sort((a, b) => {
+            const na = parseInt(a.name.replace(prefix, ''), 10);
+            const nb = parseInt(b.name.replace(prefix, ''), 10);
+            return na - nb;
+        });
+
+    if (points.length < 2) return;
+
+    const positions = [];
+
+    points.forEach(p => {
+        positions.push(p.position.x, p.position.y, p.position.z);
+    });
+
+    const geometry = new THREE.BufferGeometry();
+    geometry.setAttribute(
+        'position',
+        new THREE.Float32BufferAttribute(positions, 3)
+    );
+
+    const material = new THREE.LineBasicMaterial({
+        color: color,
+        linewidth: 1
+    });
+
+    const line = new THREE.Line(geometry, material);
+    line.name = `${prefix}_line`;
+
+    scene.add(line);
+    meridianLines[prefix] = line;
+}
 
         // Initialisation de la scène
         function init() {
@@ -313,6 +354,12 @@
             renderer.setSize(window.innerWidth, window.innerHeight);
             container.appendChild(renderer.domElement);
 
+            // TRACÉ DES COURBES DES MÉRIDIENS
+            drawMeridianLine('vc', 0x9370DB); // Vaisseau Conception
+            drawMeridianLine('p',  0xf5f5f0); // Poumon
+            drawMeridianLine('gi', 0x00CED1); // Gros Intestin
+            drawMeridianLine('e',  0xFFD700); // Estomac
+            
             // Gestion des événements
             window.addEventListener('resize', onWindowResize);            
             window.addEventListener('click', onDocumentClick);
