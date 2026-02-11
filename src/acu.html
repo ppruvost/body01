@@ -192,12 +192,13 @@
         }
 
         function createSphere(name, color, x, y, z) {
-            const geometry = new THREE.SphereGeometry(0.6, 32, 32);
+            const geometry = new THREE.SphereGeometry(0.3, 32, 32);
             const material = new THREE.MeshStandardMaterial({
                 color: color,
                 emissive: color,
                 emissiveIntensity: 0.8,
-                roughness: 0.3
+                roughness: 0.2,
+                metalness: 0.8
             });
             const sphere = new THREE.Mesh(geometry, material);
             sphere.name = name;
@@ -207,17 +208,20 @@
 
         function loadModel() {
             const objLoader = new OBJLoader();
-            objLoader.load(
-                'three/modelo/corpo.obj',
-                function(object) {
-                    object.traverse(function(child) {
+                objLoader.load('three/modelo/corpo.obj', (object) => {
+                    object.traverse((child) => {
                         if (child.isMesh) {
-                            child.material.color.set(0xD4B5A6);
+                            child.material = new THREE.MeshStandardMaterial({
+                                color: 0xD4B5A6,
+                                roughness: 0.7,
+                                metalness: 0.1,
+                                flatShading: THREE.SmoothShading,
+                            });
                         }
                     });
                     object.position.y = -95;
                     scene.add(object);
-                },
+                });
                 undefined,
                 function(error) {
                     console.error('Erreur de chargement du modèle OBJ:', error);
