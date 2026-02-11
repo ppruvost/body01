@@ -49,6 +49,7 @@
     </script>
     <script type="module">
         import * as THREE from 'three';
+        <script type="module">
         import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
         import { OBJLoader } from 'three/addons/loaders/OBJLoader.js';
 
@@ -65,7 +66,7 @@
         // Fonction pour créer une sphère
         function createSphere(name, color, x, y, z, view = null) {
             const geometry = new THREE.SphereGeometry(0.3, 32, 32);
-            const material = new THREE.MeshLambertMaterial({ color });
+            const material = new THREE.MeshStandardMaterial({ color: 0xD4B5A6, roughness: 0.8, metalness: 0.2 });
             const object = new THREE.Mesh(geometry, material);
             object.name = name;
             object.position.set(x, y, z);
