@@ -77,11 +77,12 @@
             camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.5, 2000); camera.position.z = 250;
             scene = new THREE.Scene(); scene.background = new THREE.Color(0xBD786C);
             renderer = new THREE.WebGLRenderer({ antialias: true }); renderer.setSize(window.innerWidth, window.innerHeight); container.appendChild(renderer.domElement);
-            controls = new THREE.OrbitControls(camera, renderer.domElement); controls.dampingFactor = 0.2; controls.enableDamping = true;
+            controls = new THREE.OrbitControls(camera, renderer.domElement); controls.dampingFactor = 0.2; controls.enableDamping = true; controls.enableRotate = true; controls.enablePan = true;
             const ambientLight = new THREE.AmbientLight(0x101030); scene.add(ambientLight);
             const directionalLight1 = new THREE.DirectionalLight(0xffeedd, 1); directionalLight1.position.set(0, 0, 1); scene.add(directionalLight1);
             const directionalLight2 = new THREE.DirectionalLight(0xffeedd, 1); directionalLight2.position.set(0, 0, -1); scene.add(directionalLight2);
-            [csPositions, vcPositions, pPositions, giPositions, ePositions].forEach(positions => positions.forEach(pos => createSphere(pos.name, pos.color, pos.x, pos.y, pos.z, pos.view)));
+            [giPositions].forEach(positions => positions.forEach(pos => createSphere(pos.name, pos.color, pos.x, pos.y, pos.z, pos.view)));
+            [csPositions, vcPositions, pPositions, ePositions].forEach(positions => positions.forEach(pos => createSphere(pos.name, pos.color, pos.x, pos.y, pos.z)));
             loadModel();
             window.addEventListener('resize', onWindowResize); window.addEventListener('click', onDocumentClick);
         }
@@ -95,15 +96,26 @@
         }
 
         function loadModel() {
-            const textureLoader = new THREE.TextureLoader();
-            textureLoader.load('three/textura/UV_Grid_Sm.jpg', texture => {
-                const objLoader = new THREE.OBJLoader();
-                objLoader.load('three/modelo/corpo.obj', object => {
-                    object.traverse(child => { if (child.isMesh) { child.material.map = texture; child.material.needsUpdate = true; } });
-                    object.position.y = -95; scene.add(object);
-                });
-            });
+    const textureLoader = new THREE.TextureLoader(); textureLoader.load('three/textura/UV_Grid_Sm.jpg',
+        texture => { const objLoader = new THREE.OBJLoader(); objLoader.load('three/modelo/corpo.obj',
+        object => { object.traverse(child => { if (child.isMesh) { child.material.map = texture; child.material.needsUpdate = true;
+                    }
+                    });
+                    object.position.y = -95;
+                    scene.add(object);
+                },
+                undefined, // Pas de gestion de progression ici
+                error => {
+                    console.error('Erreur de chargement du modèle OBJ:', error);
+                }
+            );
+        },
+        undefined, // Pas de gestion de progression ici
+        error => {
+            console.error('Erreur de chargement de la texture:', error);
         }
+    );
+}
 
         function onWindowResize() { camera.aspect = window.innerWidth / window.innerHeight; camera.updateProjectionMatrix(); renderer.setSize(window.innerWidth, window.innerHeight); }
 
