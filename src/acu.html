@@ -2,27 +2,27 @@
 <html lang="fr">
 <head>
     <title>Points d'Énergie</title>
-    <meta charset="utf-8">
+    <meta charset="utf-८">
     <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
     <style>
         body {
             font-family: Monospace;
-            background-color: #BD786C;
-            margin: 0;
+            background-color: #BD7८६C;
+            margin: ०;
             overflow: hidden;
         }
         #pointLabel {
             position: absolute;
-            left: 10px;
-            top: 50%;
-            transform: translateY(-50%) rotate(-90deg);
+            left: 1०px;
+            top: 5०%;
+            transform: translateY(-5०%) rotate(-9०deg);
             color: #3a2d27;
             z-index: 9999;
             pointer-events: none;
         }
         #pointLabel .point-name {
             font-weight: bold;
-            font-size: 18px;
+            font-size: 1८px;
             margin-right: 6px;
         }
         #pointLabel .copyright {
@@ -36,8 +36,8 @@
     <script type="importmap">
         {
             "imports": {
-                "three": "https://unpkg.com/three@0.160.0/build/three.module.js",
-                "three/addons/": "https://unpkg.com/three@0.160.0/examples/jsm/"
+                "three": "https://unpkg.com/three@0.16०.०/build/three.module.js",
+                "three/addons/": "https://unpkg.com/three@0.16०.०/examples/jsm/"
             }
         }
     </script>
@@ -49,138 +49,138 @@
         let container, camera, scene, renderer, controls, raycaster = new THREE.Raycaster(), mouse = new THREE.Vector2(), lastClickedPoint = null;
 
         const pointsData = [
-            { name: 'cs7', x: -24.71516683000315, y: -6.555406638283143, z: 0.6, color: 0x0000FF },
-            { name: 'vc1', x: 0.05, y: -12.7, z: -4.2, color: 0x9370DB },
-            { name: 'vc2', x: 0.05, y: -6, z: 6.4, color: 0x9370DB },
-            { name: 'vc3', x: 0.05, y: -2.9, z: 7.1, color: 0x9370DB },
-            { name: 'vc4', x: 0.05, y: 0.20000000000000018, z: 7.17, color: 0x9370DB },
-            { name: 'vc5', x: 0.05, y: 3.3000000000000007, z: 7.25, color: 0x9370DB },
-            { name: 'vc6', x: 0.05, y: 6.4, z: 7.3, color: 0x9370DB },
-            { name: 'vc7', x: 0.05, y: 9.5, z: 7.2, color: 0x9370DB },
-            { name: 'vc8', x: 0.05, y: 12.7, z: 6.1, color: 0x9370DB },
-            { name: 'vc9', x: 0.05, y: 15.9, z: 6.1, color: 0x9370DB },
-            { name: 'vc10', x: 0.05, y: 18.4, z: 6.38, color: 0x9370DB },
-            { name: 'vc11', x: 0.05, y: 20.9, z: 6.38, color: 0x9370DB },
-            { name: 'vc12', x: 0.05, y: 23.4, z: 6.58, color: 0x9370DB },
-            { name: 'vc13', x: 0.05, y: 25.9, z: 6.6, color: 0x9370DB },
-            { name: 'vc14', x: 0.05, y: 28.4, z: 5.95, color: 0x9370DB },
-            { name: 'vc15', x: 0.05, y: 30.9, z: 5.06, color: 0x9370DB },
-            { name: 'vc16', x: 0.05, y: 33.4, z: 4.9, color: 0x9370DB },
-            { name: 'vc17', x: 0.05, y: 36, z: 4.7, color: 0x9370DB },
-            { name: 'vc18', x: 0.05, y: 38.6, z: 3.6, color: 0x9370DB },
-            { name: 'vc19', x: 0.05, y: 41.2, z: 2.4, color: 0x9370DB },
-            { name: 'vc20', x: 0.05, y: 43.8, z: 1.2, color: 0x9370DB },
-            { name: 'vc21', x: 0.05, y: 46.4, z: -0.9, color: 0x9370DB },
-            { name: 'vc22', x: 0.05, y: 49, z: -2.1, color: 0x9370DB },
-            { name: 'vc23', x: 0.02, y: 56, z: -0.2, color: 0x9370DB },
-            { name: 'vc24', x: 0.02, y: 60, z: 5, color: 0x9370DB },
-            { name: 'p1', x: 13.267798006864483, y: 46.00000000000004, z: -1.0999999999999999, color: 0xf5f5f0 },
-            { name: 'p2', x: 14.26779800686449, y: 48.60000000000008, z: -4.6000000000000026, color: 0xf5f5f0 },
-            { name: 'p3', x: 22.967798006864573, y: 32.39999999999985, z: -4.7, color: 0xf5f5f0 },
-            { name: 'p4', x: 23.56779800686458, y: 28.699999999999797, z: -4.999999999999999, color: 0xf5f5f0 },
-            { name: 'p5', x: 24.16779800686459, y: 15.69999999999962, z: -4.6000000000000005, color: 0xf5f5f0 },
-            { name: 'p6', x: 25.767798006864613, y: 7.499999999999648, z: -2.7000000000000015, color: 0xf5f5f0 },
-            { name: 'p7', x: 26.96779800686463, y: -1.5000000000003426, z: -1.5000000000000004, color: 0xf5f5f0 },
-            { name: 'p8', x: 26.26779800686462, y: -3.500000000000344, z: -0.5000000000000001, color: 0xf5f5f0 },
-            { name: 'p9', x: 27.367798006864636, y: -5.500000000000339, z: -0.30000000000000016, color: 0xf5f5f0 },
-            { name: 'p10', x: 27.66779800686464, y: -7.7000000000003315, z: 2.1000000000000005, color: 0xf5f5f0 },
-            { name: 'p11', x: 30.56779800686468, y: -13.200000000000312, z: 5.999999999999995, color: 0xf5f5f0 },
-            { name: 'gi1', x: 29.232201993135632, y: -20.00000000000036, z: 6.199999999999994, color: 0x00CED1 },
-            { name: 'gi2', x: 29.332201993135634, y: -14.700000000000307, z: 2.8000000000000007, color: 0x00CED1 },
-            { name: 'gi3', x: 29.532201993135637, y: -12.200000000000315, z: 1.7999999999999998, color: 0x00CED1 },
-            { name: 'gi4', x: 29.532201993135637, y: -10.500000000000322, z: 0.39999999999999936, color: 0x00CED1 },
-            { name: 'gi5', x: 28.33220199313562, y: -6.800000000000335, z: 0.39999999999999925, color: 0x00CED1 },
-            { name: 'gi6', x: 28.032201993135615, y: -0.3000000000003421, z: -3.8000000000000025, color: 0x00CED1 },
-            { name: 'gi7', x: 27.832201993135612, y: 4.399999999999659, z: -6.399999999999994, color: 0x00CED1 },
-            { name: 'gi8', x: 27.73220199313561, y: 9.69999999999964, z: -8.099999999999989, color: 0x00CED1 },
-            { name: 'gi9', x: 27.532201993135608, y: 11.999999999999632, z: -8.799999999999986, color: 0x00CED1 },
-            { name: 'gi10', x: 27.232201993135604, y: 14.299999999999624, z: -9.299999999999985, color: 0x00CED1 },
-            { name: 'gi11', x: 27.0322019931356, y: 17.59999999999964, z: -8.799999999999986, color: 0x00CED1 },
-            { name: 'gi12', x: 26.632201993135595, y: 18.49999999999968, z: -8.599999999999987, color: 0x00CED1 },
-            { name: 'gi13', x: 26.432201993135592, y: 23.499999999999723, z: -9.299999999999985, color: 0x00CED1 },
-            { name: 'gi14', x: 24.73220199313557, y: 33.29999999999986, z: -7.599999999999991, color: 0x00CED1 },
-            { name: 'gi15', x: 20.432201993135507, y: 47.20000000000006, z: -5, color: 0x00CED1 },
-            { name: 'gi16', x: 9.132201993135475, y: 45.80000000000008, z: -17.48, color: 0x00CED1 },
-            { name: 'gi17', x: 5.532201993135482, y: 54.10000000000016, z: -4.0000000000000036, color: 0x00CED1 },
-            { name: 'gi18', x: 5.132201993135483, y: 56.100000000000186, z: -3.600000000000003, color: 0x00CED1 },
-            { name: 'gi19', x: 0.9322019931354847, y: 62.400000000000276, z: 4.899999999999998, color: 0x00CED1 },
-            { name: 'gi20', x: 1.9322019931354855, y: 62.90000000000028, z: 4.3, color: 0x00CED1 },
-            { name: 'gi21', x: -0.9322019931354847, y: 62.400000000000276, z: 4.899999999999998, color: 0x00CED1 },
-            { name: 'gi22', x: -1.9322019931354855, y: 62.90000000000028, z: 4.3, color: 0x00CED1 },
-            { name: 'e1', x: -2.9677980068645167, y: 66.70000000000014, z: 3, color: 0xFFD700 },
-            { name: 'e2', x: -2.9677980068645167, y: 66.00000000000018, z: 3.2, color: 0xFFD700 },
-            { name: 'e3', x: -2.8677980068645166, y: 63.700000000000294, z: 3.8000000000000007, color: 0xFFD700 },
-            { name: 'e4', x: -2.7677980068645165, y: 61.10000000000026, z: 4.1000000000000005, color: 0xFFD700 },
-            { name: 'e5', x: -3.367798006864517, y: 58.200000000000216, z: 2.4999999999999996, color: 0xFFD700 },
-            { name: 'e6', x: -5.967798006864511, y: 61.30000000000026, z: -2.6000000000000028, color: 0xFFD700 },
-            { name: 'e7', x: -6.467798006864509, y: 64.20000000000029, z: -2.700000000000003, color: 0xFFD700 },
-            { name: 'e8', x: -6.26779800686451, y: 71.89999999999985, z: -2.700000000000003, color: 0xFFD700 },
-            { name: 'e9', x: -2.9677980068645167, y: 54.20000000000016, z: -2.3000000000000025, color: 0xFFD700 },
-            { name: 'e10', x: -2.267798006864516, y: 51.40000000000012, z: -2.2000000000000024, color: 0xFFD700 },
-            { name: 'e11', x: -2.9677980068645167, y: 47.600000000000065, z: -1.2000000000000015, color: 0xFFD700 },
-            { name: 'e12', x: -6.667798006864508, y: 48.60000000000008, z: -2.2000000000000024, color: 0xFFD700 },
-            { name: 'e13', x: -7.067798006864507, y: 47.600000000000065, z: -1.0000000000000013, color: 0xFFD700 },
-            { name: 'e14', x: -7.667798006864505, y: 44.800000000000026, z: 0.8999999999999986, color: 0xFFD700 },
-            { name: 'e15', x: -8.767798006864501, y: 42.29999999999999, z: 2.3999999999999995, color: 0xFFD700 },
-            { name: 'e16', x: -9.867798006864497, y: 38.89999999999994, z: 4.2, color: 0xFFD700 },
-            { name: 'e17', x: -12.06779800686449, y: 33.19999999999986, z: 4.999999999999997, color: 0xFFD700 },
-            { name: 'e18', x: -12.06779800686449, y: 30.199999999999818, z: 2.1999999999999993, color: 0xFFD700 },
-            { name: 'e19', x: -3.167798006864517, y: 25.699999999999754, z: 6.599999999999992, color: 0xFFD700 },
-            { name: 'e20', x: -3.167798006864517, y: 22.64727272727248, z: 6.699999999999991, color: 0xFFD700 },
-            { name: 'e21', x: -3.167798006864517, y: 19.59454545454521, z: 6.699999999999991, color: 0xFFD700 },
-            { name: 'e22', x: -3.167798006864517, y: 16.541818181817938, z: 6.499999999999992, color: 0xFFD700 },
-            { name: 'e23', x: -3.167798006864517, y: 13.489090909090663, z: 6.699999999999991, color: 0xFFD700 },
-            { name: 'e24', x: -3.167798006864517, y: 10.43636363636339, z: 7.09999999999999, color: 0xFFD700 },
-            { name: 'e25', x: -3.167798006864517, y: 7.383636363636118, z: 6.99999999999999, color: 0xFFD700 },
-            { name: 'e26', x: -3.167798006864517, y: 4.330909090908847, z: 6.899999999999991, color: 0xFFD700 },
-            { name: 'e27', x: -3.167798006864517, y: 1.2781818181815723, z: 6.599999999999992, color: 0xFFD700 },
-            { name: 'e28', x: -3.167798006864517, y: -1.7745454545457022, z: 6.299999999999993, color: 0xFFD700 },
-            { name: 'e29', x: -3.167798006864517, y: -4.827272727272973, z: 5.699999999999995, color: 0xFFD700 },
-            { name: 'e30', x: -3.167798006864517, y: -7.880000000000244, z: 4.599999999999999, color: 0xFFD700 },
-            { name: 'e31', x: -12.467798006864488, y: -11.280000000000232, z: 4.100000000000001, color: 0xFFD700 },
-            { name: 'e32', x: -12.467798006864488, y: -28.48000000000039, z: 4.300000000000001, color: 0xFFD700 },
-            { name: 'e33', x: -12.467798006864488, y: -36.2800000000005, z: 2.900000000000001, color: 0xFFD700 },
-            { name: 'e34', x: -12.467798006864488, y: -38.98000000000054, z: 2.3000000000000003, color: 0xFFD700 },
-            { name: 'e35', x: -12.467798006864488, y: -47.18000000000065, z: 1.4999999999999996, color: 0xFFD700 },
-            { name: 'e36', x: -12.467798006864488, y: -53.18000000000074, z: -0.10000000000000153, color: 0xFFD700 },
-            { name: 'e37', x: -12.467798006864488, y: -63.68000000000089, z: -0.7000000000000015, color: 0xFFD700 },
-            { name: 'e38', x: -11.76779800686449, y: -69.78000000000057, z: -1.6000000000000019, color: 0xFFD700 },
-            { name: 'e39', x: -11.367798006864492, y: -73.28000000000037, z: -1.9000000000000021, color: 0xFFD700 },
-            { name: 'e40', x: -13.467798006864484, y: -69.48000000000059, z: -4.3000000000000025, color: 0xFFD700 },
-            { name: 'e41', x: -8.667798006864501, y: -85.1799999999997, z: -0.8000000000000016, color: 0xFFD700 },
-            { name: 'e42', x: -9.967798006864497, y: -88.27999999999952, z: 0.9999999999999983, color: 0xFFD700 },
-            { name: 'e43', x: -8.8677980068645, y: -90.97999999999936, z: 6.099999999999993, color: 0xFFD700 },
-            { name: 'e44', x: -9.467798006864498, y: -91.87999999999931, z: 7.799999999999988, color: 0xFFD700 },
-            { name: 'e45', x: -9.967798006864497, y: -93.17999999999924, z: 11.299999999999976, color: 0xFFD700 }
+            { name: 'cs7', x: -24.71516683०००315, y: -6.5554०663८2८3143, z: ०.6, color: ०x००००FF },
+            { name: 'vc1', x: ०.०5, y: -12.7, z: -4.2, color: ०x93७०DB },
+            { name: 'vc2', x: ०.०5, y: -6, z: 6.4, color: ०x93७०DB },
+            { name: 'vc3', x: ०.०5, y: -2.9, z: 7.1, color: ०x93७०DB },
+            { name: 'vc4', x: ०.०5, y: ०.2००००००००००००००१८, z: 7.17, color: ०x93७०DB },
+            { name: 'vc5', x: ०.०5, y: 3.3००००००००००००००७, z: 7.25, color: ०x93७०DB },
+            { name: 'vc6', x: ०.०5, y: 6.4, z: 7.3, color: ०x93७०DB },
+            { name: 'vc7', x: ०.०5, y: 9.5, z: 7.2, color: ०x93७०DB },
+            { name: 'vc8', x: ०.०5, y: 12.7, z: 6.1, color: ०x93७०DB },
+            { name: 'vc9', x: ०.०5, y: 15.9, z: 6.1, color: ०x93७०DB },
+            { name: 'vc1०', x: ०.०5, y: 1८.4, z: 6.3८, color: ०x93७०DB },
+            { name: 'vc11', x: ०.०5, y: 2०.9, z: 6.3८, color: ०x93७०DB },
+            { name: 'vc12', x: ०.०5, y: 23.4, z: 6.5८, color: ०x93७०DB },
+            { name: 'vc13', x: ०.०5, y: 25.9, z: 6.6, color: ०x93७०DB },
+            { name: 'vc14', x: ०.०5, y: 2८.4, z: 5.95, color: ०x93७०DB },
+            { name: 'vc15', x: ०.०5, y: 3०.9, z: 5.०6, color: ०x93७०DB },
+            { name: 'vc16', x: ०.०5, y: 33.4, z: 4.9, color: ०x93७०DB },
+            { name: 'vc17', x: ०.०5, y: 36, z: 4.7, color: ०x93७०DB },
+            { name: 'vc1८', x: ०.०5, y: 3८.6, z: 3.6, color: ०x93७०DB },
+            { name: 'vc19', x: ०.०5, y: 41.2, z: 2.4, color: ०x93७०DB },
+            { name: 'vc2०', x: ०.०5, y: 43.८, z: 1.2, color: ०x93७०DB },
+            { name: 'vc21', x: ०.०5, y: 46.4, z: -०.9, color: ०x93७०DB },
+            { name: 'vc22', x: ०.०5, y: 49, z: -2.1, color: ०x93७०DB },
+            { name: 'vc23', x: ०.०2, y: 56, z: -०.2, color: ०x93७०DB },
+            { name: 'vc24', x: ०.०2, y: 6०, z: 5, color: ०x93७०DB },
+            { name: 'p1', x: 13.26779८००6८644८3, y: 46.०००००००००००००४, z: -1.०999999999999999, color: ०xf5f5f० },
+            { name: 'p2', x: 14.26779८००6८6449, y: 4८.6००००००००००००८, z: -4.6०००००००००००००२६, color: ०xf5f5f० },
+            { name: 'p3', x: 22.96779८००6८64573, y: 32.399999999999८5, z: -4.7, color: ०xf5f5f० },
+            { name: 'p4', x: 23.56779८००6८645८, y: 2८.699999999999797, z: -4.999999999999९९९, color: ०xf5f5f० },
+            { name: 'p5', x: 24.16779८००6८6459, y: 15.699999999999६२, z: -4.6००००००००००००००५, color: ०xf5f5f० },
+            { name: 'p6', x: 25.76779८००6८64613, y: 7.49999999999९६४८, z: -2.7०००००००००००००१५, color: ०xf5f5f० },
+            { name: 'p7', x: 26.96779८००6८6463, y: -1.5०००००००००००३४२६, z: -1.5००००००००००००००४, color: ०xf5f5f० },
+            { name: 'p8', x: 26.26779८००6८6462, y: -3.5०००००००००००३४४, z: -०.5००००००००००००००१, color: ०xf5f5f० },
+            { name: 'p9', x: 27.36779८००6८64636, y: -5.5०००००००००००३३९, z: -०.3००००००००००००००१६, color: ०xf5f5f० },
+            { name: 'p1०', x: 27.66779८००6८6464, y: -7.7०००००००००००३३१५, z: 2.1००००००००००००००५, color: ०xf5f5f० },
+            { name: 'p11', x: 3०.56779८००6८646८, y: -13.2०००००००००००३१२, z: 5.99999999999९९९५, color: ०xf5f5f० },
+            { name: 'gi1', x: 29.2322०1993135632, y: -2०.००००००००००००३६, z: 6.1999999999९९९९४, color: ०x००CED1 },
+            { name: 'gi2', x: 29.3322०1993135634, y: -14.7०००००००००००३०७, z: 2.८००००००००००००००७, color: ०x००CED1 },
+            { name: 'gi3', x: 29.5322०1993135637, y: -12.2०००००००००००३१५, z: 1.799999999९९९९९९८, color: ०x००CED1 },
+            { name: 'gi4', x: 29.5322०1993135637, y: -1०.5०००००००००००३२२, z: ०.3999999९९९९९९९९३६, color: ०x००CED1 },
+            { name: 'gi5', x: 2८.3322०199313562, y: -6.८०००००००००००३३५, z: ०.399999९९९९९९९९९२५, color: ०x००CED1 },
+            { name: 'gi6', x: 2८.०322०1993135615, y: -०.3०००००००००००३४२१, z: -3.८०००००००००००००२५, color: ०x००CED1 },
+            { name: 'gi7', x: 27.८322०1993135612, y: 4.3९९९९९९९९९९९६५९, z: -6.3९९९९९९९९९९९९९४, color: ०x००CED1 },
+            { name: 'gi8', x: 27.7322०199313561, y: 9.6९९९९९९९९९९९६४, z: -८.०९९९९९९९९९९९९८९, color: ०x००CED1 },
+            { name: 'gi9', x: 27.5322०19931356०८, y: 11.९९९९९९९९९९९९६३२, z: -८.7९९९९९९९९९९९९८६, color: ०x००CED1 },
+            { name: 'gi1०', x: 27.2322०19931356०4, y: 14.2९९९९९९९९९९९६२४, z: -9.2९९९९९९९९९९९९८५, color: ०x००CED1 },
+            { name: 'gi11', x: 27.०322०19931356, y: 17.5९९९९९९९९९९९६४, z: -८.7९९९९९९९९९९९९८६, color: ०x००CED1 },
+            { name: 'gi12', x: 26.6322०19931355९५, y: 1८.4९९९९९९९९९९९६८, z: -८.5९९९९९९९९९९९९८७, color: ०x००CED1 },
+            { name: 'gi13', x: 26.4322०19931355९२, y: 23.4९९९९९९९९९९९७२३, z: -9.2९९९९९९९९९९९९८५, color: ०x००CED1 },
+            { name: 'gi14', x: 24.7322०199313557, y: 33.2९९९९९९९९९९९८६, z: -7.5९९९९९९९९९९९९९१, color: ०x००CED1 },
+            { name: 'gi15', x: 2०.4322०19931355०7, y: 47.2००००००००००००६, z: -5, color: ०x००CED1 },
+            { name: 'gi16', x: 9.1322०1993135475, y: 45.८००००००००००००८, z: -17.4८, color: ०x००CED1 },
+            { name: 'gi17', x: 5.5322०19931354८२, y: 54.1०००००००००००१६, z: -4.००००००००००००००३६, color: ०x००CED1 },
+            { name: 'gi1८', x: 5.1322०19931354८3, y: 56.1०००००००००००१८६, z: -3.6०००००००००००००३, color: ०x००CED1 },
+            { name: 'gi19', x: ०.9322०19931354८47, y: 62.4०००००००००००२७६, z: 4.८९९९९९९९९९९९९९८, color: ०x००CED1 },
+            { name: 'gi2०', x: 1.9322०19931354८55, y: 62.९०००००००००००२८, z: 4.3, color: ०x००CED1 },
+            { name: 'gi21', x: -०.9322०19931354८47, y: 62.4०००००००००००२७६, z: 4.८९९९९९९९९९९९९९८, color: ०x००CED1 },
+            { name: 'gi22', x: -1.9322०19931354८55, y: 62.९०००००००००००२८, z: 4.3, color: ०x००CED1 },
+            { name: 'e1', x: -2.96779८००6८645167, y: 66.7०००००००००००१४, z: 3, color: ०xFFD7०० },
+            { name: 'e2', x: -2.96779८००6८645167, y: 66.००००००००००००१८, z: 3.2, color: ०xFFD7०० },
+            { name: 'e3', x: -2.८6779८००6८645166, y: 63.7०००००००००००२९४, z: 3.८००००००००००००००७, color: ०xFFD7०० },
+            { name: 'e4', x: -2.76779८००6८645165, y: 61.1०००००००००००२६, z: 4.1००००००००००००००५, color: ०xFFD7०० },
+            { name: 'e5', x: -3.36779८००6८64517, y: 5८.2०००००००००००२१६, z: 2.4९९९९९९९९९९९९९९६, color: ०xFFD7०० },
+            { name: 'e6', x: -5.96779८००6८64511, y: 61.3०००००००००००२६, z: -2.6०००००००००००००२८, color: ०xFFD7०० },
+            { name: 'e7', x: -6.46779८००6८645०9, y: 64.2०००००००००००२९, z: -2.7०००००००००००००३, color: ०xFFD7०० },
+            { name: 'e8', x: -6.26779८००6८6451, y: 71.८९९९९९९९९९९९८५, z: -2.7०००००००००००००३, color: ०xFFD7०० },
+            { name: 'e9', x: -2.96779८००6८645167, y: 54.2०००००००००००१६, z: -2.3०००००००००००००२५, color: ०xFFD7०० },
+            { name: 'e1०', x: -2.26779८००6८64516, y: 51.4०००००००००००१२, z: -2.2०००००००००००००२४, color: ०xFFD7०० },
+            { name: 'e11', x: -2.96779८००6८645167, y: 47.6००००००००००००६५, z: -1.2०००००००००००००१५, color: ०xFFD7०० },
+            { name: 'e12', x: -6.66779८००6८645०8, y: 4८.6००००००००००००८, z: -2.2०००००००००००००२४, color: ०xFFD7०० },
+            { name: 'e13', x: -7.०6779८००6८645०7, y: 47.6००००००००००००६५, z: -1.००००००००००००००१३, color: ०xFFD7०० },
+            { name: 'e14', x: -7.66779८००6८645०5, y: 44.८००००००००००००२६, z: ०.८९९९९९९९९९९९९९८६, color: ०xFFD7०० },
+            { name: 'e15', x: -८.76779८००6८645०1, y: 42.2९९९९९९९९९९९९९, z: 2.3९९९९९९९९९९९९९९५, color: ०xFFD7०० },
+            { name: 'e16', x: -9.८6779८००6८64497, y: 3८.८९९९९९९९९९९९९४, z: 4.2, color: ०xFFD7०० },
+            { name: 'e17', x: -12.०6779८००6८644९, y: 33.1९९९९९९९९९९९८६, z: 4.९९९९९९९९९९९९९९७, color: ०xFFD7०० },
+            { name: 'e1८', x: -12.०6779८००6८644९, y: 3०.1९९९९९९९९९९९८१८, z: 2.1९९९९९९९९९९९९९९३, color: ०xFFD7०० },
+            { name: 'e19', x: -3.16779८००6८64517, y: 25.6९९९९९९९९९९९७५४, z: 6.5९९९९९९९९९९९९९२, color: ०xFFD7०० },
+            { name: 'e2०', x: -3.16779८००6८64517, y: 22.6472727272724८, z: 6.6९९९९९९९९९९९९९१, color: ०xFFD7०० },
+            { name: 'e21', x: -3.16779८००6८64517, y: 19.59454545454521, z: 6.6९९९९९९९९९९९९९१, color: ०xFFD7०० },
+            { name: 'e22', x: -3.16779८००6८64517, y: 16.541८1८1८1८1793८, z: 6.4९९९९९९९९९९९९९२, color: ०xFFD7०० },
+            { name: 'e23', x: -3.16779८००6८64517, y: 13.4८९०९०९०९०९०६६३, z: 6.6९९९९९९९९९९९९९१, color: ०xFFD7०० },
+            { name: 'e24', x: -3.16779८००6८64517, y: 1०.43636363636339, z: 7.०९९९९९९९९९९९९९, color: ०xFFD7०० },
+            { name: 'e25', x: -3.16779८००6८64517, y: 7.3८363636363611८, z: 6.९९९९९९९९९९९९९९, color: ०xFFD7०० },
+            { name: 'e26', x: -3.16779८००6८64517, y: 4.33०९०९०९०९०८८४७, z: 6.८९९९९९९९९९९९९९१, color: ०xFFD7०० },
+            { name: 'e27', x: -3.16779८००6८64517, y: 1.27८1८1८1८1८15723, z: 6.5९९९९९९९९९९९९९२, color: ०xFFD7०० },
+            { name: 'e2८', x: -3.16779८००6८64517, y: -1.7745454545457०22, z: 6.2९९९९९९९९९९९९९३, color: ०xFFD7०० },
+            { name: 'e29', x: -3.16779८००6८64517, y: -4.८27272727272973, z: 5.6९९९९९९९९९९९९९५, color: ०xFFD7०० },
+            { name: 'e3०', x: -3.16779८००6८64517, y: -7.८८००००००००००२४४, z: 4.5९९९९९९९९९९९९९९, color: ०xFFD7०० },
+            { name: 'e31', x: -12.46779८००6८644८८, y: -11.2८००००००००००२३२, z: 4.1०००००००००००००१, color: ०xFFD7०० },
+            { name: 'e32', x: -12.46779८००6८644८८, y: -2८.4८००००००००००३९, z: 4.3०००००००००००००१, color: ०xFFD7०० },
+            { name: 'e33', x: -12.46779८००6८644८८, y: -36.2८००००००००००५, z: 2.९०००००००००००००१, color: ०xFFD7०० },
+            { name: 'e34', x: -12.46779८००6८644८८, y: -3८.९८००००००००००५४, z: 2.3००००००००००००००३, color: ०xFFD7०० },
+            { name: 'e35', x: -12.46779८००6८644८८, y: -47.1८००००००००००६५, z: 1.4९९९९९९९९९९९९९९६, color: ०xFFD7०० },
+            { name: 'e36', x: -12.46779८००6८644८८, y: -53.1८००००००००००७४, z: -०.1०००००००००००००१५३, color: ०xFFD7०० },
+            { name: 'e37', x: -12.46779८००6८644८८, y: -63.6८००००००००००८९, z: -०.7०००००००००००००१५, color: ०xFFD7०० },
+            { name: 'e3८', x: -11.76779८००6८644९, y: -6९.7८००००००००००५७, z: -1.6०००००००००००००१९, color: ०xFFD7०० },
+            { name: 'e39', x: -11.36779८००6८644९2, y: -73.2८००००००००००३७, z: -1.९०००००००००००००२१, color: ०xFFD7०० },
+            { name: 'e4०', x: -13.46779८००6८644८4, y: -6९.4८००००००००००५९, z: -4.3०००००००००००००२५, color: ०xFFD7०० },
+            { name: 'e41', x: -८.66779८००6८645०1, y: -८5.17९९९९९९९९९९७, z: -०.८०००००००००००००१६, color: ०xFFD7०० },
+            { name: 'e42', x: -9.96779८००6८644९7, y: -८८.27९९९९९९९९९९५२, z: ०.९९९९९९९९९९९९९९८३, color: ०xFFD7०० },
+            { name: 'e43', x: -८.८6779८००6८645, y: -९०.९7९९९९९९९९९९३६, z: 6.०९९९९९९९९९९९९९३, color: ०xFFD7०० },
+            { name: 'e44', x: -9.46779८००6८644९८, y: -९1.८7९९९९९९९९९९३१, z: 7.7९९९९९९९९९९९९८८, color: ०xFFD7०० },
+            { name: 'e45', x: -9.96779८००6८644९7, y: -९3.17९९९९९९९९९९२४, z: 11.2९९९९९९९९९९९९७६, color: ०xFFD7०० }
         ];
 
         function init() {
             container = document.createElement('div');
             document.body.appendChild(container);
 
-            camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.5, 2000);
-            camera.position.z = 250;
+            camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, ०.5, 2०००);
+            camera.position.z = 25०;
 
             scene = new THREE.Scene();
-            scene.background = new THREE.Color(0xBD786C);
+            scene.background = new THREE.Color(०xBD7८६C);
 
             renderer = new THREE.WebGLRenderer({ antialias: true });
             renderer.setSize(window.innerWidth, window.innerHeight);
             container.appendChild(renderer.domElement);
 
             controls = new OrbitControls(camera, renderer.domElement);
-            controls.dampingFactor = 0.2;
+            controls.dampingFactor = ०.2;
             controls.enableDamping = true;
 
-            const ambientLight = new THREE.AmbientLight(0x404040);
+            const ambientLight = new THREE.AmbientLight(०x4०4०4०);
             scene.add(ambientLight);
 
-            const directionalLight1 = new THREE.DirectionalLight(0xffeedd, 1);
-            directionalLight1.position.set(0, 0, 1);
+            const directionalLight1 = new THREE.DirectionalLight(०xffeedd, 1);
+            directionalLight1.position.set(०, ०, 1);
             scene.add(directionalLight1);
 
-            const directionalLight2 = new THREE.DirectionalLight(0xffeedd, 1);
-            directionalLight2.position.set(0, 0, -1);
+            const directionalLight2 = new THREE.DirectionalLight(०xffeedd, 1);
+            directionalLight2.position.set(०, ०, -1);
             scene.add(directionalLight2);
 
             pointsData.forEach(pos => createSphere(pos.name, pos.color, pos.x, pos.y, pos.z));
@@ -192,13 +192,13 @@
         }
 
         function createSphere(name, color, x, y, z) {
-            const geometry = new THREE.SphereGeometry(0.3, 32, 32);
+            const geometry = new THREE.SphereGeometry(०.3, 32, 32);
             const material = new THREE.MeshStandardMaterial({
                 color: color,
                 emissive: color,
-                emissiveIntensity: 0.8,
-                roughness: 0.2,
-                metalness: 0.8
+                emissiveIntensity: ०.8,
+                roughness: ०.2,
+                metalness: ०.8
             });
             const sphere = new THREE.Mesh(geometry, material);
             sphere.name = name;
@@ -208,25 +208,21 @@
 
         function loadModel() {
             const objLoader = new OBJLoader();
-                objLoader.load('three/modelo/corpo.obj', (object) => {
-                    object.traverse((child) => {
-                        if (child.isMesh) {
-                            child.material = new THREE.MeshStandardMaterial({
-                                color: 0xD4B5A6,
-                                roughness: 0.7,
-                                metalness: 0.1,
-                                flatShading: THREE.SmoothShading,
-                            });
-                        }
-                    });
-                    object.position.y = -95;
-                    scene.add(object);
+            objLoader.load('three/modelo/corpo.obj', (object) => {
+                object.traverse((child) => {
+                    if (child.isMesh) {
+                        child.material = new THREE.MeshStandardMaterial({
+                            color: ०xD4B5A6,
+                            roughness: ०.7,
+                            metalness: ०.1,
+                        });
+                    }
                 });
-                undefined,
-                function(error) {
-                    console.error('Erreur de chargement du modèle OBJ:', error);
-                }
-            );
+                object.position.y = -95;
+                scene.add(object);
+            }, undefined, (error) => {
+                console.error('Erreur de chargement du modèle OBJ:', error);
+            });
         }
 
         function onWindowResize() {
@@ -243,8 +239,8 @@
             raycaster.setFromCamera(mouse, camera);
             const intersects = raycaster.intersectObjects(scene.children, true);
 
-            if (intersects.length > 0) {
-                const clickedObject = intersects[0].object;
+            if (intersects.length > ०) {
+                const clickedObject = intersects[०].object;
                 document.getElementById('pointLabel').innerHTML =
                     `<span class="point-name">${clickedObject.name.toUpperCase()}</span>
                      <span class="copyright">© bien-etre-geobiologie.fr</span>`;
@@ -262,3 +258,4 @@
     </script>
 </body>
 </html>
+
