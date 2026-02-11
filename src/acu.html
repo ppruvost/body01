@@ -168,6 +168,8 @@
 
             vcPositions.forEach(pos => {
                 createSphere(pos.name, 0x9370DB, pos.x, pos.y, pos.z);
+                drawMeridianCurve(vcPoints, 0x9370DB);  // couleur violette
+
             });
 
             // Poumon
@@ -187,6 +189,7 @@
 
             pPositions.forEach(pos => {
                 createSphere(pos.name, 0xf5f5f0, pos.x, pos.y, pos.z);
+                drawMeridianCurve(pPositions.map(p => p.name), 0xf5f5f0);   // Poumon
             });
 
             // Gros Intestin
@@ -218,6 +221,7 @@
 
             giPositions.forEach(pos => {
                 createSphere(pos.name, 0x00CED1, pos.x, pos.y, pos.z, pos.view);
+                drawMeridianCurve(giPositions.map(p => p.name), 0x00CED1); // Gros Intestin
             });
 
             // Estomac
@@ -271,6 +275,7 @@
 
             ePositions.forEach(pos => {
                 createSphere(pos.name, 0xFFD700, pos.x, pos.y, pos.z, pos.view);
+                drawMeridianCurve(ePositions.map(p => p.name), 0xFFD700);  // Estomac
             });
 
             // debut du trace meridien
