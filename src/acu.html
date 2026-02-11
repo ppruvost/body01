@@ -70,19 +70,23 @@
 
         // Initialisation de la scène
         function init() {
-            container = document.createElement('div');
-            document.body.appendChild(container);
-
-            camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.5, 2000);
-            camera.position.z = 250;
-
-            controls = new THREE.OrbitControls(camera, container);
-            controls.damping = 0.2;
-            controls.enableRotate = false;
-            controls.enablePan = false;
-            controls.addEventListener('change', render);
-
-            scene = new THREE.Scene();
+    container = document.createElement('div');
+    document.body.appendChild(container);
+    camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.5, 2000);
+    camera.position.z = 250;
+    controls = new THREE.OrbitControls(camera, container);
+    controls.damping = 0.2;
+    controls.enableRotate = true;
+    controls.enablePan = true;
+    controls.addEventListener('change', render);
+    scene = new THREE.Scene();
+    const loaderObj = new THREE.OBJLoader();
+    loaderObj.load('three/modelo/corpo.obj', (object) => {
+        object.traverse((child) => { if (child instanceof THREE.Mesh) child.material.color.set(0xcccccc); });
+        object.position.y = -95;
+        scene.add(object);
+    });
+}
 
             // Lumière ambiante
             const ambient = new THREE.AmbientLight(0x101030);
