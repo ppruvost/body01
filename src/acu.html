@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -6,9 +7,9 @@
     <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
     <style>
         body {
-            font-family: Arial, sans-serif;
-            background-color: #BD786C;
-            margin: 0;
+            font-family: Monospace;
+            background-color: #BD786C;            
+            margin: 0px;
             overflow: hidden;
         }
 
@@ -18,55 +19,86 @@
             top: 50%;
             transform: translateY(-50%) rotate(-90deg);
             transform-origin: left top;
+
             background: transparent;
             color: #3a2d27;
+            font-family: Arial, sans-serif;
             white-space: nowrap;
+
             z-index: 9999;
             pointer-events: none;
         }
 
-        #pointLabel .point-name {
-            font-weight: bold;
-            font-size: 18px;
-            margin-right: 6px;
+
+                #pointLabel .point-name {
+          font-weight: bold;
+      font-size: 18px;
+      margin-right: 6px;
         }
 
-        #pointLabel .copyright {
-            font-size: 11px;
-            font-weight: normal;
+                #pointLabel .copyright {
+          font-size: 11px;
+          font-weight: normal;
         }
+
     </style>
 </head>
 <body id="acu">
     <div id="pointLabel"></div>
-    <script type="importmap">
-        {
-            "imports": {
-                "three": "https://unpkg.com/three@0.160.0/build/three.module.js",
-                "three/addons/": "https://unpkg.com/three@0.160.0/examples/jsm/"
-            }
-        }
-    </script>
-    <script type="module">
-        import * as THREE from 'three';
-        <script type="module">
-        import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
-        import { OBJLoader } from 'three/addons/loaders/OBJLoader.js';
+    <script src="three/build/three.js"></script>
+    <script src="three/loaders/OBJLoader.js"></script>
+    <script src="three/controls/OrbitControls.js"></script>
 
+    <script>
         // Variables globales
         let container, camera, scene, renderer, controls;
         let raycaster = new THREE.Raycaster();
         let mouse = new THREE.Vector2();
-        let lastClickedPoint = null;
+        let INTERSECTED = null;
+        let mouseX = 0, mouseY = 0;
+        let windowHalfX = window.innerWidth / 2;
+        let windowHalfY = window.innerHeight / 2;
         let acuX = 0, acuY = 0, acuZ = 0, acuXF = 0, acuYF = 0, acuZF = 0;
         let focoCamera = false;
         let p = new THREE.Vector3(0, 0, 0);
         let obj = null, obj_aux = null;
+        let lastClickedPoint = null;
+
+        // Initialisation des écouteurs pour les points d'acupression
+        function initEventListeners() {
+            const meridianPoints = [
+                { id: 'p', count: 11 },
+                { id: 'gi', count: 22 },
+                { id: 'e', count: 45 },
+                { id: 'rp', count: 21 },
+                { id: 'c', count: 9 },
+                { id: 'ig', count: 19 },
+                { id: 'v', count: 67 },
+                { id: 'r', count: 27 },
+                { id: 'pc', count: 9 },
+                { id: 'tr', count: 23 },
+                { id: 'vb', count: 44 },
+                { id: 'f', count: 14 },
+                { id: 'vg', count: 28 },
+                { id: 'vc', count: 24 },
+                { id: 'cs', count: 1 }
+            ];
+
+            meridianPoints.forEach(meridian => {
+                for (let i = 1; i <= meridian.count; i++) {
+                    const pointId = `${meridian.id}${i}`;
+                    const element = parent.document.getElementById(pointId);
+                    if (element) {
+                        element.onclick = () => acuPonto(pointId);
+                    }
+                }
+            });
+        }
 
         // Fonction pour créer une sphère
         function createSphere(name, color, x, y, z, view = null) {
             const geometry = new THREE.SphereGeometry(0.3, 32, 32);
-            const material = new THREE.MeshStandardMaterial({ color: 0xD4B5A6, roughness: 0.8, metalness: 0.2 });
+            const material = new THREE.MeshLambertMaterial({ color });
             const object = new THREE.Mesh(geometry, material);
             object.name = name;
             object.position.set(x, y, z);
@@ -82,10 +114,12 @@
             camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.5, 2000);
             camera.position.z = 250;
 
-            controls = new OrbitControls(camera, container);
-            controls.dampingFactor = 0.2;
-            controls.enableRotate = true;
-            controls.enablePan = true;
+            controls = new THREE.OrbitControls(camera);
+            controls.damping = 0.2;
+            controls.enableRotate = false;
+            controls.enablePan = false;            
+            controls.addEventListener('change', render);
+
 
             scene = new THREE.Scene();
 
@@ -103,7 +137,7 @@
             scene.add(directionalLight2);
 
             // Création des sphères
-            createSphere('cs7', 0x0000FF, -24.71516683000315, -6.555406638283143, 0.6);
+            createSphere('cs7', Math.random() * 0x0000FF, -24.71516683000315, -6.555406638283143, 0.6);
 
             // Vaisseaux Conception
             const vcPositions = [
@@ -180,6 +214,7 @@
                 { name: 'gi20', x: 1.9322019931354855, y: 62.90000000000028, z: 4.3 },
                 { name: 'gi21', x: -0.9322019931354847, y: 62.400000000000276, z: 4.899999999999998 },
                 { name: 'gi22', x: -1.9322019931354855, y: 62.90000000000028, z: 4.3 }
+
             ];
 
             giPositions.forEach(pos => {
@@ -240,35 +275,58 @@
             });
 
             // Chargement du modèle OBJ
-            const objLoader = new OBJLoader();
-            objLoader.load('three/modelo/corpo.obj', (object) => {
+            const manager = new THREE.LoadingManager();
+            manager.onProgress = (item, loaded, total) => {
+                console.log(item, loaded, total);
+            };
+
+            const texture = new THREE.Texture();
+            const onProgress = (xhr) => {
+                if (xhr.lengthComputable) {
+                    const percentComplete = (xhr.loaded / xhr.total) * 100;
+                    console.log(Math.round(percentComplete, 2) + '% downloaded');
+                }
+            };
+
+            const onError = () => {};
+
+            const loaderImage = new THREE.ImageLoader(manager);
+            loaderImage.load('three/textura/UV_Grid_Sm.jpg', (image) => {
+                texture.image = image;
+                texture.needsUpdate = true;
+            });
+
+            const loaderObj = new THREE.OBJLoader(manager);
+            loaderObj.load('three/modelo/corpo.obj', (object) => {
                 object.traverse((child) => {
-                    if (child.isMesh) {
-                        child.material = new THREE.MeshLambertMaterial({ color: 0xD4B5A6 });
+                    if (child instanceof THREE.Mesh) {
+                        child.material.map = texture;
                     }
                 });
                 object.position.y = -95;
                 scene.add(object);
-            });
+            }, onProgress, onError);
 
             // Configuration du rendu
-            renderer = new THREE.WebGLRenderer({ antialias: true });
+            renderer = new THREE.WebGLRenderer();
             renderer.setClearColor(0xBD786C);
             renderer.setPixelRatio(window.devicePixelRatio);
             renderer.setSize(window.innerWidth, window.innerHeight);
             container.appendChild(renderer.domElement);
 
             // Gestion des événements
-            window.addEventListener('resize', onWindowResize);
+            window.addEventListener('resize', onWindowResize);            
             window.addEventListener('click', onDocumentClick);
         }
 
         // Fonctions de gestion des événements
         function onWindowResize() {
+            windowHalfX = window.innerWidth / 2;
+            windowHalfY = window.innerHeight / 2;
             camera.aspect = window.innerWidth / window.innerHeight;
             camera.updateProjectionMatrix();
             renderer.setSize(window.innerWidth, window.innerHeight);
-        }
+        }        
 
         function onDocumentClick(event) {
             event.preventDefault();
@@ -299,18 +357,90 @@
                 // Changer la couleur du nouveau point cliqué en rouge
                 clickedObject.material.color.setHex(0xFF0000);
                 lastClickedPoint = clickedObject;
+
+                const mer = clickedObject.name.replace(/[0-9]+/, '');
+                const meridiano = parent.document.getElementById(mer);
+                const animacao = parent.document.getElementById(clickedObject.name);
+
+                meridiano?.click();
+                animacao?.click();
+
+                window.parent.postMessage(
+                    { type: 'selectPoint', point: clickedObject.name },
+                    '*'
+                );
+            }
+        }
+
+        // Fonction pour gérer les points d'acupression
+        function acuPonto(pto) {
+            if (obj_aux !== null) {
+                obj_aux.material.emissive.setHex(obj_aux.currentHex);
+            }
+
+            obj = scene.getObjectByName(pto);
+            if (obj) {
+                obj.currentHex = obj.material.emissive.getHex();
+                obj.material.emissive.setHex(0xff0000);
+                obj_aux = obj;
+
+                // Mettre à jour le label
+                document.getElementById('pointLabel').innerHTML = `<span class="point-name">${pto.toUpperCase()}</span> <span class="copyright">© bien-etre-geobiologie.fr</span>`;
+
+                acuX = obj.position.x;
+                acuY = obj.position.y;
+                acuZ = obj.position.z;
+
+                if (obj.view === undefined) acuZF = 45;
+                else if (obj.view === 1) acuXF = 45;
+                else if (obj.view === -1) acuXF = -45;
+                else if (obj.view === -2) acuZF = -45;
+
+                p.set(acuX, acuY, acuZ);
+                focoCamera = true;
             }
         }
 
         // Animation
         function animate() {
             requestAnimationFrame(animate);
-            controls.update();
+            render();
+        }
+
+        // Rendu
+        function render() {
             renderer.render(scene, camera);
+
+            if (focoCamera) {
+                if (camera.position.x !== acuX + acuXF) {
+                    camera.position.x += (acuX + acuXF - camera.position.x) / 10;
+                }
+
+                if (camera.position.y !== acuY) {
+                    camera.position.y += (acuY - camera.position.y) / 10;
+                }
+
+                if (camera.position.z !== acuZ + acuZF) {
+                    camera.position.z += (acuZ + acuZF - camera.position.z) / 10;
+                }
+
+                if (Math.round(camera.position.x) === Math.round(acuX + acuXF) &&
+                    Math.round(camera.position.y) === Math.round(acuY) &&
+                    Math.round(camera.position.z) === Math.round(acuZ + acuZF)) {
+                    acuZF = 0;
+                    acuYF = 0;
+                    acuXF = 0;
+                    focoCamera = false;
+                    controls.target = p;
+                }
+
+                camera.lookAt(p);
+            }
         }
 
         // Initialisation
         init();
+        initEventListeners();
         animate();
     </script>
 </body>
