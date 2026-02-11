@@ -49,26 +49,6 @@ let container, camera, scene, renderer, controls;
 let raycaster = new THREE.Raycaster();
 let mouse = new THREE.Vector2();
 let lastClickedPoint = null;
-
-// Initialisation des écouteurs pour les points d'acupression
-        function initEventListeners() {
-            const meridianPoints = [
-                { id: 'p', count: 11 },
-                { id: 'gi', count: 22 },
-                { id: 'e', count: 45 },
-                { id: 'rp', count: 21 },
-                { id: 'c', count: 9 },
-                { id: 'ig', count: 19 },
-                { id: 'v', count: 67 },
-                { id: 'r', count: 27 },
-                { id: 'pc', count: 9 },
-                { id: 'tr', count: 23 },
-                { id: 'vb', count: 44 },
-                { id: 'f', count: 14 },
-                { id: 'vg', count: 28 },
-                { id: 'vc', count: 24 },
-                { id: 'cs', count: 1 }
-            ];
     
 function createSphere(name, color, x, y, z, view = null) {
     const geometry = new THREE.SphereGeometry(0.3, 32, 32);
