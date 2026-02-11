@@ -1,222 +1,157 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-<meta charset="utf-8">
-<title>Corps énergétique 3D</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
+<meta charset="UTF-8">
+<title>Corps énergétique</title>
 <style>
-    body {
-        margin: 0;
-        overflow: hidden;
-        background-color: #BD786C;
-        font-family: Arial, sans-serif;
-    }
-
-    #pointLabel {
-        position: absolute;
-        left: 10px;
-        top: 50%;
-        transform: translateY(-50%) rotate(-90deg);
-        transform-origin: left top;
-        color: #3a2d27;
-        white-space: nowrap;
-        z-index: 9999;
-        pointer-events: none;
-    }
-
-    .point-name {
-        font-weight: bold;
-        font-size: 18px;
-    }
-
-    .copyright {
-        font-size: 11px;
-    }
+    body { margin: 0; overflow: hidden; background: #b87363; }
 </style>
 </head>
-
 <body>
 
-<div id="pointLabel"></div>
-
-<script src="https://cdn.jsdelivr.net/npm/three@0.132.2/build/three.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/three@0.132.2/examples/js/controls/OrbitControls.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/three@0.132.2/examples/js/loaders/OBJLoader.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128/examples/js/loaders/OBJLoader.js"></script>
 
 <script>
 
-let scene, camera, renderer, controls;
-let raycaster = new THREE.Raycaster();
-let mouse = new THREE.Vector2();
-let lastClickedPoint = null;
+// =======================
+// SCENE
+// =======================
 
-init();
-animate();
+const scene = new THREE.Scene();
 
-function init() {
+const camera = new THREE.PerspectiveCamera(
+    45,
+    window.innerWidth / window.innerHeight,
+    0.1,
+    10000
+);
 
-    scene = new THREE.Scene();
+camera.position.set(0, 100, 300);
 
-    camera = new THREE.PerspectiveCamera(
-        45,
-        window.innerWidth / window.innerHeight,
-        0.5,
-        2000
+const renderer = new THREE.WebGLRenderer({ antialias: true });
+renderer.setSize(window.innerWidth, window.innerHeight);
+document.body.appendChild(renderer.domElement);
+
+// =======================
+// LUMIÈRE
+// =======================
+
+const light = new THREE.DirectionalLight(0xffffff, 1);
+light.position.set(0, 200, 200);
+scene.add(light);
+
+const ambient = new THREE.AmbientLight(0xffffff, 0.5);
+scene.add(ambient);
+
+// =======================
+// TEST CUBE (sécurité)
+// =======================
+
+const testCube = new THREE.Mesh(
+    new THREE.BoxGeometry(20, 40, 10),
+    new THREE.MeshNormalMaterial()
+);
+testCube.position.set(-80, 0, 0);
+scene.add(testCube);
+
+// =======================
+// POINTS ÉNERGÉTIQUES
+// =======================
+
+const pointsData = [
+{ name:'vc1', x:0.05, y:-12.7, z:-4.2 },
+{ name:'vc2', x:0.05, y:-6, z:6.4 },
+{ name:'vc3', x:0.05, y:-2.9, z:7.1 },
+{ name:'vc4', x:0.05, y:0.2, z:7.17 },
+{ name:'vc5', x:0.05, y:3.3, z:7.25 },
+{ name:'vc6', x:0.05, y:6.4, z:7.3 },
+{ name:'vc7', x:0.05, y:9.5, z:7.2 },
+{ name:'vc8', x:0.05, y:12.7, z:6.1 },
+{ name:'vc9', x:0.05, y:15.9, z:6.1 },
+{ name:'vc10', x:0.05, y:18.4, z:6.38 },
+{ name:'vc11', x:0.05, y:20.9, z:6.38 },
+{ name:'vc12', x:0.05, y:23.4, z:6.58 },
+{ name:'vc13', x:0.05, y:25.9, z:6.6 },
+{ name:'vc14', x:0.05, y:28.4, z:5.95 },
+{ name:'vc15', x:0.05, y:30.9, z:5.06 },
+{ name:'vc16', x:0.05, y:33.4, z:4.9 },
+{ name:'vc17', x:0.05, y:36, z:4.7 },
+{ name:'vc18', x:0.05, y:38.6, z:3.6 },
+{ name:'vc19', x:0.05, y:41.2, z:2.4 },
+{ name:'vc20', x:0.05, y:43.8, z:1.2 },
+{ name:'vc21', x:0.05, y:46.4, z:-0.9 },
+{ name:'vc22', x:0.05, y:49, z:-2.1 },
+{ name:'vc23', x:0.02, y:56, z:-0.2 },
+{ name:'vc24', x:0.02, y:60, z:5 }
+];
+
+pointsData.forEach(p => {
+    const sphere = new THREE.Mesh(
+        new THREE.SphereGeometry(1.5, 16, 16),
+        new THREE.MeshBasicMaterial({ color: 0x00ffff })
     );
-    camera.position.set(0, 0, 250);
 
-    renderer = new THREE.WebGLRenderer({ antialias: true });
-    renderer.setSize(window.innerWidth, window.innerHeight);
-    renderer.setPixelRatio(window.devicePixelRatio);
-    renderer.setClearColor(0xBD786C);
-    document.body.appendChild(renderer.domElement);
+    sphere.position.set(p.x * 10, p.y, p.z * 10);
+    scene.add(sphere);
+});
 
-    controls = new THREE.OrbitControls(camera, renderer.domElement);
-    controls.enableDamping = true;
+// =======================
+// CHARGEMENT DU CORPS
+// =======================
 
-    // Lumières
-    const hemiLight = new THREE.HemisphereLight(0xffffff, 0x444444, 1);
-    scene.add(hemiLight);
+const loader = new THREE.OBJLoader();
 
-    const dirLight = new THREE.DirectionalLight(0xffffff, 0.8);
-    dirLight.position.set(0, 100, 100);
-    scene.add(dirLight);
+loader.load(
+    'corpo.obj',   // ⚠️ même dossier que le HTML
 
-    // Chargement du corps
-    const loader = new THREE.OBJLoader();
+    function(object) {
 
-    loader.load('three/modelo/corpo.obj', function (object) {
+        console.log("OBJ chargé ✅");
 
-        object.traverse(function (child) {
-
+        object.traverse(function(child) {
             if (child.isMesh) {
-
-                // Couche peau
-                const skinMaterial = new THREE.MeshStandardMaterial({
-                    color: 0xE7DFD3,
+                child.material = new THREE.MeshStandardMaterial({
+                    color: 0xf2c6a0,
                     roughness: 0.6,
-                    metalness: 0.05,
-                    transparent: true,
-                    opacity: 0.95
+                    metalness: 0.1
                 });
-
-                child.material = skinMaterial;
-
-                // Wireframe léger
-                const wire = new THREE.Mesh(
-                    child.geometry,
-                    new THREE.MeshBasicMaterial({
-                        color: 0xffffff,
-                        wireframe: true,
-                        transparent: true,
-                        opacity: 0.1
-                    })
-                );
-
-                child.add(wire);
             }
         });
 
-        object.position.y = -95;
+        object.scale.set(10, 10, 10);
+        object.position.set(0, -80, 0);
+
         scene.add(object);
-    });
+    },
 
-    createVCPoints();
+    undefined,
 
-    window.addEventListener('resize', onResize);
-    window.addEventListener('click', onClick);
-}
-
-function createSphere(name, color, x, y, z) {
-
-    const geometry = new THREE.SphereGeometry(0.4, 24, 24);
-    const material = new THREE.MeshStandardMaterial({ color: color });
-    const sphere = new THREE.Mesh(geometry, material);
-
-    sphere.name = name;
-    sphere.position.set(x, y, z);
-
-    scene.add(sphere);
-}
-
-function createVCPoints() {
-
-    const vcPositions = [
-        { name: 'vc1', x: 0.05, y: -12.7, z: -4.2 },
-        { name: 'vc2', x: 0.05, y: -6, z: 6.4 },
-        { name: 'vc3', x: 0.05, y: -2.9, z: 7.1 },
-        { name: 'vc4', x: 0.05, y: 0.2, z: 7.17 },
-        { name: 'vc5', x: 0.05, y: 3.3, z: 7.25 },
-        { name: 'vc6', x: 0.05, y: 6.4, z: 7.3 },
-        { name: 'vc7', x: 0.05, y: 9.5, z: 7.2 },
-        { name: 'vc8', x: 0.05, y: 12.7, z: 6.1 },
-        { name: 'vc9', x: 0.05, y: 15.9, z: 6.1 },
-        { name: 'vc10', x: 0.05, y: 18.4, z: 6.38 },
-        { name: 'vc11', x: 0.05, y: 20.9, z: 6.38 },
-        { name: 'vc12', x: 0.05, y: 23.4, z: 6.58 },
-        { name: 'vc13', x: 0.05, y: 25.9, z: 6.6 },
-        { name: 'vc14', x: 0.05, y: 28.4, z: 5.95 },
-        { name: 'vc15', x: 0.05, y: 30.9, z: 5.06 },
-        { name: 'vc16', x: 0.05, y: 33.4, z: 4.9 },
-        { name: 'vc17', x: 0.05, y: 36, z: 4.7 },
-        { name: 'vc18', x: 0.05, y: 38.6, z: 3.6 },
-        { name: 'vc19', x: 0.05, y: 41.2, z: 2.4 },
-        { name: 'vc20', x: 0.05, y: 43.8, z: 1.2 },
-        { name: 'vc21', x: 0.05, y: 46.4, z: -0.9 },
-        { name: 'vc22', x: 0.05, y: 49, z: -2.1 },
-        { name: 'vc23', x: 0.02, y: 56, z: -0.2 },
-        { name: 'vc24', x: 0.02, y: 60, z: 5 }
-    ];
-
-    vcPositions.forEach(pos => {
-        createSphere(pos.name, 0x80665b, pos.x, pos.y, pos.z);
-    });
-}
-
-function onClick(event) {
-
-    mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
-    mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
-
-    raycaster.setFromCamera(mouse, camera);
-
-    const intersects = raycaster.intersectObjects(scene.children, true);
-
-    if (intersects.length > 0) {
-
-        const obj = intersects[0].object;
-
-        if (!obj.name) return;
-
-        document.getElementById('pointLabel').innerHTML =
-            `<span class="point-name">${obj.name.toUpperCase()}</span>
-             <span class="copyright">© bien-etre-geobiologie.fr</span>`;
-
-        if (lastClickedPoint && lastClickedPoint !== obj) {
-            lastClickedPoint.material.color.setHex(lastClickedPoint.originalColor);
-        }
-
-        if (!obj.originalColor) {
-            obj.originalColor = obj.material.color.getHex();
-        }
-
-        obj.material.color.setHex(0xff0000);
-        lastClickedPoint = obj;
+    function(error) {
+        console.error("Erreur OBJ :", error);
     }
-}
+);
 
-function onResize() {
-    camera.aspect = window.innerWidth / window.innerHeight;
-    camera.updateProjectionMatrix();
-    renderer.setSize(window.innerWidth, window.innerHeight);
-}
+// =======================
+// RENDER LOOP
+// =======================
 
 function animate() {
     requestAnimationFrame(animate);
-    controls.update();
     renderer.render(scene, camera);
 }
+
+animate();
+
+// =======================
+// RESIZE
+// =======================
+
+window.addEventListener('resize', function () {
+    camera.aspect = window.innerWidth / window.innerHeight;
+    camera.updateProjectionMatrix();
+    renderer.setSize(window.innerWidth, window.innerHeight);
+});
 
 </script>
 </body>
