@@ -5,16 +5,41 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
     <style>
-        body { font-family: Monospace; background-color: #BD786C; margin: 0; overflow: hidden; }
-        #pointLabel { position: absolute; left: 10px; top: 50%; transform: translateY(-50%) rotate(-90deg); color: #3a2d27; z-index: 9999; pointer-events: none; }
-        #pointLabel .point-name { font-weight: bold; font-size: 18px; margin-right: 6px; }
-        #pointLabel .copyright { font-size: 11px; font-weight: normal; }
+        body {
+            font-family: Monospace;
+            background-color: #BD786C;
+            margin: 0;
+            overflow: hidden;
+        }
+        #pointLabel {
+            position: absolute;
+            left: 10px;
+            top: 50%;
+            transform: translateY(-50%) rotate(-90deg);
+            color: #3a2d27;
+            z-index: 9999;
+            pointer-events: none;
+        }
+        #pointLabel .point-name {
+            font-weight: bold;
+            font-size: 18px;
+            margin-right: 6px;
+        }
+        #pointLabel .copyright {
+            font-size: 11px;
+            font-weight: normal;
+        }
     </style>
 </head>
 <body id="acu">
     <div id="pointLabel"></div>
     <script type="importmap">
-        {"imports": {"three": "https://unpkg.com/three@0.160.0/build/three.module.js", "three/addons/": "https://unpkg.com/three@0.160.0/examples/jsm/"}}
+        {
+            "imports": {
+                "three": "https://unpkg.com/three@0.160.0/build/three.module.js",
+                "three/addons/": "https://unpkg.com/three@0.160.0/examples/jsm/"
+            }
+        }
     </script>
     <script type="module">
         import * as THREE from 'three';
@@ -25,112 +50,211 @@
 
         const pointsData = [
             { name: 'cs7', x: -24.71516683000315, y: -6.555406638283143, z: 0.6, color: 0x0000FF },
-
-            { name: 'vc1', x: 0.05, y: -12.7, z: -4.2, color: 0x9370DB }, { name: 'vc2', x: 0.05, y: -6, z: 6.4, color: 0x9370DB },
-            { name: 'vc3', x: 0.05, y: -2.9, z: 7.1, color: 0x9370DB }, { name: 'vc4', x: 0.05, y: 0.20000000000000018, z: 7.17, color: 0x9370DB },
-            { name: 'vc5', x: 0.05, y: 3.3000000000000007, z: 7.25, color: 0x9370DB }, { name: 'vc6', x: 0.05, y: 6.4, z: 7.3, color: 0x9370DB },
-            { name: 'vc7', x: 0.05, y: 9.5, z: 7.2, color: 0x9370DB }, { name: 'vc8', x: 0.05, y: 12.7, z: 6.1, color: 0x9370DB },
-            { name: 'vc9', x: 0.05, y: 15.9, z: 6.1, color: 0x9370DB }, { name: 'vc10', x: 0.05, y: 18.4, z: 6.38, color: 0x9370DB },
-            { name: 'vc11', x: 0.05, y: 20.9, z: 6.38, color: 0x9370DB }, { name: 'vc12', x: 0.05, y: 23.4, z: 6.58, color: 0x9370DB },
-            { name: 'vc13', x: 0.05, y: 25.9, z: 6.6, color: 0x9370DB }, { name: 'vc14', x: 0.05, y: 28.4, z: 5.95, color: 0x9370DB },
-            { name: 'vc15', x: 0.05, y: 30.9, z: 5.06, color: 0x9370DB }, { name: 'vc16', x: 0.05, y: 33.4, z: 4.9, color: 0x9370DB },
-            { name: 'vc17', x: 0.05, y: 36, z: 4.7, color: 0x9370DB }, { name: 'vc18', x: 0.05, y: 38.6, z: 3.6, color: 0x9370DB },
-            { name: 'vc19', x: 0.05, y: 41.2, z: 2.4, color: 0x9370DB }, { name: 'vc20', x: 0.05, y: 43.8, z: 1.2, color: 0x9370DB },
-            { name: 'vc21', x: 0.05, y: 46.4, z: -0.9, color: 0x9370DB }, { name: 'vc22', x: 0.05, y: 49, z: -2.1, color: 0x9370DB },
-            { name: 'vc23', x: 0.02, y: 56, z: -0.2, color: 0x9370DB }, { name: 'vc24', x: 0.02, y: 60, z: 5, color: 0x9370DB },
-
-            { name: 'p1', x: 13.267798006864483, y: 46.00000000000004, z: -1.0999999999999999, color: 0xf5f5f0 }, { name: 'p2', x: 14.26779800686449, y: 48.60000000000008, z: -4.6000000000000026, color: 0xf5f5f0 },
-            { name: 'p3', x: 22.967798006864573, y: 32.39999999999985, z: -4.7, color: 0xf5f5f0 }, { name: 'p4', x: 23.56779800686458, y: 28.699999999999797, z: -4.999999999999999, color: 0xf5f5f0 },
-            { name: 'p5', x: 24.16779800686459, y: 15.69999999999962, z: -4.6000000000000005, color: 0xf5f5f0 }, { name: 'p6', x: 25.767798006864613, y: 7.499999999999648, z: -2.7000000000000015, color: 0xf5f5f0 },
-            { name: 'p7', x: 26.96779800686463, y: -1.5000000000003426, z: -1.5000000000000004, color: 0xf5f5f0 }, { name: 'p8', x: 26.26779800686462, y: -3.500000000000344, z: -0.5000000000000001, color: 0xf5f5f0 },
-            { name: 'p9', x: 27.367798006864636, y: -5.500000000000339, z: -0.30000000000000016, color: 0xf5f5f0 }, { name: 'p10', x: 27.66779800686464, y: -7.7000000000003315, z: 2.1000000000000005, color: 0xf5f5f0 },
+            { name: 'vc1', x: 0.05, y: -12.7, z: -4.2, color: 0x9370DB },
+            { name: 'vc2', x: 0.05, y: -6, z: 6.4, color: 0x9370DB },
+            { name: 'vc3', x: 0.05, y: -2.9, z: 7.1, color: 0x9370DB },
+            { name: 'vc4', x: 0.05, y: 0.20000000000000018, z: 7.17, color: 0x9370DB },
+            { name: 'vc5', x: 0.05, y: 3.3000000000000007, z: 7.25, color: 0x9370DB },
+            { name: 'vc6', x: 0.05, y: 6.4, z: 7.3, color: 0x9370DB },
+            { name: 'vc7', x: 0.05, y: 9.5, z: 7.2, color: 0x9370DB },
+            { name: 'vc8', x: 0.05, y: 12.7, z: 6.1, color: 0x9370DB },
+            { name: 'vc9', x: 0.05, y: 15.9, z: 6.1, color: 0x9370DB },
+            { name: 'vc10', x: 0.05, y: 18.4, z: 6.38, color: 0x9370DB },
+            { name: 'vc11', x: 0.05, y: 20.9, z: 6.38, color: 0x9370DB },
+            { name: 'vc12', x: 0.05, y: 23.4, z: 6.58, color: 0x9370DB },
+            { name: 'vc13', x: 0.05, y: 25.9, z: 6.6, color: 0x9370DB },
+            { name: 'vc14', x: 0.05, y: 28.4, z: 5.95, color: 0x9370DB },
+            { name: 'vc15', x: 0.05, y: 30.9, z: 5.06, color: 0x9370DB },
+            { name: 'vc16', x: 0.05, y: 33.4, z: 4.9, color: 0x9370DB },
+            { name: 'vc17', x: 0.05, y: 36, z: 4.7, color: 0x9370DB },
+            { name: 'vc18', x: 0.05, y: 38.6, z: 3.6, color: 0x9370DB },
+            { name: 'vc19', x: 0.05, y: 41.2, z: 2.4, color: 0x9370DB },
+            { name: 'vc20', x: 0.05, y: 43.8, z: 1.2, color: 0x9370DB },
+            { name: 'vc21', x: 0.05, y: 46.4, z: -0.9, color: 0x9370DB },
+            { name: 'vc22', x: 0.05, y: 49, z: -2.1, color: 0x9370DB },
+            { name: 'vc23', x: 0.02, y: 56, z: -0.2, color: 0x9370DB },
+            { name: 'vc24', x: 0.02, y: 60, z: 5, color: 0x9370DB },
+            { name: 'p1', x: 13.267798006864483, y: 46.00000000000004, z: -1.0999999999999999, color: 0xf5f5f0 },
+            { name: 'p2', x: 14.26779800686449, y: 48.60000000000008, z: -4.6000000000000026, color: 0xf5f5f0 },
+            { name: 'p3', x: 22.967798006864573, y: 32.39999999999985, z: -4.7, color: 0xf5f5f0 },
+            { name: 'p4', x: 23.56779800686458, y: 28.699999999999797, z: -4.999999999999999, color: 0xf5f5f0 },
+            { name: 'p5', x: 24.16779800686459, y: 15.69999999999962, z: -4.6000000000000005, color: 0xf5f5f0 },
+            { name: 'p6', x: 25.767798006864613, y: 7.499999999999648, z: -2.7000000000000015, color: 0xf5f5f0 },
+            { name: 'p7', x: 26.96779800686463, y: -1.5000000000003426, z: -1.5000000000000004, color: 0xf5f5f0 },
+            { name: 'p8', x: 26.26779800686462, y: -3.500000000000344, z: -0.5000000000000001, color: 0xf5f5f0 },
+            { name: 'p9', x: 27.367798006864636, y: -5.500000000000339, z: -0.30000000000000016, color: 0xf5f5f0 },
+            { name: 'p10', x: 27.66779800686464, y: -7.7000000000003315, z: 2.1000000000000005, color: 0xf5f5f0 },
             { name: 'p11', x: 30.56779800686468, y: -13.200000000000312, z: 5.999999999999995, color: 0xf5f5f0 },
-            
-            { name: 'gi1', x: 29.232201993135632, y: -20.00000000000036, z: 6.199999999999994, color: 0x00CED1, view: 1 }, { name: 'gi2', x: 29.332201993135634, y: -14.700000000000307, z: 2.8000000000000007, color: 0x00CED1, view: 1 },
-            { name: 'gi3', x: 29.532201993135637, y: -12.200000000000315, z: 1.7999999999999998, color: 0x00CED1, view: 1 }, { name: 'gi4', x: 29.532201993135637, y: -10.500000000000322, z: 0.39999999999999936, color: 0x00CED1, view: -2 },
-            { name: 'gi5', x: 28.33220199313562, y: -6.800000000000335, z: 0.39999999999999925, color: 0x00CED1, view: 1 }, { name: 'gi6', x: 28.032201993135615, y: -0.3000000000003421, z: -3.8000000000000025, color: 0x00CED1, view: 1 },
-            { name: 'gi7', x: 27.832201993135612, y: 4.399999999999659, z: -6.399999999999994, color: 0x00CED1, view: 1 }, { name: 'gi8', x: 27.73220199313561, y: 9.69999999999964, z: -8.099999999999989, color: 0x00CED1, view: 1 },
-            { name: 'gi9', x: 27.532201993135608, y: 11.999999999999632, z: -8.799999999999986, color: 0x00CED1, view: 1 }, { name: 'gi10', x: 27.232201993135604, y: 14.299999999999624, z: -9.299999999999985, color: 0x00CED1, view: 1 },
-            { name: 'gi11', x: 27.0322019931356, y: 17.59999999999964, z: -8.799999999999986, color: 0x00CED1, view: 1 }, { name: 'gi12', x: 26.632201993135595, y: 18.49999999999968, z: -8.599999999999987, color: 0x00CED1, view: 1 },
-            { name: 'gi13', x: 26.432201993135592, y: 23.499999999999723, z: -9.299999999999985, color: 0x00CED1, view: 1 }, { name: 'gi14', x: 24.73220199313557, y: 33.29999999999986, z: -7.599999999999991, color: 0x00CED1, view: 1 }, { name: 'gi15', x: 20.432201993135507, y: 47.20000000000006, z: -5, color: 0x00CED1, view: 1 }, { name: 'gi16', x: 9.132201993135475, y: 45.80000000000008, z: -17.48, color: 0x00CED1, view: 1 },
-            { name: 'gi17', x: 5.532201993135482, y: 54.10000000000016, z: -4.0000000000000036, color: 0x00CED1 }, { name: 'gi18', x: 5.132201993135483, y: 56.100000000000186, z: -3.600000000000003, color: 0x00CED1 },
-            { name: 'gi19', x: 0.9322019931354847, y: 62.400000000000276, z: 4.899999999999998, color: 0x00CED1 }, { name: 'gi20', x: 1.9322019931354855, y: 62.90000000000028, z: 4.3, color: 0x00CED1 },
-            { name: 'gi21', x: -0.9322019931354847, y: 62.400000000000276, z: 4.899999999999998, color: 0x00CED1 }, { name: 'gi22', x: -1.9322019931354855, y: 62.90000000000028, z: 4.3, color: 0x00CED1 },
-            
-            { name: 'e1', x: -2.9677980068645167, y: 66.70000000000014, z: 3, color: 0xFFD700 }, { name: 'e2', x: -2.9677980068645167, y: 66.00000000000018, z: 3.2, color: 0xFFD700 },
-            { name: 'e3', x: -2.8677980068645166, y: 63.700000000000294, z: 3.8000000000000007, color: 0xFFD700 }, { name: 'e4', x: -2.7677980068645165, y: 61.10000000000026, z: 4.1000000000000005, color: 0xFFD700 },
-            { name: 'e5', x: -3.367798006864517, y: 58.200000000000216, z: 2.4999999999999996, color: 0xFFD700, view: -1 }, { name: 'e6', x: -5.967798006864511, y: 61.30000000000026, z: -2.6000000000000028, color: 0xFFD700, view: -1 },
-            { name: 'e7', x: -6.467798006864509, y: 64.20000000000029, z: -2.700000000000003, color: 0xFFD700, view: -1 }, { name: 'e8', x: -6.26779800686451, y: 71.89999999999985, z: -2.700000000000003, color: 0xFFD700, view: -1 },
-            { name: 'e9', x: -2.9677980068645167, y: 54.20000000000016, z: -2.3000000000000025, color: 0xFFD700 }, { name: 'e10', x: -2.267798006864516, y: 51.40000000000012, z: -2.2000000000000024, color: 0xFFD700 },
-            { name: 'e11', x: -2.9677980068645167, y: 47.600000000000065, z: -1.2000000000000015, color: 0xFFD700 }, { name: 'e12', x: -6.667798006864508, y: 48.60000000000008, z: -2.2000000000000024, color: 0xFFD700 },
-            { name: 'e13', x: -7.067798006864507, y: 47.600000000000065, z: -1.0000000000000013, color: 0xFFD700 }, { name: 'e14', x: -7.667798006864505, y: 44.800000000000026, z: 0.8999999999999986, color: 0xFFD700 },
-            { name: 'e15', x: -8.767798006864501, y: 42.29999999999999, z: 2.3999999999999995, color: 0xFFD700 }, { name: 'e16', x: -9.867798006864497, y: 38.89999999999994, z: 4.2, color: 0xFFD700 },
-            { name: 'e17', x: -12.06779800686449, y: 33.19999999999986, z: 4.999999999999997, color: 0xFFD700 }, { name: 'e18', x: -12.06779800686449, y: 30.199999999999818, z: 2.1999999999999993, color: 0xFFD700 },
-            { name: 'e19', x: -3.167798006864517, y: 25.699999999999754, z: 6.599999999999992, color: 0xFFD700 }, { name: 'e20', x: -3.167798006864517, y: 22.64727272727248, z: 6.699999999999991, color: 0xFFD700 },
-            { name: 'e21', x: -3.167798006864517, y: 19.59454545454521, z: 6.699999999999991, color: 0xFFD700 }, { name: 'e22', x: -3.167798006864517, y: 16.541818181817938, z: 6.499999999999992, color: 0xFFD700 },
-            { name: 'e23', x: -3.167798006864517, y: 13.489090909090663, z: 6.699999999999991, color: 0xFFD700 }, { name: 'e24', x: -3.167798006864517, y: 10.43636363636339, z: 7.09999999999999, color: 0xFFD700 },
-            { name: 'e25', x: -3.167798006864517, y: 7.383636363636118, z: 6.99999999999999, color: 0xFFD700 }, { name: 'e26', x: -3.167798006864517, y: 4.330909090908847, z: 6.899999999999991, color: 0xFFD700 },
-            { name: 'e27', x: -3.167798006864517, y: 1.2781818181815723, z: 6.599999999999992, color: 0xFFD700 }, { name: 'e28', x: -3.167798006864517, y: -1.7745454545457022, z: 6.299999999999993, color: 0xFFD700 },
-            { name: 'e29', x: -3.167798006864517, y: -4.827272727272973, z: 5.699999999999995, color: 0xFFD700 }, { name: 'e30', x: -3.167798006864517, y: -7.880000000000244, z: 4.599999999999999, color: 0xFFD700 },
-            { name: 'e31', x: -12.467798006864488, y: -11.280000000000232, z: 4.100000000000001, color: 0xFFD700 }, { name: 'e32', x: -12.467798006864488, y: -28.48000000000039, z: 4.300000000000001, color: 0xFFD700 },
-            { name: 'e33', x: -12.467798006864488, y: -36.2800000000005, z: 2.900000000000001, color: 0xFFD700 }, { name: 'e34', x: -12.467798006864488, y: -38.98000000000054, z: 2.3000000000000003, color: 0xFFD700 },
-            { name: 'e35', x: -12.467798006864488, y: -47.18000000000065, z: 1.4999999999999996, color: 0xFFD700 }, { name: 'e36', x: -12.467798006864488, y: -53.18000000000074, z: -0.10000000000000153, color: 0xFFD700 },
-            { name: 'e37', x: -12.467798006864488, y: -63.68000000000089, z: -0.7000000000000015, color: 0xFFD700 }, { name: 'e38', x: -11.76779800686449, y: -69.78000000000057, z: -1.6000000000000019, color: 0xFFD700 },
-            { name: 'e39', x: -11.367798006864492, y: -73.28000000000037, z: -1.9000000000000021, color: 0xFFD700 }, { name: 'e40', x: -13.467798006864484, y: -69.48000000000059, z: -4.3000000000000025, color: 0xFFD700, view: -1 },
-            { name: 'e41', x: -8.667798006864501, y: -85.1799999999997, z: -0.8000000000000016, color: 0xFFD700 }, { name: 'e42', x: -9.967798006864497, y: -88.27999999999952, z: 0.9999999999999983, color: 0xFFD700 },
-            { name: 'e43', x: -8.8677980068645, y: -90.97999999999936, z: 6.099999999999993, color: 0xFFD700 }, { name: 'e44', x: -9.467798006864498, y: -91.87999999999931, z: 7.799999999999988, color: 0xFFD700 },
+            { name: 'gi1', x: 29.232201993135632, y: -20.00000000000036, z: 6.199999999999994, color: 0x00CED1 },
+            { name: 'gi2', x: 29.332201993135634, y: -14.700000000000307, z: 2.8000000000000007, color: 0x00CED1 },
+            { name: 'gi3', x: 29.532201993135637, y: -12.200000000000315, z: 1.7999999999999998, color: 0x00CED1 },
+            { name: 'gi4', x: 29.532201993135637, y: -10.500000000000322, z: 0.39999999999999936, color: 0x00CED1 },
+            { name: 'gi5', x: 28.33220199313562, y: -6.800000000000335, z: 0.39999999999999925, color: 0x00CED1 },
+            { name: 'gi6', x: 28.032201993135615, y: -0.3000000000003421, z: -3.8000000000000025, color: 0x00CED1 },
+            { name: 'gi7', x: 27.832201993135612, y: 4.399999999999659, z: -6.399999999999994, color: 0x00CED1 },
+            { name: 'gi8', x: 27.73220199313561, y: 9.69999999999964, z: -8.099999999999989, color: 0x00CED1 },
+            { name: 'gi9', x: 27.532201993135608, y: 11.999999999999632, z: -8.799999999999986, color: 0x00CED1 },
+            { name: 'gi10', x: 27.232201993135604, y: 14.299999999999624, z: -9.299999999999985, color: 0x00CED1 },
+            { name: 'gi11', x: 27.0322019931356, y: 17.59999999999964, z: -8.799999999999986, color: 0x00CED1 },
+            { name: 'gi12', x: 26.632201993135595, y: 18.49999999999968, z: -8.599999999999987, color: 0x00CED1 },
+            { name: 'gi13', x: 26.432201993135592, y: 23.499999999999723, z: -9.299999999999985, color: 0x00CED1 },
+            { name: 'gi14', x: 24.73220199313557, y: 33.29999999999986, z: -7.599999999999991, color: 0x00CED1 },
+            { name: 'gi15', x: 20.432201993135507, y: 47.20000000000006, z: -5, color: 0x00CED1 },
+            { name: 'gi16', x: 9.132201993135475, y: 45.80000000000008, z: -17.48, color: 0x00CED1 },
+            { name: 'gi17', x: 5.532201993135482, y: 54.10000000000016, z: -4.0000000000000036, color: 0x00CED1 },
+            { name: 'gi18', x: 5.132201993135483, y: 56.100000000000186, z: -3.600000000000003, color: 0x00CED1 },
+            { name: 'gi19', x: 0.9322019931354847, y: 62.400000000000276, z: 4.899999999999998, color: 0x00CED1 },
+            { name: 'gi20', x: 1.9322019931354855, y: 62.90000000000028, z: 4.3, color: 0x00CED1 },
+            { name: 'gi21', x: -0.9322019931354847, y: 62.400000000000276, z: 4.899999999999998, color: 0x00CED1 },
+            { name: 'gi22', x: -1.9322019931354855, y: 62.90000000000028, z: 4.3, color: 0x00CED1 },
+            { name: 'e1', x: -2.9677980068645167, y: 66.70000000000014, z: 3, color: 0xFFD700 },
+            { name: 'e2', x: -2.9677980068645167, y: 66.00000000000018, z: 3.2, color: 0xFFD700 },
+            { name: 'e3', x: -2.8677980068645166, y: 63.700000000000294, z: 3.8000000000000007, color: 0xFFD700 },
+            { name: 'e4', x: -2.7677980068645165, y: 61.10000000000026, z: 4.1000000000000005, color: 0xFFD700 },
+            { name: 'e5', x: -3.367798006864517, y: 58.200000000000216, z: 2.4999999999999996, color: 0xFFD700 },
+            { name: 'e6', x: -5.967798006864511, y: 61.30000000000026, z: -2.6000000000000028, color: 0xFFD700 },
+            { name: 'e7', x: -6.467798006864509, y: 64.20000000000029, z: -2.700000000000003, color: 0xFFD700 },
+            { name: 'e8', x: -6.26779800686451, y: 71.89999999999985, z: -2.700000000000003, color: 0xFFD700 },
+            { name: 'e9', x: -2.9677980068645167, y: 54.20000000000016, z: -2.3000000000000025, color: 0xFFD700 },
+            { name: 'e10', x: -2.267798006864516, y: 51.40000000000012, z: -2.2000000000000024, color: 0xFFD700 },
+            { name: 'e11', x: -2.9677980068645167, y: 47.600000000000065, z: -1.2000000000000015, color: 0xFFD700 },
+            { name: 'e12', x: -6.667798006864508, y: 48.60000000000008, z: -2.2000000000000024, color: 0xFFD700 },
+            { name: 'e13', x: -7.067798006864507, y: 47.600000000000065, z: -1.0000000000000013, color: 0xFFD700 },
+            { name: 'e14', x: -7.667798006864505, y: 44.800000000000026, z: 0.8999999999999986, color: 0xFFD700 },
+            { name: 'e15', x: -8.767798006864501, y: 42.29999999999999, z: 2.3999999999999995, color: 0xFFD700 },
+            { name: 'e16', x: -9.867798006864497, y: 38.89999999999994, z: 4.2, color: 0xFFD700 },
+            { name: 'e17', x: -12.06779800686449, y: 33.19999999999986, z: 4.999999999999997, color: 0xFFD700 },
+            { name: 'e18', x: -12.06779800686449, y: 30.199999999999818, z: 2.1999999999999993, color: 0xFFD700 },
+            { name: 'e19', x: -3.167798006864517, y: 25.699999999999754, z: 6.599999999999992, color: 0xFFD700 },
+            { name: 'e20', x: -3.167798006864517, y: 22.64727272727248, z: 6.699999999999991, color: 0xFFD700 },
+            { name: 'e21', x: -3.167798006864517, y: 19.59454545454521, z: 6.699999999999991, color: 0xFFD700 },
+            { name: 'e22', x: -3.167798006864517, y: 16.541818181817938, z: 6.499999999999992, color: 0xFFD700 },
+            { name: 'e23', x: -3.167798006864517, y: 13.489090909090663, z: 6.699999999999991, color: 0xFFD700 },
+            { name: 'e24', x: -3.167798006864517, y: 10.43636363636339, z: 7.09999999999999, color: 0xFFD700 },
+            { name: 'e25', x: -3.167798006864517, y: 7.383636363636118, z: 6.99999999999999, color: 0xFFD700 },
+            { name: 'e26', x: -3.167798006864517, y: 4.330909090908847, z: 6.899999999999991, color: 0xFFD700 },
+            { name: 'e27', x: -3.167798006864517, y: 1.2781818181815723, z: 6.599999999999992, color: 0xFFD700 },
+            { name: 'e28', x: -3.167798006864517, y: -1.7745454545457022, z: 6.299999999999993, color: 0xFFD700 },
+            { name: 'e29', x: -3.167798006864517, y: -4.827272727272973, z: 5.699999999999995, color: 0xFFD700 },
+            { name: 'e30', x: -3.167798006864517, y: -7.880000000000244, z: 4.599999999999999, color: 0xFFD700 },
+            { name: 'e31', x: -12.467798006864488, y: -11.280000000000232, z: 4.100000000000001, color: 0xFFD700 },
+            { name: 'e32', x: -12.467798006864488, y: -28.48000000000039, z: 4.300000000000001, color: 0xFFD700 },
+            { name: 'e33', x: -12.467798006864488, y: -36.2800000000005, z: 2.900000000000001, color: 0xFFD700 },
+            { name: 'e34', x: -12.467798006864488, y: -38.98000000000054, z: 2.3000000000000003, color: 0xFFD700 },
+            { name: 'e35', x: -12.467798006864488, y: -47.18000000000065, z: 1.4999999999999996, color: 0xFFD700 },
+            { name: 'e36', x: -12.467798006864488, y: -53.18000000000074, z: -0.10000000000000153, color: 0xFFD700 },
+            { name: 'e37', x: -12.467798006864488, y: -63.68000000000089, z: -0.7000000000000015, color: 0xFFD700 },
+            { name: 'e38', x: -11.76779800686449, y: -69.78000000000057, z: -1.6000000000000019, color: 0xFFD700 },
+            { name: 'e39', x: -11.367798006864492, y: -73.28000000000037, z: -1.9000000000000021, color: 0xFFD700 },
+            { name: 'e40', x: -13.467798006864484, y: -69.48000000000059, z: -4.3000000000000025, color: 0xFFD700 },
+            { name: 'e41', x: -8.667798006864501, y: -85.1799999999997, z: -0.8000000000000016, color: 0xFFD700 },
+            { name: 'e42', x: -9.967798006864497, y: -88.27999999999952, z: 0.9999999999999983, color: 0xFFD700 },
+            { name: 'e43', x: -8.8677980068645, y: -90.97999999999936, z: 6.099999999999993, color: 0xFFD700 },
+            { name: 'e44', x: -9.467798006864498, y: -91.87999999999931, z: 7.799999999999988, color: 0xFFD700 },
             { name: 'e45', x: -9.967798006864497, y: -93.17999999999924, z: 11.299999999999976, color: 0xFFD700 }
         ];
 
         function init() {
-            container = document.createElement('div'); document.body.appendChild(container);
-            camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.5, 2000); camera.position.z = 250;
-            scene = new THREE.Scene(); scene.background = new THREE.Color(0xBD786C);
-            renderer = new THREE.WebGLRenderer({ antialias: true }); renderer.setSize(window.innerWidth, window.innerHeight); container.appendChild(renderer.domElement);
-            controls = new OrbitControls(camera, renderer.domElement); controls.dampingFactor = 0.2; controls.enableDamping = true;
+            container = document.createElement('div');
+            document.body.appendChild(container);
 
-            const ambientLight = new THREE.AmbientLight(0x101030); scene.add(ambientLight);
-            const directionalLight1 = new THREE.DirectionalLight(0xffeedd, 1); directionalLight1.position.set(0, 0, 1); scene.add(directionalLight1);
-            const directionalLight2 = new THREE.DirectionalLight(0xffeedd, 1); directionalLight2.position.set(0, 0, -1); scene.add(directionalLight2);
+            camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.5, 2000);
+            camera.position.z = 250;
+
+            scene = new THREE.Scene();
+            scene.background = new THREE.Color(0xBD786C);
+
+            renderer = new THREE.WebGLRenderer({ antialias: true });
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            container.appendChild(renderer.domElement);
+
+            controls = new OrbitControls(camera, renderer.domElement);
+            controls.dampingFactor = 0.2;
+            controls.enableDamping = true;
+
+            const ambientLight = new THREE.AmbientLight(0x404040);
+            scene.add(ambientLight);
+
+            const directionalLight1 = new THREE.DirectionalLight(0xffeedd, 1);
+            directionalLight1.position.set(0, 0, 1);
+            scene.add(directionalLight1);
+
+            const directionalLight2 = new THREE.DirectionalLight(0xffeedd, 1);
+            directionalLight2.position.set(0, 0, -1);
+            scene.add(directionalLight2);
 
             pointsData.forEach(pos => createSphere(pos.name, pos.color, pos.x, pos.y, pos.z));
+
             loadModel();
-            window.addEventListener('resize', onWindowResize); window.addEventListener('click', onDocumentClick);
+
+            window.addEventListener('resize', onWindowResize);
+            window.addEventListener('click', onDocumentClick);
         }
 
         function createSphere(name, color, x, y, z) {
-            const geometry = new THREE.SphereGeometry(0.4, 32, 32);
-            const material = new THREE.MeshStandardMaterial({ color, emissive: color, emissiveIntensity: 0.7, roughness: 0.3 });
+            const geometry = new THREE.SphereGeometry(0.6, 32, 32);
+            const material = new THREE.MeshStandardMaterial({
+                color: color,
+                emissive: color,
+                emissiveIntensity: 0.8,
+                roughness: 0.3
+            });
             const sphere = new THREE.Mesh(geometry, material);
-            sphere.name = name; sphere.position.set(x, y, z); scene.add(sphere);
+            sphere.name = name;
+            sphere.position.set(x, y, z);
+            scene.add(sphere);
         }
 
         function loadModel() {
             const objLoader = new OBJLoader();
-            objLoader.load('three/modelo/corpo.obj',
-                object => {
+            objLoader.load(
+                'three/modelo/corpo.obj',
+                function(object) {
+                    object.traverse(function(child) {
+                        if (child.isMesh) {
+                            child.material.color.set(0xD4B5A6);
+                        }
+                    });
                     object.position.y = -95;
                     scene.add(object);
                 },
                 undefined,
-                error => { console.error('Erreur de chargement du modèle OBJ:', error); }
+                function(error) {
+                    console.error('Erreur de chargement du modèle OBJ:', error);
+                }
             );
         }
 
-        function onWindowResize() { camera.aspect = window.innerWidth / window.innerHeight; camera.updateProjectionMatrix(); renderer.setSize(window.innerWidth, window.innerHeight); }
+        function onWindowResize() {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        }
 
         function onDocumentClick(event) {
-            event.preventDefault(); mouse.x = (event.clientX / window.innerWidth) * 2 - 1; mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
-            raycaster.setFromCamera(mouse, camera); const intersects = raycaster.intersectObjects(scene.children, true);
+            event.preventDefault();
+            mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+            mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
+
+            raycaster.setFromCamera(mouse, camera);
+            const intersects = raycaster.intersectObjects(scene.children, true);
+
             if (intersects.length > 0) {
                 const clickedObject = intersects[0].object;
-                document.getElementById('pointLabel').innerHTML = `<span class="point-name">${clickedObject.name.toUpperCase()}</span> <span class="copyright">© bien-etre-geobiologie.fr</span>`;
+                document.getElementById('pointLabel').innerHTML =
+                    `<span class="point-name">${clickedObject.name.toUpperCase()}</span>
+                     <span class="copyright">© bien-etre-geobiologie.fr</span>`;
             }
         }
 
-        function animate() { requestAnimationFrame(animate); controls.update(); renderer.render(scene, camera); }
+        function animate() {
+            requestAnimationFrame(animate);
+            controls.update();
+            renderer.render(scene, camera);
+        }
 
-        init(); animate();
+        init();
+        animate();
     </script>
 </body>
 </html>
