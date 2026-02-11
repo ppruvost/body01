@@ -3,13 +3,14 @@
 <head>
     <title>Liaison Points d'Énergie</title>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <style>
         body {
-            font-family: Monospace;
-            background-color: #BD786C;
-            margin: 0px;
+            margin: 0;
             overflow: hidden;
+            background-color: #BD786C;
+            font-family: Arial, sans-serif;
         }
 
         #pointLabel {
@@ -18,9 +19,7 @@
             top: 50%;
             transform: translateY(-50%) rotate(-90deg);
             transform-origin: left top;
-            background: transparent;
             color: #3a2d27;
-            font-family: Arial, sans-serif;
             white-space: nowrap;
             z-index: 9999;
             pointer-events: none;
@@ -34,109 +33,127 @@
 
         #pointLabel .copyright {
             font-size: 11px;
-            font-weight: normal;
         }
     </style>
 </head>
-<body id="acu">
-    <div id="pointLabel"></div>
-    <script src="https://cdn.jsdelivr.net/npm/three@0.132.2/build/three.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/three@0.132.2/examples/js/controls/OrbitControls.js"></script>
-    <script>
-        // Variables globales
-        let container, camera, scene, renderer, controls;
-        let raycaster = new THREE.Raycaster();
-        let mouse = new THREE.Vector2();
-        let INTERSECTED = null;
-        let mouseX = 0, mouseY = 0;
-        let windowHalfX = window.innerWidth / 2;
-        let windowHalfY = window.innerHeight / 2;
-        let acuX = 0, acuY = 0, acuZ = 0, acuXF = 0, acuYF = 0, acuZF = 0;
-        let focoCamera = false;
-        let p = new THREE.Vector3(0, 0, 0);
-        let obj = null, obj_aux = null;
-        let lastClickedPoint = null;
 
-        // Fonction pour créer une sphère
-        function createSphere(name, color, x, y, z, view = null) {
-            const geometry = new THREE.SphereGeometry(0.3, 32, 32);
-            const material = new THREE.MeshLambertMaterial({ color });
-            const object = new THREE.Mesh(geometry, material);
-            object.name = name;
-            object.position.set(x, y, z);
-            if (view !== null) object.view = view;
-            scene.add(object);
-        }
+<body>
+<div id="pointLabel"></div>
 
-        // Initialisation de la scène
-        function init() {
+<!-- THREE -->
+<script src="https://cdn.jsdelivr.net/npm/three@0.132.2/build/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.132.2/examples/js/controls/OrbitControls.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.132.2/examples/js/loaders/OBJLoader.js"></script>
+
+<script>
+
+let container, camera, scene, renderer, controls;
+let raycaster = new THREE.Raycaster();
+let mouse = new THREE.Vector2();
+let lastClickedPoint = null;
+
+let acuXF = 0, acuYF = 0, acuZF = 0;
+let focoCamera = false;
+let targetPosition = new THREE.Vector3();
+
+function createSphere(name, color, x, y, z, view = null) {
+    const geometry = new THREE.SphereGeometry(0.3, 24, 24);
+    const material = new THREE.MeshLambertMaterial({ color: color });
+    const sphere = new THREE.Mesh(geometry, material);
+
+    sphere.name = name;
+    sphere.position.set(x, y, z);
+    if (view !== null) sphere.view = view;
+
+    scene.add(sphere);
+}
+
+function init() {
+
     container = document.createElement('div');
     document.body.appendChild(container);
-    camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.5, 2000);
-    camera.position.z = 250;
-    controls = new THREE.OrbitControls(camera, container);
-    controls.damping = 0.2;
-    controls.enableRotate = true;
-    controls.enablePan = true;
-    controls.addEventListener('change', render);
+
     scene = new THREE.Scene();
-    const loaderObj = new THREE.OBJLoader();
-    loaderObj.load('three/modelo/corpo.obj', (object) => {
-        object.traverse((child) => { if (child instanceof THREE.Mesh) child.material.color.set(0xcccccc); });
+
+    camera = new THREE.PerspectiveCamera(
+        45,
+        window.innerWidth / window.innerHeight,
+        0.5,
+        2000
+    );
+    camera.position.set(0, 0, 250);
+
+    renderer = new THREE.WebGLRenderer({ antialias: true });
+    renderer.setPixelRatio(window.devicePixelRatio);
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.setClearColor(0xBD786C);
+    container.appendChild(renderer.domElement);
+
+    controls = new THREE.OrbitControls(camera, renderer.domElement);
+    controls.enableDamping = true;
+
+    // Lumières
+    scene.add(new THREE.AmbientLight(0x404040));
+
+    const dir1 = new THREE.DirectionalLight(0xffffff, 1);
+    dir1.position.set(0, 0, 1);
+    scene.add(dir1);
+
+    const dir2 = new THREE.DirectionalLight(0xffffff, 0.5);
+    dir2.position.set(0, 0, -1);
+    scene.add(dir2);
+
+    // Chargement du modèle
+    const loader = new THREE.OBJLoader();
+    loader.load('three/modelo/corpo.obj', function (object) {
+
+        object.traverse(function (child) {
+            if (child.isMesh) {
+                child.material = new THREE.MeshLambertMaterial({ color: 0xcccccc });
+            }
+        });
+
         object.position.y = -95;
         scene.add(object);
     });
-}
 
-            // Lumière ambiante
-            const ambient = new THREE.AmbientLight(0x101030);
-            scene.add(ambient);
+    // Exemple de sphères
+    createSphere('cs7', 0x0000FF, -24.7, -6.5, 0.6);
+    
+    // Tableau des positions Vaisseau Conception
+const vcPositions = [
+    { name: 'vc1', x: 0.05, y: -12.7, z: -4.2 },
+    { name: 'vc2', x: 0.05, y: -6, z: 6.4 },
+    { name: 'vc3', x: 0.05, y: -2.9, z: 7.1 },
+    { name: 'vc4', x: 0.05, y: 0.2, z: 7.17 },
+    { name: 'vc5', x: 0.05, y: 3.3, z: 7.25 },
+    { name: 'vc6', x: 0.05, y: 6.4, z: 7.3 },
+    { name: 'vc7', x: 0.05, y: 9.5, z: 7.2 },
+    { name: 'vc8', x: 0.05, y: 12.7, z: 6.1 },
+    { name: 'vc9', x: 0.05, y: 15.9, z: 6.1 },
+    { name: 'vc10', x: 0.05, y: 18.4, z: 6.38 },
+    { name: 'vc11', x: 0.05, y: 20.9, z: 6.38 },
+    { name: 'vc12', x: 0.05, y: 23.4, z: 6.58 },
+    { name: 'vc13', x: 0.05, y: 25.9, z: 6.6 },
+    { name: 'vc14', x: 0.05, y: 28.4, z: 5.95 },
+    { name: 'vc15', x: 0.05, y: 30.9, z: 5.06 },
+    { name: 'vc16', x: 0.05, y: 33.4, z: 4.9 },
+    { name: 'vc17', x: 0.05, y: 36, z: 4.7 },
+    { name: 'vc18', x: 0.05, y: 38.6, z: 3.6 },
+    { name: 'vc19', x: 0.05, y: 41.2, z: 2.4 },
+    { name: 'vc20', x: 0.05, y: 43.8, z: 1.2 },
+    { name: 'vc21', x: 0.05, y: 46.4, z: -0.9 },
+    { name: 'vc22', x: 0.05, y: 49, z: -2.1 },
+    { name: 'vc23', x: 0.02, y: 56, z: -0.2 },
+    { name: 'vc24', x: 0.02, y: 60, z: 5 }
+];
 
-            // Lumière directionnelle
-            const directionalLight1 = new THREE.DirectionalLight(0xffeedd);
-            directionalLight1.position.set(0, 0, 1);
-            scene.add(directionalLight1);
-
-            const directionalLight2 = new THREE.DirectionalLight(0xffeedd);
-            directionalLight2.position.set(0, 0, -1);
-            scene.add(directionalLight2);
-
-            // Création des sphères
-            createSphere('cs7', Math.random() * 0x0000FF, -24.71516683000315, -6.555406638283143, 0.6);
-
-            // Vaisseaux Conception
-            const vcPositions = [
-                { name: 'vc1', x: 0.05, y: -12.7, z: -4.2 },
-                { name: 'vc2', x: 0.05, y: -6, z: 6.4 },
-                { name: 'vc3', x: 0.05, y: -2.9, z: 7.1 },
-                { name: 'vc4', x: 0.05, y: 0.20000000000000018, z: 7.17 },
-                { name: 'vc5', x: 0.05, y: 3.3000000000000007, z: 7.25 },
-                { name: 'vc6', x: 0.05, y: 6.4, z: 7.3 },
-                { name: 'vc7', x: 0.05, y: 9.5, z: 7.2 },
-                { name: 'vc8', x: 0.05, y: 12.7, z: 6.1 },
-                { name: 'vc9', x: 0.05, y: 15.9, z: 6.1 },
-                { name: 'vc10', x: 0.05, y: 18.4, z: 6.38 },
-                { name: 'vc11', x: 0.05, y: 20.9, z: 6.38 },
-                { name: 'vc12', x: 0.05, y: 23.4, z: 6.58 },
-                { name: 'vc13', x: 0.05, y: 25.9, z: 6.6 },
-                { name: 'vc14', x: 0.05, y: 28.4, z: 5.95 },
-                { name: 'vc15', x: 0.05, y: 30.9, z: 5.06 },
-                { name: 'vc16', x: 0.05, y: 33.4, z: 4.9 },
-                { name: 'vc17', x: 0.05, y: 36, z: 4.7 },
-                { name: 'vc18', x: 0.05, y: 38.6, z: 3.6 },
-                { name: 'vc19', x: 0.05, y: 41.2, z: 2.4 },
-                { name: 'vc20', x: 0.05, y: 43.8, z: 1.2 },
-                { name: 'vc21', x: 0.05, y: 46.4, z: -0.9 },
-                { name: 'vc22', x: 0.05, y: 49, z: -2.1 },
-                { name: 'vc23', x: 0.02, y: 56, z: -0.2 },
-                { name: 'vc24', x: 0.02, y: 60, z: 5 }
-            ];
-
-            vcPositions.forEach(pos => {
-                createSphere(pos.name, 0x9370DB, pos.x, pos.y, pos.z);
-            });
-
-            // Poumon
+// Création des sphères (couleur violet énergétique)
+vcPositions.forEach(pos => {
+    createSphere(pos.name, 0x9370DB, pos.x, pos.y, pos.z);
+});
+    
+    // Poumon
             const pPositions = [
                 { name: 'p1', x: -13.267798006864483, y: 46.00000000000004, z: -1.0999999999999999 },
                 { name: 'p2', x: -14.26779800686449, y: 48.60000000000008, z: -4.6000000000000026 },
@@ -238,140 +255,98 @@
                 createSphere(pos.name, 0xFFD700, pos.x, pos.y, pos.z, pos.view);
             });
 
-            // Configuration du rendu
-            renderer = new THREE.WebGLRenderer();
-            renderer.setClearColor(0xBD786C);
-            renderer.setPixelRatio(window.devicePixelRatio);
-            renderer.setSize(window.innerWidth, window.innerHeight);
-            container.appendChild(renderer.domElement);
+    window.addEventListener('resize', onResize);
+    window.addEventListener('click', onClick);
+}
 
-            // Gestion des événements
-            window.addEventListener('resize', onWindowResize);
-            window.addEventListener('click', onDocumentClick);
+function onResize() {
+    camera.aspect = window.innerWidth / window.innerHeight;
+    camera.updateProjectionMatrix();
+    renderer.setSize(window.innerWidth, window.innerHeight);
+}
+
+function onClick(event) {
+
+    mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+    mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
+
+    raycaster.setFromCamera(mouse, camera);
+
+    const intersects = raycaster.intersectObjects(scene.children, true)
+        .filter(obj => obj.object.type === "Mesh");
+
+    if (intersects.length > 0) {
+
+        const obj = intersects[0].object;
+
+        if (!obj.name) return;
+
+        document.getElementById('pointLabel').innerHTML =
+            `<span class="point-name">${obj.name.toUpperCase()}</span>
+             <span class="copyright">© bien-etre-geobiologie.fr</span>`;
+
+        if (lastClickedPoint && lastClickedPoint !== obj) {
+            lastClickedPoint.material.color.setHex(lastClickedPoint.originalColor);
         }
 
-        // Fonctions de gestion des événements
-        function onWindowResize() {
-            windowHalfX = window.innerWidth / 2;
-            windowHalfY = window.innerHeight / 2;
-            camera.aspect = window.innerWidth / window.innerHeight;
-            camera.updateProjectionMatrix();
-            renderer.setSize(window.innerWidth, window.innerHeight);
+        if (!obj.originalColor) {
+            obj.originalColor = obj.material.color.getHex();
         }
 
-        function onDocumentClick(event) {
-            event.preventDefault();
+        obj.material.color.setHex(0xff0000);
+        lastClickedPoint = obj;
 
-            mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
-            mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
+        focusCameraOn(obj);
+    }
+}
 
-            raycaster.setFromCamera(mouse, camera);
+function focusCameraOn(obj) {
 
-            const intersects = raycaster.intersectObjects(scene.children);
+    targetPosition.copy(obj.position);
 
-            if (intersects.length > 0) {
-                const clickedObject = intersects[0].object;
+    acuXF = 0;
+    acuZF = 45;
 
-                // Mettre à jour le label
-                document.getElementById('pointLabel').innerHTML = `<span class="point-name">${clickedObject.name.toUpperCase()}</span> <span class="copyright">© bien-etre-geobiologie.fr</span>`;
+    if (obj.view === 1) acuXF = 45;
+    if (obj.view === -1) acuXF = -45;
+    if (obj.view === -2) acuZF = -45;
 
-                // Si un point était déjà cliqué, restaurer sa couleur
-                if (lastClickedPoint && lastClickedPoint !== clickedObject) {
-                    lastClickedPoint.material.color.setHex(lastClickedPoint.originalColor);
-                }
+    focoCamera = true;
+}
 
-                // Stocker la couleur originale si ce n'est pas déjà fait
-                if (!clickedObject.originalColor) {
-                    clickedObject.originalColor = clickedObject.material.color.getHex();
-                }
+function animate() {
+    requestAnimationFrame(animate);
+    render();
+}
 
-                // Changer la couleur du nouveau point cliqué en rouge
-                clickedObject.material.color.setHex(0xFF0000);
-                lastClickedPoint = clickedObject;
+function render() {
 
-                const mer = clickedObject.name.replace(/[0-9]+/, '');
-                const meridiano = document.getElementById(mer);
-                const animacao = document.getElementById(clickedObject.name);
+    if (focoCamera) {
 
-                meridiano?.click();
-                animacao?.click();
+        camera.position.x += (targetPosition.x + acuXF - camera.position.x) * 0.1;
+        camera.position.y += (targetPosition.y - camera.position.y) * 0.1;
+        camera.position.z += (targetPosition.z + acuZF - camera.position.z) * 0.1;
 
-                window.parent.postMessage(
-                    { type: 'selectPoint', point: clickedObject.name },
-                    '*'
-                );
-            }
+        camera.lookAt(targetPosition);
+
+        if (camera.position.distanceTo(
+            new THREE.Vector3(
+                targetPosition.x + acuXF,
+                targetPosition.y,
+                targetPosition.z + acuZF
+            )
+        ) < 1) {
+            focoCamera = false;
         }
+    }
 
-        // Fonction pour gérer les points d'acupression
-        function acuPonto(pto) {
-            if (obj_aux !== null) {
-                obj_aux.material.emissive.setHex(obj_aux.currentHex);
-            }
+    controls.update();
+    renderer.render(scene, camera);
+}
 
-            obj = scene.getObjectByName(pto);
-            if (obj) {
-                obj.currentHex = obj.material.emissive.getHex();
-                obj.material.emissive.setHex(0xff0000);
-                obj_aux = obj;
+init();
+animate();
 
-                // Mettre à jour le label
-                document.getElementById('pointLabel').innerHTML = `<span class="point-name">${pto.toUpperCase()}</span> <span class="copyright">© bien-etre-geobiologie.fr</span>`;
-
-                acuX = obj.position.x;
-                acuY = obj.position.y;
-                acuZ = obj.position.z;
-
-                if (obj.view === undefined) acuZF = 45;
-                else if (obj.view === 1) acuXF = 45;
-                else if (obj.view === -1) acuXF = -45;
-                else if (obj.view === -2) acuZF = -45;
-
-                p.set(acuX, acuY, acuZ);
-                focoCamera = true;
-            }
-        }
-
-        // Animation
-        function animate() {
-            requestAnimationFrame(animate);
-            render();
-        }
-
-        // Rendu
-        function render() {
-            renderer.render(scene, camera);
-
-            if (focoCamera) {
-                if (camera.position.x !== acuX + acuXF) {
-                    camera.position.x += (acuX + acuXF - camera.position.x) / 10;
-                }
-
-                if (camera.position.y !== acuY) {
-                    camera.position.y += (acuY - camera.position.y) / 10;
-                }
-
-                if (camera.position.z !== acuZ + acuZF) {
-                    camera.position.z += (acuZ + acuZF - camera.position.z) / 10;
-                }
-
-                if (Math.round(camera.position.x) === Math.round(acuX + acuXF) &&
-                    Math.round(camera.position.y) === Math.round(acuY) &&
-                    Math.round(camera.position.z) === Math.round(acuZ + acuZF)) {
-                    acuZF = 0;
-                    acuYF = 0;
-                    acuXF = 0;
-                    focoCamera = false;
-                    controls.target = p;
-                }
-
-                camera.lookAt(p);
-            }
-        }
-
-        // Initialisation
-        init();
-        animate();
-    </script>
+</script>
 </body>
 </html>
