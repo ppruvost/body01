@@ -451,7 +451,7 @@ const meridianGroups = {};
 
 function createMeridianCurve(prefix, color) {
 
-    // Cherche le mesh du corps
+    // Récupération du mesh du corps
     let bodyMesh = null;
     scene.traverse(function(obj){
         if (obj instanceof THREE.Mesh) {
@@ -462,51 +462,68 @@ function createMeridianCurve(prefix, color) {
     if (!bodyMesh) return;
 
     const ray = new THREE.Raycaster();
-    const offsetDistance = 1; // distance au-dessus de la peau (0.5 à 1.2)
+    const offsetDistance = 0.8; // distance au-dessus de la peau
 
-    const basePoints = scene.children
+    // 1️⃣ Récupération des points de base
+    const controlPoints = scene.children
         .filter(obj => obj.name && obj.name.startsWith(prefix))
         .sort((a, b) => {
             const na = parseInt(a.name.replace(prefix, ''));
             const nb = parseInt(b.name.replace(prefix, ''));
             return na - nb;
         })
-        .map(obj => {
+        .map(obj => obj.position.clone());
 
-            const origin = obj.position.clone();
+    if (controlPoints.length < 2) return;
 
-            // Direction vers le centre du corps
-            const direction = origin.clone().normalize().negate();
+    // 2️⃣ Création spline brute
+    const spline = new THREE.SplineCurve3(controlPoints);
 
-            ray.set(origin, direction);
+    // Plus il y a d'échantillons, plus c'est précis
+    const sampledPoints = spline.getPoints(controlPoints.length * 40);
 
-            const intersects = ray.intersectObject(bodyMesh, true);
+    const finalPoints = [];
 
-            if (intersects.length > 0 && intersects[0].face) {
+    // 3️⃣ Projection de CHAQUE point sur la surface
+    for (let i = 0; i < sampledPoints.length; i++) {
 
-                const hit = intersects[0];
+        const point = sampledPoints[i].clone();
 
-                const normal = hit.face.normal.clone();
+        // direction vers le centre du modèle
+        const direction = point.clone().normalize().negate();
 
-                // transformer la normale en espace monde
-                normal.applyMatrix3(
-                    new THREE.Matrix3().getNormalMatrix(hit.object.matrixWorld)
-                ).normalize();
+        ray.set(point, direction);
 
-                return origin.clone().add(normal.multiplyScalar(offsetDistance));
-            }
+        const intersects = ray.intersectObject(bodyMesh, true);
 
-            return origin.clone();
-        });
+        if (intersects.length > 0 && intersects[0].face) {
 
-    if (basePoints.length < 2) return;
+            const hit = intersects[0];
 
-    // Utilise SplineCurve3 (r71 compatible)
-    const spline = new THREE.SplineCurve3(basePoints);
-    const points = spline.getPoints(basePoints.length * 25);
+            const surfacePoint = hit.point.clone();
+            const normal = hit.face.normal.clone();
 
+            // passer la normale en espace monde
+            normal.applyMatrix3(
+                new THREE.Matrix3().getNormalMatrix(hit.object.matrixWorld)
+            ).normalize();
+
+            // point final = surface + normale * offset
+            const correctedPoint = surfacePoint.add(
+                normal.multiplyScalar(offsetDistance)
+            );
+
+            finalPoints.push(correctedPoint);
+
+        } else {
+
+            finalPoints.push(point);
+        }
+    }
+
+    // 4️⃣ Création géométrie finale
     const geometry = new THREE.Geometry();
-    geometry.vertices = points;
+    geometry.vertices = finalPoints;
 
     const material = new THREE.LineBasicMaterial({
         color: color
@@ -518,7 +535,6 @@ function createMeridianCurve(prefix, color) {
 
     scene.add(line);
 }
-
 
 // Création des courbes après un petit délai (le temps que tout soit chargé)
 setTimeout(() => {
