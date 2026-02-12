@@ -142,9 +142,9 @@ function init() {
     controls.enablePan = false;
 
     /* LIGHTS */
-    scene.add(new THREE.AmbientLight(0x101030));
+    scene.add(new THREE.AmbientLight(0xffffff, 0.6));
 
-    var dirLight1 = new THREE.DirectionalLight(0xffeedd);
+    var dirLight1 = new THREE.DirectionalLight(0xffffff, 0.8);
     dirLight1.position.set(0, 0, 1);
     scene.add(dirLight1);
 
@@ -158,27 +158,28 @@ function init() {
         createPointMesh(point);
     });
 
-    /* LOAD BODY MODEL */
-    var manager = new THREE.LoadingManager();
+    /* LOAD BODY MODEL + TEXTURE */
 
-    var texture = new THREE.Texture();
-    var imageLoader = new THREE.ImageLoader(manager);
-    imageLoader.load('three/textura/UV_Grid_Sm.jpg', function(image) {
-        texture.image = image;
-        texture.needsUpdate = true;
+var textureLoader = new THREE.TextureLoader();
+var texture = textureLoader.load('three/textura/UV_Grid_Sm.jpg');
+
+var objLoader = new THREE.OBJLoader();
+objLoader.load('three/modelo/corpo.obj', function(object) {
+
+    object.traverse(function(child) {
+        if (child instanceof THREE.Mesh) {
+
+            child.material = new THREE.MeshLambertMaterial({
+                map: texture
+            });
+
+            bodyMesh = child;
+        }
     });
 
-    var objLoader = new THREE.OBJLoader(manager);
-    objLoader.load('three/modelo/corpo.obj', function(object) {
-        object.traverse(function(child) {
-            if (child instanceof THREE.Mesh) {
-                child.material.map = texture;
-                bodyMesh = child;
-            }
-        });
-        object.position.y = -95;
-        scene.add(object);
-    });
+    object.position.y = -95;
+    scene.add(object);
+});
 
     /* RENDERER */
     renderer = new THREE.WebGLRenderer({ antialias: true });
