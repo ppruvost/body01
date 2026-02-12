@@ -1,47 +1,30 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <title>Energy Points Connection</title>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+<meta charset="utf-8">
+<title>Energy Points Connection</title>
 
-    <style>
-        body {
-            font-family: monospace;
-            background-color: #BD786C;
-            margin: 0;
-            overflow: hidden;
-        }
-
-        #pointLabel {
-            position: absolute;
-            left: 10px;
-            top: 50%;
-            transform: translateY(-50%) rotate(-90deg);
-            transform-origin: left top;
-            background: transparent;
-            color: #3a2d27;
-            font-family: Arial, sans-serif;
-            white-space: nowrap;
-            z-index: 9999;
-            pointer-events: none;
-        }
-
-        #pointLabel .point-name {
-            font-weight: bold;
-            font-size: 18px;
-            margin-right: 6px;
-        }
-
-        #pointLabel .copyright {
-            font-size: 11px;
-        }
-    </style>
+<style>
+body {
+    margin: 0;
+    overflow: hidden;
+    background-color: #BD786C;
+    font-family: monospace;
+}
+#pointLabel {
+    position: absolute;
+    left: 10px;
+    top: 50%;
+    transform: translateY(-50%) rotate(-90deg);
+    color: #3a2d27;
+    z-index: 9999;
+}
+.point-name { font-weight: bold; font-size:18px; }
+</style>
 </head>
 
 <body>
 <div id="pointLabel"></div>
-
 
 <script src="three/build/three.js"></script>
 <script src="three/loaders/OBJLoader.js"></script>
@@ -50,14 +33,11 @@
 
 <script>
 
-/* ============================================================
-   GLOBAL VARIABLES
-============================================================ */
+/* ================= GLOBAL ================= */
 
 var container, camera, scene, renderer, controls;
 var raycaster = new THREE.Raycaster();
 var mouse = new THREE.Vector2();
-var INTERSECTED = null;
 var clickableObjects = [];
 var bodyMesh = null;
 
@@ -65,15 +45,14 @@ var focusCamera = false;
 var targetPosition = new THREE.Vector3();
 var cameraOffsetX = 0;
 var cameraOffsetZ = 45;
-
 var lastSelectedPoint = null;
 var curvesData = {};
 
-/* ================================================
-COULEURS DES POINTS
-================================================*/
-    function getMeridianColor(meridian) {
+var sphereGeometry = new THREE.SphereGeometry(0.3,16,16);
 
+/* ================= COLORS ================= */
+
+function getMeridianColor(meridian) {
     const colors = {
         "Poumon": 0xf5f5f0,
         "Gros Intestin": 0x00CED1,
@@ -88,314 +67,147 @@ COULEURS DES POINTS
         "Vaisseau Conception": 0x9370DB,
         "Vaisseau Gouverneur": 0x8B0000
     };
-
     return colors[meridian] || 0xffffff;
 }
-    /* MERIDIANS POINTS (source acu_point.js) */
 
-    ACU_POINTS.forEach(point => {
-        createPointMesh(point);
+/* ================= POINTS ================= */
+
+function createPointMesh(point) {
+    const material = new THREE.MeshLambertMaterial({
+        color: getMeridianColor(point.meridian)
     });
-    
-/* ============================================================
-   INITIALIZATION
-============================================================ */
+
+    const mesh = new THREE.Mesh(sphereGeometry, material);
+    mesh.name = point.name;
+    mesh.position.set(point.x, point.y, point.z);
+    mesh.meridian = point.meridian;
+    mesh.view = point.view || 0;
+    mesh.originalColor = material.color.getHex();
+
+    scene.add(mesh);
+    clickableObjects.push(mesh);
+}
+
+/* ================= INIT ================= */
 
 function init() {
+
     container = document.createElement('div');
     document.body.appendChild(container);
 
     scene = new THREE.Scene();
 
-    camera = new THREE.PerspectiveCamera(
-        45,
-        window.innerWidth / window.innerHeight,
-        0.5,
-        2000
-    );
+    camera = new THREE.PerspectiveCamera(45, window.innerWidth/window.innerHeight, 0.5, 2000);
     camera.position.z = 250;
 
     controls = new THREE.OrbitControls(camera);
     controls.enableRotate = false;
     controls.enablePan = false;
 
-    /* LIGHTS */
     scene.add(new THREE.AmbientLight(0x101030));
 
-    var dirLight1 = new THREE.DirectionalLight(0xffeedd);
-    dirLight1.position.set(0, 0, 1);
-    scene.add(dirLight1);
+    const d1 = new THREE.DirectionalLight(0xffeedd);
+    d1.position.set(0,0,1);
+    scene.add(d1);
 
-    var dirLight2 = new THREE.DirectionalLight(0xffeedd);
-    dirLight2.position.set(0, 0, -1);
-    scene.add(dirLight2);
-    }
-    /* ============================================================
-   APPEL DES POINTS
-============================================================ */
+    const d2 = new THREE.DirectionalLight(0xffeedd);
+    d2.position.set(0,0,-1);
+    scene.add(d2);
 
-var sphereGeometry = new THREE.SphereGeometry(0.3, 16, 16);
+    /* Points */
+    ACU_POINTS.forEach(p => createPointMesh(p));
 
-function createPointMesh(point) {
-
-    const color = getMeridianColor(point.meridian);
-
-    const material = new THREE.MeshLambertMaterial({
-        color: color
+    /* OBJ */
+    const loaderObj = new THREE.OBJLoader();
+    loaderObj.load('three/modelo/corpo.obj', obj => {
+        obj.position.y = -95;
+        bodyMesh = obj;
+        scene.add(obj);
     });
 
-    const mesh = new THREE.Mesh(
-        sphereGeometry,
-        material
-    );
-
-    mesh.name = point.name;
-    mesh.position.set(point.x, point.y, point.z);
-    mesh.meridian = point.meridian;
-    mesh.view = point.view || 0;
-    mesh.originalColor = color;
-
-    scene.add(mesh);
-    clickableObjects.push(mesh);
-}
-
-// Chargement du modèle OBJ
-            const manager = new THREE.LoadingManager();
-            manager.onProgress = (item, loaded, total) => {
-                console.log(item, loaded, total);
-            };
-
-            const texture = new THREE.Texture();
-            const onProgress = (xhr) => {
-                if (xhr.lengthComputable) {
-                    const percentComplete = (xhr.loaded / xhr.total) * 100;
-                    console.log(Math.round(percentComplete, 2) + '% downloaded');
-                }
-            };
-
-            const onError = () => {};
-
-            const loaderImage = new THREE.ImageLoader(manager);
-            loaderImage.load('three/textura/UV_Grid_Sm.jpg', (image) => {
-                texture.image = image;
-                texture.needsUpdate = true;
-            });
-
-            const loaderObj = new THREE.OBJLoader(manager);
-            loaderObj.load('three/modelo/corpo.obj', (object) => {
-                object.traverse((child) => {
-                    if (child instanceof THREE.Mesh) {
-                        child.material.map = texture;
-                    }
-                });
-                object.position.y = -95;
-                scene.add(object);
-}, onProgress, onError);
-
-    /* RENDERER */
-    renderer = new THREE.WebGLRenderer({ antialias: true });
+    renderer = new THREE.WebGLRenderer({antialias:true});
     renderer.setClearColor(0xBD786C);
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.5));
     renderer.setSize(window.innerWidth, window.innerHeight);
-
     container.appendChild(renderer.domElement);
 
     window.addEventListener('resize', onWindowResize);
-    window.addEventListener('click', onMouseClick);
     window.addEventListener('mousemove', onMouseMove);
+    window.addEventListener('click', onMouseClick);
 }
 
-/* ============================================================
-   EVENTS
-============================================================ */
+/* ================= EVENTS ================= */
 
 function onWindowResize() {
-    camera.aspect = window.innerWidth / window.innerHeight;
+    camera.aspect = window.innerWidth/window.innerHeight;
     camera.updateProjectionMatrix();
     renderer.setSize(window.innerWidth, window.innerHeight);
 }
 
 function onMouseMove(event) {
-    mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
-    mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
+    mouse.x = (event.clientX/window.innerWidth)*2-1;
+    mouse.y = -(event.clientY/window.innerHeight)*2+1;
 }
 
-function onMouseClick(event) {
-    raycaster.setFromCamera(mouse, camera);
-    var intersects = raycaster.intersectObjects(clickableObjects, false);
+function onMouseClick() {
+    raycaster.setFromCamera(mouse,camera);
+    const intersects = raycaster.intersectObjects(clickableObjects);
 
-    if (intersects.length === 0) return;
+    if(!intersects.length) return;
 
-    var selected = intersects[0].object;
+    const selected = intersects[0].object;
 
-    // LABEL
     document.getElementById("pointLabel").innerHTML =
-        "<span class='point-name'>" + selected.name.toUpperCase() +
-        "</span><span class='copyright'> © bien-etre-geobiologie.fr</span>";
+        "<span class='point-name'>"+selected.name+"</span>";
 
-    // Gestion couleur
-    if (!selected.originalColor) {
-        selected.originalColor = selected.material.color.getHex();
-    }
-
-    // Jaune sur le point cliqué
-    selected.material.color.setHex(0xFFFF00);
-
-    // Reprendre couleur ancien point
-    if (lastSelectedPoint && lastSelectedPoint !== selected) {
+    if(lastSelectedPoint)
         lastSelectedPoint.material.color.setHex(lastSelectedPoint.originalColor);
-    }
 
+    selected.material.color.setHex(0xffff00);
     lastSelectedPoint = selected;
 
-    // Focus caméra
     focusOnPoint(selected);
-
-    // Ouvrir le sous-menu correspondant
     openSubMenu(selected.name);
-    
 }
 
-/* ============================================================
-   CAMERA FOCUS
-============================================================ */
+/* ================= CAMERA ================= */
 
-function focusOnPoint(object) {
+function focusOnPoint(object){
     targetPosition.copy(object.position);
-    cameraOffsetX = 0;
-    cameraOffsetZ = 45;
-
-    if (object.view === 1) cameraOffsetX = 45;
-    if (object.view === -1) cameraOffsetX = -45;
-    if (object.view === -2) cameraOffsetZ = -45;
-
     focusCamera = true;
 }
 
-/* ============================================================
-   OPEN SUBMENU FUNCTION
-============================================================ */
+/* ================= MENU ================= */
 
-function openSubMenu(pointName) {
+function openSubMenu(pointName){
+    const id = pointName.toLowerCase();
 
-    const id = pointName.toLowerCase(); // vc14, v8…
+    document.querySelectorAll('.submenu').forEach(m=>m.style.display="none");
+    document.querySelectorAll('.load-content').forEach(i=>i.classList.remove("active"));
 
-    const allSubmenus = document.querySelectorAll('.submenu');
-    allSubmenus.forEach(menu => menu.style.display = 'none');
-
-    const allItems = document.querySelectorAll('.load-content');
-    allItems.forEach(item => item.classList.remove('active'));
-
-    const targetItem = document.querySelector(
-        `.load-content[data-id="${id}"]`
-    );
-
-    if (targetItem) {
-        targetItem.classList.add('active');
-
-        const parentMenu = targetItem.closest('.submenu');
-        if (parentMenu) parentMenu.style.display = 'block';
-
-        // simule clic pour charger contenu
+    const targetItem = document.querySelector(`.load-content[data-id="${id}"]`);
+    if(targetItem){
+        targetItem.classList.add("active");
+        const parent = targetItem.closest(".submenu");
+        if(parent) parent.style.display="block";
         targetItem.click();
     }
 }
 
+/* ================= LOOP ================= */
 
-/* ============================================================
-   MERIDIAN CURVES
-============================================================ */
-
-function createMeridianCurveFromData(prefix, color, bodyMesh) {
-    if (!curvesData[prefix] || !bodyMesh) return;
-
-    var ray = new THREE.Raycaster();
-    var offsetDistance = 0.2;
-    var finalPoints = [];
-
-    curvesData[prefix].forEach(function(p) {
-        var point = new THREE.Vector3(p.x, p.y, p.z);
-        var direction = point.clone().normalize().negate();
-
-        ray.set(point, direction);
-        var intersects = ray.intersectObject(bodyMesh, true);
-
-        if (intersects.length > 0 && intersects[0].face) {
-            var hit = intersects[0];
-            var surfacePoint = hit.point.clone();
-            var normal = hit.face.normal.clone();
-            normal.applyMatrix3(new THREE.Matrix3().getNormalMatrix(hit.object.matrixWorld)).normalize();
-            surfacePoint.add(normal.multiplyScalar(offsetDistance));
-            finalPoints.push(surfacePoint);
-        } else {
-            finalPoints.push(point);
-        }
-    });
-
-    var geometry = new THREE.Geometry();
-    geometry.vertices = finalPoints;
-
-    var material = new THREE.LineBasicMaterial({ color: color });
-    var line = new THREE.Line(geometry, material);
-    line.raycast = function() {};
-    scene.add(line);
-}
-
-function getCurveColor(prefix) {
-
-    const map = {
-        "p": "Poumon",
-        "gi": "Gros Intestin",
-        "e": "Estomac",
-        "vc": "Vaisseau Conception"
-    };
-
-    const meridianName = map[prefix];
-    return getMeridianColor(meridianName);
-}
-
-/* LOAD MERIDIANS JSON */
-fetch("meridians.json")
-.then(res => res.json())
-.then(data => {
-    curvesData = data;
-    for (var meridian in curvesData) {
-        createMeridianCurveFromData(meridian, getCurveColor(meridian), bodyMesh);
-    }
-});
-
-/* ============================================================
-   ANIMATION LOOP
-============================================================ */
-
-function animate() {
+function animate(){
     requestAnimationFrame(animate);
     render();
 }
 
-function render() {
-    if (focusCamera) {
-        var target = new THREE.Vector3(
-            targetPosition.x + cameraOffsetX,
-            targetPosition.y,
-            targetPosition.z + cameraOffsetZ
-        );
-
-        camera.position.lerp(target, 0.1);
+function render(){
+    if(focusCamera){
         camera.lookAt(targetPosition);
-
-        if (camera.position.distanceTo(target) < 0.5) {
-            focusCamera = false;
-            controls.target.copy(targetPosition);
-        }
     }
-
-    renderer.render(scene, camera);
+    renderer.render(scene,camera);
 }
 
-/* ============================================================
-   START
-============================================================ */
+/* ================= START ================= */
 
 init();
 animate();
