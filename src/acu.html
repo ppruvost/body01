@@ -40,9 +40,6 @@ var raycaster = new THREE.Raycaster();
 var mouse = new THREE.Vector2();
 var clickableObjects = [];
 var bodyMesh = null;
-
-var focusCamera = false;
-var targetPosition = new THREE.Vector3();
 var cameraOffsetX = 0;
 var cameraOffsetZ = 45;
 var lastSelectedPoint = null;
@@ -101,8 +98,21 @@ function init() {
     camera.position.z = 250;
 
     controls = new THREE.OrbitControls(camera);
-    controls.enableRotate = false;
-    controls.enablePan = false;
+    controls.enableRotate = true;
+    controls.enableZoom = true;
+    controls.enablePan = true;
+    controls.enableDamping = true;       // rotation fluide
+    controls.dampingFactor = 0.08;
+
+    controls.rotateSpeed = 0.8;
+    controls.zoomSpeed = 1.2;
+    controls.panSpeed = 0.8;
+
+    controls.minDistance = 40;           // limite zoom proche
+    controls.maxDistance = 600;          // limite zoom loin
+
+    controls.target.set(0, 0, 0);        // centre du modèle
+    controls.update();
 
     scene.add(new THREE.AmbientLight(0x101030));
 
@@ -172,9 +182,20 @@ function onMouseClick() {
 /* ================= CAMERA ================= */
 
 function focusOnPoint(object){
-    targetPosition.copy(object.position);
-    focusCamera = true;
+
+    const newTarget = object.position.clone();
+
+    controls.target.copy(newTarget);
+
+    camera.position.set(
+        newTarget.x + cameraOffsetX,
+        newTarget.y + 20,
+        newTarget.z + cameraOffsetZ
+    );
+
+    controls.update();
 }
+
 
 /* ================= MENU ================= */
 function openSubMenu(pointName){
@@ -195,10 +216,7 @@ function animate(){
 }
 
 function render(){
-    if(focusCamera){
-        camera.lookAt(targetPosition);
-    }
-    renderer.render(scene,camera);
+        renderer.render(scene,camera);
 }
 
 /* ================= START ================= */
