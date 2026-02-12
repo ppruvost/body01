@@ -546,46 +546,6 @@ setTimeout(() => {
 
 }, 500);
 
-
-// Extension du clic pour gérer aussi les courbes
-const originalClickFunction = onDocumentClick;
-
-window.removeEventListener('click', onDocumentClick);
-window.addEventListener('click', function(event){
-
-    event.preventDefault();
-
-    mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
-    mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
-
-    raycaster.setFromCamera(mouse, camera);
-
-    const intersects = raycaster.intersectObjects(scene.children, true);
-
-    if (intersects.length > 0) {
-
-        const clickedObject = intersects[0].object;
-
-        // 🔵 SI C'EST UNE COURBE
-        if (clickedObject.isMeridianCurve) {
-
-            document.getElementById('pointLabel').innerHTML =
-                `<span class="point-name">${clickedObject.name.toUpperCase()}</span> <span class="copyright">© bien-etre-geobiologie.fr</span>`;
-
-            window.parent.postMessage(
-                { type: 'selectMeridian', meridian: clickedObject.name },
-                '*'
-            );
-
-            return;
-        }
-    }
-
-    // Sinon comportement normal
-    originalClickFunction(event);
-
-});
-
     </script>
 </body>
 </html>
