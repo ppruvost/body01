@@ -69,29 +69,54 @@ var lastSelectedPoint = null;
 var curvesData = {};
 
 /* ============================================================
-   SHARED GEOMETRY & MATERIAL CACHE
+   APPEL DES POINTS
 ============================================================ */
 
 var sphereGeometry = new THREE.SphereGeometry(0.3, 16, 16);
 
-function createSphere(name, color, x, y, z, view) {
+function createPointMesh(point) {
 
-    var material = new THREE.MeshLambertMaterial({ color: color });
+    const color = getMeridianColor(point.meridian);
 
-    var mesh = new THREE.Mesh(
+    const material = new THREE.MeshLambertMaterial({
+        color: color
+    });
+
+    const mesh = new THREE.Mesh(
         sphereGeometry,
         material
     );
 
-    mesh.name = name;
-    mesh.position.set(x, y, z);
-    mesh.view = view;
-
-    // Sauvegarde couleur d'origine
+    mesh.name = point.name;
+    mesh.position.set(point.x, point.y, point.z);
+    mesh.meridian = point.meridian;
+    mesh.view = point.view || 0;
     mesh.originalColor = color;
 
     scene.add(mesh);
     clickableObjects.push(mesh);
+}
+/* ================================================
+COULEURS DES POINTS
+================================================*/
+    function getMeridianColor(meridian) {
+
+    const colors = {
+        "Poumon": 0xf5f5f0,
+        "Gros Intestin": 0x00CED1,
+        "Estomac": 0xFFD700,
+        "Rate": 0xF4D03F,
+        "Coeur": 0xFF0000,
+        "Intestin Grele": 0xFF4500,
+        "Vessie": 0x1E90FF,
+        "Rein": 0x00008B,
+        "Foie": 0x228B22,
+        "Vesicule Biliaire": 0x32CD32,
+        "Vaisseau Conception": 0x9370DB,
+        "Vaisseau Gouverneur": 0x8B0000
+    };
+
+    return colors[meridian] || 0xffffff;
 }
 
 /* ============================================================
@@ -127,114 +152,11 @@ function init() {
     dirLight2.position.set(0, 0, -1);
     scene.add(dirLight2);
 
-    /* MERIDIANS POINTS (extend with your full dataset) */
+    /* MERIDIANS POINTS (source acu_point.js) */
 
-    createSphere("cs7", 0x0000FF, -24.7, -6.55, 0.6);
-
-    createSphere("vc1", 0x9370DB, 0.05, -12.7, -4.2);
-    createSphere("vc2", 0x9370DB, 0.05, -6, 6.4);
-    createSphere("vc3", 0x9370DB, 0.05, -2.9, 7.1);
-    createSphere("vc4", 0x9370DB, 0.05, 0.2, 7.17);
-    createSphere("vc5", 0x9370DB, 0.05, 3.3, 7.25);
-    createSphere("vc6", 0x9370DB, 0.05, 6.4, 7.3);
-    createSphere("vc7", 0x9370DB, 0.05, 9.5, 7.2);
-    createSphere("vc8", 0x9370DB, 0.05, 12.7, 6.1);
-    createSphere("vc9", 0x9370DB, 0.05, 15.9, 6.1);
-    createSphere("vc10", 0x9370DB, 0.05, 18.4, 6.38);
-    createSphere("vc11", 0x9370DB, 0.05, 20.9, 6.38);
-    createSphere("vc12", 0x9370DB, 0.05, 23.4, 6.58);
-    createSphere("vc13", 0x9370DB, 0.05, 25.9, 6.6);
-    createSphere("vc14", 0x9370DB, 0.05, 28.4, 5.95);
-    createSphere("vc15", 0x9370DB, 0.05, 30.9, 5.06);
-    createSphere("vc16", 0x9370DB, 0.05, 33.4, 4.9);
-    createSphere("vc17", 0x9370DB, 0.05, 36, 4.7);
-    createSphere("vc18", 0x9370DB, 0.05, 38.6, 3.6);
-    createSphere("vc19", 0x9370DB, 0.05, 41.2, 2.4);
-    createSphere("vc20", 0x9370DB, 0.05, 43.8, 1.2);
-    createSphere("vc21", 0x9370DB, 0.05, 46.4, -0.9);
-    createSphere("vc22", 0x9370DB, 0.05, 49, -2.1);
-    createSphere("vc23", 0x9370DB, 0.02, 56, -0.2);
-    createSphere("vc24", 0x9370DB, 0.02, 60, 5);
-
-    createSphere("p1", 0xf5f5f0, -13.26, 46, -1.1);
-    createSphere("p2", 0xf5f5f0, -14.26, 48.6, -4.6);
-    createSphere("p3", 0xf5f5f0, -22.967798006864573, 32.4, -4.7);
-    createSphere("p4", 0xf5f5f0, -23.56779800686458, 28.7, -5);
-    createSphere("p5", 0xf5f5f0, -24.16779800686459, 15.7, -4.6);
-    createSphere("p6", 0xf5f5f0, -25.767798006864613, 7.5, -2.7);
-    createSphere("p7", 0xf5f5f0, -26.96779800686463, -1.5, -1.5);
-    createSphere("p8", 0xf5f5f0, -26.26779800686462, -3.5, -0.5);
-    createSphere("p9", 0xf5f5f0, -27.367798006864636, -5.5, -0.3);
-    createSphere("p10", 0xf5f5f0, -27.66779800686464, -7.7, 2.1);
-    createSphere("p11", 0xf5f5f0, -30.56779800686468, -13.2, 6);
-
-    createSphere("gi1", 0x00CED1, 29.23, -20, 6.2, 1);
-    createSphere("gi2", 0x00CED1, 29.33, -14.7, 2.8, 1);
-    createSphere("gi3", 0x00CED1, 29.532201993135637, -12.2, 1.8);
-    createSphere("gi4", 0x00CED1, 29.532201993135637, -10.5, 0.4);
-    createSphere("gi5", 0x00CED1, 28.33220199313562, -6.8, 0.4);
-    createSphere("gi6", 0x00CED1, 28.032201993135615, -0.3, -3.8);
-    createSphere("gi7", 0x00CED1, 27.832201993135612, 4.4, -6.4);
-    createSphere("gi8", 0x00CED1, 27.73220199313561, 9.7, -8.1);
-    createSphere("gi9", 0x00CED1, 27.532201993135608, 12.0, -8.8);
-    createSphere("gi10", 0x00CED1, 27.232201993135604, 14.3, -9.3);
-    createSphere("gi11", 0x00CED1, 27.0322019931356, 17.6, -8.8);
-    createSphere("gi12", 0x00CED1, 26.632201993135595, 18.5, -8.6);
-    createSphere("gi13", 0x00CED1, 26.432201993135592, 23.5, -9.3);
-    createSphere("gi14", 0x00CED1, 24.73220199313557, 33.3, -7.6);
-    createSphere("gi15", 0x00CED1, 20.432201993135507, 47.2, -5);
-    createSphere("gi16", 0x00CED1, 9.132201993135475, 45.8, -17.48);
-    createSphere("gi17", 0x00CED1, 5.532201993135482, 54.1, -4);
-    createSphere("gi18", 0x00CED1, 5.132201993135483, 56.1, -3.6);
-    createSphere("gi19", 0x00CED1, 0.9322019931354847, 62.4, 4.9);
-    createSphere("gi20", 0x00CED1, 1.9322019931354855, 62.9, 4.3);    
-
-    createSphere("e1", 0xFFD700, -2.96, 66.7, 3);
-    createSphere("e2", 0xFFD700, -2.96, 66, 3.2);
-    createSphere("e3", 0xFFD700, -2.8677980068645166, 63.7, 3.8);
-    createSphere("e4", 0xFFD700, -2.7677980068645165, 61.1, 4.1);
-    createSphere("e5", 0xFFD700, -3.367798006864517, 58.2, 2.5);
-    createSphere("e6", 0xFFD700, -5.967798006864511, 61.3, -2.6);
-    createSphere("e7", 0xFFD700, -6.467798006864509, 64.2, -2.7);
-    createSphere("e8", 0xFFD700, -6.26779800686451, 71.9, -2.7);
-    createSphere("e9", 0xFFD700, -2.9677980068645167, 54.2, -2.3);
-    createSphere("e10", 0xFFD700, -2.267798006864516, 51.4, -2.2);
-    createSphere("e11", 0xFFD700, -2.9677980068645167, 47.6, -1.2);
-    createSphere("e12", 0xFFD700, -6.667798006864508, 48.6, -2.2);
-    createSphere("e13", 0xFFD700, -7.067798006864507, 47.6, -1.0);
-    createSphere("e14", 0xFFD700, -7.667798006864505, 44.8, 0.9);
-    createSphere("e15", 0xFFD700, -8.767798006864501, 42.3, 2.4);
-    createSphere("e16", 0xFFD700, -9.867798006864497, 38.9, 4.2);
-    createSphere("e17", 0xFFD700, -12.06779800686449, 33.2, 5.0);
-    createSphere("e18", 0xFFD700, -12.06779800686449, 30.2, 2.2);
-    createSphere("e19", 0xFFD700, -3.167798006864517, 25.7, 6.6);
-    createSphere("e20", 0xFFD700, -3.167798006864517, 22.64727272727248, 6.7);
-    createSphere("e21", 0xFFD700, -3.167798006864517, 19.59454545454521, 6.7);
-    createSphere("e22", 0xFFD700, -3.167798006864517, 16.541818181817938, 6.5);
-    createSphere("e23", 0xFFD700, -3.167798006864517, 13.489090909090663, 6.7);
-    createSphere("e24", 0xFFD700, -3.167798006864517, 10.43636363636339, 7.1);
-    createSphere("e25", 0xFFD700, -3.167798006864517, 7.383636363636118, 7.0);
-    createSphere("e26", 0xFFD700, -3.167798006864517, 4.330909090908847, 6.9);
-    createSphere("e27", 0xFFD700, -3.167798006864517, 1.2781818181815723, 6.6);
-    createSphere("e28", 0xFFD700, -3.167798006864517, -1.7745454545457022, 6.3);
-    createSphere("e29", 0xFFD700, -3.167798006864517, -4.827272727272973, 5.7);
-    createSphere("e30", 0xFFD700, -3.167798006864517, -7.88, 4.6);
-    createSphere("e31", 0xFFD700, -12.467798006864488, -11.28, 4.1);
-    createSphere("e32", 0xFFD700, -12.467798006864488, -28.48, 4.3);
-    createSphere("e33", 0xFFD700, -12.467798006864488, -36.28, 2.9);
-    createSphere("e34", 0xFFD700, -12.467798006864488, -38.98, 2.3);
-    createSphere("e35", 0xFFD700, -12.467798006864488, -47.18, 1.5);
-    createSphere("e36", 0xFFD700, -12.467798006864488, -53.18, -0.1);
-    createSphere("e37", 0xFFD700, -12.467798006864488, -63.68, -0.7);
-    createSphere("e38", 0xFFD700, -11.76779800686449, -69.78, -1.6);
-    createSphere("e39", 0xFFD700, -11.367798006864492, -73.28, -1.9);
-    createSphere("e40", 0xFFD700, -13.467798006864484, -69.48, -4.3);
-    createSphere("e41", 0xFFD700, -8.667798006864501, -85.18, -0.8);
-    createSphere("e42", 0xFFD700, -9.967798006864497, -88.28, 1.0);
-    createSphere("e43", 0xFFD700, -8.8677980068645, -90.98, 6.1);
-    createSphere("e44", 0xFFD700, -9.467798006864498, -91.88, 7.8);
-    createSphere("e45", 0xFFD700, -9.967798006864497, -93.18, 11.3);
-
+    ACU_POINTS.forEach(point => {
+        createPointMesh(point);
+    });
 
     /* LOAD BODY MODEL */
     var manager = new THREE.LoadingManager();
@@ -398,14 +320,17 @@ function createMeridianCurveFromData(prefix, color, bodyMesh) {
     scene.add(line);
 }
 
-function getMeridianColor(name) {
-    var colors = {
-        "p": 0xf5f5f0,
-        "gi": 0x00CED1,
-        "e": 0xFFD700,
-        "vc": 0x9370DB
+function getCurveColor(prefix) {
+
+    const map = {
+        "p": "Poumon",
+        "gi": "Gros Intestin",
+        "e": "Estomac",
+        "vc": "Vaisseau Conception"
     };
-    return colors[name] || 0xffffff;
+
+    const meridianName = map[prefix];
+    return getMeridianColor(meridianName);
 }
 
 /* LOAD MERIDIANS JSON */
@@ -414,7 +339,7 @@ fetch("meridians.json")
 .then(data => {
     curvesData = data;
     for (var meridian in curvesData) {
-        createMeridianCurveFromData(meridian, getMeridianColor(meridian), bodyMesh);
+        createMeridianCurveFromData(meridian, getCurveColor(meridian), bodyMesh);
     }
 });
 
