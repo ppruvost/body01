@@ -46,66 +46,51 @@ const meridiansPoints = {
 };
 
 // Nombre de segments entre deux points (plus élevé = courbe plus douce)
-const segments = 50;
+// rayon de lissage aux angles (en pixels ou unités de coordonnées)
+const radius = 5; 
 
-// Fonction Catmull-Rom
-function catmullRomSpline(p0, p1, p2, p3, t) {
-    const t2 = t * t;
-    const t3 = t2 * t;
+function getRoundedLine(points, radius = 5) {
+    if (points.length < 2) return points;
 
-    const x = 0.5 * ((2 * p1.x) + (-p0.x + p2.x) * t + (2*p0.x - 5*p1.x + 4*p2.x - p3.x) * t2 + (-p0.x + 3*p1.x - 3*p2.x + p3.x) * t3);
-    const y = 0.5 * ((2 * p1.y) + (-p0.y + p2.y) * t + (2*p0.y - 5*p1.y + 4*p2.y - p3.y) * t2 + (-p0.y + 3*p1.y - 3*p2.y + p3.y) * t3);
-    const z = 0.5 * ((2 * p1.z) + (-p0.z + p2.z) * t + (2*p0.z - 5*p1.z + 4*p2.z - p3.z) * t2 + (-p0.z + 3*p1.z - 3*p2.z + p3.z) * t3);
+    const roundedPoints = [points[0]]; // commencer par le premier point
 
-    return { x, y, z };
-}
-
-// ⚡ Correction Z pour rester à la surface
-function clampZ(p, minZ = 0.5) {
-    return { x: p.x, y: p.y, z: Math.max(p.z, minZ) };
-}
-
-// ⚡ Lissage glissant (optionnel, rend la courbe plus douce)
-function smoothCurve(points, windowSize = 2) {
-    const smoothed = [];
-    for (let i = 0; i < points.length; i++) {
-        let sumX = 0, sumY = 0, sumZ = 0, count = 0;
-        for (let j = i - windowSize; j <= i + windowSize; j++) {
-            if (points[j]) {
-                sumX += points[j].x;
-                sumY += points[j].y;
-                sumZ += points[j].z;
-                count++;
-            }
-        }
-        smoothed.push({ x: sumX / count, y: sumY / count, z: sumZ / count });
-    }
-    return smoothed;
-}
-
-const curvesData = {};
-
-for (let meridian in meridiansPoints) {
-    const points = meridiansPoints[meridian];
-    const curvePoints = [];
-
-    for (let i = 0; i < points.length - 1; i++) {
-        const p0 = i === 0 ? points[i] : points[i - 1];
+    for (let i = 1; i < points.length - 1; i++) {
+        const p0 = points[i - 1];
         const p1 = points[i];
         const p2 = points[i + 1];
-        const p3 = i + 2 >= points.length ? points[points.length - 1] : points[i + 2];
 
-        for (let j = 0; j <= segments; j++) {
-            const t = j / segments;
-            // calcul Catmull-Rom + correction Z
-            curvePoints.push(clampZ(catmullRomSpline(p0, p1, p2, p3, t), 0.5));
-        }
+        // vecteurs des segments
+        const v0 = { x: p0.x - p1.x, y: p0.y - p1.y };
+        const v1 = { x: p2.x - p1.x, y: p2.y - p1.y };
+
+        // longueurs des vecteurs
+        const len0 = Math.hypot(v0.x, v0.y);
+        const len1 = Math.hypot(v1.x, v1.y);
+
+        // ajuster le rayon pour ne pas dépasser les segments
+        const r0 = Math.min(radius, len0 / 2);
+        const r1 = Math.min(radius, len1 / 2);
+
+        // points d'entrée et de sortie de l'angle arrondi
+        const entry = { x: p1.x + (v0.x / len0) * r0, y: p1.y + (v0.y / len0) * r0 };
+        const exit = { x: p1.x + (v1.x / len1) * r1, y: p1.y + (v1.y / len1) * r1 };
+
+        roundedPoints.push(entry);
+        // On peut ici insérer des points intermédiaires pour arrondi "réel" (ex: quart de cercle)
+        roundedPoints.push(exit);
     }
 
-    // ⚡ Appliquer un lissage pour rendre la courbe plus naturelle
-    curvesData[meridian] = smoothCurve(curvePoints, 2);
+    // ajouter le dernier point
+    roundedPoints.push(points[points.length - 1]);
+
+    return roundedPoints;
 }
 
+// ⚡ Exemple d'utilisation pour tous les méridiens
+const smoothedLines = {};
+for (let meridian in meridiansPoints) {
+    smoothedLines[meridian] = getRoundedLine(meridiansPoints[meridian], radius);
+}
 
 // Sauvegarde dans un fichier JSON
 fs.writeFileSync('meridians.json', JSON.stringify(curvesData, null, 2));
