@@ -69,6 +69,34 @@ var cameraOffsetZ = 45;
 var lastSelectedPoint = null;
 var curvesData = {};
 
+/* ================================================
+COULEURS DES POINTS
+================================================*/
+    function getMeridianColor(meridian) {
+
+    const colors = {
+        "Poumon": 0xf5f5f0,
+        "Gros Intestin": 0x00CED1,
+        "Estomac": 0xFFD700,
+        "Rate": 0xF4D03F,
+        "Coeur": 0xFF0000,
+        "Intestin Grele": 0xFF4500,
+        "Vessie": 0x1E90FF,
+        "Rein": 0x00008B,
+        "Foie": 0x228B22,
+        "Vesicule Biliaire": 0x32CD32,
+        "Vaisseau Conception": 0x9370DB,
+        "Vaisseau Gouverneur": 0x8B0000
+    };
+
+    return colors[meridian] || 0xffffff;
+}
+    /* MERIDIANS POINTS (source acu_point.js) */
+
+    ACU_POINTS.forEach(point => {
+        createPointMesh(point);
+    });
+    
 /* ============================================================
    INITIALIZATION
 ============================================================ */
@@ -101,6 +129,7 @@ function init() {
     var dirLight2 = new THREE.DirectionalLight(0xffeedd);
     dirLight2.position.set(0, 0, -1);
     scene.add(dirLight2);
+    }
     /* ============================================================
    APPEL DES POINTS
 ============================================================ */
@@ -129,33 +158,6 @@ function createPointMesh(point) {
     scene.add(mesh);
     clickableObjects.push(mesh);
 }
-/* ================================================
-COULEURS DES POINTS
-================================================*/
-    function getMeridianColor(meridian) {
-
-    const colors = {
-        "Poumon": 0xf5f5f0,
-        "Gros Intestin": 0x00CED1,
-        "Estomac": 0xFFD700,
-        "Rate": 0xF4D03F,
-        "Coeur": 0xFF0000,
-        "Intestin Grele": 0xFF4500,
-        "Vessie": 0x1E90FF,
-        "Rein": 0x00008B,
-        "Foie": 0x228B22,
-        "Vesicule Biliaire": 0x32CD32,
-        "Vaisseau Conception": 0x9370DB,
-        "Vaisseau Gouverneur": 0x8B0000
-    };
-
-    return colors[meridian] || 0xffffff;
-}
-    /* MERIDIANS POINTS (source acu_point.js) */
-
-    ACU_POINTS.forEach(point => {
-        createPointMesh(point);
-    });
 
 // Chargement du modèle OBJ
             const manager = new THREE.LoadingManager();
