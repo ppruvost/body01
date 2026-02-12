@@ -226,8 +226,8 @@ function onMouseClick(event) {
         selected.originalColor = selected.material.color.getHex();
     }
 
-    // Rouge sur le point cliqué
-    selected.material.color.setHex(0xff0000);
+    // Jaune sur le point cliqué
+    selected.material.color.setHex(0xFFFF00);
 
     // Reprendre couleur ancien point
     if (lastSelectedPoint && lastSelectedPoint !== selected) {
