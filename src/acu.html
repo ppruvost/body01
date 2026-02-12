@@ -62,7 +62,6 @@
         let p = new THREE.Vector3(0, 0, 0);
         let obj = null, obj_aux = null;
         let lastClickedPoint = null;
-        let bodyMesh = null;
         let curvesData = {}; // sera rempli par le JSON
 
         // Initialisation des écouteurs pour les points d'acupression
@@ -302,11 +301,6 @@
                 object.traverse((child) => {
                     if (child instanceof THREE.Mesh) {
                         child.material.map = texture;
-                        bodyMesh = child; // important si tu l’utilises ailleurs
-
-                        // 🔥 CALCUL DES NORMALES ICI
-                        child.geometry.computeFaceNormals();
-                        child.geometry.computeVertexNormals();
                     }
                 });
                 object.position.y = -95;
@@ -413,7 +407,7 @@
     if (!curvesData[prefix] || curvesData[prefix].length === 0) return;
 
     const ray = new THREE.Raycaster();
-    const offsetDistance = 0.6; // distance exacte au-dessus de la peau
+    const offsetDistance = 0.2; // distance exacte au-dessus de la peau
 
     const finalPoints = [];
 
