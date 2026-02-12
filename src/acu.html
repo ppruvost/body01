@@ -253,37 +253,29 @@ function onMouseClick(event) {
     openSubMenu(selected.name);
     function openSubMenu(pointName) {
 
-    // Normalise en minuscules (vc14, v8, gi3…)
-    const id = pointName.toLowerCase();
-
-    // Utilise document directement (pas window.parent)
-    const allSubmenus = document.querySelectorAll('.submenu');
+    // ferme tous les sous-menus
+    const allSubmenus = window.parent.document.querySelectorAll('.submenu');
     allSubmenus.forEach(menu => menu.style.display = 'none');
 
-    const allItems = document.querySelectorAll('.load-content');
+    // enlève la classe active
+    const allItems = window.parent.document.querySelectorAll('.load-content');
     allItems.forEach(item => item.classList.remove('active'));
 
-    const targetItem = document.querySelector(
-        `.load-content[data-id="${id}"]`
+    // sélectionne l’item correspondant (ex: VC14)
+    const targetItem = window.parent.document.querySelector(
+        `.load-content[data-id="${pointName}"]`
     );
 
     if (targetItem) {
-
         targetItem.classList.add('active');
 
+        // ouvre le menu parent
         const parentMenu = targetItem.closest('.submenu');
         if (parentMenu) {
             parentMenu.style.display = 'block';
         }
-
-        // simule le clic pour charger le contenu
-        targetItem.click();
-
-    } else {
-        console.log("Point non trouvé dans le menu :", id);
     }
 }
-
 
 /* ============================================================
    CAMERA FOCUS
