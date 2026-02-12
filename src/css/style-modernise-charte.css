@@ -199,7 +199,7 @@ iframe {
 }
 
 .load-content.active {
-    background-color: yellow;
+    background-color: #D2B48C;
     font-weight: bold;
 }
 
