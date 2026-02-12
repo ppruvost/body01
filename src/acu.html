@@ -533,6 +533,9 @@ function createMeridianCurve(prefix, color) {
     line.name = prefix;
     line.isMeridianCurve = true;
 
+    // 👇 empêche totalement le raycast sur la courbe
+line.raycast = function() {};
+
     scene.add(line);
 }
 
