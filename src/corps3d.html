@@ -451,11 +451,18 @@ const meridianGroups = {};
 
 function createMeridianCurve(prefix, color) {
 
-    const bodyMesh = scene.children.find(obj => obj.type === "Group"); 
+    // Cherche le mesh du corps
+    let bodyMesh = null;
+    scene.traverse(function(obj){
+        if (obj instanceof THREE.Mesh) {
+            bodyMesh = obj;
+        }
+    });
+
     if (!bodyMesh) return;
 
     const ray = new THREE.Raycaster();
-    const upOffset = 0.8; // hauteur au-dessus de la peau (ajuste 0.5 → 1.5)
+    const offsetDistance = 0.8; // distance au-dessus de la peau (0.5 à 1.2)
 
     const basePoints = scene.children
         .filter(obj => obj.name && obj.name.startsWith(prefix))
@@ -467,21 +474,26 @@ function createMeridianCurve(prefix, color) {
         .map(obj => {
 
             const origin = obj.position.clone();
-            const direction = origin.clone().normalize();
 
-            // Raycast vers le centre pour récupérer la normale
-            ray.set(origin, direction.negate());
+            // Direction vers le centre du corps
+            const direction = origin.clone().normalize().negate();
+
+            ray.set(origin, direction);
 
             const intersects = ray.intersectObject(bodyMesh, true);
 
             if (intersects.length > 0 && intersects[0].face) {
 
-                const normal = intersects[0].face.normal.clone();
+                const hit = intersects[0];
+
+                const normal = hit.face.normal.clone();
 
                 // transformer la normale en espace monde
-                normal.transformDirection(intersects[0].object.matrixWorld);
+                normal.applyMatrix3(
+                    new THREE.Matrix3().getNormalMatrix(hit.object.matrixWorld)
+                ).normalize();
 
-                return origin.clone().add(normal.multiplyScalar(upOffset));
+                return origin.clone().add(normal.multiplyScalar(offsetDistance));
             }
 
             return origin.clone();
@@ -489,10 +501,12 @@ function createMeridianCurve(prefix, color) {
 
     if (basePoints.length < 2) return;
 
-    const curve = new THREE.CatmullRomCurve3(basePoints);
-    const points = curve.getPoints(basePoints.length * 25);
+    // Utilise SplineCurve3 (r71 compatible)
+    const spline = new THREE.SplineCurve3(basePoints);
+    const points = spline.getPoints(basePoints.length * 25);
 
-    const geometry = new THREE.BufferGeometry().setFromPoints(points);
+    const geometry = new THREE.Geometry();
+    geometry.vertices = points;
 
     const material = new THREE.LineBasicMaterial({
         color: color
@@ -504,8 +518,6 @@ function createMeridianCurve(prefix, color) {
 
     scene.add(line);
 }
-
-
 
 // Création des courbes après un petit délai (le temps que tout soit chargé)
 setTimeout(() => {
