@@ -441,11 +441,12 @@
           .then(data => {
             curvesData = data;
 
-            // Créer toutes les courbes à partir des données JSON
+        // Créer toutes les courbes à partir des données JSON
             for (let meridian in curvesData){
                 createMeridianCurveFromData(meridian, getMeridianColor(meridian));
             }
         });
+
 
         
         // Animation
@@ -497,17 +498,6 @@
 const meridianCurves = [];
 const meridianGroups = {};
 
-
-
-// Création des courbes après un petit délai (le temps que tout soit chargé)
-setTimeout(() => {
-
-    createMeridianCurve('vc', 0x9370DB);
-    createMeridianCurve('p', 0xf5f5f0);
-    createMeridianCurve('gi', 0x00CED1);
-    createMeridianCurve('e', 0xFFD700);
-
-}, 500);
 
     </script>
 </body>
