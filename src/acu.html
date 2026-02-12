@@ -261,12 +261,14 @@ function onMouseClick(event) {
     const allItems = window.parent.document.querySelectorAll('.load-content');
     allItems.forEach(item => item.classList.remove('active'));
 
-    // sélectionne l’item correspondant (ex: VC14)
+    // trouve l’élément correspondant (ex: v8, v14, vc14…)
     const targetItem = window.parent.document.querySelector(
-        `.load-content[data-id="${pointName}"]`
+        `.load-content[data-id="${pointName.toLowerCase()}"]`
     );
 
     if (targetItem) {
+
+        // surligne
         targetItem.classList.add('active');
 
         // ouvre le menu parent
@@ -274,9 +276,10 @@ function onMouseClick(event) {
         if (parentMenu) {
             parentMenu.style.display = 'block';
         }
-    }
-}
 
+        // ✅ SIMULE LE CLIC POUR CHARGER LE CONTENU
+        targetItem.click();
+    }
 }
 
 /* ============================================================
