@@ -82,12 +82,10 @@ function getMaterial(color) {
 }
 
 function createSphere(name, color, x, y, z, view) {
-
     var mesh = new THREE.Mesh(
         sphereGeometry,
         getMaterial(color)
     );
-
     mesh.name = name;
     mesh.position.set(x, y, z);
     mesh.view = view;
@@ -101,7 +99,6 @@ function createSphere(name, color, x, y, z, view) {
 ============================================================ */
 
 function init() {
-
     container = document.createElement('div');
     document.body.appendChild(container);
 
@@ -120,7 +117,6 @@ function init() {
     controls.enablePan = false;
 
     /* LIGHTS */
-
     scene.add(new THREE.AmbientLight(0x101030));
 
     var dirLight1 = new THREE.DirectionalLight(0xffeedd);
@@ -241,11 +237,9 @@ function init() {
 
 
     /* LOAD BODY MODEL */
-
     var manager = new THREE.LoadingManager();
 
     var texture = new THREE.Texture();
-
     var imageLoader = new THREE.ImageLoader(manager);
     imageLoader.load('three/textura/UV_Grid_Sm.jpg', function(image) {
         texture.image = image;
@@ -254,21 +248,17 @@ function init() {
 
     var objLoader = new THREE.OBJLoader(manager);
     objLoader.load('three/modelo/corpo.obj', function(object) {
-
         object.traverse(function(child) {
             if (child instanceof THREE.Mesh) {
                 child.material.map = texture;
                 bodyMesh = child;
             }
         });
-
         object.position.y = -95;
         scene.add(object);
-
     });
 
     /* RENDERER */
-
     renderer = new THREE.WebGLRenderer({ antialias: true });
     renderer.setClearColor(0xBD786C);
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.5));
@@ -286,20 +276,17 @@ function init() {
 ============================================================ */
 
 function onWindowResize() {
-
     camera.aspect = window.innerWidth / window.innerHeight;
     camera.updateProjectionMatrix();
     renderer.setSize(window.innerWidth, window.innerHeight);
 }
 
 function onMouseMove(event) {
-
     mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
     mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
 }
 
 function onMouseClick(event) {
-
     raycaster.setFromCamera(mouse, camera);
     var intersects = raycaster.intersectObjects(clickableObjects, false);
 
@@ -307,22 +294,31 @@ function onMouseClick(event) {
 
     var selected = intersects[0].object;
 
+    // LABEL
     document.getElementById("pointLabel").innerHTML =
         "<span class='point-name'>" + selected.name.toUpperCase() +
         "</span><span class='copyright'> © bien-etre-geobiologie.fr</span>";
 
-    if (lastSelectedPoint && lastSelectedPoint !== selected) {
-        lastSelectedPoint.material.color.setHex(lastSelectedPoint.originalColor);
-    }
-
+    // Gestion couleur
     if (!selected.originalColor) {
         selected.originalColor = selected.material.color.getHex();
     }
 
+    // Rouge sur le point cliqué
     selected.material.color.setHex(0xff0000);
+
+    // Reprendre couleur ancien point
+    if (lastSelectedPoint && lastSelectedPoint !== selected) {
+        lastSelectedPoint.material.color.setHex(lastSelectedPoint.originalColor);
+    }
+
     lastSelectedPoint = selected;
 
+    // Focus caméra
     focusOnPoint(selected);
+
+    // Ouvrir le sous-menu correspondant
+    openSubMenu(selected.name);
 }
 
 /* ============================================================
@@ -330,9 +326,7 @@ function onMouseClick(event) {
 ============================================================ */
 
 function focusOnPoint(object) {
-
     targetPosition.copy(object.position);
-
     cameraOffsetX = 0;
     cameraOffsetZ = 45;
 
@@ -344,11 +338,32 @@ function focusOnPoint(object) {
 }
 
 /* ============================================================
+   OPEN SUBMENU FUNCTION
+============================================================ */
+
+function openSubMenu(pointName) {
+    // Ferme tous les sous-menus
+    const allSubmenus = document.querySelectorAll('.submenu');
+    allSubmenus.forEach(menu => menu.style.display = 'none');
+
+    // Supprime classe active sur tous les items
+    const allItems = document.querySelectorAll('.load-content');
+    allItems.forEach(item => item.classList.remove('active'));
+
+    // Ouvre l’item correspondant
+    const targetItem = document.querySelector(`.load-content[data-id="${pointName}"]`);
+    if (targetItem) {
+        targetItem.classList.add('active');
+        const parentMenu = targetItem.closest('.submenu');
+        if (parentMenu) parentMenu.style.display = 'block';
+    }
+}
+
+/* ============================================================
    MERIDIAN CURVES
 ============================================================ */
 
 function createMeridianCurveFromData(prefix, color, bodyMesh) {
-
     if (!curvesData[prefix] || !bodyMesh) return;
 
     var ray = new THREE.Raycaster();
@@ -356,27 +371,19 @@ function createMeridianCurveFromData(prefix, color, bodyMesh) {
     var finalPoints = [];
 
     curvesData[prefix].forEach(function(p) {
-
         var point = new THREE.Vector3(p.x, p.y, p.z);
         var direction = point.clone().normalize().negate();
 
         ray.set(point, direction);
-
         var intersects = ray.intersectObject(bodyMesh, true);
 
         if (intersects.length > 0 && intersects[0].face) {
-
             var hit = intersects[0];
             var surfacePoint = hit.point.clone();
             var normal = hit.face.normal.clone();
-
-            normal.applyMatrix3(
-                new THREE.Matrix3().getNormalMatrix(hit.object.matrixWorld)
-            ).normalize();
-
+            normal.applyMatrix3(new THREE.Matrix3().getNormalMatrix(hit.object.matrixWorld)).normalize();
             surfacePoint.add(normal.multiplyScalar(offsetDistance));
             finalPoints.push(surfacePoint);
-
         } else {
             finalPoints.push(point);
         }
@@ -386,10 +393,8 @@ function createMeridianCurveFromData(prefix, color, bodyMesh) {
     geometry.vertices = finalPoints;
 
     var material = new THREE.LineBasicMaterial({ color: color });
-
     var line = new THREE.Line(geometry, material);
     line.raycast = function() {};
-
     scene.add(line);
 }
 
@@ -404,19 +409,12 @@ function getMeridianColor(name) {
 }
 
 /* LOAD MERIDIANS JSON */
-
 fetch("meridians.json")
-.then(function(res){ return res.json(); })
-.then(function(data){
-
+.then(res => res.json())
+.then(data => {
     curvesData = data;
-
     for (var meridian in curvesData) {
-        createMeridianCurveFromData(
-            meridian,
-            getMeridianColor(meridian),
-            bodyMesh
-        );
+        createMeridianCurveFromData(meridian, getMeridianColor(meridian), bodyMesh);
     }
 });
 
@@ -430,9 +428,7 @@ function animate() {
 }
 
 function render() {
-
     if (focusCamera) {
-
         var target = new THREE.Vector3(
             targetPosition.x + cameraOffsetX,
             targetPosition.y,
