@@ -70,6 +70,38 @@ var lastSelectedPoint = null;
 var curvesData = {};
 
 /* ============================================================
+   INITIALIZATION
+============================================================ */
+
+function init() {
+    container = document.createElement('div');
+    document.body.appendChild(container);
+
+    scene = new THREE.Scene();
+
+    camera = new THREE.PerspectiveCamera(
+        45,
+        window.innerWidth / window.innerHeight,
+        0.5,
+        2000
+    );
+    camera.position.z = 250;
+
+    controls = new THREE.OrbitControls(camera);
+    controls.enableRotate = false;
+    controls.enablePan = false;
+
+    /* LIGHTS */
+    scene.add(new THREE.AmbientLight(0xffffff, 0.6));
+
+    var dirLight1 = new THREE.DirectionalLight(0xffffff, 0.8);
+    dirLight1.position.set(0, 0, 1);
+    scene.add(dirLight1);
+
+    var dirLight2 = new THREE.DirectionalLight(0xffeedd);
+    dirLight2.position.set(0, 0, -1);
+    scene.add(dirLight2);
+    /* ============================================================
    APPEL DES POINTS
 ============================================================ */
 
@@ -119,68 +151,44 @@ COULEURS DES POINTS
 
     return colors[meridian] || 0xffffff;
 }
-
-/* ============================================================
-   INITIALIZATION
-============================================================ */
-
-function init() {
-    container = document.createElement('div');
-    document.body.appendChild(container);
-
-    scene = new THREE.Scene();
-
-    camera = new THREE.PerspectiveCamera(
-        45,
-        window.innerWidth / window.innerHeight,
-        0.5,
-        2000
-    );
-    camera.position.z = 250;
-
-    controls = new THREE.OrbitControls(camera);
-    controls.enableRotate = false;
-    controls.enablePan = false;
-
-    /* LIGHTS */
-    scene.add(new THREE.AmbientLight(0xffffff, 0.6));
-
-    var dirLight1 = new THREE.DirectionalLight(0xffffff, 0.8);
-    dirLight1.position.set(0, 0, 1);
-    scene.add(dirLight1);
-
-    var dirLight2 = new THREE.DirectionalLight(0xffeedd);
-    dirLight2.position.set(0, 0, -1);
-    scene.add(dirLight2);
-
     /* MERIDIANS POINTS (source acu_point.js) */
 
     ACU_POINTS.forEach(point => {
         createPointMesh(point);
     });
 
-    /* LOAD BODY MODEL + TEXTURE */
+// Chargement du modèle OBJ
+            const manager = new THREE.LoadingManager();
+            manager.onProgress = (item, loaded, total) => {
+                console.log(item, loaded, total);
+            };
 
-var textureLoader = new THREE.TextureLoader();
-var texture = textureLoader.load('three/textura/UV_Grid_Sm.jpg');
+            const texture = new THREE.Texture();
+            const onProgress = (xhr) => {
+                if (xhr.lengthComputable) {
+                    const percentComplete = (xhr.loaded / xhr.total) * 100;
+                    console.log(Math.round(percentComplete, 2) + '% downloaded');
+                }
+            };
 
-var objLoader = new THREE.OBJLoader();
-objLoader.load('three/modelo/corpo.obj', function(object) {
+            const onError = () => {};
 
-    object.traverse(function(child) {
-        if (child instanceof THREE.Mesh) {
-
-            child.material = new THREE.MeshLambertMaterial({
-                map: texture
+            const loaderImage = new THREE.ImageLoader(manager);
+            loaderImage.load('three/textura/UV_Grid_Sm.jpg', (image) => {
+                texture.image = image;
+                texture.needsUpdate = true;
             });
 
-            bodyMesh = child;
-        }
-    });
-
-    object.position.y = -95;
-    scene.add(object);
-});
+            const loaderObj = new THREE.OBJLoader(manager);
+            loaderObj.load('three/modelo/corpo.obj', (object) => {
+                object.traverse((child) => {
+                    if (child instanceof THREE.Mesh) {
+                        child.material.map = texture;
+                    }
+                });
+                object.position.y = -95;
+                scene.add(object);
+}, onProgress, onError);
 
     /* RENDERER */
     renderer = new THREE.WebGLRenderer({ antialias: true });
