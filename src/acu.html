@@ -403,12 +403,15 @@
         
         // import calculs courbes meridiens
         function createMeridianCurveFromData(prefix, color) {
-            if(!curvesData[prefix] || curvesData[prefix].length===0) return;
+
+            if (!curvesData[prefix] || curvesData[prefix].length === 0) return;
 
             const geometry = new THREE.Geometry();
 
-            curvesData[prefix].forEach(p=>{
-                geometry.vertices.push(new THREE.Vector3(p.x,p.y,p.z));
+            curvesData[prefix].forEach(function(p) {
+                geometry.vertices.push(
+                    new THREE.Vector3(p.x, p.y, p.z)
+                );
             });
 
             const material = new THREE.LineBasicMaterial({
@@ -419,9 +422,13 @@
             const line = new THREE.Line(geometry, material);
             line.name = prefix;
             line.isMeridianCurve = true;
+            
+            // Empêche totalement le Raycaster de détecter la courbe
+            line.raycast = function() { return; };
 
             scene.add(line);
         }
+
 
         // import couleurs des meridiens
         function getMeridianColor(meridian){
