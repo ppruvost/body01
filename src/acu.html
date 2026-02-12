@@ -1,14 +1,15 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <title>Liaison Points d'Énergie</title>
+    <title>Energy Points Connection</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+
     <style>
         body {
             font-family: monospace;
-            background-color: #BD786C;            
-            margin: 0px;
+            background-color: #BD786C;
+            margin: 0;
             overflow: hidden;
         }
 
@@ -18,526 +19,445 @@
             top: 50%;
             transform: translateY(-50%) rotate(-90deg);
             transform-origin: left top;
-
             background: transparent;
             color: #3a2d27;
             font-family: Arial, sans-serif;
             white-space: nowrap;
-
             z-index: 9999;
             pointer-events: none;
         }
 
-
-                #pointLabel .point-name {
-          font-weight: bold;
-      font-size: 18px;
-      margin-right: 6px;
+        #pointLabel .point-name {
+            font-weight: bold;
+            font-size: 18px;
+            margin-right: 6px;
         }
 
-                #pointLabel .copyright {
-          font-size: 11px;
-          font-weight: normal;
+        #pointLabel .copyright {
+            font-size: 11px;
         }
-
     </style>
 </head>
-<body id="acu">
-    <div id="pointLabel"></div>
-    <script src="three/build/three.js"></script>
-    <script src="three/loaders/OBJLoader.js"></script>
-    <script src="three/controls/OrbitControls.js"></script>
 
-    <script>
-        // Variables globales
-        let container, camera, scene, renderer, controls;
-        let raycaster = new THREE.Raycaster();
-        let mouse = new THREE.Vector2();
-        let INTERSECTED = null;
-        let mouseX = 0, mouseY = 0;
-        let windowHalfX = window.innerWidth / 2;
-        let windowHalfY = window.innerHeight / 2;
-        let acuX = 0, acuY = 0, acuZ = 0, acuXF = 0, acuYF = 0, acuZF = 0;
-        let focoCamera = false;
-        let p = new THREE.Vector3(0, 0, 0);
-        let obj = null, obj_aux = null;
-        let lastClickedPoint = null;
-        let curvesData = {}; // sera rempli par le JSON
+<body>
+<div id="pointLabel"></div>
 
-        // Initialisation des écouteurs pour les points d'acupression
-        function initEventListeners() {
-            const meridianPoints = [
-                { id: 'p', count: 11 },
-                { id: 'gi', count: 22 },
-                { id: 'e', count: 45 },
-                { id: 'rp', count: 21 },
-                { id: 'c', count: 9 },
-                { id: 'ig', count: 19 },
-                { id: 'v', count: 67 },
-                { id: 'r', count: 27 },
-                { id: 'pc', count: 9 },
-                { id: 'tr', count: 23 },
-                { id: 'vb', count: 44 },
-                { id: 'f', count: 14 },
-                { id: 'vg', count: 28 },
-                { id: 'vc', count: 24 },
-                { id: 'cs', count: 1 }
-            ];
+<script src="three/build/three.js"></script>
+<script src="three/loaders/OBJLoader.js"></script>
+<script src="three/controls/OrbitControls.js"></script>
 
-            meridianPoints.forEach(meridian => {
-                for (let i = 1; i <= meridian.count; i++) {
-                    const pointId = `${meridian.id}${i}`;
-                    const element = parent.document.getElementById(pointId);
-                    if (element) {
-                        element.onclick = () => acuPonto(pointId);
-                    }
-                }
-            });
-        }
+<script>
 
-        // Fonction pour créer une sphère
-        function createSphere(name, color, x, y, z, view = null) {
-            const geometry = new THREE.SphereGeometry(0.3, 32, 32);
-            const material = new THREE.MeshLambertMaterial({ color });
-            const object = new THREE.Mesh(geometry, material);
-            object.name = name;
-            object.position.set(x, y, z);
-            if (view !== null) object.view = view;
-            scene.add(object);
-        }
+/* ============================================================
+   GLOBAL VARIABLES
+============================================================ */
 
-        // Initialisation de la scène
-        function init() {
-            container = document.createElement('div');
-            document.body.appendChild(container);
+var container, camera, scene, renderer, controls;
+var raycaster = new THREE.Raycaster();
+var mouse = new THREE.Vector2();
+var INTERSECTED = null;
+var clickableObjects = [];
+var bodyMesh = null;
 
-            camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.5, 2000);
-            camera.position.z = 250;
+var focusCamera = false;
+var targetPosition = new THREE.Vector3();
+var cameraOffsetX = 0;
+var cameraOffsetZ = 45;
 
-            controls = new THREE.OrbitControls(camera);
-            controls.damping = 0.2;
-            controls.enableRotate = false;
-            controls.enablePan = false;            
-            controls.addEventListener('change', render);
+var lastSelectedPoint = null;
+var curvesData = {};
+
+/* ============================================================
+   SHARED GEOMETRY & MATERIAL CACHE
+============================================================ */
+
+var sphereGeometry = new THREE.SphereGeometry(0.3, 16, 16);
+var materialCache = {};
+
+function getMaterial(color) {
+    if (!materialCache[color]) {
+        materialCache[color] = new THREE.MeshLambertMaterial({ color: color });
+    }
+    return materialCache[color];
+}
+
+function createSphere(name, color, x, y, z, view) {
+
+    var mesh = new THREE.Mesh(
+        sphereGeometry,
+        getMaterial(color)
+    );
+
+    mesh.name = name;
+    mesh.position.set(x, y, z);
+    mesh.view = view;
+
+    scene.add(mesh);
+    clickableObjects.push(mesh);
+}
+
+/* ============================================================
+   INITIALIZATION
+============================================================ */
+
+function init() {
+
+    container = document.createElement('div');
+    document.body.appendChild(container);
+
+    scene = new THREE.Scene();
+
+    camera = new THREE.PerspectiveCamera(
+        45,
+        window.innerWidth / window.innerHeight,
+        0.5,
+        2000
+    );
+    camera.position.z = 250;
+
+    controls = new THREE.OrbitControls(camera);
+    controls.enableRotate = false;
+    controls.enablePan = false;
+
+    /* LIGHTS */
+
+    scene.add(new THREE.AmbientLight(0x101030));
+
+    var dirLight1 = new THREE.DirectionalLight(0xffeedd);
+    dirLight1.position.set(0, 0, 1);
+    scene.add(dirLight1);
+
+    var dirLight2 = new THREE.DirectionalLight(0xffeedd);
+    dirLight2.position.set(0, 0, -1);
+    scene.add(dirLight2);
+
+    /* MERIDIANS POINTS (extend with your full dataset) */
+
+    createSphere("cs7", 0x0000FF, -24.7, -6.55, 0.6);
+
+    createSphere("vc1", 0x9370DB, 0.05, -12.7, -4.2);
+    createSphere("vc2", 0x9370DB, 0.05, -6, 6.4);
+    createSphere("vc3", 0x9370DB, 0.05, -2.9, 7.1);
+    createSphere("vc4", 0x9370DB, 0.05, 0.2, 7.17);
+    createSphere("vc5", 0x9370DB, 0.05, 3.3, 7.25);
+    createSphere("vc6", 0x9370DB, 0.05, 6.4, 7.3);
+    createSphere("vc7", 0x9370DB, 0.05, 9.5, 7.2);
+    createSphere("vc8", 0x9370DB, 0.05, 12.7, 6.1);
+    createSphere("vc9", 0x9370DB, 0.05, 15.9, 6.1);
+    createSphere("vc10", 0x9370DB, 0.05, 18.4, 6.38);
+    createSphere("vc11", 0x9370DB, 0.05, 20.9, 6.38);
+    createSphere("vc12", 0x9370DB, 0.05, 23.4, 6.58);
+    createSphere("vc13", 0x9370DB, 0.05, 25.9, 6.6);
+    createSphere("vc14", 0x9370DB, 0.05, 28.4, 5.95);
+    createSphere("vc15", 0x9370DB, 0.05, 30.9, 5.06);
+    createSphere("vc16", 0x9370DB, 0.05, 33.4, 4.9);
+    createSphere("vc17", 0x9370DB, 0.05, 36, 4.7);
+    createSphere("vc18", 0x9370DB, 0.05, 38.6, 3.6);
+    createSphere("vc19", 0x9370DB, 0.05, 41.2, 2.4);
+    createSphere("vc20", 0x9370DB, 0.05, 43.8, 1.2);
+    createSphere("vc21", 0x9370DB, 0.05, 46.4, -0.9);
+    createSphere("vc22", 0x9370DB, 0.05, 49, -2.1);
+    createSphere("vc23", 0x9370DB, 0.02, 56, -0.2);
+    createSphere("vc24", 0x9370DB, 0.02, 60, 5);
+
+    createSphere("p1", 0xf5f5f0, -13.26, 46, -1.1);
+    createSphere("p2", 0xf5f5f0, -14.26, 48.6, -4.6);
+    createSphere("p3", 0xf5f5f0, -22.967798006864573, 32.4, -4.7);
+    createSphere("p4", 0xf5f5f0, -23.56779800686458, 28.7, -5);
+    createSphere("p5", 0xf5f5f0, -24.16779800686459, 15.7, -4.6);
+    createSphere("p6", 0xf5f5f0, -25.767798006864613, 7.5, -2.7);
+    createSphere("p7", 0xf5f5f0, -26.96779800686463, -1.5, -1.5);
+    createSphere("p8", 0xf5f5f0, -26.26779800686462, -3.5, -0.5);
+    createSphere("p9", 0xf5f5f0, -27.367798006864636, -5.5, -0.3);
+    createSphere("p10", 0xf5f5f0, -27.66779800686464, -7.7, 2.1);
+    createSphere("p11", 0xf5f5f0, -30.56779800686468, -13.2, 6);
+
+    createSphere("gi1", 0x00CED1, 29.23, -20, 6.2, 1);
+    createSphere("gi2", 0x00CED1, 29.33, -14.7, 2.8, 1);
+    createSphere("gi3", 0x00CED1, 29.532201993135637, -12.2, 1.8);
+    createSphere("gi4", 0x00CED1, 29.532201993135637, -10.5, 0.4);
+    createSphere("gi5", 0x00CED1, 28.33220199313562, -6.8, 0.4);
+    createSphere("gi6", 0x00CED1, 28.032201993135615, -0.3, -3.8);
+    createSphere("gi7", 0x00CED1, 27.832201993135612, 4.4, -6.4);
+    createSphere("gi8", 0x00CED1, 27.73220199313561, 9.7, -8.1);
+    createSphere("gi9", 0x00CED1, 27.532201993135608, 12.0, -8.8);
+    createSphere("gi10", 0x00CED1, 27.232201993135604, 14.3, -9.3);
+    createSphere("gi11", 0x00CED1, 27.0322019931356, 17.6, -8.8);
+    createSphere("gi12", 0x00CED1, 26.632201993135595, 18.5, -8.6);
+    createSphere("gi13", 0x00CED1, 26.432201993135592, 23.5, -9.3);
+    createSphere("gi14", 0x00CED1, 24.73220199313557, 33.3, -7.6);
+    createSphere("gi15", 0x00CED1, 20.432201993135507, 47.2, -5);
+    createSphere("gi16", 0x00CED1, 9.132201993135475, 45.8, -17.48);
+    createSphere("gi17", 0x00CED1, 5.532201993135482, 54.1, -4);
+    createSphere("gi18", 0x00CED1, 5.132201993135483, 56.1, -3.6);
+    createSphere("gi19", 0x00CED1, 0.9322019931354847, 62.4, 4.9);
+    createSphere("gi20", 0x00CED1, 1.9322019931354855, 62.9, 4.3);    
+
+    createSphere("e1", 0xFFD700, -2.96, 66.7, 3);
+    createSphere("e2", 0xFFD700, -2.96, 66, 3.2);
+    createSphere("e3", 0xFFD700, -2.8677980068645166, 63.7, 3.8);
+    createSphere("e4", 0xFFD700, -2.7677980068645165, 61.1, 4.1);
+    createSphere("e5", 0xFFD700, -3.367798006864517, 58.2, 2.5);
+    createSphere("e6", 0xFFD700, -5.967798006864511, 61.3, -2.6);
+    createSphere("e7", 0xFFD700, -6.467798006864509, 64.2, -2.7);
+    createSphere("e8", 0xFFD700, -6.26779800686451, 71.9, -2.7);
+    createSphere("e9", 0xFFD700, -2.9677980068645167, 54.2, -2.3);
+    createSphere("e10", 0xFFD700, -2.267798006864516, 51.4, -2.2);
+    createSphere("e11", 0xFFD700, -2.9677980068645167, 47.6, -1.2);
+    createSphere("e12", 0xFFD700, -6.667798006864508, 48.6, -2.2);
+    createSphere("e13", 0xFFD700, -7.067798006864507, 47.6, -1.0);
+    createSphere("e14", 0xFFD700, -7.667798006864505, 44.8, 0.9);
+    createSphere("e15", 0xFFD700, -8.767798006864501, 42.3, 2.4);
+    createSphere("e16", 0xFFD700, -9.867798006864497, 38.9, 4.2);
+    createSphere("e17", 0xFFD700, -12.06779800686449, 33.2, 5.0);
+    createSphere("e18", 0xFFD700, -12.06779800686449, 30.2, 2.2);
+    createSphere("e19", 0xFFD700, -3.167798006864517, 25.7, 6.6);
+    createSphere("e20", 0xFFD700, -3.167798006864517, 22.64727272727248, 6.7);
+    createSphere("e21", 0xFFD700, -3.167798006864517, 19.59454545454521, 6.7);
+    createSphere("e22", 0xFFD700, -3.167798006864517, 16.541818181817938, 6.5);
+    createSphere("e23", 0xFFD700, -3.167798006864517, 13.489090909090663, 6.7);
+    createSphere("e24", 0xFFD700, -3.167798006864517, 10.43636363636339, 7.1);
+    createSphere("e25", 0xFFD700, -3.167798006864517, 7.383636363636118, 7.0);
+    createSphere("e26", 0xFFD700, -3.167798006864517, 4.330909090908847, 6.9);
+    createSphere("e27", 0xFFD700, -3.167798006864517, 1.2781818181815723, 6.6);
+    createSphere("e28", 0xFFD700, -3.167798006864517, -1.7745454545457022, 6.3);
+    createSphere("e29", 0xFFD700, -3.167798006864517, -4.827272727272973, 5.7);
+    createSphere("e30", 0xFFD700, -3.167798006864517, -7.88, 4.6);
+    createSphere("e31", 0xFFD700, -12.467798006864488, -11.28, 4.1);
+    createSphere("e32", 0xFFD700, -12.467798006864488, -28.48, 4.3);
+    createSphere("e33", 0xFFD700, -12.467798006864488, -36.28, 2.9);
+    createSphere("e34", 0xFFD700, -12.467798006864488, -38.98, 2.3);
+    createSphere("e35", 0xFFD700, -12.467798006864488, -47.18, 1.5);
+    createSphere("e36", 0xFFD700, -12.467798006864488, -53.18, -0.1);
+    createSphere("e37", 0xFFD700, -12.467798006864488, -63.68, -0.7);
+    createSphere("e38", 0xFFD700, -11.76779800686449, -69.78, -1.6);
+    createSphere("e39", 0xFFD700, -11.367798006864492, -73.28, -1.9);
+    createSphere("e40", 0xFFD700, -13.467798006864484, -69.48, -4.3);
+    createSphere("e41", 0xFFD700, -8.667798006864501, -85.18, -0.8);
+    createSphere("e42", 0xFFD700, -9.967798006864497, -88.28, 1.0);
+    createSphere("e43", 0xFFD700, -8.8677980068645, -90.98, 6.1);
+    createSphere("e44", 0xFFD700, -9.467798006864498, -91.88, 7.8);
+    createSphere("e45", 0xFFD700, -9.967798006864497, -93.18, 11.3);
 
 
-            scene = new THREE.Scene();
+    /* LOAD BODY MODEL */
 
-            // Lumière ambiante
-            const ambient = new THREE.AmbientLight(0x101030);
-            scene.add(ambient);
+    var manager = new THREE.LoadingManager();
 
-            // Lumière directionnelle
-            const directionalLight1 = new THREE.DirectionalLight(0xffeedd);
-            directionalLight1.position.set(0, 0, 1);
-            scene.add(directionalLight1);
+    var texture = new THREE.Texture();
 
-            const directionalLight2 = new THREE.DirectionalLight(0xffeedd);
-            directionalLight2.position.set(0, 0, -1);
-            scene.add(directionalLight2);
+    var imageLoader = new THREE.ImageLoader(manager);
+    imageLoader.load('three/textura/UV_Grid_Sm.jpg', function(image) {
+        texture.image = image;
+        texture.needsUpdate = true;
+    });
 
-            // Création des sphères
-            createSphere('cs7', Math.random() * 0x0000FF, -24.71516683000315, -6.555406638283143, 0.6);
+    var objLoader = new THREE.OBJLoader(manager);
+    objLoader.load('three/modelo/corpo.obj', function(object) {
 
-            // Vaisseaux Conception
-            const vcPositions = [
-                { name: 'vc1', x: 0.05, y: -12.7, z: -4.2 },
-                { name: 'vc2', x: 0.05, y: -6, z: 6.4 },
-                { name: 'vc3', x: 0.05, y: -2.9, z: 7.1 },
-                { name: 'vc4', x: 0.05, y: 0.20000000000000018, z: 7.17 },
-                { name: 'vc5', x: 0.05, y: 3.3000000000000007, z: 7.25 },
-                { name: 'vc6', x: 0.05, y: 6.4, z: 7.3 },
-                { name: 'vc7', x: 0.05, y: 9.5, z: 7.2 },
-                { name: 'vc8', x: 0.05, y: 12.7, z: 6.1 },
-                { name: 'vc9', x: 0.05, y: 15.9, z: 6.1 },
-                { name: 'vc10', x: 0.05, y: 18.4, z: 6.38 },
-                { name: 'vc11', x: 0.05, y: 20.9, z: 6.38 },
-                { name: 'vc12', x: 0.05, y: 23.4, z: 6.58 },
-                { name: 'vc13', x: 0.05, y: 25.9, z: 6.6 },
-                { name: 'vc14', x: 0.05, y: 28.4, z: 5.95 },
-                { name: 'vc15', x: 0.05, y: 30.9, z: 5.06 },
-                { name: 'vc16', x: 0.05, y: 33.4, z: 4.9 },
-                { name: 'vc17', x: 0.05, y: 36, z: 4.7 },
-                { name: 'vc18', x: 0.05, y: 38.6, z: 3.6 },
-                { name: 'vc19', x: 0.05, y: 41.2, z: 2.4 },
-                { name: 'vc20', x: 0.05, y: 43.8, z: 1.2 },
-                { name: 'vc21', x: 0.05, y: 46.4, z: -0.9 },
-                { name: 'vc22', x: 0.05, y: 49, z: -2.1 },
-                { name: 'vc23', x: 0.02, y: 56, z: -0.2 },
-                { name: 'vc24', x: 0.02, y: 60, z: 5 }
-            ];
-
-            vcPositions.forEach(pos => {
-                createSphere(pos.name, 0x9370DB, pos.x, pos.y, pos.z);
-            });
-
-            // Poumon
-            const pPositions = [
-                { name: 'p1', x: -13.267798006864483, y: 46.00000000000004, z: -1.0999999999999999 },
-                { name: 'p2', x: -14.26779800686449, y: 48.60000000000008, z: -4.6000000000000026 },
-                { name: 'p3', x: -22.967798006864573, y: 32.39999999999985, z: -4.7 },
-                { name: 'p4', x: -23.56779800686458, y: 28.699999999999797, z: -4.999999999999999 },
-                { name: 'p5', x: -24.16779800686459, y: 15.69999999999962, z: -4.6000000000000005 },
-                { name: 'p6', x: -25.767798006864613, y: 7.499999999999648, z: -2.7000000000000015 },
-                { name: 'p7', x: -26.96779800686463, y: -1.5000000000003426, z: -1.5000000000000004 },
-                { name: 'p8', x: -26.26779800686462, y: -3.500000000000344, z: -0.5000000000000001 },
-                { name: 'p9', x: -27.367798006864636, y: -5.500000000000339, z: -0.30000000000000016 },
-                { name: 'p10', x: -27.66779800686464, y: -7.7000000000003315, z: 2.1000000000000005 },
-                { name: 'p11', x: -30.56779800686468, y: -13.200000000000312, z: 5.999999999999995 }
-            ];
-
-            pPositions.forEach(pos => {
-                createSphere(pos.name, 0xf5f5f0, pos.x, pos.y, pos.z);
-            });
-
-            // Gros Intestin
-            const giPositions = [
-                { name: 'gi1', x: 29.232201993135632, y: -20.00000000000036, z: 6.199999999999994, view: 1 },
-                { name: 'gi2', x: 29.332201993135634, y: -14.700000000000307, z: 2.8000000000000007, view: 1 },
-                { name: 'gi3', x: 29.532201993135637, y: -12.200000000000315, z: 1.7999999999999998, view: 1 },
-                { name: 'gi4', x: 29.532201993135637, y: -10.500000000000322, z: 0.39999999999999936, view: -2 },
-                { name: 'gi5', x: 28.33220199313562, y: -6.800000000000335, z: 0.39999999999999925, view: 1 },
-                { name: 'gi6', x: 28.032201993135615, y: -0.3000000000003421, z: -3.8000000000000025, view: 1 },
-                { name: 'gi7', x: 27.832201993135612, y: 4.399999999999659, z: -6.399999999999994, view: 1 },
-                { name: 'gi8', x: 27.73220199313561, y: 9.69999999999964, z: -8.099999999999989, view: 1 },
-                { name: 'gi9', x: 27.532201993135608, y: 11.999999999999632, z: -8.799999999999986, view: 1 },
-                { name: 'gi10', x: 27.232201993135604, y: 14.299999999999624, z: -9.299999999999985, view: 1 },
-                { name: 'gi11', x: 27.0322019931356, y: 17.59999999999964, z: -8.799999999999986, view: 1 },
-                { name: 'gi12', x: 26.632201993135595, y: 18.49999999999968, z: -8.599999999999987, view: 1 },
-                { name: 'gi13', x: 26.432201993135592, y: 23.499999999999723, z: -9.299999999999985, view: 1 },
-                { name: 'gi14', x: 24.73220199313557, y: 33.29999999999986, z: -7.599999999999991, view: 1 },
-                { name: 'gi15', x: 20.432201993135507, y: 47.20000000000006, z: -5, view: 1 },
-                { name: 'gi16', x: 9.132201993135475, y: 45.80000000000008, z: -17.48, view: 1 },
-                { name: 'gi17', x: 5.532201993135482, y: 54.10000000000016, z: -4.0000000000000036 },
-                { name: 'gi18', x: 5.132201993135483, y: 56.100000000000186, z: -3.600000000000003 },
-                { name: 'gi19', x: 0.9322019931354847, y: 62.400000000000276, z: 4.899999999999998 },
-                { name: 'gi20', x: 1.9322019931354855, y: 62.90000000000028, z: 4.3 },
-            ];
-
-            giPositions.forEach(pos => {
-                createSphere(pos.name, 0x00CED1, pos.x, pos.y, pos.z, pos.view);
-            });
-
-            // Estomac
-            const ePositions = [
-                { name: 'e1', x: -2.9677980068645167, y: 66.70000000000014, z: 3 },
-                { name: 'e2', x: -2.9677980068645167, y: 66.00000000000018, z: 3.2 },
-                { name: 'e3', x: -2.8677980068645166, y: 63.700000000000294, z: 3.8000000000000007 },
-                { name: 'e4', x: -2.7677980068645165, y: 61.10000000000026, z: 4.1000000000000005 },
-                { name: 'e5', x: -3.367798006864517, y: 58.200000000000216, z: 2.4999999999999996, view: -1 },
-                { name: 'e6', x: -5.967798006864511, y: 61.30000000000026, z: -2.6000000000000028, view: -1 },
-                { name: 'e7', x: -6.467798006864509, y: 64.20000000000029, z: -2.700000000000003, view: -1 },
-                { name: 'e8', x: -6.26779800686451, y: 71.89999999999985, z: -2.700000000000003, view: -1 },
-                { name: 'e9', x: -2.9677980068645167, y: 54.20000000000016, z: -2.3000000000000025 },
-                { name: 'e10', x: -2.267798006864516, y: 51.40000000000012, z: -2.2000000000000024 },
-                { name: 'e11', x: -2.9677980068645167, y: 47.600000000000065, z: -1.2000000000000015 },
-                { name: 'e12', x: -6.667798006864508, y: 48.60000000000008, z: -2.2000000000000024 },
-                { name: 'e13', x: -7.067798006864507, y: 47.600000000000065, z: -1.0000000000000013 },
-                { name: 'e14', x: -7.667798006864505, y: 44.800000000000026, z: 0.8999999999999986 },
-                { name: 'e15', x: -8.767798006864501, y: 42.29999999999999, z: 2.3999999999999995 },
-                { name: 'e16', x: -9.867798006864497, y: 38.89999999999994, z: 4.2 },
-                { name: 'e17', x: -12.06779800686449, y: 33.19999999999986, z: 4.999999999999997 },
-                { name: 'e18', x: -12.06779800686449, y: 30.199999999999818, z: 2.1999999999999993 },
-                { name: 'e19', x: -3.167798006864517, y: 25.699999999999754, z: 6.599999999999992 },
-                { name: 'e20', x: -3.167798006864517, y: 22.64727272727248, z: 6.699999999999991 },
-                { name: 'e21', x: -3.167798006864517, y: 19.59454545454521, z: 6.699999999999991 },
-                { name: 'e22', x: -3.167798006864517, y: 16.541818181817938, z: 6.499999999999992 },
-                { name: 'e23', x: -3.167798006864517, y: 13.489090909090663, z: 6.699999999999991 },
-                { name: 'e24', x: -3.167798006864517, y: 10.43636363636339, z: 7.09999999999999 },
-                { name: 'e25', x: -3.167798006864517, y: 7.383636363636118, z: 6.99999999999999 },
-                { name: 'e26', x: -3.167798006864517, y: 4.330909090908847, z: 6.899999999999991 },
-                { name: 'e27', x: -3.167798006864517, y: 1.2781818181815723, z: 6.599999999999992 },
-                { name: 'e28', x: -3.167798006864517, y: -1.7745454545457022, z: 6.299999999999993 },
-                { name: 'e29', x: -3.167798006864517, y: -4.827272727272973, z: 5.699999999999995 },
-                { name: 'e30', x: -3.167798006864517, y: -7.880000000000244, z: 4.599999999999999 },
-                { name: 'e31', x: -12.467798006864488, y: -11.280000000000232, z: 4.100000000000001 },
-                { name: 'e32', x: -12.467798006864488, y: -28.48000000000039, z: 4.300000000000001 },
-                { name: 'e33', x: -12.467798006864488, y: -36.2800000000005, z: 2.900000000000001 },
-                { name: 'e34', x: -12.467798006864488, y: -38.98000000000054, z: 2.3000000000000003 },
-                { name: 'e35', x: -12.467798006864488, y: -47.18000000000065, z: 1.4999999999999996 },
-                { name: 'e36', x: -12.467798006864488, y: -53.18000000000074, z: -0.10000000000000153 },
-                { name: 'e37', x: -12.467798006864488, y: -63.68000000000089, z: -0.7000000000000015 },
-                { name: 'e38', x: -11.76779800686449, y: -69.78000000000057, z: -1.6000000000000019 },
-                { name: 'e39', x: -11.367798006864492, y: -73.28000000000037, z: -1.9000000000000021 },
-                { name: 'e40', x: -13.467798006864484, y: -69.48000000000059, z: -4.3000000000000025, view: -1 },
-                { name: 'e41', x: -8.667798006864501, y: -85.1799999999997, z: -0.8000000000000016 },
-                { name: 'e42', x: -9.967798006864497, y: -88.27999999999952, z: 0.9999999999999983 },
-                { name: 'e43', x: -8.8677980068645, y: -90.97999999999936, z: 6.099999999999993 },
-                { name: 'e44', x: -9.467798006864498, y: -91.87999999999931, z: 7.799999999999988 },
-                { name: 'e45', x: -9.967798006864497, y: -93.17999999999924, z: 11.299999999999976 }
-            ];
-
-            ePositions.forEach(pos => {
-                createSphere(pos.name, 0xFFD700, pos.x, pos.y, pos.z, pos.view);
-            });
-
-            // Chargement du modèle OBJ
-            const manager = new THREE.LoadingManager();
-            manager.onProgress = (item, loaded, total) => {
-                console.log(item, loaded, total);
-            };
-
-            const texture = new THREE.Texture();
-            const onProgress = (xhr) => {
-                if (xhr.lengthComputable) {
-                    const percentComplete = (xhr.loaded / xhr.total) * 100;
-                    console.log(Math.round(percentComplete, 2) + '% downloaded');
-                }
-            };
-
-            const onError = () => {};
-
-            const loaderImage = new THREE.ImageLoader(manager);
-            loaderImage.load('three/textura/UV_Grid_Sm.jpg', (image) => {
-                texture.image = image;
-                texture.needsUpdate = true;
-            });
-
-            const loaderObj = new THREE.OBJLoader(manager);
-            loaderObj.load('three/modelo/corpo.obj', (object) => {
-                object.traverse((child) => {
-                    if (child instanceof THREE.Mesh) {
-                        child.material.map = texture;
-                    }
-                });
-                object.position.y = -95;
-                scene.add(object);
-            }, onProgress, onError);
-
-            // Configuration du rendu
-            renderer = new THREE.WebGLRenderer();
-            renderer.setClearColor(0xBD786C);
-            renderer.setPixelRatio(window.devicePixelRatio);
-            renderer.setSize(window.innerWidth, window.innerHeight);
-            container.appendChild(renderer.domElement);
-
-            // Gestion des événements
-            window.addEventListener('resize', onWindowResize);            
-            window.addEventListener('click', onDocumentClick);
-        }
-
-        // Fonctions de gestion des événements
-        function onWindowResize() {
-            windowHalfX = window.innerWidth / 2;
-            windowHalfY = window.innerHeight / 2;
-            camera.aspect = window.innerWidth / window.innerHeight;
-            camera.updateProjectionMatrix();
-            renderer.setSize(window.innerWidth, window.innerHeight);
-        }        
-
-        function onDocumentClick(event) {
-            event.preventDefault();
-
-            mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
-            mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
-
-            raycaster.setFromCamera(mouse, camera);
-
-            const intersects = raycaster.intersectObjects(scene.children);
-
-            if (intersects.length > 0) {
-                const clickedObject = intersects[0].object;
-
-                // Mettre à jour le label
-                document.getElementById('pointLabel').innerHTML = `<span class="point-name">${clickedObject.name.toUpperCase()}</span> <span class="copyright">© bien-etre-geobiologie.fr</span>`;
-
-                // Si un point était déjà cliqué, restaurer sa couleur
-                if (lastClickedPoint && lastClickedPoint !== clickedObject) {
-                    lastClickedPoint.material.color.setHex(lastClickedPoint.originalColor);
-                }
-
-                // Stocker la couleur originale si ce n'est pas déjà fait
-                if (!clickedObject.originalColor) {
-                    clickedObject.originalColor = clickedObject.material.color.getHex();
-                }
-
-                // Changer la couleur du nouveau point cliqué en rouge
-                clickedObject.material.color.setHex(0xFF0000);
-                lastClickedPoint = clickedObject;
-
-                const mer = clickedObject.name.replace(/[0-9]+/, '');
-                const meridiano = parent.document.getElementById(mer);
-                const animacao = parent.document.getElementById(clickedObject.name);
-
-                meridiano?.click();
-                animacao?.click();
-
-                window.parent.postMessage(
-                    { type: 'selectPoint', point: clickedObject.name },
-                    '*'
-                );
+        object.traverse(function(child) {
+            if (child instanceof THREE.Mesh) {
+                child.material.map = texture;
+                bodyMesh = child;
             }
-        }
+        });
 
-        // Fonction pour gérer les points d'acupression
-        function acuPonto(pto) {
-            if (obj_aux !== null) {
-                obj_aux.material.emissive.setHex(obj_aux.currentHex);
-            }
+        object.position.y = -95;
+        scene.add(object);
 
-            obj = scene.getObjectByName(pto);
-            if (obj) {
-                obj.currentHex = obj.material.emissive.getHex();
-                obj.material.emissive.setHex(0xff0000);
-                obj_aux = obj;
+    });
 
-                // Mettre à jour le label
-                document.getElementById('pointLabel').innerHTML = `<span class="point-name">${pto.toUpperCase()}</span> <span class="copyright">© bien-etre-geobiologie.fr</span>`;
+    /* RENDERER */
 
-                acuX = obj.position.x;
-                acuY = obj.position.y;
-                acuZ = obj.position.z;
+    renderer = new THREE.WebGLRenderer({ antialias: true });
+    renderer.setClearColor(0xBD786C);
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.5));
+    renderer.setSize(window.innerWidth, window.innerHeight);
 
-                if (obj.view === undefined) acuZF = 45;
-                else if (obj.view === 1) acuXF = 45;
-                else if (obj.view === -1) acuXF = -45;
-                else if (obj.view === -2) acuZF = -45;
+    container.appendChild(renderer.domElement);
 
-                p.set(acuX, acuY, acuZ);
-                focoCamera = true;
-            }
-        }
-        
-        // import calculs courbes meridiens
-        function createMeridianCurveFromData(prefix, color, bodyMesh) {
+    window.addEventListener('resize', onWindowResize);
+    window.addEventListener('click', onMouseClick);
+    window.addEventListener('mousemove', onMouseMove);
+}
 
-    if (!curvesData[prefix] || curvesData[prefix].length === 0) return;
+/* ============================================================
+   EVENTS
+============================================================ */
 
-    const ray = new THREE.Raycaster();
-    const offsetDistance = 0.2; // distance exacte au-dessus de la peau
+function onWindowResize() {
 
-    const finalPoints = [];
+    camera.aspect = window.innerWidth / window.innerHeight;
+    camera.updateProjectionMatrix();
+    renderer.setSize(window.innerWidth, window.innerHeight);
+}
+
+function onMouseMove(event) {
+
+    mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+    mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
+}
+
+function onMouseClick(event) {
+
+    raycaster.setFromCamera(mouse, camera);
+    var intersects = raycaster.intersectObjects(clickableObjects, false);
+
+    if (intersects.length === 0) return;
+
+    var selected = intersects[0].object;
+
+    document.getElementById("pointLabel").innerHTML =
+        "<span class='point-name'>" + selected.name.toUpperCase() +
+        "</span><span class='copyright'> © bien-etre-geobiologie.fr</span>";
+
+    if (lastSelectedPoint && lastSelectedPoint !== selected) {
+        lastSelectedPoint.material.color.setHex(lastSelectedPoint.originalColor);
+    }
+
+    if (!selected.originalColor) {
+        selected.originalColor = selected.material.color.getHex();
+    }
+
+    selected.material.color.setHex(0xff0000);
+    lastSelectedPoint = selected;
+
+    focusOnPoint(selected);
+}
+
+/* ============================================================
+   CAMERA FOCUS
+============================================================ */
+
+function focusOnPoint(object) {
+
+    targetPosition.copy(object.position);
+
+    cameraOffsetX = 0;
+    cameraOffsetZ = 45;
+
+    if (object.view === 1) cameraOffsetX = 45;
+    if (object.view === -1) cameraOffsetX = -45;
+    if (object.view === -2) cameraOffsetZ = -45;
+
+    focusCamera = true;
+}
+
+/* ============================================================
+   MERIDIAN CURVES
+============================================================ */
+
+function createMeridianCurveFromData(prefix, color, bodyMesh) {
+
+    if (!curvesData[prefix] || !bodyMesh) return;
+
+    var ray = new THREE.Raycaster();
+    var offsetDistance = 0.2;
+    var finalPoints = [];
 
     curvesData[prefix].forEach(function(p) {
 
-        const point = new THREE.Vector3(p.x, p.y, p.z);
-
-        // direction vers centre du corps (important)
-        const direction = point.clone().normalize().negate();
+        var point = new THREE.Vector3(p.x, p.y, p.z);
+        var direction = point.clone().normalize().negate();
 
         ray.set(point, direction);
 
-        const intersects = ray.intersectObject(bodyMesh, true);
+        var intersects = ray.intersectObject(bodyMesh, true);
 
         if (intersects.length > 0 && intersects[0].face) {
 
-            const hit = intersects[0];
+            var hit = intersects[0];
+            var surfacePoint = hit.point.clone();
+            var normal = hit.face.normal.clone();
 
-            const surfacePoint = hit.point.clone();
-            const normal = hit.face.normal.clone();
-
-            // normale en espace monde
             normal.applyMatrix3(
                 new THREE.Matrix3().getNormalMatrix(hit.object.matrixWorld)
             ).normalize();
 
-            // projection tangente parfaite
-            const correctedPoint = surfacePoint.add(
-                normal.multiplyScalar(offsetDistance)
-            );
-
-            finalPoints.push(correctedPoint);
+            surfacePoint.add(normal.multiplyScalar(offsetDistance));
+            finalPoints.push(surfacePoint);
 
         } else {
-
             finalPoints.push(point);
         }
     });
 
-    const geometry = new THREE.Geometry();
+    var geometry = new THREE.Geometry();
     geometry.vertices = finalPoints;
 
-    const material = new THREE.LineBasicMaterial({
-        color: color,
-        linewidth: 1
-    });
+    var material = new THREE.LineBasicMaterial({ color: color });
 
-    const line = new THREE.Line(geometry, material);
-
-    // important pour ne pas interférer avec les clics
+    var line = new THREE.Line(geometry, material);
     line.raycast = function() {};
 
     scene.add(line);
 }
 
+function getMeridianColor(name) {
+    var colors = {
+        "p": 0xf5f5f0,
+        "gi": 0x00CED1,
+        "e": 0xFFD700,
+        "vc": 0x9370DB
+    };
+    return colors[name] || 0xffffff;
+}
 
+/* LOAD MERIDIANS JSON */
 
-        // import couleurs des meridiens
-        function getMeridianColor(meridian){
-            const colors = {
-                "p": 0xf5f5f0,
-                "gi": 0x00CED1,
-                "e": 0xFFD700,
-                "vc": 0x9370DB,
-                // ajoute les autres
-            };
-            return colors[meridian] || 0xffffff;
+fetch("meridians.json")
+.then(function(res){ return res.json(); })
+.then(function(data){
+
+    curvesData = data;
+
+    for (var meridian in curvesData) {
+        createMeridianCurveFromData(
+            meridian,
+            getMeridianColor(meridian),
+            bodyMesh
+        );
+    }
+});
+
+/* ============================================================
+   ANIMATION LOOP
+============================================================ */
+
+function animate() {
+    requestAnimationFrame(animate);
+    render();
+}
+
+function render() {
+
+    if (focusCamera) {
+
+        var target = new THREE.Vector3(
+            targetPosition.x + cameraOffsetX,
+            targetPosition.y,
+            targetPosition.z + cameraOffsetZ
+        );
+
+        camera.position.lerp(target, 0.1);
+        camera.lookAt(targetPosition);
+
+        if (camera.position.distanceTo(target) < 0.5) {
+            focusCamera = false;
+            controls.target.copy(targetPosition);
         }
-        
-        // import courbes meridiens
-        fetch('meridians.json')
-          .then(res => res.json())
-          .then(data => {
-            curvesData = data;
+    }
 
-        // Créer toutes les courbes à partir des données JSON
-            for (let meridian in curvesData){
-                createMeridianCurveFromData(meridian, getMeridianColor(meridian));
-            }
-        });
+    renderer.render(scene, camera);
+}
 
+/* ============================================================
+   START
+============================================================ */
 
-        
-        // Animation
-        function animate() {
-            requestAnimationFrame(animate);
-            render();
-        }
+init();
+animate();
 
-        // Rendu
-        function render() {
-            renderer.render(scene, camera);
-
-            if (focoCamera) {
-                if (camera.position.x !== acuX + acuXF) {
-                    camera.position.x += (acuX + acuXF - camera.position.x) / 10;
-                }
-
-                if (camera.position.y !== acuY) {
-                    camera.position.y += (acuY - camera.position.y) / 10;
-                }
-
-                if (camera.position.z !== acuZ + acuZF) {
-                    camera.position.z += (acuZ + acuZF - camera.position.z) / 10;
-                }
-
-                if (Math.round(camera.position.x) === Math.round(acuX + acuXF) &&
-                    Math.round(camera.position.y) === Math.round(acuY) &&
-                    Math.round(camera.position.z) === Math.round(acuZ + acuZF)) {
-                    acuZF = 0;
-                    acuYF = 0;
-                    acuXF = 0;
-                    focoCamera = false;
-                    controls.target = p;
-                }
-
-                camera.lookAt(p);
-            }
-        }
-
-        // Initialisation
-        init();
-        initEventListeners();
-        animate();
-
-        /* ============================================================
-           COURBES TANGENTIELLES DES MÉRIDIENS (AJOUT FIN DE CODE)
-           ============================================================ */
-
-const meridianCurves = [];
-const meridianGroups = {};
-
-
-    </script>
+</script>
 </body>
 </html>
