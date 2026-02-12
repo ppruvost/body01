@@ -30,7 +30,7 @@ const acuPoints = [
     { name: "GI17", x: 5.532201993135482, y: 54.1, z: -4, meridian: "Gros Intestin" },
     { name: "GI18", x: 5.132201993135483, y: 56.1, z: -3.6, meridian: "Gros Intestin" },
     { name: "GI19", x: 0.9322019931354847, y: 62.4, z: 4.9, meridian: "Gros Intestin" },
-    { name: "GI20", x: 1.9322019931354855, y: 62.9, z: 4.3, meridian: "Gros Intestin" }
+    { name: "GI20", x: 1.9322019931354855, y: 62.9, z: 4.3, meridian: "Gros Intestin" },
 	
     { name: "E1", x: -2.96, y: 66.7, z: 3, meridian: "Estomac" },
     { name: "E2", x: -2.96, y: 66, z: 3.2, meridian: "Estomac" },
@@ -76,7 +76,7 @@ const acuPoints = [
     { name: "E42", x: -9.967798006864497, y: -88.28, z: 1.0, meridian: "Estomac" },
     { name: "E43", x: -8.8677980068645, y: -90.98, z: 6.1, meridian: "Estomac" },
     { name: "E44", x: -9.467798006864498, y: -91.88, z: 7.8, meridian: "Estomac" },
-    { name: "E45", x: -9.967798006864497, y: -93.18, z: 11.3, meridian: "Estomac" }
+    { name: "E45", x: -9.967798006864497, y: -93.18, z: 11.3, meridian: "Estomac" },
 	
     { name: "VC1", x: 0.05, y: -12.7, z: -4.2, meridian: "Vaisseau Conception" },
     { name: "VC2", x: 0.05, y: -6, z: 6.4, meridian: "Vaisseau Conception" },
@@ -120,5 +120,5 @@ const acuPoints = [
     { name: "V6", x: 20, y: -10, z: 1, meridian: "Vessie" },
     { name: "V7", x: 19, y: -8, z: 0, meridian: "Vessie" },
     { name: "V8", x: 18, y: -6, z: -1, meridian: "Vessie" },
-    { name: "V9", x: 17, y: -4, z: -2, meridian: "Vessie" },
+    { name: "V9", x: 17, y: -4, z: -2, meridian: "Vessie" }
 ];
