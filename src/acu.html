@@ -177,20 +177,14 @@ function focusOnPoint(object){
 }
 
 /* ================= MENU ================= */
-
 function openSubMenu(pointName){
-    const id = pointName.toLowerCase();
 
-    document.querySelectorAll('.submenu').forEach(m=>m.style.display="none");
-    document.querySelectorAll('.load-content').forEach(i=>i.classList.remove("active"));
+    // envoie l’info à index.html
+    window.parent.postMessage({
+        type: "selectPoint",
+        point: pointName
+    }, "*");
 
-    const targetItem = document.querySelector(`.load-content[data-id="${id}"]`);
-    if(targetItem){
-        targetItem.classList.add("active");
-        const parent = targetItem.closest(".submenu");
-        if(parent) parent.style.display="block";
-        targetItem.click();
-    }
 }
 
 /* ================= LOOP ================= */
