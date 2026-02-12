@@ -198,4 +198,9 @@ iframe {
   display: block;
 }
 
+.load-content.active {
+    background-color: yellow;
+    font-weight: bold;
+}
+
 </style>
