@@ -462,7 +462,7 @@ function createMeridianCurve(prefix, color) {
     if (!bodyMesh) return;
 
     const ray = new THREE.Raycaster();
-    const offsetDistance = 0.8; // distance au-dessus de la peau (0.5 à 1.2)
+    const offsetDistance = 1; // distance au-dessus de la peau (0.5 à 1.2)
 
     const basePoints = scene.children
         .filter(obj => obj.name && obj.name.startsWith(prefix))
