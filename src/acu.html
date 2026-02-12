@@ -251,6 +251,32 @@ function onMouseClick(event) {
 
     // Ouvrir le sous-menu correspondant
     openSubMenu(selected.name);
+    function openSubMenu(pointName) {
+
+    // ferme tous les sous-menus
+    const allSubmenus = window.parent.document.querySelectorAll('.submenu');
+    allSubmenus.forEach(menu => menu.style.display = 'none');
+
+    // enlève la classe active
+    const allItems = window.parent.document.querySelectorAll('.load-content');
+    allItems.forEach(item => item.classList.remove('active'));
+
+    // sélectionne l’item correspondant (ex: VC14)
+    const targetItem = window.parent.document.querySelector(
+        `.load-content[data-id="${pointName}"]`
+    );
+
+    if (targetItem) {
+        targetItem.classList.add('active');
+
+        // ouvre le menu parent
+        const parentMenu = targetItem.closest('.submenu');
+        if (parentMenu) {
+            parentMenu.style.display = 'block';
+        }
+    }
+}
+
 }
 
 /* ============================================================
