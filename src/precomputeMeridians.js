@@ -45,18 +45,42 @@ const meridiansPoints = {
     // ajoute ici les autres méridiens (e, vc...) de la même façon
 };
 
-// Nombre de segments entre deux points
-const segments = 10;
+// Nombre de segments entre deux points (plus élevé = courbe plus douce)
+const segments = 50;
 
+// Fonction Catmull-Rom
 function catmullRomSpline(p0, p1, p2, p3, t) {
-    const t2 = t*t;
-    const t3 = t2*t;
+    const t2 = t * t;
+    const t3 = t2 * t;
 
-    const x = 0.5*((2*p1.x) + (-p0.x+p2.x)*t + (2*p0.x-5*p1.x+4*p2.x-p3.x)*t2 + (-p0.x+3*p1.x-3*p2.x+p3.x)*t3);
-    const y = 0.5*((2*p1.y) + (-p0.y+p2.y)*t + (2*p0.y-5*p1.y+4*p2.y-p3.y)*t2 + (-p0.y+3*p1.y-3*p2.y+p3.y)*t3);
-    const z = 0.5*((2*p1.z) + (-p0.z+p2.z)*t + (2*p0.z-5*p1.z+4*p2.z-p3.z)*t2 + (-p0.z+3*p1.z-3*p2.z+p3.z)*t3);
+    const x = 0.5 * ((2 * p1.x) + (-p0.x + p2.x) * t + (2*p0.x - 5*p1.x + 4*p2.x - p3.x) * t2 + (-p0.x + 3*p1.x - 3*p2.x + p3.x) * t3);
+    const y = 0.5 * ((2 * p1.y) + (-p0.y + p2.y) * t + (2*p0.y - 5*p1.y + 4*p2.y - p3.y) * t2 + (-p0.y + 3*p1.y - 3*p2.y + p3.y) * t3);
+    const z = 0.5 * ((2 * p1.z) + (-p0.z + p2.z) * t + (2*p0.z - 5*p1.z + 4*p2.z - p3.z) * t2 + (-p0.z + 3*p1.z - 3*p2.z + p3.z) * t3);
 
-    return {x,y,z};
+    return { x, y, z };
+}
+
+// ⚡ Correction Z pour rester à la surface
+function clampZ(p, minZ = 0.5) {
+    return { x: p.x, y: p.y, z: Math.max(p.z, minZ) };
+}
+
+// ⚡ Lissage glissant (optionnel, rend la courbe plus douce)
+function smoothCurve(points, windowSize = 2) {
+    const smoothed = [];
+    for (let i = 0; i < points.length; i++) {
+        let sumX = 0, sumY = 0, sumZ = 0, count = 0;
+        for (let j = i - windowSize; j <= i + windowSize; j++) {
+            if (points[j]) {
+                sumX += points[j].x;
+                sumY += points[j].y;
+                sumZ += points[j].z;
+                count++;
+            }
+        }
+        smoothed.push({ x: sumX / count, y: sumY / count, z: sumZ / count });
+    }
+    return smoothed;
 }
 
 const curvesData = {};
@@ -65,20 +89,23 @@ for (let meridian in meridiansPoints) {
     const points = meridiansPoints[meridian];
     const curvePoints = [];
 
-    for (let i=0; i<points.length-1; i++){
-        const p0 = i === 0 ? points[i] : points[i-1];
+    for (let i = 0; i < points.length - 1; i++) {
+        const p0 = i === 0 ? points[i] : points[i - 1];
         const p1 = points[i];
-        const p2 = points[i+1];
-        const p3 = i+2 >= points.length ? points[points.length-1] : points[i+2];
+        const p2 = points[i + 1];
+        const p3 = i + 2 >= points.length ? points[points.length - 1] : points[i + 2];
 
-        for (let j=0; j<=segments; j++){
-            const t = j/segments;
-            curvePoints.push(catmullRomSpline(p0,p1,p2,p3,t));
+        for (let j = 0; j <= segments; j++) {
+            const t = j / segments;
+            // calcul Catmull-Rom + correction Z
+            curvePoints.push(clampZ(catmullRomSpline(p0, p1, p2, p3, t), 0.5));
         }
     }
 
-    curvesData[meridian] = curvePoints;
+    // ⚡ Appliquer un lissage pour rendre la courbe plus naturelle
+    curvesData[meridian] = smoothCurve(curvePoints, 2);
 }
+
 
 // Sauvegarde dans un fichier JSON
 fs.writeFileSync('meridians.json', JSON.stringify(curvesData, null, 2));
