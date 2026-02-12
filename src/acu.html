@@ -443,8 +443,8 @@
         animate();
 
         /* ============================================================
-   COURBES TANGENTIELLES DES MÉRIDIENS (AJOUT FIN DE CODE)
-   ============================================================ */
+           COURBES TANGENTIELLES DES MÉRIDIENS (AJOUT FIN DE CODE)
+           ============================================================ */
 
 const meridianCurves = [];
 const meridianGroups = {};
@@ -467,9 +467,7 @@ function createMeridianCurve(prefix, color) {
 
     if (points.length < 2) return;
 
-    const curve = new THREE.CatmullRomCurve3(points);
-    curve.curveType = "catmullrom";
-    curve.tension = 0.5;
+    const curve = new THREE.SplineCurve3(points);
 
     const geometry = new THREE.BufferGeometry().setFromPoints(curve.getPoints(200));
 
