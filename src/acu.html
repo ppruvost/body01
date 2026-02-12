@@ -72,23 +72,22 @@ var curvesData = {};
 ============================================================ */
 
 var sphereGeometry = new THREE.SphereGeometry(0.3, 16, 16);
-var materialCache = {};
-
-function getMaterial(color) {
-    if (!materialCache[color]) {
-        materialCache[color] = new THREE.MeshLambertMaterial({ color: color });
-    }
-    return materialCache[color];
-}
 
 function createSphere(name, color, x, y, z, view) {
+
+    var material = new THREE.MeshLambertMaterial({ color: color });
+
     var mesh = new THREE.Mesh(
         sphereGeometry,
-        getMaterial(color)
+        material
     );
+
     mesh.name = name;
     mesh.position.set(x, y, z);
     mesh.view = view;
+
+    // Sauvegarde couleur d'origine
+    mesh.originalColor = color;
 
     scene.add(mesh);
     clickableObjects.push(mesh);
