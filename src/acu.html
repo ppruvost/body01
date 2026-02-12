@@ -468,8 +468,14 @@ function createMeridianCurve(prefix, color) {
     if (points.length < 2) return;
 
     const curve = new THREE.SplineCurve3(points);
+    const curvePoints = curve.getPoints(200);
 
-    const geometry = new THREE.BufferGeometry().setFromPoints(curve.getPoints(200));
+    const geometry = new THREE.Geometry();
+
+    for (let i = 0; i < curvePoints.length; i++) {
+        geometry.vertices.push(curvePoints[i]);
+    }
+
 
     const material = new THREE.LineBasicMaterial({
         color: color,
