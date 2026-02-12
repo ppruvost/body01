@@ -462,7 +462,7 @@ function createMeridianCurve(prefix, color) {
         .map(obj => new THREE.Vector3(
             obj.position.x,
             obj.position.y,
-            obj.position.z + (obj.position.z >= 0 ? 2 : -2)   // 🔥 au-dessus du corps
+            obj.position.z + (obj.position.z >= 0 ? 1 : -1)   // 🔥 au-dessus du corps
         ));
 
     if (points.length < 2) return;
