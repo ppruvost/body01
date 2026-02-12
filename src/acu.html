@@ -62,6 +62,7 @@
         let p = new THREE.Vector3(0, 0, 0);
         let obj = null, obj_aux = null;
         let lastClickedPoint = null;
+        let curvesData = {}; // sera rempli par le JSON
 
         // Initialisation des écouteurs pour les points d'acupression
         function initEventListeners() {
@@ -399,7 +400,54 @@
                 focoCamera = true;
             }
         }
+        
+        // import calculs courbes meridiens
+        function createMeridianCurveFromData(prefix, color) {
+            if(!curvesData[prefix] || curvesData[prefix].length===0) return;
 
+            const geometry = new THREE.Geometry();
+
+            curvesData[prefix].forEach(p=>{
+                geometry.vertices.push(new THREE.Vector3(p.x,p.y,p.z));
+            });
+
+            const material = new THREE.LineBasicMaterial({
+                color: color,
+                linewidth: 3
+            });
+
+            const line = new THREE.Line(geometry, material);
+            line.name = prefix;
+            line.isMeridianCurve = true;
+
+            scene.add(line);
+        }
+
+        // import couleurs des meridiens
+        function getMeridianColor(meridian){
+            const colors = {
+                "p": 0xf5f5f0,
+                "gi": 0x00CED1,
+                "e": 0xFFD700,
+                "vc": 0x9370DB,
+                // ajoute les autres
+            };
+            return colors[meridian] || 0xffffff;
+        }
+        
+        // import courbes meridiens
+        fetch('meridians.json')
+          .then(res => res.json())
+          .then(data => {
+            curvesData = data;
+
+            // Créer toutes les courbes à partir des données JSON
+            for (let meridian in curvesData){
+                createMeridianCurveFromData(meridian, getMeridianColor(meridian));
+            }
+        });
+
+        
         // Animation
         function animate() {
             requestAnimationFrame(animate);
@@ -449,95 +497,7 @@
 const meridianCurves = [];
 const meridianGroups = {};
 
-function createMeridianCurve(prefix, color) {
 
-    // Récupération du mesh du corps
-    let bodyMesh = null;
-    scene.traverse(function(obj){
-        if (obj instanceof THREE.Mesh) {
-            bodyMesh = obj;
-        }
-    });
-
-    if (!bodyMesh) return;
-
-    const ray = new THREE.Raycaster();
-    const offsetDistance = 0.8; // distance au-dessus de la peau
-
-    // 1️⃣ Récupération des points de base
-    const controlPoints = scene.children
-        .filter(obj => obj.name && obj.name.startsWith(prefix))
-        .sort((a, b) => {
-            const na = parseInt(a.name.replace(prefix, ''));
-            const nb = parseInt(b.name.replace(prefix, ''));
-            return na - nb;
-        })
-        .map(obj => obj.position.clone());
-
-    if (controlPoints.length < 2) return;
-
-    // 2️⃣ Création spline brute
-    const spline = new THREE.SplineCurve3(controlPoints);
-
-    // Plus il y a d'échantillons, plus c'est précis
-    const sampledPoints = spline.getPoints(controlPoints.length * 40);
-
-    const finalPoints = [];
-
-    // 3️⃣ Projection de CHAQUE point sur la surface
-    for (let i = 0; i < sampledPoints.length; i++) {
-
-        const point = sampledPoints[i].clone();
-
-        // direction vers le centre du modèle
-        const direction = point.clone().normalize().negate();
-
-        ray.set(point, direction);
-
-        const intersects = ray.intersectObject(bodyMesh, true);
-
-        if (intersects.length > 0 && intersects[0].face) {
-
-            const hit = intersects[0];
-
-            const surfacePoint = hit.point.clone();
-            const normal = hit.face.normal.clone();
-
-            // passer la normale en espace monde
-            normal.applyMatrix3(
-                new THREE.Matrix3().getNormalMatrix(hit.object.matrixWorld)
-            ).normalize();
-
-            // point final = surface + normale * offset
-            const correctedPoint = surfacePoint.add(
-                normal.multiplyScalar(offsetDistance)
-            );
-
-            finalPoints.push(correctedPoint);
-
-        } else {
-
-            finalPoints.push(point);
-        }
-    }
-
-    // 4️⃣ Création géométrie finale
-    const geometry = new THREE.Geometry();
-    geometry.vertices = finalPoints;
-
-    const material = new THREE.LineBasicMaterial({
-        color: color
-    });
-
-    const line = new THREE.Line(geometry, material);
-    line.name = prefix;
-    line.isMeridianCurve = true;
-
-    // 👇 empêche totalement le raycast sur la courbe
-line.raycast = function() {};
-
-    scene.add(line);
-}
 
 // Création des courbes après un petit délai (le temps que tout soit chargé)
 setTimeout(() => {
