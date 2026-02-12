@@ -62,6 +62,7 @@
         let p = new THREE.Vector3(0, 0, 0);
         let obj = null, obj_aux = null;
         let lastClickedPoint = null;
+        let bodyMesh = null;
         let curvesData = {}; // sera rempli par le JSON
 
         // Initialisation des écouteurs pour les points d'acupression
@@ -301,6 +302,11 @@
                 object.traverse((child) => {
                     if (child instanceof THREE.Mesh) {
                         child.material.map = texture;
+                        bodyMesh = child; // important si tu l’utilises ailleurs
+
+                        // 🔥 CALCUL DES NORMALES ICI
+                        child.geometry.computeFaceNormals();
+                        child.geometry.computeVertexNormals();
                     }
                 });
                 object.position.y = -95;
@@ -402,32 +408,67 @@
         }
         
         // import calculs courbes meridiens
-        function createMeridianCurveFromData(prefix, color) {
+        function createMeridianCurveFromData(prefix, color, bodyMesh) {
 
-            if (!curvesData[prefix] || curvesData[prefix].length === 0) return;
+    if (!curvesData[prefix] || curvesData[prefix].length === 0) return;
 
-            const geometry = new THREE.Geometry();
+    const ray = new THREE.Raycaster();
+    const offsetDistance = 0.6; // distance exacte au-dessus de la peau
 
-            curvesData[prefix].forEach(function(p) {
-                geometry.vertices.push(
-                    new THREE.Vector3(p.x, p.y, p.z)
-                );
-            });
+    const finalPoints = [];
 
-            const material = new THREE.LineBasicMaterial({
-                color: color,
-                linewidth: 3
-            });
+    curvesData[prefix].forEach(function(p) {
 
-            const line = new THREE.Line(geometry, material);
-            line.name = prefix;
-            line.isMeridianCurve = true;
-            
-            // Empêche totalement le Raycaster de détecter la courbe
-            line.raycast = function() { return; };
+        const point = new THREE.Vector3(p.x, p.y, p.z);
 
-            scene.add(line);
+        // direction vers centre du corps (important)
+        const direction = point.clone().normalize().negate();
+
+        ray.set(point, direction);
+
+        const intersects = ray.intersectObject(bodyMesh, true);
+
+        if (intersects.length > 0 && intersects[0].face) {
+
+            const hit = intersects[0];
+
+            const surfacePoint = hit.point.clone();
+            const normal = hit.face.normal.clone();
+
+            // normale en espace monde
+            normal.applyMatrix3(
+                new THREE.Matrix3().getNormalMatrix(hit.object.matrixWorld)
+            ).normalize();
+
+            // projection tangente parfaite
+            const correctedPoint = surfacePoint.add(
+                normal.multiplyScalar(offsetDistance)
+            );
+
+            finalPoints.push(correctedPoint);
+
+        } else {
+
+            finalPoints.push(point);
         }
+    });
+
+    const geometry = new THREE.Geometry();
+    geometry.vertices = finalPoints;
+
+    const material = new THREE.LineBasicMaterial({
+        color: color,
+        linewidth: 1
+    });
+
+    const line = new THREE.Line(geometry, material);
+
+    // important pour ne pas interférer avec les clics
+    line.raycast = function() {};
+
+    scene.add(line);
+}
+
 
 
         // import couleurs des meridiens
