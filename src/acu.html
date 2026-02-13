@@ -166,8 +166,10 @@ function onMouseClick() {
 
     const selected = intersects[0].object;
 
-    document.getElementById("pointLabel").innerHTML =
-        "<span class='point-name'>"+selected.name+"</span>";
+    document.getElementById("pointLabel").innerHTML = `
+    <span class="point-name">${selected.name.toUpperCase()}</span>
+    <span class="copyright">© bien-etre-geobiologie.fr</span>
+`;
 
     if(lastSelectedPoint)
         lastSelectedPoint.material.color.setHex(lastSelectedPoint.originalColor);
