@@ -113,15 +113,6 @@ p  { font-size: 12px; line-height: 1.4; }
   margin: 0 0 1em 0;
 }
 
-
-/* ===============================
-   Ajustements pour textes internes
-   =============================== */
-.col-text p {
-  margin: 0 0 1em 0; /* marge inférieure standard, pas excessive */
-}
-
-
 /* ===============================
    Menu arbre
    =============================== */
@@ -201,6 +192,34 @@ iframe {
 .load-content.active {
     background-color: #D2B48C;
     font-weight: bold;
+}
+#pointLabel {
+    position: fixed;
+    left: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 1000;
+    pointer-events: none;
+}
+
+.vertical-label {
+    display: flex;
+    flex-direction: column-reverse;
+    transform: rotate(-90deg);
+    transform-origin: left top;
+    white-space: nowrap;
+    font-family: "Cormorant Garamond", serif;
+    color: #3a2d27;
+}
+
+.point-name {
+    font-weight: 700;
+    font-size: 18px;
+    margin-top: 4px;
+}
+
+.point-info {
+    font-size: 12px;
 }
 
 </style>
