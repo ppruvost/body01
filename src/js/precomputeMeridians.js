@@ -29,7 +29,7 @@ function buildMeridianCurves_r71(scene, curvatureFactor) {
 
             // Direction perpendiculaire simple pour la courbure dans le plan XY
             var dir = new THREE.Vector3().subVectors(p2, p1);
-            var perp = new THREE.Vector3(-dir.y, dir.x, 0).normalize().multiplyScalar(curvatureFactor * (p1.z >= 0 ? 1 : -1));
+            var perp = new THREE.Vector3(-dir.y, dir.x, 0).normalize().multiplyScalar(curvatureFactor * (p1.z >= -12 ? 1 : -1));
             mid.add(perp);
 
             // Diviser en N points pour simuler la courbe
