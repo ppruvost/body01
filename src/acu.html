@@ -30,6 +30,7 @@ body {
 <script src="three/loaders/OBJLoader.js"></script>
 <script src="three/controls/OrbitControls.js"></script>
 <script src="js/acu_point.js"></script>
+<script src="js/precomputeMeridians.js"></script>
 
 <script>
 
@@ -124,8 +125,11 @@ function init() {
     d2.position.set(0,0,-1);
     scene.add(d2);
 
-    /* Points */
+    /* Points */   
     ACU_POINTS.forEach(p => createPointMesh(p));
+
+    /* Meridian Lines */
+    buildMeridianLines(scene);
 
     /* OBJ */
     const loaderObj = new THREE.OBJLoader();
