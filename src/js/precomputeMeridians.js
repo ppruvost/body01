@@ -61,6 +61,6 @@ function buildMeridianCurves_r71(scene, curvatureFactor) {
 
 // Function to call buildMeridianCurves_r71 with default curvature
 function buildMeridianLines(scene) {
-    buildMeridianCurves_r71(scene, 0.8);
+    buildMeridianCurves_r71(scene, 1.1);
 }
 /* (scene, curvatureFactor) modifier la valeur de curvatureFactor par 0.15 ou autre nombre ... pour accentuer la courbure*/
