@@ -175,50 +175,56 @@ function onMouseClick() {
     const label = document.getElementById("pointLabel");
 
     /*================Affichage du point sélectionné=============*/
+    function updatePointLabel(selected) {
+    // Récupère le container
     const label = document.getElementById("pointLabel");
 
-label.innerHTML = `
-    <div class="vertical-label">
-        <span class="point-info">© bien-etre-geobiologie.fr</span>
-        <span class="point-name">${selected.name.toUpperCase()}</span>
-    </div>
-`;
+    // Contenu HTML
+    label.innerHTML = `
+        <div class="vertical-label">
+            <span class="point-info">© bien-etre-geobiologie.fr</span>
+            <span class="point-name">${selected.name.toUpperCase()}</span>
+        </div>
+    `;
 
-// Positionnement à gauche
-label.style.position = "fixed";
-label.style.left = "20px";
-label.style.top = "50%";
-label.style.transform = "translateY(-50%)"; // centré verticalement
-label.style.zIndex = "1000";
-label.style.pointerEvents = "none";
+    // Positionnement fixe à gauche
+    label.style.position = "fixed";
+    label.style.left = "20px";
+    label.style.top = "50%";
+    label.style.transform = "translateY(-50%)";
+    label.style.zIndex = "1000";
+    label.style.pointerEvents = "none";
 
-// Styles pour texte vertical
-const style = document.createElement("style");
-style.innerHTML = `
-.vertical-label {
-    display: flex;
-    flex-direction: column-reverse; /* nom du point en bas */
-    transform: rotate(-90deg);      /* texte à 90° */
-    transform-origin: left top;
-    white-space: nowrap;
+    // Injection du style (si pas déjà présent)
+    if (!document.getElementById("vertical-label-style")) {
+        const style = document.createElement("style");
+        style.id = "vertical-label-style";
+        style.innerHTML = `
+        .vertical-label {
+            display: flex;
+            flex-direction: column-reverse; /* nom du point en bas */
+            transform: rotate(-90deg);      /* texte à 90° */
+            transform-origin: left top;
+            white-space: nowrap;
+            font-family: "Cormorant Garamond", serif;
+        }
+
+        .point-name {
+            font-weight: 700;
+            font-size: 18px;
+            color: #3a2d27;
+            margin-top: 4px;
+        }
+
+        .point-info {
+            font-weight: 400;
+            font-size: 12px;
+            color: #3a2d27;
+        }
+        `;
+        document.head.appendChild(style);
+    }
 }
-
-.point-name {
-    font-weight: 700;
-    font-size: 18px;
-    color: #3a2d27;
-    margin-top: 4px;
-    font-family: "Cormorant Garamond", serif;
-}
-
-.point-info {
-    font-weight: 400;
-    font-size: 12px;
-    color: #3a2d27;
-    font-family: "Cormorant Garamond", serif;
-}
-`;
-document.head.appendChild(style);
     
     /*===============Fin Affichage du point sélectionné==========*/
 
