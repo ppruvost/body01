@@ -1,13 +1,9 @@
-/* ============================================================
-   PRECOMPUTE MERIDIANS LINES
-   ============================================================ */
-
 function buildMeridianLines(scene) {
 
-    const meridianGroups = {};
+    var meridianGroups = {};
 
     // Regrouper les points par méridien
-    ACU_POINTS.forEach(p => {
+    ACU_POINTS.forEach(function(p) {
         if (!meridianGroups[p.meridian]) {
             meridianGroups[p.meridian] = [];
         }
@@ -15,36 +11,32 @@ function buildMeridianLines(scene) {
     });
 
     // Pour chaque méridien
-    Object.keys(meridianGroups).forEach(meridian => {
+    Object.keys(meridianGroups).forEach(function(meridian) {
 
-        const points = meridianGroups[meridian];
+        var points = meridianGroups[meridian];
 
-        // Tri intelligent basé sur le nom (ex: p1, p2, gi3...)
-        points.sort((a, b) => {
-            const na = parseInt(a.name.replace(/\D/g, ''));
-            const nb = parseInt(b.name.replace(/\D/g, ''));
+        // Tri basé sur le numéro contenu dans le nom
+        points.sort(function(a, b) {
+            var na = parseInt(a.name.replace(/\D/g, ''));
+            var nb = parseInt(b.name.replace(/\D/g, ''));
             return na - nb;
         });
 
-        const positions = [];
+        var geometry = new THREE.Geometry();
 
-        points.forEach(p => {
-            positions.push(p.x, p.y, p.z);
+        points.forEach(function(p) {
+            geometry.vertices.push(
+                new THREE.Vector3(p.x, p.y, p.z)
+            );
         });
 
-        const geometry = new THREE.BufferGeometry();
-        geometry.setAttribute(
-            'position',
-            new THREE.Float32BufferAttribute(positions, 3)
-        );
-
-        const material = new THREE.LineBasicMaterial({
+        var material = new THREE.LineBasicMaterial({
             color: getMeridianColor(meridian),
             transparent: true,
             opacity: 0.6
         });
 
-        const line = new THREE.Line(geometry, material);
+        var line = new THREE.Line(geometry, material);
         line.name = "line_" + meridian;
 
         scene.add(line);
