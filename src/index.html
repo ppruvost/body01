@@ -17,8 +17,8 @@
   <link href="https://fonts.googleapis.com/css2?family=Questria&display=swap" rel="stylesheet">
 
   <!-- Font Awesome -->
-  <link rel="stylesheet"
-        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"/>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+
 
   <!-- Favicon -->
   <link rel="icon" href="img/favicon.ico" type="image/x-icon">
@@ -641,13 +641,29 @@ window.addEventListener("message", event => {
     <!-- Les éléments <li> sont générés dynamiquement -->
 </ul>
 <script>
-document.querySelectorAll('.submenu li').forEach(li => {
-    li.addEventListener('click', function() {
-        const pointId = this.getAttribute('data-id');
-        document.getElementById('acu').contentWindow.acuPonto(pointId);
-        document.getElementById('acu').contentWindow.focusPoint(pointId);
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+
+    document.addEventListener("click", function(e) {
+
+        const li = e.target.closest(".submenu li");
+        if (!li) return;
+
+        const pointId = li.getAttribute("data-id");
+        const iframe = document.getElementById("acu");
+
+        if (!iframe || !iframe.contentWindow) {
+            console.warn("Iframe non prête");
+            return;
+        }
+
+        iframe.contentWindow.acuPonto(pointId);
+        iframe.contentWindow.focusPoint(pointId);
     });
+
 });
+</script>
+
 </script>
 
 
