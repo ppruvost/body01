@@ -1,18 +1,43 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-<meta charset="utf-8">
-<title>Energy Points Connection</title>
-<link rel="stylesheet" href="css/style-modernise-charte.css">
+    <meta charset="utf-8">
+    <title>Energy Points Connection</title>
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+            font-family: Arial, sans-serif;
+        }
 
+        #pointLabel {
+            display: none;
+            position: fixed;
+            left: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(255, 255, 255, 0.8);
+            padding: 8px;
+            border-radius: 4px;
+            z-index: 1000;
+            pointer-events: none;
+            font-size: 14px;
+            color: #000;
+        }
+
+        #pointLabel .point-name {
+            font-weight: bold;
+            font-size: 1.2em;
+        }
+    </style>
 </head>
 
 <body>
-<div id="pointLabel"></div>
+    <div id="pointLabel"></div>
 
-<script src="three/build/three.js"></script>
-<script src="three/loaders/OBJLoader.js"></script>
-<script src="three/controls/OrbitControls.js"></script>
+    <script src="three/build/three.js"></script>
+    <script src="three/loaders/OBJLoader.js"></script>
+    <script src="three/controls/OrbitControls.js"></script>
 <script src="js/acu_point.js"></script>
 <script src="js/precomputeMeridians.js"></script>
 
@@ -66,7 +91,7 @@ function createPointMesh(point) {
     mesh.meridian = point.meridian;
     mesh.view = point.view || 0;
     mesh.originalColor = material.color.getHex();
-
+    mesh.scale.set(1, 1, 1);
     scene.add(mesh);
     clickableObjects.push(mesh);
 }
@@ -137,38 +162,49 @@ function init() {
 
 /* ================= EVENTS ================= */
 
-function onWindowResize() {
-    camera.aspect = window.innerWidth/window.innerHeight;
-    camera.updateProjectionMatrix();
-    renderer.setSize(window.innerWidth, window.innerHeight);
-}
+        function onWindowResize() {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        }
 
-function onMouseMove(event) {
-    mouse.x = (event.clientX/window.innerWidth)*2-1;
-    mouse.y = -(event.clientY/window.innerHeight)*2+1;
-}
+        function onMouseMove(event) {
+            mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+            mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
+        }
 
-function onMouseClick() {
-    raycaster.setFromCamera(mouse,camera);
-    const intersects = raycaster.intersectObjects(clickableObjects);
+        function onMouseClick(event) {
+            raycaster.setFromCamera(mouse, camera);
+            const intersects = raycaster.intersectObjects(clickableObjects);
 
-    if(!intersects.length) return;
+            if (!intersects.length) return;
 
-    const selected = intersects[0].object;
+            const selected = intersects[0].object;
 
-    const label = document.getElementById("pointLabel");
+            if (lastSelectedPoint && lastSelectedPoint !== selected) {
+                lastSelectedPoint.material.color.setHex(lastSelectedPoint.originalColor);
+                lastSelectedPoint.scale.set(1, 1, 1);
+            }
+
+            selected.material.color.setHex(0xffff00);
+            selected.scale.set(1.5, 1.5, 1.5);
+            updatePointLabel(selected);
+            lastSelectedPoint = selected;
+            focusOnPoint(selected);
+            openSubMenu(selected.name);
+        }
+
 
     /*================Print Label=============*/
     
-    function updatePointLabel(selected) {
-    const label = document.getElementById("pointLabel");
-    label.innerHTML = `
-        <div style="text-align: left; position: fixed; left: 10px; top: 50%; transform: translateY(-50%);">
-            <span style="font-weight: bold; font-size: 1.2em;">${selected.name.toUpperCase()}</span><br>
-            <span>@bien-etre-geobiologie.fr</span>
-        </div>
-    `;
-}
+        function updatePointLabel(selected) {
+            const label = document.getElementById("pointLabel");
+            label.style.display = "block";
+            label.innerHTML = `
+                <span class="point-name">${selected.name.toUpperCase()}</span><br>
+                @bien-etre-geobiologie.fr
+            `;
+        }
     /*===============Focus on Label==========*/
     if(lastSelectedPoint)
         lastSelectedPoint.material.color.setHex(lastSelectedPoint.originalColor);
@@ -182,21 +218,16 @@ function onMouseClick() {
 
 /* ================= CAMERA ================= */
 
-function focusOnPoint(object){
-
-    const newTarget = object.position.clone();
-
-    controls.target.copy(newTarget);
-
-    camera.position.set(
-        newTarget.x + cameraOffsetX,
-        newTarget.y + 20,
-        newTarget.z + cameraOffsetZ
-    );
-
-    controls.update();
-}
-
+        function focusOnPoint(object) {
+            const newTarget = object.position.clone();
+            controls.target.copy(newTarget);
+            camera.position.set(
+                newTarget.x + cameraOffsetX,
+                newTarget.y + 20,
+                newTarget.z + cameraOffsetZ
+            );
+            controls.update();
+        }
 
 /* ================= MENU ================= */
 function openSubMenu(pointName){
