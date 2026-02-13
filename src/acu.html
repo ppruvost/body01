@@ -174,116 +174,53 @@ function onMouseClick() {
 
     const label = document.getElementById("pointLabel");
 
-    /*=======Affichage du point sélectionné======*/
+    /*================Affichage du point sélectionné=============*/
+    const label = document.getElementById("pointLabel");
+
 label.innerHTML = `
-    <div class="energy-wrapper">
-        <div class="energy-card">
-            <div class="point-name">${selected.name.toUpperCase()}</div>
-            <div class="energy-line"></div>
-            <div class="copyright">© bien-etre-geobiologie.fr</div>
-        </div>
+    <div class="vertical-label">
+        <span class="point-info">© bien-etre-geobiologie.fr</span>
+        <span class="point-name">${selected.name.toUpperCase()}</span>
     </div>
 `;
 
-        // Positionnement à gauche
-        label.style.position = "fixed";
-        label.style.left = "30px";
-        label.style.top = "50%";
-        label.style.transform = "translateY(-50%)";
-        label.style.zIndex = "1000";
-        label.style.pointerEvents = "none";
+// Positionnement à gauche
+label.style.position = "fixed";
+label.style.left = "20px";
+label.style.top = "50%";
+label.style.transform = "translateY(-50%)"; // centré verticalement
+label.style.zIndex = "1000";
+label.style.pointerEvents = "none";
 
-        // Injection style énergétique avancé
-        const style = document.createElement("style");
-        style.innerHTML = `
+// Styles pour texte vertical
+const style = document.createElement("style");
+style.innerHTML = `
+.vertical-label {
+    display: flex;
+    flex-direction: column-reverse; /* nom du point en bas */
+    transform: rotate(-90deg);      /* texte à 90° */
+    transform-origin: left top;
+    white-space: nowrap;
+}
 
-        .energy-wrapper {
-        position: relative;
-        display: inline-block;
-        }
+.point-name {
+    font-weight: 700;
+    font-size: 18px;
+    color: #3a2d27;
+    margin-top: 4px;
+    font-family: "Cormorant Garamond", serif;
+}
 
-        /* Halo énergétique */
-        .energy-wrapper::before {
-        content: "";
-        position: absolute;
-        inset: -15px;
-        border-radius: 30px;
-        background: radial-gradient(
-            circle,
-            rgba(128,102,91,0.25) 0%,
-            rgba(128,102,91,0.12) 40%,
-            rgba(128,102,91,0.05) 60%,
-            transparent 75%
-        );
-        z-index: -1;
-        animation: energyPulse 4s ease-in-out infinite;
-    }
-
-    /* Cartouche */
-    .energy-card {
-        background: rgba(231, 223, 211, 0.92);
-        padding: 18px 24px;
-        border-radius: 18px;
-        border: 1px solid rgba(128, 102, 91, 0.35);
-        box-shadow: 0 0 18px rgba(128, 102, 91, 0.2);
-        backdrop-filter: blur(6px);
-        font-family: "Cormorant Garamond", serif;
-        color: #3a2d27;
-        min-width: 190px;
-        animation: fadeEnergy 0.6s ease-out;
-    }
-
-    .point-name {
-        font-size: 20px;
-        letter-spacing: 1.5px;
-        font-weight: 600;
-        margin-bottom: 8px;
-    }
-
-    .energy-line {
-        height: 1px;
-        width: 60%;
-        background: linear-gradient(
-            to right,
-            transparent,
-            #80665b,
-            transparent
-        );
-        margin: 8px 0 12px 0;
-    }
-
-    .copyright {
-        font-size: 11px;
-        opacity: 0.6;
-        letter-spacing: 1px;
-    }
-
-    /* Animation apparition */
-    @keyframes fadeEnergy {
-        from { opacity: 0; transform: translateX(-15px); }
-        to { opacity: 1; transform: translateX(0); }
-    }
-
-    /* Pulsation énergétique */
-    @keyframes energyPulse {
-        0% {
-            transform: scale(1);
-            opacity: 0.6;
-        }
-        50% {
-            transform: scale(1.05);
-            opacity: 0.9;
-        }
-        100% {
-            transform: scale(1);
-            opacity: 0.6;
-        }
-    }
-
-    `;
-    /*Fin Affichage du point sélectionné*/
-
+.point-info {
+    font-weight: 400;
+    font-size: 12px;
+    color: #3a2d27;
+    font-family: "Cormorant Garamond", serif;
+}
+`;
 document.head.appendChild(style);
+    
+    /*===============Fin Affichage du point sélectionné==========*/
 
 
     if(lastSelectedPoint)
