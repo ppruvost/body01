@@ -175,16 +175,17 @@ function onMouseClick() {
     const label = document.getElementById("pointLabel");
 
     /*================Print Label=============*/
-    function updatePointLabel(selected) {
-    const label = document.getElementById("pointLabel");
+    //function updatePointLabel(selected) {
+    //const label = document.getElementById("pointLabel");
 
-    label.innerHTML = `
-        <div class="vertical-label">
-            <span class="point-info">© bien-etre-geobiologie.fr</span>
-            <span class="point-name">${selected.name.toUpperCase()}</span>
-        </div>
-    `;
-}    
+    //label.innerHTML = `
+        //<div class="vertical-label">
+            //<span class="point-info">© bien-etre-geobiologie.fr</span>
+            //<span class="point-name">${selected.name.toUpperCase()}</span>
+        //</div>
+    //`;
+//} 
+    document.getElementById('pointLabel').innerHTML = `<span class="point-name">${clickedObject.name.toUpperCase()}</span> <span class="copyright">© bien-etre-geobiologie.fr</span>`;
     /*===============Focus on Label==========*/
     if(lastSelectedPoint)
         lastSelectedPoint.material.color.setHex(lastSelectedPoint.originalColor);
