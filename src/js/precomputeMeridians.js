@@ -36,31 +36,20 @@ function buildMeridianCurves_r71(scene, curvatureFactor) {
             // Ajouter le point de départ
             geometry.vertices.push(startPoint);
 
-            // Calcul du point médian pour la courbure
-            var mid = new THREE.Vector3().addVectors(
-                new THREE.Vector3(p1.x, p1.y, p1.z),
-                new THREE.Vector3(p2.x, p2.y, p2.z)
-            ).multiplyScalar(0.5);
-
-            var dir = new THREE.Vector3().subVectors(
-                new THREE.Vector3(p2.x, p2.y, p2.z),
-                new THREE.Vector3(p1.x, p1.y, p1.z)
-            );
-
-            var perp = new THREE.Vector3(-dir.y, dir.x, 0).normalize().multiplyScalar(
-                curvatureFactor * (p1.z >= -10 ? 1 : -1)
-            );
-            mid.add(perp);
-
-            // Génération des segments de la courbe
-            var segments = 10;
-            for (var s = 0; s <= segments; s++) {
+            // Calcul des points intermédiaires pour une courbe plus douce
+            var segments = 20; // Augmenter le nombre de segments pour une courbe plus lisse
+            for (var s = 1; s < segments; s++) {
                 var t = s / segments;
-                var x = (1-t)*(1-t)*p1.x + 2*(1-t)*t*mid.x + t*t*p2.x;
-                var y = (1-t)*(1-t)*p1.y + 2*(1-t)*t*mid.y + t*t*p2.y;
-                var z = (1-t)*(1-t)*p1.z + 2*(1-t)*t*mid.z + t*t*p2.z;
 
-                geometry.vertices.push(new THREE.Vector3(x, y, z));
+                // Interpolation cubique pour une courbe plus naturelle
+                var x = (1-t)*(1-t)*(1-t)*p1.x + 3*(1-t)*(1-t)*t*p1.x + 3*(1-t)*t*t*p2.x + t*t*t*p2.x;
+                var y = (1-t)*(1-t)*(1-t)*p1.y + 3*(1-t)*(1-t)*t*p1.y + 3*(1-t)*t*t*p2.y + t*t*t*p2.y;
+                var z = (1-t)*(1-t)*(1-t)*p1.z + 3*(1-t)*(1-t)*t*p1.z + 3*(1-t)*t*t*p2.z + t*t*t*p2.z;
+
+                // Ajouter une légère courbure supplémentaire
+                var midZ = p1.z + (p2.z - p1.z) * t + (p1.z >= -10 ? curvatureFactor : -curvatureFactor) * Math.sin(t * Math.PI);
+
+                geometry.vertices.push(new THREE.Vector3(x, y, midZ));
             }
 
             // Ajouter le point d'arrivée
