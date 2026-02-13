@@ -1,7 +1,7 @@
-function buildMeridianCurves_r71(scene, 0.1) {
+function buildMeridianCurves_r71(scene, curvatureFactor) {
 
     var meridianGroups = {};
-/* dans la fonction buildMeridianCurves_r71(scene, curvatureFactor) modifier la valeur de curvatureFactor par 0.05 ou autre nombre ... pour accentuer la courbure*/
+    
     ACU_POINTS.forEach(function(p) {
         if (!meridianGroups[p.meridian]) meridianGroups[p.meridian] = [];
         meridianGroups[p.meridian].push(p);
@@ -58,3 +58,9 @@ function buildMeridianCurves_r71(scene, 0.1) {
         scene.add(line);
     });
 }
+
+// Function to call buildMeridianCurves_r71 with default curvature
+function buildMeridianLines(scene) {
+    buildMeridianCurves_r71(scene, 0.1);
+}
+/* (scene, curvatureFactor) modifier la valeur de curvatureFactor par 0.15 ou autre nombre ... pour accentuer la courbure*/
