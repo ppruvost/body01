@@ -105,7 +105,7 @@ const ACU_POINTS = [
     { name: "vc23", x: 0.02, y: 56, z: -0.2, meridian: "Vaisseau Conception" },
     { name: "vc24", x: 0.02, y: 60, z: 5, meridian: "Vaisseau Conception" },
 	
-    { name: "c1", x: -25, y: 40, z: 5, meridian: "Cœur" },
+    { name: "c1", x: -16.45, y: 37, z: 0, meridian: "Cœur" },
     { name: "c2", x: -24, y: 38, z: 4, meridian: "Cœur" },
     { name: "c3", x: -23, y: 36, z: 3, meridian: "Cœur" },
     { name: "c4", x: -22, y: 34, z: 2, meridian: "Cœur" },
