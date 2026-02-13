@@ -1,7 +1,7 @@
-function buildMeridianCurves_r71(scene, curvatureFactor) {
+function buildMeridianCurves_r71(scene, 0.1) {
 
     var meridianGroups = {};
-
+/* dans la fonction buildMeridianCurves_r71(scene, curvatureFactor) modifier la valeur de curvatureFactor par 0.05 ou autre nombre ... pour accentuer la courbure*/
     ACU_POINTS.forEach(function(p) {
         if (!meridianGroups[p.meridian]) meridianGroups[p.meridian] = [];
         meridianGroups[p.meridian].push(p);
