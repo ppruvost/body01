@@ -189,6 +189,7 @@
                 createSphere(pos.name, 0xf5f5f0, pos.x, pos.y, pos.z);
             });
             // coeur
+            const cPositions = [
                 { name: "c1", x: -12.5, y: 38.5, z: -1, meridian: "Cœur" },
                 { name: "c2", x: -24, y: 38, z: 4, meridian: "Cœur" },
                 { name: "c3", x: -23, y: 36, z: 3, meridian: "Cœur" },
@@ -197,7 +198,12 @@
                 { name: "c6", x: -20, y: 30, z: 0, meridian: "Cœur" },
                 { name: "c7", x: -19, y: 28, z: -1, meridian: "Cœur" },
                 { name: "c8", x: -18, y: 26, z: -2, meridian: "Cœur" },
-                { name: "c9", x: -17, y: 24, z: -3, meridian: "Cœur" },
+                { name: "c9", x: -17, y: 24, z: -3, meridian: "Cœur" }
+                ];
+
+            cPositions.forEach(pos => {
+                createSphere(pos.name, 0xf5f5f0, pos.x, pos.y, pos.z);
+            });
 
             // Gros Intestin
             const giPositions = [
