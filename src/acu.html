@@ -175,15 +175,8 @@ function onMouseClick() {
     const label = document.getElementById("pointLabel");
 
     /*================Print Label=============*/
-    function updatePointLabel(selected) {
-    const label = document.getElementById("pointLabel");
-    label.innerHTML = `
-        <div style="text-align: left; position: fixed; left: 10px; top: 50%; transform: translateY(-50%);">
-            <span style="font-weight: bold; font-size: 1.2em;">${selected.name.toUpperCase()}</span><br>
-            <span>@bien-etre-geobiologie.fr</span>
-        </div>
-    `;
-}
+    
+    document.getElementById('pointLabel').innerHTML = `<span class="point-name">${clickedObject.name.toUpperCase()}</span> <span class="copyright">© bien-etre-geobiologie.fr</span>`;
 
     /*===============Focus on Label==========*/
     if(lastSelectedPoint)
