@@ -136,7 +136,7 @@ function init() {
     ACU_POINTS.forEach(p => createPointMesh(p));
 
     /* Meridian Lines */
-    buildMeridianLines(scene);
+    buildMeridianCurves(scene);
 
     /* OBJ */
     const loaderObj = new THREE.OBJLoader();
