@@ -1,8 +1,11 @@
-var sphereRadius = 0.3; // Rayon de la sphère
+var sphereRadius = 0.3;
 
-function buildMeridianCurves_r71(scene, curvatureFactor) {
+function calculateDistance(p1, p2) {
+    return Math.sqrt(Math.pow(p2.x - p1.x, 2) + Math.pow(p2.y - p1.y, 2) + Math.pow(p2.z - p1.z, 2));
+}
+
+function buildMeridianCurves_r71(scene) {
     var meridianGroups = {};
-
     ACU_POINTS.forEach(function(p) {
         if (!meridianGroups[p.meridian]) {
             meridianGroups[p.meridian] = [];
@@ -12,63 +15,49 @@ function buildMeridianCurves_r71(scene, curvatureFactor) {
 
     Object.keys(meridianGroups).forEach(function(meridian) {
         var points = meridianGroups[meridian];
-
         points.sort(function(a, b) {
             var na = parseInt(a.name.replace(/\D/g, ''));
             var nb = parseInt(b.name.replace(/\D/g, ''));
             return na - nb;
         });
 
-        var geometry = new THREE.Geometry();
-
         for (var i = 0; i < points.length - 1; i++) {
             var p1 = points[i];
             var p2 = points[i + 1];
+            var distance = calculateDistance(p1, p2);
 
-            // Déterminer les points de départ/arrivée en fonction de z
-            var startZ = p1.z >= -10 ? sphereRadius : -sphereRadius;
-            var endZ = p2.z >= -10 ? sphereRadius : -sphereRadius;
+            // Ajustement dynamique du curvatureFactor en fonction de la distance
+            var curvatureFactor = distance > 5 ? 1.2 : 0.6;
 
-            // Conserver les coordonnées x et y des points d'origine
-            var startPoint = new THREE.Vector3(p1.x, p1.y, startZ);
-            var endPoint = new THREE.Vector3(p2.x, p2.y, endZ);
+            var geometry = new THREE.BufferGeometry();
+            var vertices = [];
 
-            // Ajouter le point de départ
-            geometry.vertices.push(startPoint);
+            // Point de départ
+            vertices.push(p1.x, p1.y, p1.z);
 
-            // Calcul des points intermédiaires pour une courbe plus douce
-            var segments = 20; // Augmenter le nombre de segments pour une courbe plus lisse
-            for (var s = 1; s < segments; s++) {
+            var segments = 20;
+            for (var s = 1; s <= segments; s++) {
                 var t = s / segments;
+                var x = p1.x + (p2.x - p1.x) * t;
+                var y = p1.y + (p2.y - p1.y) * t;
+                var z = p1.z + (p2.z - p1.z) * t;
 
-                // Interpolation cubique pour une courbe plus naturelle
-                var x = (1-t)*(1-t)*(1-t)*p1.x + 3*(1-t)*(1-t)*t*p1.x + 3*(1-t)*t*t*p2.x + t*t*t*p2.x;
-                var y = (1-t)*(1-t)*(1-t)*p1.y + 3*(1-t)*(1-t)*t*p1.y + 3*(1-t)*t*t*p2.y + t*t*t*p2.y;
-                var z = (1-t)*(1-t)*(1-t)*p1.z + 3*(1-t)*(1-t)*t*p1.z + 3*(1-t)*t*t*p2.z + t*t*t*p2.z;
-
-                // Ajouter une légère courbure supplémentaire
-                var midZ = p1.z + (p2.z - p1.z) * t + (p1.z >= -10 ? curvatureFactor : -curvatureFactor) * Math.sin(t * Math.PI);
-
-                geometry.vertices.push(new THREE.Vector3(x, y, midZ));
+                // Ajout d'une courbure douce sans artefact
+                var midZ = z + curvatureFactor * Math.sin(t * Math.PI);
+                vertices.push(x, y, midZ);
             }
 
-            // Ajouter le point d'arrivée
-            geometry.vertices.push(endPoint);
+            // Point d'arrivée
+            vertices.push(p2.x, p2.y, p2.z);
+
+            geometry.setAttribute('position', new THREE.Float32BufferAttribute(vertices, 3));
+            var material = new THREE.LineBasicMaterial({
+                color: getMeridianColor(meridian),
+                transparent: true,
+                opacity: 0.6
+            });
+            var line = new THREE.Line(geometry, material);
+            scene.add(line);
         }
-
-        var material = new THREE.LineBasicMaterial({
-            color: getMeridianColor(meridian),
-            transparent: true,
-            opacity: 0.6
-        });
-
-        var line = new THREE.Line(geometry, material);
-        line.name = "line_" + meridian;
-        scene.add(line);
     });
-}
-
-// Fonction pour appeler avec une courbure par défaut
-function buildMeridianLines(scene) {
-    buildMeridianCurves_r71(scene, 1.1);
 }
