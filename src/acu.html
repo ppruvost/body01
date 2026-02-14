@@ -16,8 +16,13 @@ body {
     left: 10px;
     top: 50%;
     transform: translateY(-50%) rotate(-90deg);
+    transform-origin: left top;
+    background: transparent;
     color: #3a2d27;
+    font-family: Arial, sans-serif;
+    white-space: nowrap;
     z-index: 9999;
+    pointer-events: none;
 }
 .point-name { font-weight: bold; font-size:18px; }
 </style>
@@ -177,13 +182,13 @@ function onMouseClick() {
 
     /*================Print Label=============*/
     function updatePointLabel(selected) {
-            const label = document.getElementById("pointLabel");
-            label.style.display = "block";
-            label.innerHTML = `
-                <span class="point-name">${selected.name.toUpperCase()}</span><br>
-                @bien-etre-geobiologie.fr
-            `;
-        }   
+    const label = document.getElementById("pointLabel");
+    label.style.display = "block";
+    label.innerHTML = `
+        <span class="point-name">${selected.name.toUpperCase()}</span>
+        <span class="copyright">© bien-etre-geobiologie.fr</span>
+    `;
+} 
     /*===============Focus on Label==========*/
     if(lastSelectedPoint)
         lastSelectedPoint.material.color.setHex(lastSelectedPoint.originalColor);
