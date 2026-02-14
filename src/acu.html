@@ -197,8 +197,8 @@ function onMouseClick(event) {
 
     focusOnPoint(selected);
     openSubMenu(selected.name);
-   /* ==========Print Label ================= */ 
-
+/* ==========Print Label ================= */ 
+    document.getElementById('pointLabel').innerHTML = `<span class="point-name">${clickedObject.name.toUpperCase()}</span> <span class="copyright">© bien-etre-geobiologie.fr</span>`;
 /* ================= CAMERA ================= */
 
 function focusOnPoint(object){
