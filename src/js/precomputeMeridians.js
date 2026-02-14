@@ -26,7 +26,7 @@ function buildMeridianCurves(scene) {
             var p1 = points[i];
             var p2 = points[i + 1];
             var distance = calculateDistance(p1, p2);
-            var curvatureFactor = distance > 5 ? 1.2 : 0.6;
+            var curvatureFactor = distance > 5 ? 1.3 : 0.4;
 
             var geometry = new THREE.Geometry();
             geometry.vertices.push(new THREE.Vector3(p1.x, p1.y, p1.z));
