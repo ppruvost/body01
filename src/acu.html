@@ -23,6 +23,7 @@ body {
     white-space: nowrap;
     z-index: 9999;
     pointer-events: none;
+    display: none; /* Masquer par défaut */
 }
 .point-name { font-weight: bold; font-size:18px; }
 </style>
@@ -169,26 +170,38 @@ function onMouseMove(event) {
     mouse.x = (event.clientX/window.innerWidth)*2-1;
     mouse.y = -(event.clientY/window.innerHeight)*2+1;
 }
-
+/*===== display Label with MouseClick =====*/
 function onMouseClick() {
-    raycaster.setFromCamera(mouse,camera);
+    raycaster.setFromCamera(mouse, camera);
     const intersects = raycaster.intersectObjects(clickableObjects);
 
     if(!intersects.length) return;
 
     const selected = intersects[0].object;
 
-    const label = document.getElementById("pointLabel");
+    // Mettre à jour le label
+    updatePointLabel(selected);
+
+    // Mettre à jour la couleur du point sélectionné
+    if(lastSelectedPoint)
+        lastSelectedPoint.material.color.setHex(lastSelectedPoint.originalColor);
+
+    selected.material.color.setHex(0xffff00);
+    lastSelectedPoint = selected;
+
+    focusOnPoint(selected);
+    openSubMenu(selected.name);
+}
 
     /*================Print Label=============*/
     function updatePointLabel(selected) {
     const label = document.getElementById("pointLabel");
-    label.style.display = "block";
+    label.style.display = "block"; // Afficher le label
     label.innerHTML = `
         <span class="point-name">${selected.name.toUpperCase()}</span>
         <span class="copyright">© bien-etre-geobiologie.fr</span>
     `;
-} 
+}
     /*===============Focus on Label==========*/
     if(lastSelectedPoint)
         lastSelectedPoint.material.color.setHex(lastSelectedPoint.originalColor);
