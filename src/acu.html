@@ -207,15 +207,8 @@ function focusOnPoint(object){
 
     controls.target.copy(newTarget);
 
-    camera.position.set(
-        newTarget.x + cameraOffsetX,
-        newTarget.y + 20,
-        newTarget.z + cameraOffsetZ
-    );
-
     controls.update();
 }
-
 
 /* ================= MENU ================= */
 function openSubMenu(pointName){
