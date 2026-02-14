@@ -172,7 +172,7 @@ function onMouseMove(event) {
     mouse.y = -(event.clientY/window.innerHeight)*2+1;
 }
 /*===== display Label with MouseClick =====*/
-function onMouseClick() {
+function onMouseClick(event) {
     raycaster.setFromCamera(mouse, camera);
     const intersects = raycaster.intersectObjects(clickableObjects);
 
@@ -180,10 +180,8 @@ function onMouseClick() {
 
     const selected = intersects[0].object;
 
-    // Mettre à jour le label
     updatePointLabel(selected);
 
-    // Mettre à jour la couleur du point sélectionné
     if(lastSelectedPoint)
         lastSelectedPoint.material.color.setHex(lastSelectedPoint.originalColor);
 
@@ -193,26 +191,13 @@ function onMouseClick() {
     focusOnPoint(selected);
     openSubMenu(selected.name);
 }
-
-
-    /*================Print Label=============*/
-    function updatePointLabel(selected) {
-    const label = document.getElementById("pointLabel");
-    label.style.display = "block"; // Afficher le label
-    label.innerHTML = `
-        <span class="point-name">${selected.name.toUpperCase()}</span>
-        <span class="copyright">© bien-etre-geobiologie.fr</span>
-    `;
-}
-    /*===============Focus on Label==========*/
-    if(lastSelectedPoint)
-        lastSelectedPoint.material.color.setHex(lastSelectedPoint.originalColor);
-
+    
     selected.material.color.setHex(0xffff00);
     lastSelectedPoint = selected;
 
     focusOnPoint(selected);
     openSubMenu(selected.name);
+   /* ==========Print Label ================= */ 
 
 /* ================= CAMERA ================= */
 
