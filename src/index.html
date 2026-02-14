@@ -561,27 +561,22 @@
 <script>
 document.addEventListener('DOMContentLoaded', () => {
 
-  /* Ouverture / fermeture des menus */
+  // Ouverture/fermeture des menus
   document.querySelectorAll('.tree-menu .label').forEach(label => {
     label.addEventListener('click', () => {
       const parent = label.parentElement;
-
       document.querySelectorAll('.tree-menu > li').forEach(li => {
         if (li !== parent) li.classList.remove('open');
       });
-
       parent.classList.toggle('open');
     });
   });
 
-  /* Chargement dynamique */
+  // Chargement dynamique du contenu
   document.querySelectorAll('.load-content').forEach(item => {
     item.addEventListener('click', e => {
       e.stopPropagation();
-
-      document.querySelectorAll('.load-content')
-        .forEach(li => li.classList.remove('active'));
-
+      document.querySelectorAll('.load-content').forEach(li => li.classList.remove('active'));
       item.classList.add('active');
 
       const id = item.dataset.id;
@@ -595,77 +590,45 @@ document.addEventListener('DOMContentLoaded', () => {
         .then(html => {
           const doc = new DOMParser().parseFromString(html, 'text/html');
           const content = doc.getElementById(id);
-
-          document.getElementById('content-p').innerHTML =
-            content ? content.innerHTML : '<p>Contenu introuvable.</p>';
+          document.getElementById('content-p').innerHTML = content ? content.innerHTML : '<p>Contenu introuvable.</p>';
         })
         .catch(() => {
-          document.getElementById('content-p').innerHTML =
-            '<p>Erreur de chargement.</p>';
+          document.getElementById('content-p').innerHTML = '<p>Erreur de chargement.</p>';
         });
     });
   });
 
-});
-
-  /* ====== Réception message depuis acu.html ====== */
-window.addEventListener("message", event => {
-
-  if (!event.data || event.data.type !== "selectPoint") return;
-
-  const pointId = event.data.point;
-
-  /* 🔹 1. Ouvrir le menu colonne 1 */
-  const menuItem = document.querySelector(
-    `.load-content[data-id="${pointId}"]`
-  );
-
-  if (menuItem) {
-    const parentMenu = menuItem.closest('.tree-menu > li');
-
-    if (parentMenu) {
-      document.querySelectorAll('.tree-menu > li')
-        .forEach(li => li.classList.remove('open'));
-
-      parentMenu.classList.add('open');
+  // Réception message depuis acu.html
+  window.addEventListener("message", event => {
+    if (!event.data || event.data.type !== "selectPoint") return;
+    const pointId = event.data.point;
+    const menuItem = document.querySelector(`.load-content[data-id="${pointId}"]`);
+    if (menuItem) {
+      const parentMenu = menuItem.closest('.tree-menu > li');
+      if (parentMenu) {
+        document.querySelectorAll('.tree-menu > li').forEach(li => li.classList.remove('open'));
+        parentMenu.classList.add('open');
+      }
+      menuItem.click();
     }
+  });
 
-    /* 🔹 2. Simuler le clic → charge colonne 2 */
-    menuItem.click();
-  }
-
-});
-
-</script>
-  <ul class="submenu" id="pointsMenu">
-    <!-- Les éléments <li> sont générés dynamiquement -->
-</ul>
-<script>
-<script>
-document.addEventListener("DOMContentLoaded", function () {
-
-    document.addEventListener("click", function(e) {
-
-        const li = e.target.closest(".submenu li");
-        if (!li) return;
-
-        const pointId = li.getAttribute("data-id");
-        const iframe = document.getElementById("acu");
-
-        if (!iframe || !iframe.contentWindow) {
-            console.warn("Iframe non prête");
-            return;
-        }
-
-        iframe.contentWindow.acuPonto(pointId);
-        iframe.contentWindow.focusPoint(pointId);
-    });
+  // Gestion des clics sur les points du menu
+  document.addEventListener("click", function(e) {
+    const li = e.target.closest(".submenu li");
+    if (!li) return;
+    const pointId = li.getAttribute("data-id");
+    const iframe = document.getElementById("acu");
+    if (!iframe || !iframe.contentWindow) {
+      console.warn("Iframe non prête");
+      return;
+    }
+    iframe.contentWindow.acuPonto(pointId);
+    iframe.contentWindow.focusPoint(pointId);
+  });
 
 });
 </script>
-
-</script>
-
 
  <!---------------Script Fin------------------------>
 </body>
