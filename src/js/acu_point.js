@@ -1,4 +1,4 @@
-/*Compatible code version for three.js r71 written by ppruvost github.com*/
+
 const ACU_POINTS = [
 	{ name: "cs7", x: -24.71516683000315, y: -6.555406638283143, z: 0.6, meridian: "Maître Coeur" },
 	
