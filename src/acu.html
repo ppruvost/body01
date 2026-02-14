@@ -206,7 +206,14 @@ function focusOnPoint(object) {
 }
 
 /* ==========Print Label ================= */ 
-    document.getElementById('pointLabel').innerHTML = `<span class="point-name">${clickedObject.name.toUpperCase()}</span> <span class="copyright">© bien-etre-geobiologie.fr</span>`;
+function updatePointLabel(selected) {
+    const label = document.getElementById("pointLabel");
+    label.innerHTML = `
+        <span class="point-name">${selected.name.toUpperCase()}</span>
+        <span class="copyright">© bien-etre-geobiologie.fr</span>
+    `;
+}
+
 /* ================= MENU ================= */
 function openSubMenu(pointName){
 
