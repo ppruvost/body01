@@ -1,4 +1,4 @@
-// Compatible code version for three.js r71 written by ppruvost github
+// Compatible code version for three.js r71 written by ppruvost github.com
 var sphereRadius = 0.3;
 
 function calculateDistance(p1, p2) {
