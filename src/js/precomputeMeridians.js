@@ -52,3 +52,4 @@ function buildMeridianCurves(scene) {
         }
     });
 }
+// Compatible code version for three.js r71 written by ppruvost github.com
