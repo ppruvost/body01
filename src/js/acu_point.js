@@ -25,7 +25,7 @@ const ACU_POINTS = [
     { name: "gi9", x: 27.532201993135608, y: 12.0, z: -8.8, meridian: "Gros Intestin" },
     { name: "gi10", x: 27.232201993135604, y: 14.3, z: -9.3, meridian: "Gros Intestin" },
     { name: "gi11", x: 27.0322019931356, y: 17.6, z: -8.8, meridian: "Gros Intestin" },
-    { name: "gi12", x: 26.4, y: 18.5, z: -8.6, meridian: "Gros Intestin" },
+    { name: "gi12", x: 26.4, y: 18.5, z: -8, meridian: "Gros Intestin" },
     { name: "gi13", x: 26.432201993135592, y: 23.5, z: -9.3, meridian: "Gros Intestin" },
     { name: "gi14", x: 24.73220199313557, y: 33.3, z: -7.6, meridian: "Gros Intestin" },
     { name: "gi15", x: 20.432201993135507, y: 47.2, z: -5, meridian: "Gros Intestin" },
@@ -107,7 +107,7 @@ const ACU_POINTS = [
     { name: "vc24", x: 0.02, y: 60, z: 5, meridian: "Vaisseau Conception" },
 	
     { name: "c1", x: -16.35, y: 37, z: 0, meridian: "Cœur" },
-    { name: "c2", x: -18.5, y: 18, z: -7, meridian: "Cœur" },
+    { name: "c2", x: -19, y: 18, z: -7, meridian: "Cœur" },
     { name: "c3", x: -19, y: 8, z: -7, meridian: "Cœur" },
     { name: "c4", x: -22, y: 34, z: 2, meridian: "Cœur" },
     { name: "c5", x: -21, y: 32, z: 1, meridian: "Cœur" },
