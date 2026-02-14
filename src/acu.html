@@ -191,25 +191,22 @@ function onMouseClick(event) {
     focusOnPoint(selected);
     openSubMenu(selected.name);
 }
-    
-    selected.material.color.setHex(0xffff00);
-    lastSelectedPoint = selected;
 
-    focusOnPoint(selected);
-    openSubMenu(selected.name);
-/* ==========Print Label ================= */ 
-    document.getElementById('pointLabel').innerHTML = `<span class="point-name">${clickedObject.name.toUpperCase()}</span> <span class="copyright">© bien-etre-geobiologie.fr</span>`;
-/* ================= CAMERA ================= */
-
-function focusOnPoint(object){
-
+function focusOnPoint(object) {
     const newTarget = object.position.clone();
-
     controls.target.copy(newTarget);
+
+    camera.position.set(
+        newTarget.x + cameraOffsetX,
+        newTarget.y + 20,
+        newTarget.z + cameraOffsetZ
+    );
 
     controls.update();
 }
 
+/* ==========Print Label ================= */ 
+    document.getElementById('pointLabel').innerHTML = `<span class="point-name">${clickedObject.name.toUpperCase()}</span> <span class="copyright">© bien-etre-geobiologie.fr</span>`;
 /* ================= MENU ================= */
 function openSubMenu(pointName){
 
