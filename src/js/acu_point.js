@@ -12,7 +12,7 @@ const ACU_POINTS = [
     { name: "p8", x: -26.26779800686462, y: -3.5, z: -0.5, meridian: "Poumon" },
     { name: "p9", x: -27.367798006864636, y: -5.5, z: -0.3, meridian: "Poumon" },
     { name: "p10", x: -27.66779800686464, y: -7.7, z: 2.55, meridian: "Poumon" },
-    { name: "p11", x: -30.56779800686468, y: -13.2, z: 6.25, meridian: "Poumon" },
+    { name: "p11", x: -30.56779800686468, y: -13.2, z: 6.15, meridian: "Poumon" },
 	
     { name: "gi1", x: 29.23, y: -20, z: 6.2, meridian: "Gros Intestin"},
     { name: "gi2", x: 29.33, y: -14.7, z: 2.8, meridian: "Gros Intestin"},
@@ -112,7 +112,7 @@ const ACU_POINTS = [
     { name: "c4", x: -22, y: -1.5, z: -3.25, meridian: "Cœur" },
     { name: "c5", x: -22.5, y: -2.83, z: -2.25, meridian: "Cœur" },
     { name: "c6", x: -23, y: -4.16, z: -1.25, meridian: "Cœur" },
-    { name: "c7", x: -23.5, y: -5.49, z: 0, meridian: "Cœur" },
+    { name: "c7", x: -23.5, y: -5.49, z: -0.25, meridian: "Cœur" },
     { name: "c8", x: -23, y: -11, z: 2, meridian: "Cœur" },
     { name: "c9", x: -22, y: -18, z: 4.75, meridian: "Cœur" },
 	
@@ -123,6 +123,6 @@ const ACU_POINTS = [
     { name: "v5", x: 21, y: -12, z: 2, meridian: "Vessie" },
     { name: "v6", x: 20, y: -10, z: 1, meridian: "Vessie" },
     { name: "v7", x: 19, y: -8, z: 0, meridian: "Vessie" },
-    { name: "v8", x: 18, y: -6, z: -1, meridian: "Vessie" },
+    { name: "v8", x: 18, y: -6, z: -0.85, meridian: "Vessie" },
     { name: "v9", x: 17, y: -4, z: -2, meridian: "Vessie" }
 ];
