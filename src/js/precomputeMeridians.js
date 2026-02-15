@@ -120,4 +120,4 @@ function buildMeridianCurves(scene) {
     });
 }
 
-// Compatible code version for three.js r71 written by ppruvost github.com
+// Compatible code version for three.js r71 written by ppruvost github.com for bien-etre-geobiologie.fr
