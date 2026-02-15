@@ -18,7 +18,7 @@ var SPECIAL_CURVES = {
     "P2-P3": 12,
     
     // épaule droite :
-    "E17-E18": 15
+    "E17-E18": 5.5
     
 };
 
