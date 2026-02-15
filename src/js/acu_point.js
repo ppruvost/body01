@@ -7,7 +7,7 @@ const ACU_POINTS = [
     { name: "p3", x: -22.97, y: 32.4, z: -4.75, meridian: "Poumon" },
     { name: "p4", x: -23.56779800686458, y: 28.7, z: -4.75, meridian: "Poumon" },
     { name: "p5", x: -24.16779800686459, y: 15.7, z: -4.6, meridian: "Poumon" },
-    { name: "p6", x: -25.767798006864613, y: 7.5, z: -2.7, meridian: "Poumon" },
+    { name: "p6", x: -25.767798006864613, y: 7.5, z: -2.5, meridian: "Poumon" },
     { name: "p7", x: -26.96779800686463, y: -1.5, z: -1.5, meridian: "Poumon" },
     { name: "p8", x: -26.26779800686462, y: -3.5, z: -0.5, meridian: "Poumon" },
     { name: "p9", x: -27.367798006864636, y: -5.5, z: -0.3, meridian: "Poumon" },
