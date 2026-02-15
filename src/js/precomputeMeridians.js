@@ -9,21 +9,25 @@ function calculateDistance(p1, p2) {
 }
 
 // ==============================
-// CAS PARTICULIERS - Courbure forcée
+// CAS PARTICULIERS - Élévation relative
 // ==============================
-// Format : "NomPoint1-NomPoint2": valeurZSommet
+// Format :
+// "pointA-pointB": valeurElevation
+// → valeurElevation = hauteur ajoutée au-dessus de la ligne normale
 
 var SPECIAL_CURVES = {
-    // épaule gauche :
-    "P2-P3": 20,
-    
-    // épaule droite :
-    "E17-E18": 10
-    
+
+    // Exemple épaule Poumon
+    "p2-p3": 12,
+
+    // Exemple Estomac
+    "e17-e18": 8
+
 };
 
 // Vérifie si un couple est déclaré en cas particulier
-function getSpecialCurveZ(p1, p2) {
+function getSpecialCurveElevation(p1, p2) {
+
     var key1 = p1.name + "-" + p2.name;
     var key2 = p2.name + "-" + p1.name;
 
@@ -33,6 +37,7 @@ function getSpecialCurveZ(p1, p2) {
     if (SPECIAL_CURVES[key2] !== undefined) {
         return SPECIAL_CURVES[key2];
     }
+
     return null;
 }
 
@@ -68,7 +73,7 @@ function buildMeridianCurves(scene) {
             var geometry = new THREE.Geometry();
             geometry.vertices.push(new THREE.Vector3(p1.x, p1.y, p1.z));
 
-            var specialZ = getSpecialCurveZ(p1, p2);
+            var specialElevation = getSpecialCurveElevation(p1, p2);
 
             var segments = 20;
 
@@ -79,19 +84,17 @@ function buildMeridianCurves(scene) {
                 var x = p1.x + (p2.x - p1.x) * t;
                 var y = p1.y + (p2.y - p1.y) * t;
 
+                var zLinear = p1.z + (p2.z - p1.z) * t;
                 var z;
 
-                if (specialZ !== null) {
+                if (specialElevation !== null) {
 
                     // ==========================
                     // CAS PARTICULIER
+                    // Élévation RELATIVE
                     // ==========================
 
-                    var zLinear = p1.z + (p2.z - p1.z) * t;
-                    var maxLinearZ = Math.max(p1.z, p2.z);
-                    var deltaToPeak = specialZ - maxLinearZ;
-
-                    z = zLinear + deltaToPeak * Math.sin(t * Math.PI);
+                    z = zLinear + specialElevation * Math.sin(t * Math.PI);
 
                 } else {
 
@@ -99,8 +102,7 @@ function buildMeridianCurves(scene) {
                     // CAS STANDARD
                     // ==========================
 
-                    z = p1.z + (p2.z - p1.z) * t
-                        + curvatureFactor * Math.sin(t * Math.PI);
+                    z = zLinear + curvatureFactor * Math.sin(t * Math.PI);
                 }
 
                 geometry.vertices.push(new THREE.Vector3(x, y, z));
