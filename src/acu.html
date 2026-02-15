@@ -190,7 +190,10 @@ function onMouseClick(event) {
     lastSelectedPoint = selected;
 
     focusOnPoint(selected);
-    openSubMenu(selected.name);
+    // Redirection automatique si le nom se termine par "-r"
+    let pointName = selected.name.replace(/-r$/, '');
+
+    openSubMenu(pointName);
 }
 
 function focusOnPoint(object) {
@@ -210,7 +213,7 @@ function focusOnPoint(object) {
 function updatePointLabel(selected) {
     const label = document.getElementById("pointLabel");
     label.innerHTML = `
-        <span class="point-name">${selected.name.toUpperCase()}</span>
+        <span class="point-name">${selected.name.replace(/-r$/, '').toUpperCase()}</span>
         <span class="copyright">© bien-etre-geobiologie.fr</span>
     `;
 }
