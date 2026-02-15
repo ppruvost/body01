@@ -15,10 +15,10 @@ function calculateDistance(p1, p2) {
 
 var SPECIAL_CURVES = {
     // épaule gauche :
-    "P2-P3": 5.5,
+    "P2-P3": 10,
     
     // épaule droite :
-    "E17-E18": 5.5
+    "E17-E18": 10
     
 };
 
