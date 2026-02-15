@@ -32,8 +32,8 @@ const ACU_POINTS = [
     { name: "gi16", x: 9.132201993135475, y: 45.8, z: -17.48, meridian: "Gros Intestin" },
     { name: "gi17", x: 5.532201993135482, y: 54.1, z: -4, meridian: "Gros Intestin" },
     { name: "gi18", x: 5.132201993135483, y: 56.1, z: -3.6, meridian: "Gros Intestin" },
-    { name: "gi19", x: 0.9322019931354847, y: 62.4, z: 4.9, meridian: "Gros Intestin" },
-    { name: "gi20", x: 1.9322019931354855, y: 62.9, z: 4.3, meridian: "Gros Intestin" },
+    { name: "gi19", x: 0.9322019931354847, y: 62.4, z: 5, meridian: "Gros Intestin" },
+    { name: "gi20", x: 1.9322019931354855, y: 62.9, z: 4.4, meridian: "Gros Intestin" },
 	
     { name: "e1", x: -2.96, y: 66.7, z: 3, meridian: "Estomac" },
     { name: "e2", x: -2.96, y: 66, z: 3.3, meridian: "Estomac" },
