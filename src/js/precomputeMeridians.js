@@ -18,8 +18,8 @@ function calculateDistance(p1, p2) {
 
 var SPECIAL_CURVES = {
 
-    "p2-p3": "(8;8;)",
-    "e17-e18": "(;3.5;)"
+    "p2-p3": "(1;0.5;)",
+    "e17-e18": "(;1.5;)"
 
 };
 
