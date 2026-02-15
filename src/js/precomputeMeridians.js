@@ -18,10 +18,10 @@ function calculateDistance(p1, p2) {
 var SPECIAL_CURVES = {
 
     // Exemple épaule Poumon
-    "p2-p3": 6,
+    "p2-p3": 4,
 
     // Exemple Estomac
-    "e17-e18": 4
+    "e17-e18": 2
 
 };
 
