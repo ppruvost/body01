@@ -13,13 +13,13 @@ function calculateDistance(p1, p2) {
 // CAS PARTICULIERS MULTI-ZONES
 // ==============================
 // Format :
-// "p2-p3": "(3;5;2)"
+// "p2-p3": "(;5;2)"
 // ordre : (25% ; 50% ; 75%)
 
 var SPECIAL_CURVES = {
 
-    "p2-p3": "(9;8;)",
-    "e17-e18": "(;5.5;)"
+    "p2-p3": "(12;10;)",
+    "e17-e18": "(;4.5;)"
 
 };
 
