@@ -83,7 +83,7 @@ const ACU_POINTS = [
     { name: "e13-r", x: -7.067798006864507, y: 47.6, z: -1.0, meridian: "Estomac-r" },
     { name: "e14-r", x: -7.667798006864505, y: 44.8, z: 1, meridian: "Estomac-r" },
     { name: "e15-r", x: -8.767798006864501, y: 42.3, z: 2.5, meridian: "Estomac-r" },
-    { name: "e16-r", x: -9.867798006864497, y: 38.9, z: 4.2, meridian: "Estomac" },
+    { name: "e16-r", x: -9.867798006864497, y: 38.9, z: 4.2, meridian: "Estomac-r" },
     { name: "e17-r", x: -12.06779800686449, y: 33.2, z: 5.0, meridian: "Estomac-r" },
     { name: "e18-r", x: -12.06779800686449, y: 30.2, z: 2.3, meridian: "Estomac-r" },
     { name: "e19-r", x: -3.167798006864517, y: 25.7, z: 6.75, meridian: "Estomac-r" },
