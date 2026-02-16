@@ -23,9 +23,9 @@ function parseElevationString(str) {
     str = str.replace(/[()]/g, "");
     var parts = str.split(";");
     return {
-        z25: parts[0] ? parseFloat(parts[0]) : 0,
-        z50: parts[1] ? parseFloat(parts[1]) : 0,
-        z75: parts[2] ? parseFloat(parts[2]) : 0
+        z25: parts[0] ? parseFloat(parts[0]) : null,
+        z50: parts[1] ? parseFloat(parts[1]) : null,
+        z75: parts[2] ? parseFloat(parts[2]) : null
     };
 }
 
@@ -71,25 +71,65 @@ function buildMeridianCurves(scene) {
             var specialProfile = getSpecialCurveProfile(p1, p2);
             var segments = 40;
 
-            for (var s = 1; s <= segments; s++) {
-                var t = s / segments;
-                var x = p1.x + (p2.x - p1.x) * t;
-                var y = p1.y + (p2.y - p1.y) * t;
-                var zLinear = p1.z + (p2.z - p1.z) * t;
-                var z = zLinear;
-
-                if (specialProfile) {
-                    var influence25 = Math.exp(-Math.pow((t - 0.25) * 8, 2));
-                    var influence50 = Math.exp(-Math.pow((t - 0.50) * 8, 2));
-                    var influence75 = Math.exp(-Math.pow((t - 0.75) * 8, 2));
-                    z += specialProfile.z25 * influence25;
-                    z += specialProfile.z50 * influence50;
-                    z += specialProfile.z75 * influence75;
-                } else {
-                    z += distanceCurveFactor * distance * 0.1 * Math.sin(t * Math.PI);
+            if (specialProfile) {
+                // Segment 1 : Début à 25%
+                for (var s = 1; s <= segments * 0.25; s++) {
+                    var t = s / (segments * 0.25);
+                    var x = p1.x + (p2.x - p1.x) * (t * 0.25);
+                    var y = p1.y + (p2.y - p1.y) * (t * 0.25);
+                    var zLinear = p1.z + (p2.z - p1.z) * (t * 0.25);
+                    var z = zLinear;
+                    if (specialProfile.z25 !== null) {
+                        z += specialProfile.z25 * Math.sin(t * Math.PI / 2);
+                    }
+                    geometry.vertices.push(new THREE.Vector3(x, y, z));
                 }
 
-                geometry.vertices.push(new THREE.Vector3(x, y, z));
+                // Segment 2 : 25% à 50%
+                for (var s = 1; s <= segments * 0.25; s++) {
+                    var t = s / (segments * 0.25);
+                    var x = p1.x + (p2.x - p1.x) * (0.25 + t * 0.25);
+                    var y = p1.y + (p2.y - p1.y) * (0.25 + t * 0.25);
+                    var zLinear = p1.z + (p2.z - p1.z) * (0.25 + t * 0.25);
+                    var z = zLinear;
+                    if (specialProfile.z50 !== null) {
+                        z += specialProfile.z50 * Math.sin(t * Math.PI / 2);
+                    }
+                    geometry.vertices.push(new THREE.Vector3(x, y, z));
+                }
+
+                // Segment 3 : 50% à 75%
+                for (var s = 1; s <= segments * 0.25; s++) {
+                    var t = s / (segments * 0.25);
+                    var x = p1.x + (p2.x - p1.x) * (0.5 + t * 0.25);
+                    var y = p1.y + (p2.y - p1.y) * (0.5 + t * 0.25);
+                    var zLinear = p1.z + (p2.z - p1.z) * (0.5 + t * 0.25);
+                    var z = zLinear;
+                    if (specialProfile.z75 !== null) {
+                        z += specialProfile.z75 * Math.sin(t * Math.PI / 2);
+                    }
+                    geometry.vertices.push(new THREE.Vector3(x, y, z));
+                }
+
+                // Segment 4 : 75% à Fin
+                for (var s = 1; s <= segments * 0.25; s++) {
+                    var t = s / (segments * 0.25);
+                    var x = p1.x + (p2.x - p1.x) * (0.75 + t * 0.25);
+                    var y = p1.y + (p2.y - p1.y) * (0.75 + t * 0.25);
+                    var zLinear = p1.z + (p2.z - p1.z) * (0.75 + t * 0.25);
+                    var z = zLinear;
+                    geometry.vertices.push(new THREE.Vector3(x, y, z));
+                }
+            } else {
+                // Cas standard : courbe continue
+                for (var s = 1; s <= segments; s++) {
+                    var t = s / segments;
+                    var x = p1.x + (p2.x - p1.x) * t;
+                    var y = p1.y + (p2.y - p1.y) * t;
+                    var zLinear = p1.z + (p2.z - p1.z) * t;
+                    var z = zLinear + distanceCurveFactor * distance * 0.1 * Math.sin(t * Math.PI);
+                    geometry.vertices.push(new THREE.Vector3(x, y, z));
+                }
             }
 
             geometry.vertices.push(new THREE.Vector3(p2.x, p2.y, p2.z));
