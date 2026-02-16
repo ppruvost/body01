@@ -2,6 +2,7 @@
 var sphereRadius = 0.3;
 var distanceCurveFactor = 1.5; // Coefficient modifiable pour influencer l'élévation
 
+// Fonction pour calculer la distance entre deux points
 function calculateDistance(p1, p2) {
     return Math.sqrt(
         Math.pow(p2.x - p1.x, 2) +
@@ -10,11 +11,13 @@ function calculateDistance(p1, p2) {
     );
 }
 
+// Définition des cas particuliers de courbes
 var SPECIAL_CURVES = {
     "p2-p3": "(;8;)",
     "p2-r-p3-r": "(;8;)"
 };
 
+// Fonction pour analyser une chaîne de type "(a;b;c)"
 function parseElevationString(str) {
     if (!str) return null;
     str = str.replace(/[()]/g, "");
@@ -26,6 +29,7 @@ function parseElevationString(str) {
     };
 }
 
+// Fonction pour récupérer un profil de courbe spécial
 function getSpecialCurveProfile(p1, p2) {
     var key1 = p1.name + "-" + p2.name;
     var key2 = p2.name + "-" + p1.name;
@@ -34,10 +38,18 @@ function getSpecialCurveProfile(p1, p2) {
     return null;
 }
 
+// Fonction pour construire les courbes méridiennes
 function buildMeridianCurves(scene) {
+    if (!ACU_POINTS) {
+        console.error("ACU_POINTS n'est pas défini.");
+        return;
+    }
+
     var meridianGroups = {};
     ACU_POINTS.forEach(function(p) {
-        if (!meridianGroups[p.meridian]) meridianGroups[p.meridian] = [];
+        if (!meridianGroups[p.meridian]) {
+            meridianGroups[p.meridian] = [];
+        }
         meridianGroups[p.meridian].push(p);
     });
 
@@ -91,6 +103,3 @@ function buildMeridianCurves(scene) {
         }
     });
 }
-
-}
-
