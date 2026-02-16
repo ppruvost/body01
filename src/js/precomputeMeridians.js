@@ -54,7 +54,7 @@ function calculateInclinedParabolicCurve(t, p1, p2, specialProfile) {
     // Paramètres par défaut ou spécifiques au cas particulier
     var angleDegrees = specialProfile ? specialProfile.angleDegrees : 0;
     var ventreDos = specialProfile ? specialProfile.ventreDos : 1;
-    var peakFactor = specialProfile ? specialProfile.peakFactor : 2.0;
+    var peakFactor = specialProfile ? specialProfile.peakFactor : 1.2;
 
     // Calcul de la parabole avec sommet devant/derrière
     var parabola = 4 * t * (1 - t) * ventreDos;
