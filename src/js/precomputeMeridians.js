@@ -1,5 +1,5 @@
 // Compatible code version for three.js r71 written by ppruvost github.com for bien-etre-geobiologie.fr
-// Compatible code version for three.js r71 written by ppruvost github.com for bien-etre-geobiologie.fr
+
 var sphereRadius = 0.3;
 var distanceCurveFactor = 1.5; // Coefficient modifiable pour influencer l'élévation
 
