@@ -1,7 +1,7 @@
 // Compatible code version for three.js r71 written by ppruvost github.com for bien-etre-geobiologie.fr
 
 var sphereRadius = 0.3;
-var elevationFactor = 1.2; // Facteur global pour ajuster l'élévation
+var elevationFactor = 1.5; // Facteur global pour ajuster l'élévation
 
 // Définition des cas particuliers de courbes
 var SPECIAL_CURVES = {
