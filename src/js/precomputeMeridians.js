@@ -13,8 +13,8 @@ function calculateDistance(p1, p2) {
 
 // Définition des cas particuliers de courbes
 var SPECIAL_CURVES = {
-    "p2-p3": "(;8;)",
-    "p2-r-p3-r": "(;8;)"
+    "p2-p3": "(7;8;7)",
+    "p2-r-p3-r": "(7;8;7)"
 };
 
 // Fonction pour analyser une chaîne de type "(a;b;c)"
