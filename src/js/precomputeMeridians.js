@@ -1,21 +1,11 @@
 // Compatible code version for three.js r71 written by ppruvost github.com for bien-etre-geobiologie.fr
 
 var sphereRadius = 0.3;
-var distanceCurveFactor = 1.5; // Coefficient modifiable pour influencer l'élévation
-
-// Fonction pour calculer la distance entre deux points
-function calculateDistance(p1, p2) {
-    return Math.sqrt(
-        Math.pow(p2.x - p1.x, 2) +
-        Math.pow(p2.y - p1.y, 2) +
-        Math.pow(p2.z - p1.z, 2)
-    );
-}
+var elevationFactor = 1.0; // Facteur global pour ajuster l'élévation
 
 // Définition des cas particuliers de courbes
 var SPECIAL_CURVES = {
-    "p2-p3": "(;8;)",
-    "p2-r-p3-r": "(;8;)"
+    "p2-p3": "(;8;)", // Exemple : élévation à 50%
 };
 
 // Fonction pour analyser une chaîne de type "(a;b;c)"
@@ -37,6 +27,31 @@ function getSpecialCurveProfile(p1, p2) {
     if (SPECIAL_CURVES[key1]) return parseElevationString(SPECIAL_CURVES[key1]);
     if (SPECIAL_CURVES[key2]) return parseElevationString(SPECIAL_CURVES[key2]);
     return null;
+}
+
+// Fonction pour calculer une courbe polynomiale lisse
+function calculateSmoothCurve(t, p1, p2, specialProfile) {
+    var zLinear = p1.z + (p2.z - p1.z) * t;
+    var z = zLinear;
+
+    if (specialProfile) {
+        // Appliquer une élévation modulée selon les positions 25%, 50%, 75%
+        var influence25 = Math.exp(-Math.pow((t - 0.25) * 8, 2)) * specialProfile.z25;
+        var influence50 = Math.exp(-Math.pow((t - 0.50) * 8, 2)) * specialProfile.z50;
+        var influence75 = Math.exp(-Math.pow((t - 0.75) * 8, 2)) * specialProfile.z75;
+
+        // Utiliser une fonction polynomiale pour lisser la courbe
+        z += elevationFactor * (
+            influence25 * Math.pow(t, 2) * Math.pow(1 - t, 1) +
+            influence50 * Math.pow(t, 2) * Math.pow(1 - t, 0) +
+            influence75 * Math.pow(t, 1) * Math.pow(1 - t, 2)
+        );
+    } else {
+        // Cas standard : courbe sinusoïdale légère
+        z += elevationFactor * 0.1 * Math.sin(t * Math.PI);
+    }
+
+    return z;
 }
 
 // Fonction pour construire les courbes méridiennes
@@ -65,7 +80,6 @@ function buildMeridianCurves(scene) {
         for (var i = 0; i < points.length - 1; i++) {
             var p1 = points[i];
             var p2 = points[i + 1];
-            var distance = calculateDistance(p1, p2);
             var geometry = new THREE.Geometry();
             geometry.vertices.push(new THREE.Vector3(p1.x, p1.y, p1.z));
 
@@ -76,19 +90,7 @@ function buildMeridianCurves(scene) {
                 var t = s / segments;
                 var x = p1.x + (p2.x - p1.x) * t;
                 var y = p1.y + (p2.y - p1.y) * t;
-                var zLinear = p1.z + (p2.z - p1.z) * t;
-                var z = zLinear;
-
-                if (specialProfile) {
-                    var influence25 = Math.exp(-Math.pow((t - 0.25) * 8, 2));
-                    var influence50 = Math.exp(-Math.pow((t - 0.50) * 8, 2));
-                    var influence75 = Math.exp(-Math.pow((t - 0.75) * 8, 2));
-                    z += specialProfile.z25 * influence25;
-                    z += specialProfile.z50 * influence50;
-                    z += specialProfile.z75 * influence75;
-                } else {
-                    z += distanceCurveFactor * distance * 0.1 * Math.sin(t * Math.PI);
-                }
+                var z = calculateSmoothCurve(t, p1, p2, specialProfile);
 
                 geometry.vertices.push(new THREE.Vector3(x, y, z));
             }
