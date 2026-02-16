@@ -1,10 +1,21 @@
 // Compatible code version for three.js r71 written by ppruvost github.com for bien-etre-geobiologie.fr
+// Compatible code version for three.js r71 written by ppruvost github.com for bien-etre-geobiologie.fr
 var sphereRadius = 0.3;
-var elevationFactor = 2.0; // Facteur pour ajuster globalement l'élévation
+var distanceCurveFactor = 1.5; // Coefficient modifiable pour influencer l'élévation
+
+// Fonction pour calculer la distance entre deux points
+function calculateDistance(p1, p2) {
+    return Math.sqrt(
+        Math.pow(p2.x - p1.x, 2) +
+        Math.pow(p2.y - p1.y, 2) +
+        Math.pow(p2.z - p1.z, 2)
+    );
+}
 
 // Définition des cas particuliers de courbes
 var SPECIAL_CURVES = {
-    "p2-p3": "(;8;)", // Exemple : élévation à 50%
+    "p2-p3": "(;8;)",
+    "p2-r-p3-r": "(;8;)"
 };
 
 // Fonction pour analyser une chaîne de type "(a;b;c)"
@@ -26,18 +37,6 @@ function getSpecialCurveProfile(p1, p2) {
     if (SPECIAL_CURVES[key1]) return parseElevationString(SPECIAL_CURVES[key1]);
     if (SPECIAL_CURVES[key2]) return parseElevationString(SPECIAL_CURVES[key2]);
     return null;
-}
-
-// Fonction pour calculer un point sur une courbe de Bézier cubique
-function cubicBezier(t, p0, p1, p2, p3) {
-    var mt = 1 - t;
-    var mt2 = mt * mt;
-    var t2 = t * t;
-    return {
-        x: mt2 * mt * p0.x + 3 * mt2 * t * p1.x + 3 * mt * t2 * p2.x + t2 * t * p3.x,
-        y: mt2 * mt * p0.y + 3 * mt2 * t * p1.y + 3 * mt * t2 * p2.y + t2 * t * p3.y,
-        z: mt2 * mt * p0.z + 3 * mt2 * t * p1.z + 3 * mt * t2 * p2.z + t2 * t * p3.z
-    };
 }
 
 // Fonction pour construire les courbes méridiennes
@@ -66,46 +65,32 @@ function buildMeridianCurves(scene) {
         for (var i = 0; i < points.length - 1; i++) {
             var p1 = points[i];
             var p2 = points[i + 1];
+            var distance = calculateDistance(p1, p2);
             var geometry = new THREE.Geometry();
             geometry.vertices.push(new THREE.Vector3(p1.x, p1.y, p1.z));
 
             var specialProfile = getSpecialCurveProfile(p1, p2);
             var segments = 40;
 
-            if (specialProfile) {
-                // Calcul des points de contrôle pour la courbe de Bézier
-                var elevation25 = specialProfile.z25 * elevationFactor;
-                var elevation50 = specialProfile.z50 * elevationFactor;
-                var elevation75 = specialProfile.z75 * elevationFactor;
+            for (var s = 1; s <= segments; s++) {
+                var t = s / segments;
+                var x = p1.x + (p2.x - p1.x) * t;
+                var y = p1.y + (p2.y - p1.y) * t;
+                var zLinear = p1.z + (p2.z - p1.z) * t;
+                var z = zLinear;
 
-                // Points de contrôle pour la courbe de Bézier
-                var controlPoint1 = {
-                    x: p1.x + (p2.x - p1.x) * 0.33,
-                    y: p1.y + (p2.y - p1.y) * 0.33,
-                    z: p1.z + elevation25
-                };
-
-                var controlPoint2 = {
-                    x: p1.x + (p2.x - p1.x) * 0.66,
-                    y: p1.y + (p2.y - p1.y) * 0.66,
-                    z: p1.z + elevation75
-                };
-
-                // Ajout des points de la courbe de Bézier
-                for (var s = 1; s <= segments; s++) {
-                    var t = s / segments;
-                    var point = cubicBezier(t, p1, controlPoint1, controlPoint2, p2);
-                    geometry.vertices.push(new THREE.Vector3(point.x, point.y, point.z));
+                if (specialProfile) {
+                    var influence25 = Math.exp(-Math.pow((t - 0.25) * 8, 2));
+                    var influence50 = Math.exp(-Math.pow((t - 0.50) * 8, 2));
+                    var influence75 = Math.exp(-Math.pow((t - 0.75) * 8, 2));
+                    z += specialProfile.z25 * influence25;
+                    z += specialProfile.z50 * influence50;
+                    z += specialProfile.z75 * influence75;
+                } else {
+                    z += distanceCurveFactor * distance * 0.1 * Math.sin(t * Math.PI);
                 }
-            } else {
-                // Cas standard : ligne droite
-                for (var s = 1; s <= segments; s++) {
-                    var t = s / segments;
-                    var x = p1.x + (p2.x - p1.x) * t;
-                    var y = p1.y + (p2.y - p1.y) * t;
-                    var z = p1.z + (p2.z - p1.z) * t;
-                    geometry.vertices.push(new THREE.Vector3(x, y, z));
-                }
+
+                geometry.vertices.push(new THREE.Vector3(x, y, z));
             }
 
             geometry.vertices.push(new THREE.Vector3(p2.x, p2.y, p2.z));
