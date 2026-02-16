@@ -23,7 +23,7 @@ function parseElevationString(str) {
     // Parsing des paramètres supplémentaires (angle, ventreDos, peakFactor)
     var angleDegrees = parts[1] ? parseFloat(parts[1]) : 0;
     var ventreDos = parts[2] ? parseInt(parts[2]) : 1;
-    var peakFactor = parts[3] ? parseFloat(parts[3]) : 1.2;
+    var peakFactor = parts[3] ? parseFloat(parts[3]) : 0.8;
 
     return {
         z25: z25,
