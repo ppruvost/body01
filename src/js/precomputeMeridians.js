@@ -4,7 +4,7 @@ var sphereRadius = 0.3;
 
 // Définition des cas particuliers de courbes avec paramètres individuels
 var SPECIAL_CURVES = {
-    "p2-p3": "(;8;;|15|1|2.0)",  // Exemple : élévation à 50%, angle 15°, sommet devant, hauteur 2.0
+    "p2-p3": "(;4;;|15|1|1.0)",  // Exemple : élévation à 50%, angle 15°, sommet devant, hauteur 2.0
 };
 
 // Fonction pour analyser une chaîne de type "(z25;z50;z75|angle|ventreDos|peakFactor)"
@@ -22,7 +22,7 @@ function parseElevationString(str) {
     // Parsing des paramètres supplémentaires (angle, ventreDos, peakFactor)
     var angleDegrees = parts[1] ? parseFloat(parts[1]) : 0;
     var ventreDos = parts[2] ? parseInt(parts[2]) : 1;
-    var peakFactor = parts[3] ? parseFloat(parts[3]) : 2.0;
+    var peakFactor = parts[3] ? parseFloat(parts[3]) : 1.2;
 
     return {
         z25: z25,
