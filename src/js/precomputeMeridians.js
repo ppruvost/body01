@@ -5,8 +5,8 @@ var sphereRadius = 0.3;
 // Définition des cas particuliers de courbes avec paramètres individuels
 var SPECIAL_CURVES = {
     // Courbes méridien poumon
-    "p2-p3": "(2;3;1|-15|1|1.0|4)",  // z25=2, z50=3, z75=1, parabolaFactor=4
-    "p2-r-p3-r": "(2;3;1|-15|1|1.0|4)",
+    "p2-p3": "(1.2;2;0.8|-12|1|0.8|2.5)",  // z25=2, z50=3, z75=1, parabolaFactor=4
+    "p2-r-p3-r": "(1.2;2;0.8|-12|1|0.8|2.5)",
 
     // Courbes méridien estomac
     "e16-e17": "(0.15;0.5;0.15|8|1|0.9|2.8)",  // z25=0.5, z50=1, z75=0.5, angle=8°, peakFactor=0.9, parabolaFactor=2.8
@@ -69,8 +69,8 @@ function calculateInclinedParabolicCurve(t, p1, p2, specialProfile) {
     var parabolaFactor = specialProfile ? specialProfile.parabolaFactor : 2; // 2 pour les points standards, 4 pour les cas particuliers
 
     // Calcul de la parabole avec sommet devant/derrière
-    var parabola = parabolaFactor * t * (1 - t) * ventreDos; // Utilisation de parabolaFactor
-    var peak = peakFactor * parabola;
+    vvar parabola = Math.sin(Math.PI * t) * ventreDos; // Utilisation de parabolaFactor
+    var peak = peakFactor * parabola * parabolaFactor;
 
 
     // Application de l'angle d'inclinaison (rotation autour de l'axe Z)
@@ -83,9 +83,10 @@ function calculateInclinedParabolicCurve(t, p1, p2, specialProfile) {
     // Ajout des élévations spécifiques
     var z = zLinear + peak;
     if (specialProfile) {
-        var influence25 = Math.exp(-Math.pow((t - 0.25) * 8, 2)) * specialProfile.z25;
-        var influence50 = Math.exp(-Math.pow((t - 0.50) * 8, 2)) * specialProfile.z50;
-        var influence75 = Math.exp(-Math.pow((t - 0.75) * 8, 2)) * specialProfile.z75;
+        var spread = 4; // pour adoucir courbure
+        var influence25 = Math.exp(-Math.pow((t - 0.25) * spread, 2)) * specialProfile.z25;
+        var influence50 = Math.exp(-Math.pow((t - 0.50) * spread, 2)) * specialProfile.z50;
+        var influence75 = Math.exp(-Math.pow((t - 0.75) * spread, 2)) * specialProfile.z75;
         z += influence25 + influence50 + influence75;
     }
 
@@ -122,7 +123,7 @@ function buildMeridianCurves(scene) {
             geometry.vertices.push(new THREE.Vector3(p1.x, p1.y, p1.z));
 
             var specialProfile = getSpecialCurveProfile(p1, p2);
-            var segments = 40;
+            var segments = 80;
 
             for (var s = 1; s <= segments; s++) {
                 var t = s / segments;
