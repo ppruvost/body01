@@ -12,6 +12,8 @@ var SPECIAL_CURVES = {
     "e12-r-e11-r": "(;4;;|0|1|1.0|0.5)",
     "e17-e18": "(;4;;|0|1|1.0|0.5)",
     "e17-r-e18-r": "(;4;;|0|1|1.0|0.5)",
+    "e18-e19": "(;4;;|0|1|1.0|0.5)",
+    "e18-r-e19-r": "(;4;;|0|1|1.0|0.5)",
 };
 
 // Fonction pour analyser une chaîne de type "(z25;z50;z75|angle|ventreDos|peakFactor)"
