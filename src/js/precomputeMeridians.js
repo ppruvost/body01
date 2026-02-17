@@ -4,16 +4,21 @@ var sphereRadius = 0.3;
 
 // Définition des cas particuliers de courbes avec paramètres individuels
 var SPECIAL_CURVES = {
-    "p2-p3": "(;4;;|15|1|1.0)",  // Exemple : élévation à 50%, angle 15°, sommet devant, hauteur 2.0
-    "p2-r-p3-r": "(;4;;|15|1|1.0)",
-    "e16-e17": "(;4;;|0|1|1.0|0.5)",  // Ajout de |0.5 pour indiquer parabolaFactor=4
-    "e16-r-e17-r": "(;4;;|0|1|1.0|0.5)",
-    "e12-e11": "(;4;;|0|1|1.0|0.5)",
-    "e12-r-e11-r": "(;4;;|0|1|1.0|0.5)",
-    "e17-e18": "(;4;;|0|1|1.0|0.5)",
-    "e17-r-e18-r": "(;4;;|0|1|1.0|0.5)",
-    "e18-e19": "(;4;;|0|1|1.0|0.5)",
-    "e18-r-e19-r": "(;4;;|0|1|1.0|0.5)",
+    "p2-p3": "(;4;;|15|1|1.0|4)",  // Angle de 15°, parabolaFactor à 4 pour une courbe prononcée
+    "p2-r-p3-r": "(;4;;|15|1|1.0|4)",
+
+    // Courbes jaunes (points e16 à e19)
+    "e16-e17": "(;4;;|10|1|1.2|3)",  // Angle de 10°, peakFactor à 1.2, parabolaFactor à 3
+    "e16-r-e17-r": "(;4;;|10|1|1.2|3)",
+
+    "e12-e11": "(;4;;|5|1|1.1|3.5)",  // Angle de 5°, peakFactor à 1.1, parabolaFactor à 3.5
+    "e12-r-e11-r": "(;4;;|5|1|1.1|3.5)",
+
+    "e17-e18": "(;4;;|8|1|1.3|3.2)",  // Angle de 8°, peakFactor à 1.3, parabolaFactor à 3.2
+    "e17-r-e18-r": "(;4;;|8|1|1.3|3.2)",
+
+    "e18-e19": "(;4;;|12|1|1.0|3)",  // Angle de 12°, peakFactor à 1.0, parabolaFactor à 3
+    "e18-r-e19-r": "(;4;;|12|1|1.0|3)",
 };
 
 // Fonction pour analyser une chaîne de type "(z25;z50;z75|angle|ventreDos|peakFactor)"
