@@ -6,6 +6,12 @@ var sphereRadius = 0.3;
 var SPECIAL_CURVES = {
     "p2-p3": "(;4;;|15|1|1.0)",  // Exemple : élévation à 50%, angle 15°, sommet devant, hauteur 2.0
     "p2-r-p3-r": "(;4;;|15|1|1.0)",
+    "e16-e17": "(;4;;|0|1|1.0|4)",  // Ajout de |4 pour indiquer parabolaFactor=4
+    "e16-r-e17-r": "(;4;;|0|1|1.0|4)",
+    "e12-e11": "(;4;;|0|1|1.0|4)",
+    "e12-r-e11-r": "(;4;;|0|1|1.0|4)",
+    "e17-e18": "(;4;;|0|1|1.0|4)",
+    "e17-r-e18-r": "(;4;;|0|1|1.0|4)",
 };
 
 // Fonction pour analyser une chaîne de type "(z25;z50;z75|angle|ventreDos|peakFactor)"
@@ -14,16 +20,15 @@ function parseElevationString(str) {
     str = str.replace(/[()]/g, "");
     var parts = str.split("|");
 
-    // Parsing des élévations (z25;z50;z75)
     var elevations = parts[0].split(";");
     var z25 = elevations[0] ? parseFloat(elevations[0]) : 0;
     var z50 = elevations[1] ? parseFloat(elevations[1]) : 0;
     var z75 = elevations[2] ? parseFloat(elevations[2]) : 0;
 
-    // Parsing des paramètres supplémentaires (angle, ventreDos, peakFactor)
     var angleDegrees = parts[1] ? parseFloat(parts[1]) : 0;
     var ventreDos = parts[2] ? parseInt(parts[2]) : 1;
     var peakFactor = parts[3] ? parseFloat(parts[3]) : 0.8;
+    var parabolaFactor = parts[4] ? parseFloat(parts[4]) : 2; // Valeur par défaut pour les points standards
 
     return {
         z25: z25,
@@ -31,7 +36,8 @@ function parseElevationString(str) {
         z75: z75,
         angleDegrees: angleDegrees,
         ventreDos: ventreDos,
-        peakFactor: peakFactor
+        peakFactor: peakFactor,
+        parabolaFactor: parabolaFactor, // Nouveau champ
     };
 }
 
@@ -54,11 +60,13 @@ function calculateInclinedParabolicCurve(t, p1, p2, specialProfile) {
     // Paramètres par défaut ou spécifiques au cas particulier
     var angleDegrees = specialProfile ? specialProfile.angleDegrees : 0;
     var ventreDos = specialProfile ? specialProfile.ventreDos : 1;
-    var peakFactor = specialProfile ? specialProfile.peakFactor : 0.6;    // cette valeur pour la courbure des points standards
+    var peakFactor = specialProfile ? specialProfile.peakFactor : 0.6; // Valeur pour les points standards
+    var parabolaFactor = specialProfile ? specialProfile.parabolaFactor : 2; // 2 pour les points standards, 4 pour les cas particuliers
 
     // Calcul de la parabole avec sommet devant/derrière
-    var parabola = 2 * t * (1 - t) * ventreDos;    // le facteur 2 pour applatir la courbure
+    var parabola = parabolaFactor * t * (1 - t) * ventreDos; // Utilisation de parabolaFactor
     var peak = peakFactor * parabola;
+
 
     // Application de l'angle d'inclinaison (rotation autour de l'axe Z)
     var angleRadians = angleDegrees * Math.PI / 180;
