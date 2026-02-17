@@ -6,12 +6,12 @@ var sphereRadius = 0.3;
 var SPECIAL_CURVES = {
     "p2-p3": "(;4;;|15|1|1.0)",  // Exemple : élévation à 50%, angle 15°, sommet devant, hauteur 2.0
     "p2-r-p3-r": "(;4;;|15|1|1.0)",
-    "e16-e17": "(;4;;|0|1|1.0|4)",  // Ajout de |4 pour indiquer parabolaFactor=4
-    "e16-r-e17-r": "(;4;;|0|1|1.0|4)",
-    "e12-e11": "(;4;;|0|1|1.0|4)",
-    "e12-r-e11-r": "(;4;;|0|1|1.0|4)",
-    "e17-e18": "(;4;;|0|1|1.0|4)",
-    "e17-r-e18-r": "(;4;;|0|1|1.0|4)",
+    "e16-e17": "(;4;;|0|1|1.0|0.5)",  // Ajout de |0.5 pour indiquer parabolaFactor=4
+    "e16-r-e17-r": "(;4;;|0|1|1.0|0.5)",
+    "e12-e11": "(;4;;|0|1|1.0|0.5)",
+    "e12-r-e11-r": "(;4;;|0|1|1.0|0.5)",
+    "e17-e18": "(;4;;|0|1|1.0|0.5)",
+    "e17-r-e18-r": "(;4;;|0|1|1.0|0.5)",
 };
 
 // Fonction pour analyser une chaîne de type "(z25;z50;z75|angle|ventreDos|peakFactor)"
