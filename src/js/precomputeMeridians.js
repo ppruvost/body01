@@ -16,10 +16,7 @@ var SPECIAL_CURVES = {
     "e11-r-e12-r": "(;0.5;|5|1|1.1|3.5)",
 
     "e17-e18": "(0.3;0.8;0.4|6|1|1.0|2.7)",  // z25=0.3, z50=0.8, z75=0.4, angle=6°, peakFactor=1.0, parabolaFactor=2.7
-    "e17-r-e18-r": "(0.3;0.8;0.4|6|1|1.0|2.7)",
-
-    "e18-e19": "(;1;|12|1|1.0|3)",  // z25=1, z50=1, z75=0.5, parabolaFactor=3
-    "e18-r-e19-r": "(;1;|12|1|1.0|3)",
+    "e17-r-e18-r": "(0.3;0.8;0.4|6|1|1.0|2.7)",    
 };
 
 // Fonction pour analyser une chaîne de type "(z25;z50;z75|angle|ventreDos|peakFactor)"
