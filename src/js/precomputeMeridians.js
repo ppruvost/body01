@@ -5,8 +5,8 @@ var sphereRadius = 0.3;
 // Définition des cas particuliers de courbes avec paramètres individuels
 var SPECIAL_CURVES = {
     // Courbes méridien poumon
-    "p2-p3": "(1.2;2;0.8|12|1|0.8|2.5)",  // z25=2, z50=3, z75=1, parabolaFactor=4
-    "p2-r-p3-r": "(1.2;2;0.8|-12|1|0.8|2.5)",
+    "p2-p3": "(1.2;2;0.8|1|1|0.8|2)",  // z25=2, z50=3, z75=1, parabolaFactor=4
+    "p2-r-p3-r": "(1.2;2;0.8|-1|1|0.8|2.5)",
 
     // Courbes méridien estomac
     "e16-e17": "(0.05;0.25;0.05|4|1|0.6|1.6)",  // z25=0.5, z50=1, z75=0.5, angle=8°, peakFactor=0.9, parabolaFactor=2.8
