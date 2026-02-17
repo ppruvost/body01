@@ -54,10 +54,10 @@ function calculateInclinedParabolicCurve(t, p1, p2, specialProfile) {
     // Paramètres par défaut ou spécifiques au cas particulier
     var angleDegrees = specialProfile ? specialProfile.angleDegrees : 0;
     var ventreDos = specialProfile ? specialProfile.ventreDos : 1;
-    var peakFactor = specialProfile ? specialProfile.peakFactor : 1.2;
+    var peakFactor = specialProfile ? specialProfile.peakFactor : 0.6;    // cette valeur pour la courbure des points standards
 
     // Calcul de la parabole avec sommet devant/derrière
-    var parabola = 4 * t * (1 - t) * ventreDos;
+    var parabola = 2 * t * (1 - t) * ventreDos;    // le facteur 2 pour applatir la courbure
     var peak = peakFactor * parabola;
 
     // Application de l'angle d'inclinaison (rotation autour de l'axe Z)
