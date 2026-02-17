@@ -69,7 +69,7 @@ function calculateInclinedParabolicCurve(t, p1, p2, specialProfile) {
     var parabolaFactor = specialProfile ? specialProfile.parabolaFactor : 2; // 2 pour les points standards, 4 pour les cas particuliers
 
     // Calcul de la parabole avec sommet devant/derrière
-    vvar parabola = Math.sin(Math.PI * t) * ventreDos; // Utilisation de parabolaFactor
+    var parabola = Math.sin(Math.PI * t) * ventreDos; // Utilisation de parabolaFactor
     var peak = peakFactor * parabola * parabolaFactor;
 
 
