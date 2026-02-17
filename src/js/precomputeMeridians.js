@@ -9,6 +9,9 @@ var SPECIAL_CURVES = {
     "p2-r-p3-r": "(1.2;2;0.8|-1|1|0.8|2.5)",
 
     // Courbes méridien estomac
+    "e5-e6": "(;;|4|1|0.6|1.6)",  // z25, z50, z75, angle°, peakFactor, parabolaFactor
+    "e5-r-e6-r": "(;;|-4|1|0.6|1.6)",
+    
     "e16-e17": "(0.05;0.25;0.05|4|1|0.6|1.6)",  // z25=0.5, z50=1, z75=0.5, angle=8°, peakFactor=0.9, parabolaFactor=2.8
     "e16-r-e17-r": "(0.05;0.25;0.05|4|1|0.6|1.6)",
 
