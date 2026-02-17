@@ -5,18 +5,18 @@ var sphereRadius = 0.3;
 // Définition des cas particuliers de courbes avec paramètres individuels
 var SPECIAL_CURVES = {
     // Courbes méridien poumon
-    "p2-p3": "(1.2;2;0.8|-12|1|0.8|2.5)",  // z25=2, z50=3, z75=1, parabolaFactor=4
+    "p2-p3": "(1.2;2;0.8|12|1|0.8|2.5)",  // z25=2, z50=3, z75=1, parabolaFactor=4
     "p2-r-p3-r": "(1.2;2;0.8|-12|1|0.8|2.5)",
 
     // Courbes méridien estomac
-    "e16-e17": "(0.15;0.5;0.15|8|1|0.9|2.8)",  // z25=0.5, z50=1, z75=0.5, angle=8°, peakFactor=0.9, parabolaFactor=2.8
-    "e16-r-e17-r": "(0.15;0.5;0.15|8|1|0.9|2.8)",
+    "e16-e17": "(0.05;0.25;0.05|4|1|0.6|1.6)",  // z25=0.5, z50=1, z75=0.5, angle=8°, peakFactor=0.9, parabolaFactor=2.8
+    "e16-r-e17-r": "(0.05;0.25;0.05|4|1|0.6|1.6)",
 
     "e11-e12": "(;0.5;|5|1|1.1|3.5)",  // z25=1, z50=1.5, z75=0.5, parabolaFactor=3.5
-    "e11-r-e12-r": "(;0.5;|5|1|1.1|3.5)",
+    "e11-r-e12-r": "(;0.5;|-5|1|1.1|3.5)",
 
     "e17-e18": "(0.3;0.8;0.4|6|1|1.0|2.7)",  // z25=0.3, z50=0.8, z75=0.4, angle=6°, peakFactor=1.0, parabolaFactor=2.7
-    "e17-r-e18-r": "(0.3;0.8;0.4|6|1|1.0|2.7)",    
+    "e17-r-e18-r": "(0.08;0.35;0.1|-4|1|0.6|1.6)",    
 };
 
 // Fonction pour analyser une chaîne de type "(z25;z50;z75|angle|ventreDos|peakFactor)"
