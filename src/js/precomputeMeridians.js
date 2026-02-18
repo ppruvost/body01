@@ -5,8 +5,8 @@ var sphereRadius = 0.3;
 // Définition des cas particuliers de courbes avec paramètres individuels
 var SPECIAL_CURVES = {
     // Courbes méridien poumon
-    "p2-p3": "(1.25;2.05;0.8|1.5|1|0.8|2.55)",  // (z25;z50;z75|angle|ventreDos|peakFactor|parabolaFactor)
-    "p2-r-p3-r": "(1.25;2.05;0.8|-1.5|1|0.8|2.55)",
+    "p2-p3": "(1.75;2.05;0.8|1.5|1|0.8|2.55)",  // (z25;z50;z75|angle|ventreDos|peakFactor|parabolaFactor)
+    "p2-r-p3-r": "(1.75;2.05;0.8|-1.5|1|0.8|2.55)",
 
     // Courbes méridien estomac
     "e5-e6": "(;;|4|1|0.6|1.6)",  // (z25;z50;z75|angle|ventreDos|peakFactor|parabolaFactor)
@@ -39,7 +39,7 @@ function parseElevationString(str) {
     var angleDegrees = parts[1] ? parseFloat(parts[1]) : 0;
     var ventreDos = parts[2] ? parseInt(parts[2]) : 1;
     var peakFactor = parts[3] ? parseFloat(parts[3]) : 0.8;
-    var parabolaFactor = parts[4] ? parseFloat(parts[4]) : 1.4; // Valeur par défaut pour les points standards
+    var parabolaFactor = parts[4] ? parseFloat(parts[4]) : 0.6; // Valeur par défaut pour les points standards
 
     return {
         z25: z25,
