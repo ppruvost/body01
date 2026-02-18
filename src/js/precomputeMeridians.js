@@ -89,7 +89,7 @@ function calculateInclinedParabolicCurve(t, p1, p2, specialProfile) {
     // Ajout des élévations spécifiques
     var z = zLinear + peak;
     if (specialProfile) {
-        var spread = 4; // pour adoucir courbure
+        var spread = 1.75; // pour adoucir courbure
         var influence25 = Math.exp(-Math.pow((t - 0.25) * spread, 2)) * specialProfile.z25;
         var influence50 = Math.exp(-Math.pow((t - 0.50) * spread, 2)) * specialProfile.z50;
         var influence75 = Math.exp(-Math.pow((t - 0.75) * spread, 2)) * specialProfile.z75;
