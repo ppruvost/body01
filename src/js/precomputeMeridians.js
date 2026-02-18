@@ -13,7 +13,7 @@ var SPECIAL_CURVES = {
     "e5-r-e6-r": "(;;|-4|1|0.6|1.6)",
     
     "e16-e17": "(0.05;0.25;0.05|4|1|0.6|1.6)",
-    "e16-r-e17-r": "(0.05;0.25;0.05|4|1|0.6|1.6)",
+    "e16-r-e17-r": "(0.05;0.25;0.05|-4|1|0.6|1.6)",
 
     "e11-e12": "(;0.5;|5|1|1.1|2.4)",
     "e11-r-e12-r": "(;0.5;|-5|1|1.1|2.4)",
@@ -39,7 +39,7 @@ function parseElevationString(str) {
     var angleDegrees = parts[1] ? parseFloat(parts[1]) : 0;
     var ventreDos = parts[2] ? parseInt(parts[2]) : 1;
     var peakFactor = parts[3] ? parseFloat(parts[3]) : 0.8;
-    var parabolaFactor = parts[4] ? parseFloat(parts[4]) : 2.45; // Valeur par défaut pour les points standards
+    var parabolaFactor = parts[4] ? parseFloat(parts[4]) : 2.4; // Valeur par défaut pour les points standards
 
     return {
         z25: z25,
