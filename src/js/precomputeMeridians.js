@@ -39,7 +39,7 @@ function parseElevationString(str) {
     var angleDegrees = parts[1] ? parseFloat(parts[1]) : 0;
     var ventreDos = parts[2] ? parseInt(parts[2]) : 1;
     var peakFactor = parts[3] ? parseFloat(parts[3]) : 0.8;
-    var parabolaFactor = parts[4] ? parseFloat(parts[4]) : 2.4; // Valeur par défaut pour les points standards
+    var parabolaFactor = parts[4] ? parseFloat(parts[4]) : 1.4; // Valeur par défaut pour les points standards
 
     return {
         z25: z25,
