@@ -7,7 +7,7 @@ var sphereRadius = 0.3;
 // Centres du corps par partie anatomique
 var BODY_CENTERS = {
     // Torse (centre par défaut)
-    torse: { x: 0, y: 12, z: 0 },
+    torse: { x: 0, y: 36, z: 0 },
 
     // Tête
     tete: { x: 0, y: 64.5, z: 0 },
