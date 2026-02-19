@@ -1,26 +1,30 @@
 // Compatible code version for three.js r71 written by ppruvost github.com for bien-etre-geobiologie.fr
 // SYSTÈME UNIVERSEL MÉRIDIENS 3D
+// Compatible code version for three.js r71 written by ppruvost github.com for bien-etre-geobiologie.fr
+// SYSTÈME UNIVERSEL MÉRIDIENS 3D
 
 // Rayon des sphères des points
 var sphereRadius = 0.3;
 
-// Centres du corps par partie anatomique
+// Centres du corps par partie anatomique et chakras
 var BODY_CENTERS = {
-    // Torse (centre par défaut)
-    torse: { x: 0, y: 36, z: 0 },
+    // Chakras
+    troisiemeOeil: { x: 0, y: 36, z: 0 },   // Tête (3ème œil)
+    coeur: { x: 0, y: 12, z: 0 },            // Chakra du cœur
+    sacre: { x: 0, y: 0, z: 0 },             // Chakra sacré
 
     // Tête
     tete: { x: 0, y: 64.5, z: 0 },
 
     // Bras
-    hautBrasDroit: { x: -3, y: 6, z: 0 },
-    hautBrasGauche: { x: 3, y: 6, z: 0 },
-    avantBrasDroit: { x: -5, y: 3, z: 0 },
-    avantBrasGauche: { x: 5, y: 3, z: 0 },
+    hautBrasDroit: { x: -3, y: 30, z: 0 },
+    hautBrasGauche: { x: 3, y: 30, z: 0 },
+    avantBrasDroit: { x: -5, y: 18, z: 0 },
+    avantBrasGauche: { x: 5, y: 18, z: 0 },
 
     // Mains
-    mainDroite: { x: -6, y: 0, z: 0 },
-    mainGauche: { x: 6, y: 0, z: 0 },
+    mainDroite: { x: -6, y: 12, z: 0 },
+    mainGauche: { x: 6, y: 12, z: 0 },
 
     // Jambes
     hautJambeDroite: { x: -1.5, y: -5, z: 0 },
@@ -86,35 +90,43 @@ function getSpecialCurveProfile(p1, p2) {
 // Détermine le centre du corps en fonction des points
 // ------------------------------------------------------
 function getBodyCenterKey(p1, p2) {
-    // Exemple de logique pour les méridiens des bras
-    if (p1.name.startsWith("GI") || p2.name.startsWith("GI")) {
-        if (p1.name.includes("r") || p2.name.includes("r")) {
-            if (p1.y > 0 && p2.y > 0) return "hautBrasDroit"; // Haut du bras droit
-            else if (p1.y < 0) return "mainDroite"; // Main droite
-            else return "avantBrasDroit"; // Avant-bras droit
-        } else {
-            if (p1.y > 0 && p2.y > 0) return "hautBrasGauche"; // Haut du bras gauche
-            else if (p1.y < 0) return "mainGauche"; // Main gauche
-            else return "avantBrasGauche"; // Avant-bras gauche
-        }
+    // Logique pour la tête (3ème œil)
+    if (p1.y >= 36 || p2.y >= 36) {
+        return "troisiemeOeil";
     }
-    // Exemple pour les méridiens des jambes
-    else if (p1.name.startsWith("E") || p2.name.startsWith("E")) {
-        if (p1.name.includes("r") || p2.name.includes("r")) {
-            if (p1.y > -7) return "hautJambeDroite"; // Haut de jambe droite
-            else return "basJambeDroite"; // Bas de jambe droite
-        } else {
-            if (p1.y > -7) return "hautJambeGauche"; // Haut de jambe gauche
-            else return "basJambeGauche"; // Bas de jambe gauche
-        }
-    }
-    // Exemple pour la tête
-    else if (p1.y > 8 || p2.y > 8) {
+    // Logique pour la tête (autres points)
+    else if (p1.y >= 24 || p2.y >= 24) {
         return "tete";
     }
-    // Par défaut : torse
+    // Logique pour le chakra du cœur
+    else if ((p1.y >= 6 && p1.y <= 18) || (p2.y >= 6 && p2.y <= 18)) {
+        return "coeur";
+    }
+    // Logique pour le chakra sacré
+    else if ((p1.y >= -6 && p1.y <= 6) || (p2.y >= -6 && p2.y <= 6)) {
+        return "sacre";
+    }
+    // Logique pour les bras droits
+    else if (p1.name.includes("r") || p2.name.includes("r")) {
+        if (p1.y >= 18 && p2.y >= 18) return "hautBrasDroit";
+        else if (p1.y <= 12 || p2.y <= 12) return "mainDroite";
+        else return "avantBrasDroit";
+    }
+    // Logique pour les bras gauches
+    else if (p1.y >= 18 && p2.y >= 18) return "hautBrasGauche";
+    else if (p1.y <= 12 || p2.y <= 12) return "mainGauche";
+    else return "avantBrasGauche";
+    // Logique pour les jambes droites
+    else if (p1.name.includes("r") || p2.name.includes("r")) {
+        if (p1.y >= -5 || p2.y >= -5) return "hautJambeDroite";
+        else if (p1.y <= -9 || p2.y <= -9) return "basJambeDroite";
+        else return "piedDroit";
+    }
+    // Logique pour les jambes gauches
     else {
-        return "torse";
+        if (p1.y >= -5 || p2.y >= -5) return "hautJambeGauche";
+        else if (p1.y <= -9 || p2.y <= -9) return "basJambeGauche";
+        else return "piedGauche";
     }
 }
 
@@ -133,7 +145,7 @@ function calculateInclinedParabolicCurve(t, p1, p2, specialProfile, bodyCenterKe
     var parabola = Math.pow(Math.sin(Math.PI * t), 0.75) * ventreDos;
     var peak = peakFactor * parabola * parabolaFactor;
 
-    var center = BODY_CENTERS[bodyCenterKey] || BODY_CENTERS.torse;
+    var center = BODY_CENTERS[bodyCenterKey] || BODY_CENTERS.coeur;
     var dirX = x - center.x;
     var dirY = y - center.y;
     var dirZ = z - center.z;
