@@ -5,8 +5,8 @@ var sphereRadius = 0.3;
 // Définition des cas particuliers de courbes avec paramètres individuels
 var SPECIAL_CURVES = {
     // Courbes méridien poumon
-    "p2-p3": "(1.75;2.05;0.8|1.5|1|0.9|1.55)",  // (z25;z50;z75|angle|ventreDos|peakFactor|parabolaFactor)
-    "p2-r-p3-r": "(1.75;2.05;0.8|-1.5|1|0.9|1.55)",
+    "p2-p3": "(1.75;2.05;0.8|1.5|1|0.8|1.55)",  // (z25;z50;z75|angle|ventreDos|peakFactor|parabolaFactor)
+    "p2-r-p3-r": "(1.75;2.05;0.8|-1.5|1|0.8|1.55)",
 
     // Courbes méridien estomac
     "e5-e6": "(;;|4|1|0.6|1.6)",  // (z25;z50;z75|angle|ventreDos|peakFactor|parabolaFactor)
@@ -21,8 +21,8 @@ var SPECIAL_CURVES = {
     "e17-e18": "(0.3;0.8;0.4|4|1|0.6|1.5)",
     "e17-r-e18-r": "(0.08;0.35;0.1|-4|1|0.6|1.5)",
 
-    "e18-e19": "(;;|1|1|1.0|2.55)",
-    "e18-r-e19-r": "(;;|-1|1|1|2.55)",
+    "e18-e19": "(;;|1|1|0.8|1.6)",
+    "e18-r-e19-r": "(;;|-1|1|0.8|1.6)",
 };
 
 // Fonction pour analyser une chaîne de type "((z25;z50;z75|angle|ventreDos|peakFactor|parabolaFactor))"
@@ -36,10 +36,10 @@ function parseElevationString(str) {
     var z50 = elevations[1] ? parseFloat(elevations[1]) : 0;
     var z75 = elevations[2] ? parseFloat(elevations[2]) : 0;
 
-    var angleDegrees = parts[1] ? parseFloat(parts[1]) : 0;
-    var ventreDos = parts[2] ? parseInt(parts[2]) : 1;
-    var peakFactor = parts[3] ? parseFloat(parts[3]) : 0.8;
-    var parabolaFactor = parts[4] ? parseFloat(parts[4]) : 0.3; // Valeur par défaut pour les points standards
+    var angleDegrees = parts[1] ? parseFloat(parts[1]) : 0;            // Valeur par défaut pour les points standards
+    var ventreDos = parts[2] ? parseInt(parts[2]) : 1;                // Valeur par défaut pour les points standards
+    var peakFactor = parts[3] ? parseFloat(parts[3]) : 0.8;          // Valeur par défaut pour les points standards
+    var parabolaFactor = parts[4] ? parseFloat(parts[4]) : 0.3;     // Valeur par défaut pour les points standards
 
     return {
         z25: z25,
