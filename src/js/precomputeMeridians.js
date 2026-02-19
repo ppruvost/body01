@@ -49,8 +49,8 @@ function parseElevationString(str) {
 
     var angleDegrees = parts[1] ? parseFloat(parts[1]) : 0;
     var ventreDos = parts[2] ? parseInt(parts[2]) : 1;
-    var peakFactor = parts[3] ? parseFloat(parts[3]) : 1.2;
-    var parabolaFactor = parts[4] ? parseFloat(parts[4]) : 3.5;
+    var peakFactor = parts[3] ? parseFloat(parts[3]) : 0.9;        // à modifier pour adoucier la courbure dans le calcul 'peakFactor * parabolaFactor'
+    var parabolaFactor = parts[4] ? parseFloat(parts[4]) : 2.5;    // à modifier pour adoucier la courbure dans le calcul 'peakFactor * parabolaFactor'
 
     return {
         z25: z25,
