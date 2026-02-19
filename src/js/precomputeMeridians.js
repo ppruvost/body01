@@ -64,7 +64,7 @@ function getSpecialCurveProfile(p1, p2) {
 function getBodyCenterKey(p1, p2) {
     if (p1.y >= 74 || p2.y >= 74) return "couronne";
     if (p1.y >= 64 || p2.y >= 64) return "troisiemeOeil";
-    if (p1.y >= 52 || p2.y >= 52) return "gorge";
+    if (p1.y >= 26 || p2.y >= 26) return "gorge";
     if ((p1.y >= 16 && p1.y <= 20) || (p2.y >= 16 && p2.y <= 20)) return "coeur";
     if ((p1.y >= 10 && p1.y <= 14) || (p2.y >= 10 && p2.y <= 14)) return "plexusSolaire";
     if ((p1.y >= 4 && p1.y <= 8) || (p2.y >= 4 && p2.y <= 8)) return "sacre";
