@@ -31,7 +31,7 @@ Object.assign(BODY_CENTERS, {
 
 // Initialisation des courbes spéciales
 Object.assign(SPECIAL_CURVES, {    
-    "vc1-vc2": "(1.1;1.4;0.9|0|1|1.1|3.2)"    
+    "vc1-vc2": "(1.1;1.4;0.9|0|1|1.1|3.2)"    // (z25;z50;z75|angle|ventreDos|peakFactor|parabolaFactor)
 });
 
 // Fonction pour analyser les paramètres des courbes spéciales
