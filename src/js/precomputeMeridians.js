@@ -10,7 +10,7 @@ var BODY_CENTERS = {
     torse: { x: 0, y: 18, z: 0 },
 
     // Tête
-    tete: { x: 0, y: 66, z: 0 },
+    tete: { x: 0, y: 64.5, z: 0 },
 
     // Bras
     hautBrasDroit: { x: -3, y: 6, z: 0 },
