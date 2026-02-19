@@ -6,9 +6,9 @@ var sphereRadius = 0.3;
 
 // Centres du corps par partie anatomique et chakras
 var BODY_CENTERS = {
-    troisiemeOeil: { x: 0, y: 36, z: 0 },   // Tête (3ème œil)
+    troisiemeOeil: { x: 0, y: 60, z: 0 },   // Tête (3ème œil)
     coeur: { x: 0, y: 12, z: 0 },            // Chakra du cœur
-    sacre: { x: 0, y: 0, z: 0 },             // Chakra sacré
+    sacre: { x: 0, y: 2, z: 0 },             // Chakra sacré
     tete: { x: 0, y: 64.5, z: 0 },           // Tête
     hautBrasDroit: { x: -3, y: 30, z: 0 },   // Haut du bras droit
     hautBrasGauche: { x: 3, y: 30, z: 0 },   // Haut du bras gauche
