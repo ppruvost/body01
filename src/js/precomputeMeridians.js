@@ -32,10 +32,10 @@ Object.assign(BODY_CENTERS, {
 // Initialisation des courbes spéciales
 Object.assign(SPECIAL_CURVES, {    
     "vc1-vc2": "(1.1;1.4;0.9|0|1|1.1|3.2)",
-    //"e19-e20": "(0.5;1.0;0.5|0|1.6|3.5|6.0)",
-    //"e19-r-e20-r": "(0.5;1.0;0.5|0|1.6|3.5|6.0)",
-    //"vc12-vc13": "(0.6;1.2;0.6|0|1.8|3.8|7.0)",
-    //"vc12-r-vc13-r": "(0.6;1.2;0.6|0|1.8|3.8|7.0)",
+    "gi15-gi16": "(0.4;0.9;0.4|0|1|1.3|3.8)",
+    "gi15-r-gi16-r": "(0.4;0.9;0.4|0|1|1.3|3.8)",
+    "gi16-gi17": "(0.3;1.1;0.6|0|1|1.4|4.2)",
+    "gi16-r-gi17-r": "(0.3;1.1;0.6|0|1|1.4|4.2)"
 });
 
 // Fonction pour analyser les paramètres des courbes spéciales
