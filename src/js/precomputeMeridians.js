@@ -9,7 +9,7 @@ var SPECIAL_CURVES = (typeof SPECIAL_CURVES !== 'undefined') ? SPECIAL_CURVES : 
 Object.assign(BODY_CENTERS, {
     couronne: { x: 0, y: 68, z: 0 },
     troisiemeOeil: { x: 0, y: 60, z: 0 },
-    gorge: { x: 0, y: 27, z: 0 },
+    gorge: { x: 0, y: 25, z: 0 },
     coeur: { x: 0, y: 18, z: 0 },
     plexusSolaire: { x: 0, y: 12, z: 0 },
     sacre: { x: 0, y: 6, z: 0 },
@@ -32,10 +32,10 @@ Object.assign(BODY_CENTERS, {
 // Initialisation des courbes spéciales
 Object.assign(SPECIAL_CURVES, {    
     "vc1-vc2": "(1.1;1.4;0.9|0|1|1.1|3.2)",
-    "e19-e20": "(0.5;1.0;0.5|0|1.6|3.5|6.0)",
-    "e19-r-e20-r": "(0.5;1.0;0.5|0|1.6|3.5|6.0)",
-    "vc12-vc13": "(0.6;1.2;0.6|0|1.8|3.8|7.0)",
-    "vc12-r-vc13-r": "(0.6;1.2;0.6|0|1.8|3.8|7.0)",
+    //"e19-e20": "(0.5;1.0;0.5|0|1.6|3.5|6.0)",
+    //"e19-r-e20-r": "(0.5;1.0;0.5|0|1.6|3.5|6.0)",
+    //"vc12-vc13": "(0.6;1.2;0.6|0|1.8|3.8|7.0)",
+    //"vc12-r-vc13-r": "(0.6;1.2;0.6|0|1.8|3.8|7.0)",
 });
 
 // Fonction pour analyser les paramètres des courbes spéciales
@@ -68,7 +68,7 @@ function getSpecialCurveProfile(p1, p2) {
 function getBodyCenterKey(p1, p2) {
     if (p1.y >= 70 || p2.y >= 70) return "couronne";
     if (p1.y >= 62 || p2.y >= 62) return "troisiemeOeil";
-    if (p1.y >= 27 || p2.y >= 27) return "gorge";
+    if (p1.y >= 25 || p2.y >= 25) return "gorge";
     if ((p1.y >= 16 && p1.y <= 20) || (p2.y >= 16 && p2.y <= 20)) return "coeur";
     if ((p1.y >= 10 && p1.y <= 14) || (p2.y >= 10 && p2.y <= 14)) return "plexusSolaire";
     if ((p1.y >= 4 && p1.y <= 8) || (p2.y >= 4 && p2.y <= 8)) return "sacre";
