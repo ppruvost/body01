@@ -575,10 +575,11 @@
 </div>
 <!-- FIN du code HTML principal des colonnes -->
 
-
     <!------------ Scrpits  Début------------------------------>
+
 <script>
 document.addEventListener('DOMContentLoaded', () => {
+  let isFirstClick = true; // Déclaration de la variable
 
   // Ouverture/fermeture des menus
   document.querySelectorAll('.tree-menu .label').forEach(label => {
@@ -598,25 +599,6 @@ document.addEventListener('DOMContentLoaded', () => {
       document.querySelectorAll('.load-content').forEach(li => li.classList.remove('active'));
       item.classList.add('active');
 
-      const id = item.dataset.id;
-      const title = item.dataset.title;
-      const file = item.dataset.file;
-
-      document.getElementById('dynamic-title').textContent = title;
-
-      fetch(file)
-        .then(res => res.text())
-        .then(html => {
-          const doc = new DOMParser().parseFromString(html, 'text/html');
-          const content = doc.getElementById(id);
-          document.getElementById('content-p').innerHTML = content ? content.innerHTML : '<p>Contenu introuvable.</p>';
-        })
-        .catch(() => {
-          document.getElementById('content-p').innerHTML = '<p>Erreur de chargement.</p>';
-        });
-    });
-  });
-
       // Suppression du texte d'introduction au premier clic
       if (isFirstClick) {
         const introductionText = document.querySelector('.explication-texte');
@@ -626,10 +608,10 @@ document.addEventListener('DOMContentLoaded', () => {
         isFirstClick = false;
       }
 
+      // Chargement du contenu dynamique
       const id = item.dataset.id;
       const title = item.dataset.title;
       const file = item.dataset.file;
-
       document.getElementById('dynamic-title').textContent = title;
 
       fetch(file)
@@ -644,7 +626,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
   });
-  
+
   // Réception message depuis acu.html
   window.addEventListener("message", event => {
     if (!event.data || event.data.type !== "selectPoint") return;
@@ -673,7 +655,6 @@ document.addEventListener('DOMContentLoaded', () => {
     iframe.contentWindow.acuPonto(pointId);
     iframe.contentWindow.focusPoint(pointId);
   });
-
 });
 </script>
 
