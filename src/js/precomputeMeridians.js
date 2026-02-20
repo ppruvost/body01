@@ -9,7 +9,7 @@ var SPECIAL_CURVES = (typeof SPECIAL_CURVES !== 'undefined') ? SPECIAL_CURVES : 
 Object.assign(BODY_CENTERS, {
     couronne: { x: 0, y: 68, z: 0 },
     troisiemeOeil: { x: 0, y: 60, z: 0 },
-    gorge: { x: 0, y: 28, z: 0 },
+    gorge: { x: 0, y: 52, z: 0 },
     coeur: { x: 0, y: 18, z: 0 },
     plexusSolaire: { x: 0, y: 12, z: 0 },
     sacre: { x: 0, y: 6, z: 0 },
