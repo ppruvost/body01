@@ -31,7 +31,11 @@ Object.assign(BODY_CENTERS, {
 
 // Initialisation des courbes spéciales
 Object.assign(SPECIAL_CURVES, {    
-    "vc1-vc2": "(1.1;1.4;0.9|0|1|1.1|3.2)"    // (z25;z50;z75|angle|ventreDos|peakFactor|parabolaFactor)
+    "vc1-vc2": "(1.1;1.4;0.9|0|1|1.1|3.2)",    // (z25;z50;z75|angle|ventreDos|peakFactor|parabolaFactor)
+    "e19-e20": "(0.10;0.25;0.10|0|1.4|1.6|3.8)",
+    "e19-r-e20-r": "(0.10;0.25;0.10|0|1.4|1.6|3.8)",
+    "vc13-vc12": "(0.15;0.35;0.15|0|1.6|1.8|4.2)",
+    "vc13-r-vc12-r": "(0.15;0.35;0.15|0|1.6|1.8|4.2)"
 });
 
 // Fonction pour analyser les paramètres des courbes spéciales
@@ -84,76 +88,49 @@ function getBodyCenterKey(p1, p2) {
 }
 
 // Fonction pour calculer une courbe méridienne
-function calculateInclinedParabolicCurve(t, p1, p2, specialProfile, bodyCenterKey) {
+function calculateInclinedParabolicCurve(t, p1, p2, specialProfile) {
 
+    // 1️⃣ Position linéaire
     var x = p1.x + (p2.x - p1.x) * t;
     var y = p1.y + (p2.y - p1.y) * t;
     var z = p1.z + (p2.z - p1.z) * t;
 
-    var ventreDos = specialProfile ? specialProfile.ventreDos : 1;
-    var peakFactor = specialProfile ? specialProfile.peakFactor : 1.2;
+    // 2️⃣ Paramètres
+    var ventreDos      = specialProfile ? specialProfile.ventreDos      : 1;
+    var peakFactor     = specialProfile ? specialProfile.peakFactor     : 1.2;
     var parabolaFactor = specialProfile ? specialProfile.parabolaFactor : 3.5;
 
+    // 3️⃣ Courbe
     var parabola = Math.pow(Math.sin(Math.PI * t), 0.75) * ventreDos;
     var peak = peakFactor * parabola * parabolaFactor;
 
-    var center = BODY_CENTERS[bodyCenterKey] || BODY_CENTERS.coeur;
+    // 4️⃣ Direction vers l'extérieur du corps
+    var dirX = x - BODY_CENTER.x;
+    var dirY = y - BODY_CENTER.y;
+    var dirZ = z - BODY_CENTER.z;
 
-    var dirX = x - center.x;
-    var dirY = y - center.y;
-    var dirZ = z - center.z;
-
-    var length = Math.sqrt(dirX * dirX + dirY * dirY + dirZ * dirZ);
-
-    if (!length || length === 0) {
-        length = 0.0001;
-    }
+    var length = Math.sqrt(dirX*dirX + dirY*dirY + dirZ*dirZ);
+    if (length === 0) length = 0.0001;
 
     dirX /= length;
     dirY /= length;
     dirZ /= length;
 
-    // --------------------------------------------------
-    // Correction spécifique zone abdominale
-    // --------------------------------------------------
-
-    var isAbdominal =
-        (p1.name === "e19" && p2.name === "e20") ||
-        (p1.name === "e19-r" && p2.name === "e20-r") ||
-        (p1.name === "vc13" && p2.name === "vc12") ||
-        (p1.name === "vc13-r" && p2.name === "vc12-r");
-
-    if (isAbdominal) {
-
-        // renforce projection vers l’avant
-        dirZ = Math.abs(dirZ) + 0.4;
-
-        var newLen = Math.sqrt(dirX * dirX + dirY * dirY + dirZ * dirZ);
-
-        if (!newLen || newLen === 0) {
-            newLen = 0.0001;
-        }
-
-        dirX /= newLen;
-        dirY /= newLen;
-        dirZ /= newLen;
-    }
-
+    // 5️⃣ Projection extérieure
     x += dirX * peak;
     y += dirY * peak;
     z += dirZ * peak;
 
-    // --------------------------------------------------
-    // Ajustements fins profil spécial
-    // --------------------------------------------------
-
+    // 6️⃣ Micro-élévations locales
     if (specialProfile) {
 
         var spread = 2.0;
 
-        z += Math.exp(-Math.pow((t - 0.25) * spread, 2)) * (specialProfile.z25 || 0);
-        z += Math.exp(-Math.pow((t - 0.50) * spread, 2)) * (specialProfile.z50 || 0);
-        z += Math.exp(-Math.pow((t - 0.75) * spread, 2)) * (specialProfile.z75 || 0);
+        var influence25 = Math.exp(-Math.pow((t - 0.25) * spread, 2)) * specialProfile.z25;
+        var influence50 = Math.exp(-Math.pow((t - 0.50) * spread, 2)) * specialProfile.z50;
+        var influence75 = Math.exp(-Math.pow((t - 0.75) * spread, 2)) * specialProfile.z75;
+
+        z += influence25 + influence50 + influence75;
     }
 
     return { x: x, y: y, z: z };
