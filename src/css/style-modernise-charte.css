@@ -22,13 +22,13 @@ body,
 
 h1 {font-size: 32px;font-weight: 600;letter-spacing: 0.5px;margin-bottom: 20px;}
 
-h2 {font-size: 24px;font-weight: 500;margin-top: 40px;margin-bottom: 15px;}
+h2 {font-size: 20px;font-weight: 500;margin-top: 40px;margin-bottom: 15px;}
 
-h3 {font-size: 18px;font-weight: 600;margin-top: 25px;margin-bottom: 10px;}
+h3 {font-size: 16px;font-weight: 600;margin-top: 25px;margin-bottom: 10px;}
 
-h4 {font-size: 16px;font-weight: 600;margin-top: 20px;margin-bottom: 8px;}
+h4 {font-size: 14px;font-weight: 600;margin-top: 20px;margin-bottom: 8px;}
 
-p {font-size: 14px;line-height: 1.7;margin-bottom: 16px;}
+p {font-size: 13px;line-height: 1.7;margin-bottom: 16px;}
 
 /* Cible tous les li dans la classe main_content_list */
 .main_content_list li {
