@@ -36,8 +36,8 @@ Object.assign(SPECIAL_CURVES, {
     "gi15-r-gi16-r": "(0.4;0.9;0.4|0|1|1.3|3.8)",
     "gi16-gi17": "(0.3;1.1;0.6|0|1|1.4|4.2)",
     "gi16-r-gi17-r": "(0.3;1.1;0.6|0|1|1.4|4.2)",
-    "p2-p3": "(0.6;1.4;0.6|0|1|1.8|4.8)",
-    "p2-r-p3-r": "(0.6;1.4;0.6|0|1|1.8|4.8)"
+    "p2-p3": "(0.6;1.4;0.6|0|1|1.8|4.7)",
+    "p2-r-p3-r": "(0.6;1.4;0.6|0|1|1.8|4.7)"
 });
 
 // Fonction pour analyser les paramètres des courbes spéciales
@@ -98,21 +98,21 @@ function calculateInclinedParabolicCurve(t, p1, p2, specialProfile, centerKey) {
     // Récupération du centre correspondant au segment
     var BODY_CENTER = BODY_CENTERS[centerKey] || { x: 0, y: 0, z: 0 };
 
-    // 1️⃣ Position linéaire
+    // Position linéaire
     var x = p1.x + (p2.x - p1.x) * t;
     var y = p1.y + (p2.y - p1.y) * t;
     var z = p1.z + (p2.z - p1.z) * t;
 
-    // 2️⃣ Paramètres
+    // Paramètres
     var ventreDos      = specialProfile ? specialProfile.ventreDos      : 1;
     var peakFactor     = specialProfile ? specialProfile.peakFactor     : 1.2;
     var parabolaFactor = specialProfile ? specialProfile.parabolaFactor : 3.5;
 
-    // 3️⃣ Courbe
+    // Courbe
     var parabola = Math.pow(Math.sin(Math.PI * t), 0.75) * ventreDos;
     var peak = peakFactor * parabola * parabolaFactor;
 
-    // 4️⃣ Direction vers l'extérieur du corps
+    // Direction vers l'extérieur du corps
     var dirX = x - BODY_CENTER.x;
     var dirY = y - BODY_CENTER.y;
     var dirZ = z - BODY_CENTER.z;
@@ -124,12 +124,12 @@ function calculateInclinedParabolicCurve(t, p1, p2, specialProfile, centerKey) {
     dirY /= length;
     dirZ /= length;
 
-    // 5️⃣ Projection extérieure
+    // Projection extérieure
     x += dirX * peak;
     y += dirY * peak;
     z += dirZ * peak;
 
-    // 6️⃣ Micro-élévations locales
+    // Micro-élévations locales
     if (specialProfile) {
         var spread = 2.0;
         var influence25 = Math.exp(-Math.pow((t - 0.25) * spread, 2)) * specialProfile.z25;
