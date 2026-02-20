@@ -85,6 +85,7 @@ function getBodyCenterKey(p1, p2) {
 
 // Fonction pour calculer une courbe méridienne
 function calculateInclinedParabolicCurve(t, p1, p2, specialProfile, bodyCenterKey) {
+
     var x = p1.x + (p2.x - p1.x) * t;
     var y = p1.y + (p2.y - p1.y) * t;
     var z = p1.z + (p2.z - p1.z) * t;
@@ -97,31 +98,66 @@ function calculateInclinedParabolicCurve(t, p1, p2, specialProfile, bodyCenterKe
     var peak = peakFactor * parabola * parabolaFactor;
 
     var center = BODY_CENTERS[bodyCenterKey] || BODY_CENTERS.coeur;
+
     var dirX = x - center.x;
     var dirY = y - center.y;
     var dirZ = z - center.z;
 
-    var length = Math.sqrt(dirX*dirX + dirY*dirY + dirZ*dirZ);
-    if (length === 0) length = 0.0001;
+    var length = Math.sqrt(dirX * dirX + dirY * dirY + dirZ * dirZ);
+
+    if (!length || length === 0) {
+        length = 0.0001;
+    }
 
     dirX /= length;
     dirY /= length;
     dirZ /= length;
 
+    // --------------------------------------------------
+    // Correction spécifique zone abdominale
+    // --------------------------------------------------
+
+    var isAbdominal =
+        (p1.name === "e19" && p2.name === "e20") ||
+        (p1.name === "e19-r" && p2.name === "e20-r") ||
+        (p1.name === "vc13" && p2.name === "vc12") ||
+        (p1.name === "vc13-r" && p2.name === "vc12-r");
+
+    if (isAbdominal) {
+
+        // renforce projection vers l’avant
+        dirZ = Math.abs(dirZ) + 0.4;
+
+        var newLen = Math.sqrt(dirX * dirX + dirY * dirY + dirZ * dirZ);
+
+        if (!newLen || newLen === 0) {
+            newLen = 0.0001;
+        }
+
+        dirX /= newLen;
+        dirY /= newLen;
+        dirZ /= newLen;
+    }
+
     x += dirX * peak;
     y += dirY * peak;
     z += dirZ * peak;
 
+    // --------------------------------------------------
+    // Ajustements fins profil spécial
+    // --------------------------------------------------
+
     if (specialProfile) {
+
         var spread = 2.0;
-        z += Math.exp(-Math.pow((t - 0.25) * spread, 2)) * specialProfile.z25 +
-            Math.exp(-Math.pow((t - 0.50) * spread, 2)) * specialProfile.z50 +
-            Math.exp(-Math.pow((t - 0.75) * spread, 2)) * specialProfile.z75;
+
+        z += Math.exp(-Math.pow((t - 0.25) * spread, 2)) * (specialProfile.z25 || 0);
+        z += Math.exp(-Math.pow((t - 0.50) * spread, 2)) * (specialProfile.z50 || 0);
+        z += Math.exp(-Math.pow((t - 0.75) * spread, 2)) * (specialProfile.z75 || 0);
     }
 
     return { x: x, y: y, z: z };
 }
-
 // Fonction principale pour construire les courbes méridiennes
 function buildMeridianCurves(scene) {
     if (!ACU_POINTS) {
