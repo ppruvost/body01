@@ -23,8 +23,8 @@ Object.assign(BODY_CENTERS, {
     mainGauche: { x: 6, y: 12, z: 0 },
     hautJambeDroite: { x: -1.5, y: -5, z: 0 },
     hautJambeGauche: { x: 1.5, y: -5, z: 0 },
-    basJambeDroite: { x: -1.5, y: -9, z: 0 },
-    basJambeGauche: { x: 1.5, y: -9, z: 0 },
+    basJambeDroite: { x: -1.5, y: -10, z: 0 },
+    basJambeGauche: { x: 1.5, y: -10, z: 0 },
     piedDroit: { x: -1.5, y: -12, z: 1 },
     piedGauche: { x: 1.5, y: -12, z: 1 }
 });
