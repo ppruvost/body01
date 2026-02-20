@@ -73,7 +73,6 @@ function getBodyCenterKey(p1, p2) {
     if ((p1.y >= 10 && p1.y <= 14) || (p2.y >= 10 && p2.y <= 14)) return "plexusSolaire";
     if ((p1.y >= 4 && p1.y <= 8) || (p2.y >= 4 && p2.y <= 8)) return "sacre";
     if (p1.y <= 2 || p2.y <= 2) return "racine";
-
     if (p1.y >= 24 || p2.y >= 24) return "tete";
 
     if (p1.name.includes("r") || p2.name.includes("r")) {
@@ -81,9 +80,14 @@ function getBodyCenterKey(p1, p2) {
         if (p1.y <= 12 || p2.y <= 12) return "mainDroite";
         return "avantBrasDroit";
     }
-
     if (p1.y >= 18 && p2.y >= 18) return "hautBrasGauche";
     if (p1.y <= 12 || p2.y <= 12) return "mainGauche";
+    if (p1.y <= -2 || p2.y <= -2) return "piedDroit";
+    if (p1.y <= -2 || p2.y <= -2) return "piedGauche";
+    if (p1.y <= -8 || p2.y <= -8) return "basJambeDroite";
+    if (p1.y <= -8 || p2.y <= -8) return "basJambeGauche";
+    if (p1.y <= -4 || p2.y <= -4) return "hautJambeDroite";
+    if (p1.y <= -4 || p2.y <= -4) return "hautJambeGauche";
     return "avantBrasGauche";
 }
 
