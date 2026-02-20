@@ -108,10 +108,17 @@ function calculateInclinedParabolicCurve(t, p1, p2, specialProfile, centerKey) {
     var peakFactor     = specialProfile ? specialProfile.peakFactor     : 1.2;
     var parabolaFactor = specialProfile ? specialProfile.parabolaFactor : 3.5;
 
-    // RÈGLE GLOBALE MÉRIDIEN COURBURE EXT
-    var EXT_MERIDIANS = ["c","v"];
+    // Nouveau paramètre latéral (axe X)
+    var droitGauche = 1;
 
-    if (EXT_MERIDIANS.indexOf(p1.meridian) !== -1) {
+    // Méridiens à inversion latérale
+    if (p1.meridian === "c" || p1.meridian === "v") {
+        droitGauche = -1;
+    }
+    // Nouveau paramètre avant-arrière (axe Z)
+    var AvAr_MERIDIANS = []; // mettre ici les méridiens sous la forme "cv","f" dans les crochets
+
+    if (AvAr_MERIDIANS.indexOf(p1.meridian) !== -1) {
         ventreDos = -Math.abs(ventreDos);
     }
 
@@ -135,6 +142,9 @@ function calculateInclinedParabolicCurve(t, p1, p2, specialProfile, centerKey) {
     x += dirX * peak;
     y += dirY * peak;
     z += dirZ * peak;
+    
+    // Correction latérale indépendante (axe X uniquement)
+    x += dirX * peak * (droitGauche - 1);
 
     // Micro-élévations locales
     if (specialProfile) {
