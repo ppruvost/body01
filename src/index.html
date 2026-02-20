@@ -617,6 +617,34 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
+      // Suppression du texte d'introduction au premier clic
+      if (isFirstClick) {
+        const introductionText = document.querySelector('.explication-texte');
+        if (introductionText) {
+          introductionText.remove();
+        }
+        isFirstClick = false;
+      }
+
+      const id = item.dataset.id;
+      const title = item.dataset.title;
+      const file = item.dataset.file;
+
+      document.getElementById('dynamic-title').textContent = title;
+
+      fetch(file)
+        .then(res => res.text())
+        .then(html => {
+          const doc = new DOMParser().parseFromString(html, 'text/html');
+          const content = doc.getElementById(id);
+          document.getElementById('content-p').innerHTML = content ? content.innerHTML : '<p>Contenu introuvable.</p>';
+        })
+        .catch(() => {
+          document.getElementById('content-p').innerHTML = '<p>Erreur de chargement.</p>';
+        });
+    });
+  });
+  
   // Réception message depuis acu.html
   window.addEventListener("message", event => {
     if (!event.data || event.data.type !== "selectPoint") return;
