@@ -103,10 +103,15 @@ function calculateInclinedParabolicCurve(t, p1, p2, specialProfile, centerKey) {
     var y = p1.y + (p2.y - p1.y) * t;
     var z = p1.z + (p2.z - p1.z) * t;
 
-    // Paramètres
+    // Paramètres de base
     var ventreDos      = specialProfile ? specialProfile.ventreDos      : 1;
     var peakFactor     = specialProfile ? specialProfile.peakFactor     : 1.2;
     var parabolaFactor = specialProfile ? specialProfile.parabolaFactor : 3.5;
+
+    // RÈGLE GLOBALE MÉRIDIEN DU CŒUR
+    if (p1.meridian === "c") {
+        ventreDos = -Math.abs(ventreDos);
+    }
 
     // Courbe
     var parabola = Math.pow(Math.sin(Math.PI * t), 0.75) * ventreDos;
