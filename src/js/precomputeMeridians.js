@@ -1,4 +1,4 @@
-// Compatible code version for three.js r71 written by ppruvost github.com for bien-etre-geobiologie.fr
+// Compatible code version for three.js r71 written by ppruvost github.com pour bien-etre-geobiologie.fr
 // SYSTÈME UNIVERSEL MÉRIDIENS 3D avec 7 chakras
 
 // Déclaration des variables globales nécessaires
@@ -31,7 +31,7 @@ Object.assign(BODY_CENTERS, {
 
 // Initialisation des courbes spéciales
 Object.assign(SPECIAL_CURVES, {    
-    "vc1-vc2": "(1.1;1.4;0.9|0|1|1.1|3.2)",    // (z25;z50;z75|angle|ventreDos|peakFactor|parabolaFactor)
+    "vc1-vc2": "(1.1;1.4;0.9|0|1|1.1|3.2)",
     "e19-e20": "(0.10;0.25;0.10|0|1.4|1.6|3.8)",
     "e19-r-e20-r": "(0.10;0.25;0.10|0|1.4|1.6|3.8)",
     "vc13-vc12": "(0.15;0.35;0.15|0|1.6|1.8|4.2)",
@@ -88,7 +88,9 @@ function getBodyCenterKey(p1, p2) {
 }
 
 // Fonction pour calculer une courbe méridienne
-function calculateInclinedParabolicCurve(t, p1, p2, specialProfile) {
+function calculateInclinedParabolicCurve(t, p1, p2, specialProfile, centerKey) {
+    // Récupération du centre correspondant au segment
+    var BODY_CENTER = BODY_CENTERS[centerKey] || { x: 0, y: 0, z: 0 };
 
     // 1️⃣ Position linéaire
     var x = p1.x + (p2.x - p1.x) * t;
@@ -123,9 +125,7 @@ function calculateInclinedParabolicCurve(t, p1, p2, specialProfile) {
 
     // 6️⃣ Micro-élévations locales
     if (specialProfile) {
-
         var spread = 2.0;
-
         var influence25 = Math.exp(-Math.pow((t - 0.25) * spread, 2)) * specialProfile.z25;
         var influence50 = Math.exp(-Math.pow((t - 0.50) * spread, 2)) * specialProfile.z50;
         var influence75 = Math.exp(-Math.pow((t - 0.75) * spread, 2)) * specialProfile.z75;
@@ -135,6 +135,7 @@ function calculateInclinedParabolicCurve(t, p1, p2, specialProfile) {
 
     return { x: x, y: y, z: z };
 }
+
 // Fonction principale pour construire les courbes méridiennes
 function buildMeridianCurves(scene) {
     if (!ACU_POINTS) {
