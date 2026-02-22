@@ -7,13 +7,15 @@ var SPECIAL_CURVES = (typeof SPECIAL_CURVES !== 'undefined') ? SPECIAL_CURVES : 
 
 // Initialisation des centres du corps et des chakras
 Object.assign(BODY_CENTERS, {
-    couronne: { x: 0, y: 68, z: 0 },
-    troisiemeOeil: { x: 0, y: 60, z: 0 },
-    gorge: { x: 0, y: 27, z: 0 },
-    coeur: { x: 0, y: 18, z: 0 },
-    plexusSolaire: { x: 0, y: 12, z: 0 },
-    sacre: { x: 0, y: 6, z: 0 },
+    Object.assign(BODY_CENTERS, {
+    couronne: { x: 0, y: 0, z: 0 },
+    troisiemeOeil: { x: 0, y: 0, z: 0 },
+    gorge: { x: 0, y: 0, z: 0 },
+    coeur: { x: 0, y: 0, z: 0 },
+    plexusSolaire: { x: 0, y: 0, z: 0 },
+    sacre: { x: 0, y: 0, z: 0 },
     racine: { x: 0, y: 0, z: 0 },
+        
     tete: { x: 0, y: 64.5, z: 0 },
     hautBrasDroit: { x: -3, y: 30, z: 0 },
     hautBrasGauche: { x: 3, y: 30, z: 0 },
