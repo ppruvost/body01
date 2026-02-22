@@ -7,7 +7,6 @@ var SPECIAL_CURVES = (typeof SPECIAL_CURVES !== 'undefined') ? SPECIAL_CURVES : 
 
 // Initialisation des centres du corps et des chakras
 Object.assign(BODY_CENTERS, {
-    Object.assign(BODY_CENTERS, {
     couronne: { x: 0, y: 0, z: 0 },
     troisiemeOeil: { x: 0, y: 0, z: 0 },
     gorge: { x: 0, y: 0, z: 0 },
