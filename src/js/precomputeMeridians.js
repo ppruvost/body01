@@ -67,25 +67,41 @@ function getSpecialCurveProfile(p1, p2) {
 
 // Fonction pour déterminer le centre du corps
 function getBodyCenterKey(p1, p2) {
-    if (p1.y >= 70 || p2.y >= 70) return "couronne";
-    if (p1.y >= 62 || p2.y >= 62) return "troisiemeOeil";
-    if (p1.y >= 27 || p2.y >= 27) return "gorge";
-    if ((p1.y >= 16 && p1.y <= 20) || (p2.y >= 16 && p2.y <= 20)) return "coeur";
-    if ((p1.y >= 10 && p1.y <= 14) || (p2.y >= 10 && p2.y <= 14)) return "plexusSolaire";
-    if ((p1.y >= 4 && p1.y <= 8) || (p2.y >= 4 && p2.y <= 8)) return "sacre";
-    if (p1.y <= 2 || p2.y <= 2) return "racine";
 
-    if (p1.y >= 24 || p2.y >= 24) return "tete";
-
-    if (p1.name.includes("r") || p2.name.includes("r")) {
-        if (p1.y >= 18 && p2.y >= 18) return "hautBrasDroit";
-        if (p1.y <= 12 || p2.y <= 12) return "mainDroite";
-        return "avantBrasDroit";
+    function inZone(p, min, max) {
+        return p.y >= min && p.y <= max;
     }
 
-    if (p1.y >= 18 && p2.y >= 18) return "hautBrasGauche";
-    if (p1.y <= 12 || p2.y <= 12) return "mainGauche";
-    return "avantBrasGauche";
+    // Couronne
+    if (inZone(p1, 68, 100) || inZone(p2, 68, 100))
+        return "couronne";
+
+    // Troisième œil
+    if (inZone(p1, 58, 68) || inZone(p2, 58, 68))
+        return "troisiemeOeil";
+
+    // Gorge
+    if (inZone(p1, 26, 34) || inZone(p2, 26, 34))
+        return "gorge";
+
+    // Cœur
+    if (inZone(p1, 16, 26) || inZone(p2, 16, 26))
+        return "coeur";
+
+    // Plexus solaire
+    if (inZone(p1, 10, 16) || inZone(p2, 10, 16))
+        return "plexusSolaire";
+
+    // Sacré
+    if (inZone(p1, 2, 10) || inZone(p2, 2, 10))
+        return "sacre";
+
+    // Racine
+    if (inZone(p1, -20, 2) || inZone(p2, -20, 2))
+        return "racine";
+
+    // fallback sécurité
+    return "coeur";
 }
 
 // Fonction pour calculer une courbe méridienne
