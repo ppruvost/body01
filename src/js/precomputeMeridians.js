@@ -138,13 +138,54 @@ function calculateInclinedParabolicCurve(t, p1, p2, specialProfile, centerKey) {
     return { x: x, y: y, z: z };
 }
 
+// Définition des centres des chakras selon body
+function computeChakraCenters() {
+
+    var chakraZones = {
+        couronne:        { minY: 68,  maxY: 100 },
+        troisiemeOeil:   { minY: 58,  maxY: 68 },
+        gorge:           { minY: 26,  maxY: 34 },
+        coeur:           { minY: 16,  maxY: 26 },
+        plexusSolaire:   { minY: 10,  maxY: 16 },
+        sacre:           { minY: 2,   maxY: 10 },
+        racine:          { minY: -20, maxY: 2 }
+    };
+
+    Object.keys(chakraZones).forEach(function(key) {
+
+        var zone = chakraZones[key];
+
+        var filtered = ACU_POINTS.filter(function(p) {
+            return p.y >= zone.minY && p.y <= zone.maxY;
+        });
+
+        if (filtered.length === 0) return;
+
+        var sumX = 0, sumY = 0, sumZ = 0;
+
+        filtered.forEach(function(p) {
+            sumX += p.x;
+            sumY += p.y;
+            sumZ += p.z;
+        });
+
+        BODY_CENTERS[key] = {
+            x: sumX / filtered.length,
+            y: sumY / filtered.length,
+            z: sumZ / filtered.length
+        };
+    });
+}
+        
 // Fonction principale pour construire les courbes méridiennes
 function buildMeridianCurves(scene) {
     if (!ACU_POINTS) {
         console.error("ACU_POINTS n'est pas défini.");
         return;
     }
-
+    
+    computeChakraCenters();
+    
     var meridianGroups = {};
     ACU_POINTS.forEach(function(p) {
         if (!meridianGroups[p.meridian]) meridianGroups[p.meridian] = [];
