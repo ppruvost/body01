@@ -21,12 +21,12 @@ Object.assign(BODY_CENTERS, {
     avantBrasGauche: { x: 5, y: 18, z: 0 },
     mainDroite: { x: -6, y: 12, z: 0 },
     mainGauche: { x: 6, y: 12, z: 0 },
-    hautJambeDroite: { x: -1.5, y: -7, z: 0 },
-    hautJambeGauche: { x: 1.5, y: -7, z: 0 },
-    basJambeDroite: { x: -1.5, y: -11, z: 0 },
-    basJambeGauche: { x: 1.5, y: -11, z: 0 },
-    piedDroit: { x: -1.5, y: -13, z: 1 },
-    piedGauche: { x: 1.5, y: -13, z: 1 }
+    hautJambeDroite: { x: -1.5, y: -29, z: 0 },
+    hautJambeGauche: { x: 1.5, y: -29, z: 0 },
+    basJambeDroite: { x: -1.5, y: -66, z: 0 },
+    basJambeGauche: { x: 1.5, y: -66, z: 0 },
+    piedDroit: { x: -1.5, y: -89, z: 1 },
+    piedGauche: { x: 1.5, y: -89, z: 1 }
 });
 
 // Initialisation des courbes spéciales
