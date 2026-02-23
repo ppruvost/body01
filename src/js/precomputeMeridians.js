@@ -267,6 +267,24 @@ function calculateInclinedParabolicCurve(t, p1, p2, specialProfile, centerKey) {
     dirY /= length;
     dirZ /= length;
 
+    // 🔁 Inversion spécifique méridien du Cœur (C2 à C9 uniquement)
+    var invertCurve = false;
+
+    if (p1.meridian === "C") {
+        var n1 = parseInt(p1.name.replace(/\D/g, ''));
+        var n2 = parseInt(p2.name.replace(/\D/g, ''));
+    
+        if (n1 >= 2 && n2 <= 9) {
+            invertCurve = true;
+        }
+    }
+
+    if (invertCurve) {
+        dirX *= -1;
+        dirY *= -1;
+        dirZ *= -1;
+    }
+
     // 5️⃣ Projection extérieure
     x += dirX * peak;
     y += dirY * peak;
