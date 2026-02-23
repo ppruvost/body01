@@ -31,8 +31,10 @@ Object.assign(BODY_CENTERS, {
     hautJambeGaucheSup: { x: 0, y: 0, z: 0 },
     hautJambeGaucheInf: { x: 0, y: 0, z: 0 },
     
-    basJambeDroite: { x: -1.5, y: -66, z: 0 },
-    basJambeGauche: { x: 1.5, y: -66, z: 0 },
+    basJambeDroiteSup: { x: 0, y: 0, z: 0 },
+    basJambeDroiteInf: { x: 0, y: 0, z: 0 },
+    basJambeGaucheSup: { x: 0, y: 0, z: 0 },
+    basJambeGaucheInf: { x: 0, y: 0, z: 0 },
     
     piedDroit: { x: -1.5, y: -89, z: 1 },
     piedGauche: { x: 1.5, y: -89, z: 1 }
@@ -125,8 +127,8 @@ function getBodyCenterKey(p1, p2) {
 
      // Haut jambe droite Inf
     if (
-        (inZone(p1, -35, -25) && isRight(p1)) ||
-        (inZone(p2, -35, -25) && isRight(p2))
+        (inZone(p1, -40, -25) && isRight(p1)) ||
+        (inZone(p2, -40, -25) && isRight(p2))
     )
         return "hautJambeDroiteInf";
 
@@ -139,10 +141,38 @@ function getBodyCenterKey(p1, p2) {
 
         // Haut jambe gauche Inf
     if (
-        (inZone(p1, -35, -25) && isLeft(p1)) ||
-        (inZone(p2, -35, -25) && isLeft(p2))
+        (inZone(p1, -40, -25) && isLeft(p1)) ||
+        (inZone(p2, -40, -25) && isLeft(p2))
     )
         return "hautJambeGaucheInf";
+    // -------
+    // Bas jambe droite Sup
+    if (
+        (inZone(p1, -66, -40) && isRight(p1)) ||
+        (inZone(p2, -66, -40) && isRight(p2))
+    )
+        return "basJambeDroiteSup";
+
+     // Bas jambe droite Inf
+    if (
+        (inZone(p1, -86, -66) && isRight(p1)) ||
+        (inZone(p2, -86, -66) && isRight(p2))
+    )
+        return "basJambeDroiteInf";
+
+    // Bas jambe gauche Sup
+    if (
+        (inZone(p1, -66, -40) && isLeft(p1)) ||
+        (inZone(p2, -66, -40) && isLeft(p2))
+    )
+        return "basJambeGaucheSup";
+
+        // Bas jambe gauche Inf
+    if (
+        (inZone(p1, -86, -66) && isLeft(p1)) ||
+        (inZone(p2, -86, -66) && isLeft(p2))
+    )
+        return "basJambeGaucheInf";
 
     return "coeur";
 }
@@ -207,10 +237,16 @@ function computeChakraCenters() {
         plexusSolaire:   { minY: 10,  maxY: 16 },
         sacre:           { minY: 2,   maxY: 10 },
         racine:          { minY: -10, maxY: 2 },
+        
         hautJambeDroiteSup:   { minY: -25,  maxY: -10 },
-        hautJambeDroiteInf:   { minY: -35,  maxY: -25 },
+        hautJambeDroiteInf:   { minY: -40,  maxY: -25 },
         hautJambeGaucheSup:   { minY: -25,  maxY: -10 },
-        hautJambeGaucheInf:   { minY: -35,  maxY: -10 }
+        hautJambeGaucheInf:   { minY: -40,  maxY: -10 },
+
+        basJambeDroiteSup:   { minY: -66,  maxY: -40 },
+        basJambeDroiteInf:   { minY: -86,  maxY: -66 },
+        basJambeGaucheSup:   { minY: -66,  maxY: -40 },
+        basJambeGaucheInf:   { minY: -86,  maxY: -66 },     
     };
 
     Object.keys(chakraZones).forEach(function(key) {
