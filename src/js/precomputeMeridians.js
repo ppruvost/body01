@@ -255,10 +255,14 @@ function calculateInclinedParabolicCurve(t, p1, p2, specialProfile, centerKey) {
     var parabola = Math.pow(Math.sin(Math.PI * t), 0.75) * ventreDos;
     var peak = peakFactor * parabola * parabolaFactor;
 
-    // 4️⃣ Direction vers l'extérieur du corps
-    var dirX = x - BODY_CENTER.x;
-    var dirY = y - BODY_CENTER.y;
-    var dirZ = z - BODY_CENTER.z;
+    // 4️⃣ Direction par rapport au centre du segment
+    var centerX = BODY_CENTER.x;
+    var centerY = BODY_CENTER.y;
+    var centerZ = BODY_CENTER.z;
+
+    var dirX = x - centerX;
+    var dirY = y - centerY;
+    var dirZ = z - centerZ;
 
     var length = Math.sqrt(dirX*dirX + dirY*dirY + dirZ*dirZ);
     if (length === 0) length = 0.0001;
@@ -267,22 +271,22 @@ function calculateInclinedParabolicCurve(t, p1, p2, specialProfile, centerKey) {
     dirY /= length;
     dirZ /= length;
 
-    // 🔁 Inversion spécifique méridien du Cœur (C2 à C9 uniquement)
-    var invertCurve = false;
+    // 🎯 Appliquer la logique UNIQUEMENT pour bras / mains
+    var isArmZone =
+        (centerKey === "hautBrasDroit"  ||
+         centerKey === "avantBrasDroit" ||
+         centerKey === "mainDroite"      ||
+         centerKey === "hautBrasGauche"  ||
+         centerKey === "avantBrasGauche"  ||
+         centerKey === "mainGauche");
 
-    if (p1.meridian === "C") {
-        var n1 = parseInt(p1.name.replace(/\D/g, ''));
-        var n2 = parseInt(p2.name.replace(/\D/g, ''));
-    
-        if (n1 >= 2 && n2 <= 9) {
-            invertCurve = true;
+    // Si zone bras → orientation par côté
+    if (isArmZone) {
+        if (x > centerX) {
+            dirX = Math.abs(dirX);  // côté droit
+        } else {
+            dirX = -Math.abs(dirX); // côté gauche
         }
-    }
-
-    if (invertCurve) {
-        dirX *= 1;
-        dirY *= -1;
-        dirZ *= -1;
     }
 
     // 5️⃣ Projection extérieure
