@@ -22,8 +22,10 @@ Object.assign(BODY_CENTERS, {
     avantBrasGauche: { x: 5, y: 18, z: 0 },
     mainDroite: { x: -6, y: 12, z: 0 },
     mainGauche: { x: 6, y: 12, z: 0 },
-    hautJambeDroite: { x: 0, y: 0, z: 0 },
-    hautJambeGauche: { x: 0, y: 0, z: 0 },
+    hautJambeDroiteSup: { x: 0, y: 0, z: 0 },
+    hautJambeDroiteInf: { x: 0, y: 0, z: 0 },
+    hautJambeGaucheSup: { x: 0, y: 0, z: 0 },
+    hautJambeGaucheInf: { x: 0, y: 0, z: 0 },
     basJambeDroite: { x: -1.5, y: -66, z: 0 },
     basJambeGauche: { x: 1.5, y: -66, z: 0 },
     piedDroit: { x: -1.5, y: -89, z: 1 },
@@ -97,22 +99,36 @@ function getBodyCenterKey(p1, p2) {
         return "sacre";
 
     // Racine
-    if (inZone(p1, -20, 2) || inZone(p2, -20, 2))
+    if (inZone(p1, -10, 2) || inZone(p2, -10, 2))
         return "racine";
 
- // Haut jambe droite
+ // Haut jambe droite Sup
     if (
-        (inZoneY(p1, -35, -20) && isRight(p1)) ||
-        (inZoneY(p2, -35, -20) && isRight(p2))
+        (inZoneY(p1, -25, -10) && isRight(p1)) ||
+        (inZoneY(p2, -25, -10) && isRight(p2))
     )
-        return "hautJambeDroite";
+        return "hautJambeDroiteSup";
 
-    // Haut jambe gauche
+     // Haut jambe droite Inf
     if (
-        (inZoneY(p1, -35, -20) && isLeft(p1)) ||
-        (inZoneY(p2, -35, -20) && isLeft(p2))
+        (inZoneY(p1, -35, -25) && isRight(p1)) ||
+        (inZoneY(p2, -35, -25) && isRight(p2))
     )
-        return "hautJambeGauche";
+        return "hautJambeDroiteInf";
+
+    // Haut jambe gauche Sup
+    if (
+        (inZoneY(p1, -25, -10) && isLeft(p1)) ||
+        (inZoneY(p2, -25, -10) && isLeft(p2))
+    )
+        return "hautJambeGaucheSup";
+
+        // Haut jambe gauche Inf
+    if (
+        (inZoneY(p1, -35, -25) && isLeft(p1)) ||
+        (inZoneY(p2, -35, -25) && isLeft(p2))
+    )
+        return "hautJambeGaucheInf";
 
     return "coeur";
 }
