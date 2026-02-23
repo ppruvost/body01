@@ -153,8 +153,8 @@ function getBodyCenterKey(p1, p2) {
 
      // Bas jambe droite Inf
     if (
-        (inZone(p1, -86, -66) && isRight(p1)) ||
-        (inZone(p2, -86, -66) && isRight(p2))
+        (inZone(p1, -80, -66) && isRight(p1)) ||
+        (inZone(p2, -80, -66) && isRight(p2))
     )
         return "basJambeDroiteInf";
 
@@ -167,22 +167,22 @@ function getBodyCenterKey(p1, p2) {
 
     // Bas jambe gauche Inf
     if (
-        (inZone(p1, -86, -66) && isLeft(p1)) ||
-        (inZone(p2, -86, -66) && isLeft(p2))
+        (inZone(p1, -80, -66) && isLeft(p1)) ||
+        (inZone(p2, -80, -66) && isLeft(p2))
     )
         return "basJambeGaucheInf";
 
     // Pied droit
     if (
-        (inZone(p1, -96, -86) && isRight(p1)) ||
-        (inZone(p2, -96, -86) && isRight(p2))
+        (inZone(p1, -96, -80) && isRight(p1)) ||
+        (inZone(p2, -96, -80) && isRight(p2))
     )
         return "piedDroit";
 
     // Pied gauche
     if (
-        (inZone(p1, -96, -86) && isLeft(p1)) ||
-        (inZone(p2, -96, -86) && isLeft(p2))
+        (inZone(p1, -96, -80) && isLeft(p1)) ||
+        (inZone(p2, -96, -80) && isLeft(p2))
     )
         return "piedGauche";
 
@@ -259,12 +259,12 @@ function computeChakraCenters() {
         hautJambeGaucheInf:   { minY: -40,  maxY: -10 },
 
         basJambeDroiteSup:   { minY: -66,  maxY: -40 },
-        basJambeDroiteInf:   { minY: -86,  maxY: -66 },
+        basJambeDroiteInf:   { minY: -80,  maxY: -66 },
         basJambeGaucheSup:   { minY: -66,  maxY: -40 },
-        basJambeGaucheInf:   { minY: -86,  maxY: -66 },
+        basJambeGaucheInf:   { minY: -80,  maxY: -66 },
 
-        piedDroit:   { minY: -96,  maxY: -86 },
-        piedGauche:   { minY: -96,  maxY: -86 },
+        piedDroit:   { minY: -96,  maxY: -80 },
+        piedGauche:   { minY: -96,  maxY: -80 },
     };
 
     Object.keys(chakraZones).forEach(function(key) {
