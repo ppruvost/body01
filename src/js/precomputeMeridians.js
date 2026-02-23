@@ -15,14 +15,14 @@ Object.assign(BODY_CENTERS, {
     sacre: { x: 0, y: 0, z: 0 },
     racine: { x: 0, y: 0, z: 0 },        
         
-    hautBrasDroit: { x: -3, y: 30, z: 0 },
-    hautBrasGauche: { x: 3, y: 30, z: 0 },
+    hautBrasDroit: { x: 0, y: 0, z: 0 },
+    hautBrasGauche: { x: 0, y: 0, z: 0 },
     
-    avantBrasDroit: { x: -5, y: 18, z: 0 },
-    avantBrasGauche: { x: 5, y: 18, z: 0 },
+    avantBrasDroit: { x: 0, y: 0, z: 0 },
+    avantBrasGauche: { x: 0, y: 0, z: 0 },
     
-    mainDroite: { x: -6, y: 12, z: 0 },
-    mainGauche: { x: 6, y: 12, z: 0 },
+    mainDroite: { x: 0, y: 0, z: 0 },
+    mainGauche: { x: 0, y: 0, z: 0 },
     
     hautJambeDroiteSup: { x: 0, y: 0, z: 0 },
     hautJambeDroiteInf: { x: 0, y: 0, z: 0 },
@@ -118,6 +118,48 @@ function getBodyCenterKey(p1, p2) {
     if (inZone(p1, -10, 2) || inZone(p2, -10, 2))
         return "racine";
 
+    // Haut bras droit
+    if (
+        (inZone(p1, 16, 33) && isRight(p1)) ||
+        (inZone(p2, 16, 33) && isRight(p2))
+    )
+        return "hautBrasDroit";
+
+        // Haut bras gauche
+    if (
+        (inZone(p1, 16, 33) && isLeft(p1)) ||
+        (inZone(p2, 16, 33) && isLeft(p2))
+    )
+        return "hautBrasGauche";
+    
+        // Avant bras droit
+    if (
+        (inZone(p1, -6, 16) && isRight(p1)) ||
+        (inZone(p2, -6, 16) && isRight(p2))
+    )
+        return "avantBrasDroit";
+
+        // Avant bras gauche
+    if (
+        (inZone(p1, -6, 16) && isLeft(p1)) ||
+        (inZone(p2, -6, 16) && isLeft(p2))
+    )
+        return "avantBrasGauche";
+
+    // Main droite
+    if (
+        (inZone(p1, -25, -6) && isRight(p1)) ||
+        (inZone(p2, -25, -6) && isRight(p2))
+    )
+        return "mainDroite";
+
+        // Main gauche
+    if (
+        (inZone(p1, -25, -6) && isLeft(p1)) ||
+        (inZone(p2, -25, -6) && isLeft(p2))
+    )
+        return "mainGauche";
+    
     // Haut jambe droite Sup
     if (
         (inZone(p1, -25, -10) && isRight(p1)) ||
@@ -254,6 +296,14 @@ function computeChakraCenters() {
         plexusSolaire:   { minY: 10,  maxY: 16 },
         sacre:           { minY: 2,   maxY: 10 },
         racine:          { minY: -10, maxY: 2 },
+
+        hautBrasDroit:          { minY: 16, maxY: 33 },
+        hautBrasGauche:          { minY: 16, maxY: 33 },
+        avantBrasDroit:          { minY: -6, maxY: 16 },
+        avantBrasGauche:          { minY: -6, maxY: 16 },
+
+        mainDroite:          { minY: -25, maxY: -6 },
+        mainGauche:          { minY: -25, maxY: -6 },
         
         hautJambeDroiteSup:   { minY: -25,  maxY: -10 },
         hautJambeDroiteInf:   { minY: -40,  maxY: -25 },
