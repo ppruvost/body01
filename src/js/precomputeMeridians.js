@@ -74,6 +74,14 @@ function getBodyCenterKey(p1, p2) {
         return p.y >= min && p.y <= max;
     }
 
+    function isRight(p) {
+        return p.x < 0;
+    }
+
+    function isLeft(p) {
+        return p.x > 0;
+    }
+
     // Couronne
     if (inZone(p1, 68, 100) || inZone(p2, 68, 100))
         return "couronne";
