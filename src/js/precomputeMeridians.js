@@ -280,7 +280,7 @@ function calculateInclinedParabolicCurve(t, p1, p2, specialProfile, centerKey) {
     }
 
     if (invertCurve) {
-        dirX *= -1;
+        dirX *= 1;
         dirY *= -1;
         dirZ *= -1;
     }
