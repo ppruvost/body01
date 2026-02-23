@@ -23,7 +23,7 @@ Object.assign(BODY_CENTERS, {
     mainDroite: { x: -6, y: 12, z: 0 },
     mainGauche: { x: 6, y: 12, z: 0 },
     hautJambeDroite: { x: 0, y: 0, z: 0 },
-    hautJambeGauche: { x: 1.5, y: -29, z: 0 },
+    hautJambeGauche: { x: 0, y: 0, z: 0 },
     basJambeDroite: { x: -1.5, y: -66, z: 0 },
     basJambeGauche: { x: 1.5, y: -66, z: 0 },
     piedDroit: { x: -1.5, y: -89, z: 1 },
@@ -100,11 +100,20 @@ function getBodyCenterKey(p1, p2) {
     if (inZone(p1, -20, 2) || inZone(p2, -20, 2))
         return "racine";
 
-    // hautJambeDroite
-    if (inZone(p1, -25, 20) || inZone(p2, -25, 20))
-        return "hautJambeDroite";    
+ // Haut jambe droite
+    if (
+        (inZoneY(p1, -35, -20) && isRight(p1)) ||
+        (inZoneY(p2, -35, -20) && isRight(p2))
+    )
+        return "hautJambeDroite";
 
-    // fallback sécurité
+    // Haut jambe gauche
+    if (
+        (inZoneY(p1, -35, -20) && isLeft(p1)) ||
+        (inZoneY(p2, -35, -20) && isLeft(p2))
+    )
+        return "hautJambeGauche";
+
     return "coeur";
 }
 
