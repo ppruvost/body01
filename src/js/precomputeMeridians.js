@@ -112,29 +112,29 @@ function getBodyCenterKey(p1, p2) {
 
  // Haut jambe droite Sup
     if (
-        (inZoneY(p1, -25, -10) && isRight(p1)) ||
-        (inZoneY(p2, -25, -10) && isRight(p2))
+        (inZone(p1, -25, -10) && isRight(p1)) ||
+        (inZone(p2, -25, -10) && isRight(p2))
     )
         return "hautJambeDroiteSup";
 
      // Haut jambe droite Inf
     if (
-        (inZoneY(p1, -35, -25) && isRight(p1)) ||
-        (inZoneY(p2, -35, -25) && isRight(p2))
+        (inZone(p1, -35, -25) && isRight(p1)) ||
+        (inZone(p2, -35, -25) && isRight(p2))
     )
         return "hautJambeDroiteInf";
 
     // Haut jambe gauche Sup
     if (
-        (inZoneY(p1, -25, -10) && isLeft(p1)) ||
-        (inZoneY(p2, -25, -10) && isLeft(p2))
+        (inZone(p1, -25, -10) && isLeft(p1)) ||
+        (inZone(p2, -25, -10) && isLeft(p2))
     )
         return "hautJambeGaucheSup";
 
         // Haut jambe gauche Inf
     if (
-        (inZoneY(p1, -35, -25) && isLeft(p1)) ||
-        (inZoneY(p2, -35, -25) && isLeft(p2))
+        (inZone(p1, -35, -25) && isLeft(p1)) ||
+        (inZone(p2, -35, -25) && isLeft(p2))
     )
         return "hautJambeGaucheInf";
 
