@@ -13,10 +13,8 @@ Object.assign(BODY_CENTERS, {
     coeur: { x: 0, y: 0, z: 0 },
     plexusSolaire: { x: 0, y: 0, z: 0 },
     sacre: { x: 0, y: 0, z: 0 },
-    racine: { x: 0, y: 0, z: 0 },
+    racine: { x: 0, y: 0, z: 0 },        
         
-    tete: { x: 0, y: 64.5, z: 0 },
-    
     hautBrasDroit: { x: -3, y: 30, z: 0 },
     hautBrasGauche: { x: 3, y: 30, z: 0 },
     
@@ -36,8 +34,8 @@ Object.assign(BODY_CENTERS, {
     basJambeGaucheSup: { x: 0, y: 0, z: 0 },
     basJambeGaucheInf: { x: 0, y: 0, z: 0 },
     
-    piedDroit: { x: -1.5, y: -89, z: 1 },
-    piedGauche: { x: 1.5, y: -89, z: 1 }
+    piedDroit: { x: 0, y: 0, z: 0 },
+    piedGauche: { x: 0, y: 0, z: 0 }
 });
 
 // Initialisation des courbes spéciales
@@ -118,7 +116,7 @@ function getBodyCenterKey(p1, p2) {
     if (inZone(p1, -10, 2) || inZone(p2, -10, 2))
         return "racine";
 
- // Haut jambe droite Sup
+    // Haut jambe droite Sup
     if (
         (inZone(p1, -25, -10) && isRight(p1)) ||
         (inZone(p2, -25, -10) && isRight(p2))
@@ -139,13 +137,13 @@ function getBodyCenterKey(p1, p2) {
     )
         return "hautJambeGaucheSup";
 
-        // Haut jambe gauche Inf
+    // Haut jambe gauche Inf
     if (
         (inZone(p1, -40, -25) && isLeft(p1)) ||
         (inZone(p2, -40, -25) && isLeft(p2))
     )
         return "hautJambeGaucheInf";
-    // -------
+   
     // Bas jambe droite Sup
     if (
         (inZone(p1, -66, -40) && isRight(p1)) ||
@@ -167,12 +165,26 @@ function getBodyCenterKey(p1, p2) {
     )
         return "basJambeGaucheSup";
 
-        // Bas jambe gauche Inf
+    // Bas jambe gauche Inf
     if (
         (inZone(p1, -86, -66) && isLeft(p1)) ||
         (inZone(p2, -86, -66) && isLeft(p2))
     )
         return "basJambeGaucheInf";
+
+    // Pied droit
+    if (
+        (inZone(p1, -96, -86) && isRight(p1)) ||
+        (inZone(p2, -96, -86) && isRight(p2))
+    )
+        return "piedDroit";
+
+    // Pied gauche
+    if (
+        (inZone(p1, -96, -86) && isLeft(p1)) ||
+        (inZone(p2, -96, -86) && isLeft(p2))
+    )
+        return "piedGauche";
 
     return "coeur";
 }
@@ -188,7 +200,10 @@ function calculateInclinedParabolicCurve(t, p1, p2, specialProfile, centerKey) {
     var z = p1.z + (p2.z - p1.z) * t;
 
     // 2️⃣ Paramètres
-    var ventreDos      = specialProfile ? specialProfile.ventreDos      : 1;
+    var ventreDos = specialProfile ? specialProfile.ventreDos : 1;
+    if (centerKey === "piedDroit" || centerKey === "piedGauche") {
+        ventreDos = 1; // mettre -1 si projection part dessous
+    }
     var peakFactor     = specialProfile ? specialProfile.peakFactor     : 1.2;
     var parabolaFactor = specialProfile ? specialProfile.parabolaFactor : 3.5;
 
@@ -246,7 +261,10 @@ function computeChakraCenters() {
         basJambeDroiteSup:   { minY: -66,  maxY: -40 },
         basJambeDroiteInf:   { minY: -86,  maxY: -66 },
         basJambeGaucheSup:   { minY: -66,  maxY: -40 },
-        basJambeGaucheInf:   { minY: -86,  maxY: -66 },     
+        basJambeGaucheInf:   { minY: -86,  maxY: -66 },
+
+        piedDroit:   { minY: -96,  maxY: -86 },
+        piedGauche:   { minY: -96,  maxY: -86 },
     };
 
     Object.keys(chakraZones).forEach(function(key) {
