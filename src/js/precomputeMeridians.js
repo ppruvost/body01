@@ -230,7 +230,7 @@ function getBodyCenterKey(p1, p2) {
     )
         return "piedGauche";
 
-    return "coeur";
+    return null;
 }
 
 // Fonction pour calculer une courbe méridienne
@@ -255,52 +255,50 @@ function calculateInclinedParabolicCurve(t, p1, p2, specialProfile, centerKey) {
     var parabola = Math.pow(Math.sin(Math.PI * t), 0.75) * ventreDos;
     var peak = peakFactor * parabola * parabolaFactor;
 
-    // 4️⃣ Direction par rapport au centre du segment
-    var centerX = BODY_CENTER.x;
-    var centerY = BODY_CENTER.y;
-    var centerZ = BODY_CENTER.z;
+// 4️⃣ Direction par rapport au centre du segment
+var centerX = BODY_CENTER.x;
+var centerY = BODY_CENTER.y;
+var centerZ = BODY_CENTER.z;
 
-    var dirX = x - centerX;
-    var dirY = y - centerY;
-    var dirZ = z - centerZ;
+var dirX = x - centerX;
+var dirY = y - centerY;
+var dirZ = z - centerZ;
 
-    var length = Math.sqrt(dirX*dirX + dirY*dirY + dirZ*dirZ);
-    if (length === 0) length = 0.0001;
+var length = Math.sqrt(dirX*dirX + dirY*dirY + dirZ*dirZ);
+if (length === 0) length = 0.0001;
 
-    dirX /= length;
-    dirY /= length;
-    dirZ /= length;
+dirX /= length;
+dirY /= length;
+dirZ /= length;
 
-    // 🎯 Appliquer la logique UNIQUEMENT pour bras / mains
-    var isArmZone =
-        (centerKey === "hautBrasDroit"  ||
-         centerKey === "avantBrasDroit" ||
-         centerKey === "mainDroite"      ||
-         centerKey === "hautBrasGauche"  ||
-         centerKey === "avantBrasGauche"  ||
-         centerKey === "mainGauche");
+// 🎯 Détection de la zone bras / mains
+var isArmZone =
+    (centerKey === "hautBrasDroit"  ||
+     centerKey === "avantBrasDroit" ||
+     centerKey === "mainDroite"      ||
+     centerKey === "hautBrasGauche"  ||
+     centerKey === "avantBrasGauche"  ||
+     centerKey === "mainGauche");
 
-    // Si zone bras → orientation par côté
+// Projection spécifique si zone bras
+if (isArmZone) {
 
-    // Projection radiale depuis l’axe médian du corps (x = 0)
-    if (isArmZone) {
-
-        // Projection radiale depuis l’axe médian du corps (x = 0)
-        if (x < 0) {
-            dirX = 1;  // bras droit → vers intérieur droit
-        } else {
-            dirX = -1;   // bras gauche → vers intérieur gauche
-        }
-
-        // On annule l'influence verticale et profondeur
-        dirY = 0;
-        dirZ = 0;
+    // Projection radiale par rapport à l’axe médian du corps (x = 0)
+    if (x < 0) {
+        dirX = -1;  // bras droit → vers extérieur droit
+    } else {
+        dirX = 1;   // bras gauche → vers extérieur gauche
     }
 
-    // 5️⃣ Projection extérieure
-    x += dirX * peak;
-    y += dirY * peak;
-    z += dirZ * peak;
+    // On annule l'influence verticale et profondeur
+    dirY = 0;
+    dirZ = 0;
+}
+
+// 5️⃣ Projection extérieure
+x += dirX * peak;
+y += dirY * peak;
+z += dirZ * peak;
 
     // 6️⃣ Micro-élévations locales
     if (specialProfile) {
