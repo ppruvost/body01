@@ -281,12 +281,20 @@ function calculateInclinedParabolicCurve(t, p1, p2, specialProfile, centerKey) {
          centerKey === "mainGauche");
 
     // Si zone bras → orientation par côté
+
+    // Projection radiale depuis l’axe médian du corps (x = 0)
     if (isArmZone) {
-        if (x > centerX) {
-            dirX = Math.abs(dirX);  // côté droit
+
+        // Projection radiale depuis l’axe médian du corps (x = 0)
+        if (x < 0) {
+            dirX = -1;  // bras droit → vers extérieur droit
         } else {
-            dirX = -Math.abs(dirX); // côté gauche
+            dirX = 1;   // bras gauche → vers extérieur gauche
         }
+
+        // On annule l'influence verticale et profondeur
+        dirY = 0;
+        dirZ = 0;
     }
 
     // 5️⃣ Projection extérieure
