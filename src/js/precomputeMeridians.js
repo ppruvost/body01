@@ -279,14 +279,8 @@ dirZ /= length;
 // 🎯 Si zone bras → projection latérale (et pas radiale)
 if (isArmZone) {
 
-    // On projette selon l’axe du corps (x = 0)
-    if (x < 0) {
-        dirX = -1;  // bras droit → vers extérieur droit
-    } else {
-        dirX = 1;   // bras gauche → vers extérieur gauche
-    }
+    dirX = (x - BODY_CENTER.x) > 0 ? 1 : -1;
 
-    // On annule y et z pour une projection propre
     dirY = 0;
     dirZ = 0;
 }
