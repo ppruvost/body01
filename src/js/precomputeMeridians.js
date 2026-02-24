@@ -287,9 +287,9 @@ function calculateInclinedParabolicCurve(t, p1, p2, specialProfile, centerKey) {
 
         // Projection radiale depuis l’axe médian du corps (x = 0)
         if (x < 0) {
-            dirX = -1;  // bras droit → vers extérieur droit
+            dirX = 1;  // bras droit → vers intérieur droit
         } else {
-            dirX = 1;   // bras gauche → vers extérieur gauche
+            dirX = -1;   // bras gauche → vers intérieur gauche
         }
 
         // On annule l'influence verticale et profondeur
