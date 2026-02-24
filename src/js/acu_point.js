@@ -68,7 +68,7 @@ const ACU_POINTS = [
     { name: "gi19", x: 0.9322019931354847, y: 62.4, z: 5, meridian: "Gros Intestin" },
     { name: "gi20", x: 1.9322019931354855, y: 62.9, z: 4.4, meridian: "Gros Intestin" },
 	
-    { name: "e1-r", x: -2.96, y: 66.7, z: 3.05, meridian: "Estomac-r" },
+    { name: "e1-r", x: -2.96, y: 66.7, z: 3.1, meridian: "Estomac-r" },
     { name: "e2-r", x: -2.96, y: 66, z: 3.3, meridian: "Estomac-r" },
     { name: "e3-r", x: -2.8677980068645166, y: 63.7, z: 3.85, meridian: "Estomac-r" },
     { name: "e4-r", x: -2.7677980068645165, y: 61.1, z: 4.15, meridian: "Estomac-r" },
@@ -114,7 +114,7 @@ const ACU_POINTS = [
     { name: "e44-r", x: -9.467798006864498, y: -91.88, z: 7.8, meridian: "Estomac-r" },
     { name: "e45-r", x: -9.967798006864497, y: -93.05, z: 11.3, meridian: "Estomac-r" },
 
-    { name: "e1", x: 2.96, y: 66.7, z: 3.05, meridian: "Estomac" },
+    { name: "e1", x: 2.96, y: 66.7, z: 3.1, meridian: "Estomac" },
     { name: "e2", x: 2.96, y: 66, z: 3.3, meridian: "Estomac" },
     { name: "e3", x: 2.8677980068645166, y: 63.7, z: 3.85, meridian: "Estomac" },
     { name: "e4", x: 2.7677980068645165, y: 61.1, z: 4.15, meridian: "Estomac" },
@@ -215,10 +215,10 @@ const ACU_POINTS = [
     { name: "v8-r", x: -18, y: -6, z: -0.85, meridian: "Vessie-r" },
     { name: "v9-r", x: -17, y: -4, z: -2, meridian: "Vessie-r" },
 
-	{ name: "v1", x: 1.3, y: 67.15, z: 3, meridian: "Vessie" },
-    { name: "v2", x: 0.88, y: 69, z: 3, meridian: "Vessie" },
-    { name: "V3", x: 0.7, y: 71, z: 3.3, meridian: "Vessie" },
-    { name: "v4", x: 1.5, y: 71, z: 3.3, meridian: "Vessie" },
+	{ name: "v1", x: 1.3, y: 67.15, z: 2.9, meridian: "Vessie" },
+    { name: "v2", x: 0.88, y: 69, z: 3.4, meridian: "Vessie" },
+    { name: "V3", x: 0.7, y: 71, z: 3.1, meridian: "Vessie" },
+    { name: "v4", x: 1.5, y: 71, z: 3.4, meridian: "Vessie" },
     { name: "v5", x: 21, y: -12, z: 2, meridian: "Vessie" },
     { name: "v6", x: 20, y: -10, z: 1, meridian: "Vessie" },
     { name: "v7", x: 19, y: -8, z: 0, meridian: "Vessie" },
