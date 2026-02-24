@@ -255,23 +255,7 @@ function calculateInclinedParabolicCurve(t, p1, p2, specialProfile, centerKey) {
     var parabola = Math.pow(Math.sin(Math.PI * t), 0.75) * ventreDos;
     var peak = peakFactor * parabola * parabolaFactor;
 
-// 4️⃣ Direction par rapport au centre du segment
-var centerX = BODY_CENTER.x;
-var centerY = BODY_CENTER.y;
-var centerZ = BODY_CENTER.z;
-
-var dirX = x - centerX;
-var dirY = y - centerY;
-var dirZ = z - centerZ;
-
-var length = Math.sqrt(dirX*dirX + dirY*dirY + dirZ*dirZ);
-if (length === 0) length = 0.0001;
-
-dirX /= length;
-dirY /= length;
-dirZ /= length;
-
-// 🎯 Détection de la zone bras / mains
+// 4️⃣ Détection zone bras
 var isArmZone =
     (centerKey === "hautBrasDroit"  ||
      centerKey === "avantBrasDroit" ||
@@ -280,22 +264,34 @@ var isArmZone =
      centerKey === "avantBrasGauche"  ||
      centerKey === "mainGauche");
 
-// Projection spécifique si zone bras
+// 4️⃣ Direction initiale (utile pour zones non bras)
+var dirX = x - BODY_CENTER.x;
+var dirY = y - BODY_CENTER.y;
+var dirZ = z - BODY_CENTER.z;
+
+var length = Math.sqrt(dirX*dirX + dirY*dirY + dirZ*dirZ);
+if (length === 0) length = 0.0001;
+
+dirX /= length;
+dirY /= length;
+dirZ /= length;
+
+// 🎯 Si zone bras → projection latérale (et pas radiale)
 if (isArmZone) {
 
-    // Projection radiale par rapport à l’axe médian du corps (x = 0)
+    // On projette selon l’axe du corps (x = 0)
     if (x < 0) {
         dirX = -1;  // bras droit → vers extérieur droit
     } else {
         dirX = 1;   // bras gauche → vers extérieur gauche
     }
 
-    // On annule l'influence verticale et profondeur
+    // On annule y et z pour une projection propre
     dirY = 0;
     dirZ = 0;
 }
 
-// 5️⃣ Projection extérieure
+// 5️⃣ Application de la projection
 x += dirX * peak;
 y += dirY * peak;
 z += dirZ * peak;
