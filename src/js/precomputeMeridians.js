@@ -409,13 +409,13 @@ function buildMeridianCurves(scene) {
             var specialProfile = getSpecialCurveProfile(p1, p2);
 
             // Gestion globale du méridien du cœur C2 → C9
-            if (!specialProfile && p1.meridian === "C") {
+            if (!specialProfile && p1.meridian.indexOf("Cœur") === 0) {
 
                 var n1 = parseInt(p1.name.replace(/\D/g, ''));
                 var n2 = parseInt(p2.name.replace(/\D/g, ''));
 
                 if (n1 >= 2 && n2 >= 2) {
-                    specialProfile = parseElevationString(SPECIAL_CURVES["coeur-global"]);
+                    specialProfile = parseElevationString(SPECIAL_CURVES["Cœur-global"]);
                 }
             }
             
