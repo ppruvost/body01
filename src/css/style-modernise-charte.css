@@ -229,37 +229,47 @@ iframe {
 }
 
 /* ===============================
-   LAYOUT : COLONNES 100% HAUTEUR
+   LAYOUT DESKTOP
    =============================== */
 
-/* Empêche le scroll global */
 html, body {
   height: 100%;
   margin: 0;
   overflow: hidden;
 }
 
-/* La ligne prend toute la hauteur */
-.container-fluid, .row {
-  height: 100vh;
+.container {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
 }
 
-/* Toutes les colonnes prennent la pleine hauteur */
+.container-fluid {
+  flex: 1;                /* prend tout l’espace restant */
+  display: flex;
+}
+
+.container-fluid .row {
+  flex: 1;
+  width: 100%;
+  margin: 0;
+}
+
 .col-md-3,
 .col-3d,
 #contenu {
-  height: 100vh;
+  height: 100%;
   overflow-y: auto;
 }
 
-/* Colonne 2 (3D) : pas de scroll */
-.col-3d {
-  overflow: hidden;
+/* colonne 3 */
+#contenu {
+  padding-right: 15px;
 }
 
-/* Option : scrollbar plus discrète */
-#contenu {
-  scrollbar-width: thin;
+/* colonne 2 (3D) */
+.col-3d {
+  overflow: hidden;
 }
 
 /* ===============================
