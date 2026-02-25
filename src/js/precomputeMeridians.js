@@ -41,12 +41,17 @@ Object.assign(BODY_CENTERS, {
 // Initialisation des courbes spéciales
 Object.assign(SPECIAL_CURVES, {    
     "vc1-vc2": "(1.1;1.4;0.9|0|1|1.1|3.2)",
-    "e19-e20": "(0.10;0.25;0.10|0|1.4|1.6|3.8)",
-    "e19-r-e20-r": "(0.10;0.25;0.10|0|1.4|1.6|3.8)",
+    
+    "e19-e20": "(0.10;0.25;0.10|0|1.4|1.6|3.8)",    
+    "e19-r-e20-r": "(-0.10;0.25;0.10|0|1.4|1.6|3.8)",
+    
     "vc13-vc12": "(0.15;0.35;0.15|0|1.6|1.8|4.2)",
-    "vc13-r-vc12-r": "(0.15;0.35;0.15|0|1.6|1.8|4.2)",
+    "vc13-r-vc12-r": "(-0.15;0.35;0.15|0|1.6|1.8|4.2)",
+    
     "p2-p3": "(1.6;1.9;1.2|0|1|1.15|3.4)",
-    "p2-r-p3-r": "(1.6;1.9;1.2|0|1|1.15|3.4)"
+    "p2-r-p3-r": "(-1.6;1.9;1.2|0|1|1.15|3.4)",
+    
+    "coeur-global": "(0.4;0.8;0.4|30|1|1.4|3.2)"    // seul paramètre angle à adapter si besoin pour méridien du coeur
 });
 
 // Fonction pour analyser les paramètres des courbes spéciales
@@ -255,40 +260,38 @@ function calculateInclinedParabolicCurve(t, p1, p2, specialProfile, centerKey) {
     var parabola = Math.pow(Math.sin(Math.PI * t), 0.75) * ventreDos;
     var peak = peakFactor * parabola * parabolaFactor;
 
-// 4️⃣ Détection zone bras
-var isArmZone =
-    (centerKey === "hautBrasDroit"  ||
-     centerKey === "avantBrasDroit" ||
-     centerKey === "mainDroite"      ||
-     centerKey === "hautBrasGauche"  ||
-     centerKey === "avantBrasGauche"  ||
-     centerKey === "mainGauche");
+    // 4️⃣ Direction initiale (utile pour zones non bras)
+    var dirX = x - BODY_CENTER.x;
+    var dirY = y - BODY_CENTER.y;
+    var dirZ = z - BODY_CENTER.z;
 
-// 4️⃣ Direction initiale (utile pour zones non bras)
-var dirX = x - BODY_CENTER.x;
-var dirY = y - BODY_CENTER.y;
-var dirZ = z - BODY_CENTER.z;
+    var length = Math.sqrt(dirX*dirX + dirY*dirY + dirZ*dirZ);
+    if (length === 0) length = 0.0001;
 
-var length = Math.sqrt(dirX*dirX + dirY*dirY + dirZ*dirZ);
-if (length === 0) length = 0.0001;
+    dirX /= length;
+    dirY /= length;
+    dirZ /= length;
 
-dirX /= length;
-dirY /= length;
-dirZ /= length;
+    // 🔴 Rotation angulaire si profil spécial coeur
+    if (specialProfile && specialProfile.angleDegrees !== 0) {
 
-// 🎯 Si zone bras → projection latérale (et pas radiale)
-if (isArmZone) {
+        var angleRad = specialProfile.angleDegrees * Math.PI / 180;
 
-    dirX = (x - BODY_CENTER.x) > 0 ? 1 : -1;
+        var cos = Math.cos(angleRad);
+        var sin = Math.sin(angleRad);
 
-    dirY = 0;
-    dirZ = 0;
-}
+        // Rotation autour de l’axe Y (courbure latérale)
+        var rotatedX = dirX * cos - dirZ * sin;
+        var rotatedZ = dirX * sin + dirZ * cos;
 
-// 5️⃣ Application de la projection
-x += dirX * peak;
-y += dirY * peak;
-z += dirZ * peak;
+        dirX = rotatedX;
+        dirZ = rotatedZ;
+    }
+
+    // 5️⃣ Application de la projection
+    x += dirX * peak;
+    y += dirY * peak;
+    z += dirZ * peak;
 
     // 6️⃣ Micro-élévations locales
     if (specialProfile) {
@@ -393,6 +396,18 @@ function buildMeridianCurves(scene) {
             geometry.vertices.push(new THREE.Vector3(p1.x, p1.y, p1.z));
 
             var specialProfile = getSpecialCurveProfile(p1, p2);
+
+            // Gestion globale du méridien du cœur C2 → C9
+            if (!specialProfile && p1.meridian === "C") {
+
+                var n1 = parseInt(p1.name.replace(/\D/g, ''));
+                var n2 = parseInt(p2.name.replace(/\D/g, ''));
+
+                if (n1 >= 2 && n2 >= 2) {
+                    specialProfile = parseElevationString(SPECIAL_CURVES["coeur-global"]);
+                }
+            }
+            
             var segments = 80;
             var bodyCenterKey = getBodyCenterKey(p1, p2);
 
