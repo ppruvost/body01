@@ -262,4 +262,27 @@ html, body {
   scrollbar-width: thin;
 }
 
+/* ===============================
+   RESPONSIVE MOBILE
+   =============================== */
+@media (max-width: 768px) {
+
+  html, body {
+    height: auto;
+    overflow: auto;
+  }
+
+  .container-fluid, .row {
+    height: auto;
+  }
+
+  .col-md-3,
+  .col-3d,
+  #contenu {
+    height: auto;
+    overflow: visible;
+  }
+
+}
+
 </style>
