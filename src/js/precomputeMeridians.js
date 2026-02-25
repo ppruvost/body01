@@ -10,7 +10,7 @@ Object.assign(BODY_CENTERS, {
     couronne: { x: 0, y: 0, z: 0 },
     troisiemeOeil: { x: 0, y: 0, z: 0 },
     gorge: { x: 0, y: 0, z: 0 },
-    coeur: { x: 0, y: 0, z: 0 },
+    Cœur: { x: 0, y: 0, z: 0 },
     plexusSolaire: { x: 0, y: 0, z: 0 },
     sacre: { x: 0, y: 0, z: 0 },
     racine: { x: 0, y: 0, z: 0 },        
@@ -51,7 +51,7 @@ Object.assign(SPECIAL_CURVES, {
     "p2-p3": "(1.6;1.9;1.2|0|1|1.15|3.4)",
     "p2-r-p3-r": "(1.6;1.9;1.2|0|1|1.15|3.4)",
     
-    "coeur-global": "(0.4;0.8;0.4|-90|1|1.4|3.2)"    // seul paramètre angle à adapter si besoin pour méridien du coeur
+    "Cœur-global": "(0.4;0.8;0.4|-90|1|1.4|3.2)"    // seul paramètre angle à adapter si besoin pour méridien du coeur
 });
 
 // Fonction pour analyser les paramètres des courbes spéciales
@@ -109,7 +109,7 @@ function getBodyCenterKey(p1, p2) {
 
     // Cœur
     if (inZone(p1, 16, 26) || inZone(p2, 31, 49))
-        return "coeur";
+        return "Cœur";
 
     // Plexus solaire
     if (inZone(p1, 10, 16) || inZone(p2, 14, 31))
@@ -272,7 +272,7 @@ function calculateInclinedParabolicCurve(t, p1, p2, specialProfile, centerKey) {
     dirY /= length;
     dirZ /= length;
 
-    // 🔴 Rotation angulaire si profil spécial coeur
+    // 🔴 Rotation angulaire si profil spécial Cœur
     if (specialProfile && specialProfile.angleDegrees !== 0) {
 
         var angleRad = specialProfile.angleDegrees * Math.PI / 180;
@@ -313,7 +313,7 @@ function computeChakraCenters() {
         couronne:        { minY: 68,  maxY: 100 },
         troisiemeOeil:   { minY: 58,  maxY: 68 },
         gorge:           { minY: 26,  maxY: 34 },
-        coeur:           { minY: 16,  maxY: 26 },
+        Cœur:           { minY: 16,  maxY: 26 },
         plexusSolaire:   { minY: 10,  maxY: 16 },
         sacre:           { minY: 2,   maxY: 10 },
         racine:          { minY: -10, maxY: 2 },
@@ -368,6 +368,12 @@ function computeChakraCenters() {
         if (key === "couronne") {
             BODY_CENTERS[key].z -= 5;   // recule de 5 unités
         }
+
+        // Décalage spécifique du chakra Cœur vers l’arrière
+        if (key === "Cœur") {
+            BODY_CENTERS[key].z = -2;
+        }
+        
     });
 }
         
