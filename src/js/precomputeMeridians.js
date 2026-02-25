@@ -96,31 +96,31 @@ function getBodyCenterKey(p1, p2) {
     }
 
     // Couronne
-    if (inZone(p1, 68, 100) || inZone(p2, 68, 100))
+    if (inZone(p1, 68, 100) || inZone(p2, 71, 80))
         return "couronne";
 
     // Troisième œil
-    if (inZone(p1, 58, 68) || inZone(p2, 58, 68))
+    if (inZone(p1, 58, 68) || inZone(p2, 63, 71))
         return "troisiemeOeil";
 
     // Gorge
-    if (inZone(p1, 26, 34) || inZone(p2, 26, 34))
+    if (inZone(p1, 26, 34) || inZone(p2, 49, 63))
         return "gorge";
 
     // Cœur
-    if (inZone(p1, 16, 26) || inZone(p2, 16, 26))
+    if (inZone(p1, 16, 26) || inZone(p2, 31, 49))
         return "coeur";
 
     // Plexus solaire
-    if (inZone(p1, 10, 16) || inZone(p2, 10, 16))
+    if (inZone(p1, 10, 16) || inZone(p2, 14, 31))
         return "plexusSolaire";
 
     // Sacré
-    if (inZone(p1, 2, 10) || inZone(p2, 2, 10))
+    if (inZone(p1, 2, 10) || inZone(p2, 7, 14))
         return "sacre";
 
     // Racine
-    if (inZone(p1, -10, 2) || inZone(p2, -10, 2))
+    if (inZone(p1, -10, 2) || inZone(p2, -13, 7))
         return "racine";
 
     // Haut bras droit
