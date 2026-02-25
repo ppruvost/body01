@@ -275,12 +275,19 @@ function calculateInclinedParabolicCurve(t, p1, p2, specialProfile, centerKey) {
     // 🔴 Rotation angulaire si profil spécial Cœur
     if (specialProfile && specialProfile.angleDegrees !== 0) {
 
-        var angleRad = specialProfile.angleDegrees * Math.PI / 180;
+        var angle = specialProfile.angleDegrees;
+
+        // 🔁 Inversion automatique pour le côté gauche
+        if (p1.x > 0) {   // côté gauche (tes x positifs)
+            angle = -angle;
+        }
+
+        var angleRad = angle * Math.PI / 180;
 
         var cos = Math.cos(angleRad);
         var sin = Math.sin(angleRad);
 
-        // Rotation autour de l’axe Y (courbure latérale)
+        // Rotation autour de l’axe Y
         var rotatedX = dirX * cos - dirZ * sin;
         var rotatedZ = dirX * sin + dirZ * cos;
 
