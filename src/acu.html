@@ -58,32 +58,50 @@ var sphereGeometry = new THREE.SphereGeometry(0.3,16,16);
 /* ================= COLORS ================= */
 
 function getMeridianColor(meridian) {
-    const colors = {
-        "Maître Coeur": 0x0000FF,
-        "Poumon": 0xFF00561B,
-        "Poumon-r": 0xFF00561B,
-        "Gros Intestin": 0x00CED1,
-        "Gros Intestin-r": 0x00CED1,
-        "Estomac": 0xFFD700,
-        "Estomac-r": 0xFFD700,
-        "Rate": 0xF4D03F,
-        "Rate-r": 0xF4D03F,
-        "Cœur": 0xFF0000,
-        "Cœur-r": 0xFF0000,
-        "Intestin Grele": 0xFF4500,
-        "Intestin Grele-r": 0xFF4500,
-        "Vessie": 0x1E90FF,
-        "Vessie-r": 0x1E90FF,
-        "Rein": 0x00008B,
-        "Rein-r": 0x00008B,
-        "Foie": 0x228B22,
-        "Foie-r": 0x228B22,
-        "Vesicule Biliaire": 0x32CD32,
-        "Vesicule Biliaire-r": 0x32CD32,
-        "Vaisseau Conception": 0x9370DB,
-        "Vaisseau Gouverneur": 0x8B0000
-    };
-    return colors[meridian] || 0xffffff;
+const colors = {
+
+    // 🌳 BOIS
+    "Foie": 0x1B5E20,
+    "Foie-r": 0x2E7D32,
+    "Vesicule Biliaire": 0x43A047,
+    "Vesicule Biliaire-r": 0x66BB6A,
+
+    // 🔥 FEU IMPERIAL
+    "Cœur": 0xB71C1C,
+    "Cœur-r": 0xE53935,
+    "Intestin Grele": 0xD84315,
+    "Intestin Grele-r": 0xFF7043,
+
+    // 🔥 FEU MINISTRE
+    "Péricarde": 0x880E4F,
+    "Péricarde-r": 0xC2185B,
+    "Triple Réchauffeur": 0xE65100,
+    "Triple Réchauffeur-r": 0xFB8C00,
+
+    // 🌍 TERRE
+    "Rate": 0x9E7D0A,
+    "Rate-r": 0xFBC02D,
+    "Estomac": 0xF9A825,
+    "Estomac-r": 0xFFD54F,
+
+    // ⚙️ METAL
+    "Poumon": 0xB0BEC5,
+    "Poumon-r": 0xECEFF1,
+    "Gros Intestin": 0x90A4AE,
+    "Gros Intestin-r": 0xCFD8DC,
+
+    // 💧 EAU
+    "Rein": 0x0D47A1,
+    "Rein-r": 0x1976D2,
+    "Vessie": 0x1565C0,
+    "Vessie-r": 0x42A5F5,
+
+    // ☯️ VAISSEAUX EXTRAORDINAIRES
+    "Vaisseau Conception": 0x7B1FA2,
+    "Vaisseau Gouverneur": 0x4A148C
+};
+
+return colors[meridian] || 0xffffff;
 }
 
 /* ================= POINTS ================= */
