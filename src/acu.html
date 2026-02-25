@@ -186,10 +186,12 @@ function init() {
     window.addEventListener('mousemove', onMouseMove);
     window.addEventListener('click', onMouseClick);
 
-    // Empêche le scroll de la page parent quand on utilise la molette
-    renderer.domElement.addEventListener('wheel', function(event) {
-        event.preventDefault();
-    }, { passive: false });
+    // Bloque le scroll uniquement si la page est dans une iframe
+    if (window.self !== window.top) {
+        renderer.domElement.addEventListener('wheel', function(event) {
+            event.preventDefault();
+        }, { passive: false });
+}
 }
 
 /* ================= EVENTS ================= */
