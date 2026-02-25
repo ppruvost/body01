@@ -378,7 +378,7 @@ function computeChakraCenters() {
 
         // Décalage spécifique du chakra Cœur vers l’arrière
         if (key === "Cœur") {
-            BODY_CENTERS[key].z = -2;
+            BODY_CENTERS[key].z = -3;
         }
         
     });
