@@ -51,7 +51,7 @@ Object.assign(SPECIAL_CURVES, {
     "p2-p3": "(1.6;1.9;1.2|0|1|1.15|3.4)",
     "p2-r-p3-r": "(1.6;1.9;1.2|0|1|1.15|3.4)",
     
-    "Cœur-global": "(0.4;0.8;0.4|-90|1|1.4|3.2)"    // seul paramètre angle à adapter si besoin pour méridien du coeur
+    "Cœur-global": "(0.4;0.8;0.4|-45|1|1.4|3.2)"    // seul paramètre angle à adapter si besoin pour méridien du coeur
 });
 
 // Fonction pour analyser les paramètres des courbes spéciales
@@ -408,13 +408,13 @@ function buildMeridianCurves(scene) {
 
             var specialProfile = getSpecialCurveProfile(p1, p2);
 
-            // Gestion globale du méridien du cœur C2 → C9
+            // Gestion globale du méridien du cœur C1 → C9
             if (!specialProfile && p1.meridian.indexOf("Cœur") === 0) {
 
                 var n1 = parseInt(p1.name.replace(/\D/g, ''));
                 var n2 = parseInt(p2.name.replace(/\D/g, ''));
 
-                if (n1 >= 2 && n2 >= 2) {
+                if (n1 >= 1 && n2 >= 1) {
                     specialProfile = parseElevationString(SPECIAL_CURVES["Cœur-global"]);
                 }
             }
