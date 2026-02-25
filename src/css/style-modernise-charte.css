@@ -229,37 +229,37 @@ iframe {
 }
 
 /* ===============================
-   LAYOUT : SCROLL PAR COLONNE
+   LAYOUT : COLONNES 100% HAUTEUR
    =============================== */
 
-/* Empêche le scroll global de la page */
+/* Empêche le scroll global */
 html, body {
   height: 100%;
+  margin: 0;
   overflow: hidden;
 }
 
-/* Hauteur pleine pour la ligne */
+/* La ligne prend toute la hauteur */
 .container-fluid, .row {
   height: 100vh;
 }
 
-/* Colonne 1 : arborescence (scrollable) */
-.col-md-3 {
-  height: 100vh;
-  overflow-y: auto;
-}
-
-/* Colonne 2 : 3D (pas de scroll) */
-.col-3d {
-  height: 100vh;
-  overflow: hidden;
-}
-
-/* Colonne 3 : contenu (scrollable) */
+/* Toutes les colonnes prennent la pleine hauteur */
+.col-md-3,
+.col-3d,
 #contenu {
   height: 100vh;
   overflow-y: auto;
-  padding-right: 12px;
+}
+
+/* Colonne 2 (3D) : pas de scroll */
+.col-3d {
+  overflow: hidden;
+}
+
+/* Option : scrollbar plus discrète */
+#contenu {
+  scrollbar-width: thin;
 }
 
 </style>
