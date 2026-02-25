@@ -363,6 +363,11 @@ function computeChakraCenters() {
             y: sumY / filtered.length,
             z: sumZ / filtered.length
         };
+
+        // Décalage spécifique chakra couronne vers l’arrière
+        if (key === "couronne") {
+            BODY_CENTERS[key].z -= 5;   // recule de 5 unités
+        }
     });
 }
         
