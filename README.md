@@ -111,7 +111,4 @@ Ce projet vise à offrir une **lecture symbolique et énergétique du corps**, a
 Bonne exploration ✨
 
 
-Auteur et Contact
-Bien-être et Géobiologie
-Granville, France
-bien-etre-geobiologie.fr
+Auteur et Contact : Patrick PRUVOST | Bien-être et Géobiologie - Granville, France | https://bien-etre-geobiologie.fr | info.geobiologie@gmail.com
