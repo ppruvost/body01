@@ -3,11 +3,11 @@
 <head>
 <meta charset="utf-8">
 <title>Energy Points Connection</title>
-<!-- Compatible code version for three.js r71 written by ppruvost github.com -->
+/* Compatible code version for three.js r71 written by ppruvost github.com */
 <style>
 body {
     margin: 0;
-    overflow: auto;
+    overflow: hidden; /* Empêche le scroll de la page */
     background-color: #BD786C;
     font-family: monospace;
 }
@@ -23,7 +23,7 @@ body {
     white-space: nowrap;
     z-index: 9999;
     pointer-events: none;
-   <!-- display: none; /* Masquer par défaut */-->
+   /* display: none; Masquer par défaut */
 }
 .point-name { font-weight: bold; font-size:18px; }
 </style>
@@ -185,11 +185,7 @@ function init() {
     window.addEventListener('resize', onWindowResize);
     window.addEventListener('mousemove', onMouseMove);
     window.addEventListener('click', onMouseClick);
-
-    // Molette active uniquement pour le zoom 3D
-    renderer.domElement.addEventListener('wheel', function(event) {
-        event.stopPropagation(); 
-    }, { passive: true });
+  
 }
 
 /* ================= EVENTS ================= */
