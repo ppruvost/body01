@@ -7,7 +7,7 @@
 <style>
 body {
     margin: 0;
-    overflow: hidden;
+    overflow: auto;
     background-color: #BD786C;
     font-family: monospace;
 }
@@ -186,11 +186,10 @@ function init() {
     window.addEventListener('mousemove', onMouseMove);
     window.addEventListener('click', onMouseClick);
 
-    // Bloque le scroll uniquement si la page est dans une iframe
-    if (window.self !== window.top) {
-        renderer.domElement.addEventListener('wheel', function(event) {
-            event.preventDefault();
-        }, { passive: false });
+    // Molette active uniquement pour le zoom 3D
+    renderer.domElement.addEventListener('wheel', function(event) {
+        event.stopPropagation(); 
+    }, { passive: true });
 }
 }
 
