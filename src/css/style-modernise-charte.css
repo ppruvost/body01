@@ -66,7 +66,7 @@ p {font-size: 13px;line-height: 1.7;margin-bottom: 16px;}
   display: flex;           
   flex-wrap: nowrap;       /* empêche le texte de passer sous l'iframe */
   gap: 20px;               
-  align-items: flex-start; 
+  align-items: stretch; 
   width: 100%;
   box-sizing: border-box;
 }
@@ -84,11 +84,15 @@ p {font-size: 13px;line-height: 1.7;margin-bottom: 16px;}
 
 /* Colonne iframe 3D */
 .col-3d {
-  flex: 0 0 35%;       /* largeur fixe */
-  max-width: 35%;      /* ne dépassera jamais */
+  flex: 0 0 35%;
+  max-width: 35%;
   min-width: 200px;
-  overflow: hidden;
   box-sizing: border-box;
+
+  position: sticky;   /* <-- AJOUT */
+  top: 0;             /* <-- AJOUT */
+  height: 100vh;      /* <-- AJOUT */
+  overflow: hidden;   /* garde le zoom propre */
 }
 
 /* ===============================
@@ -160,10 +164,6 @@ p {font-size: 13px;line-height: 1.7;margin-bottom: 16px;}
 /* ===============================
    Contenu texte
    =============================== */
-/* iframe pleine hauteur */
-iframe {
-  min-height: 100vh;
-}
 
 #contenu {
   max-height: none;          /* autorise la hauteur illimitée */
