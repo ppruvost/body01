@@ -225,5 +225,8 @@ const ACU_POINTS = [
     { name: "v7", x: 1.5, y: 76.68, z: -2.7, meridian: "Vessie" },
     { name: "v8", x: 1.5, y: 74.9, z: -12, meridian: "Vessie" },
     { name: "v9", x: 1.5, y: 66, z: -14.05, meridian: "Vessie" },
-	{ name: "v10", x: 1.5, y: 62, z: -12.7, meridian: "Vessie" }
+	{ name: "v10", x: 1.5, y: 56.1, z: -12.7, meridian: "Vessie" },
+	 { name: "v11", x: 1.5, y: 62, z: -14.05, meridian: "Vessie" },
+
+	{ name: "v30", x: 1.5, y: 4.33, z: -14.5, meridian: "Vessie" }
 ];
