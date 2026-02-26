@@ -1,4 +1,4 @@
-# 🌀 Radiesthésie & Lecture des Points Énergétiques Bloqués
+# Radiesthésie & Lecture des Points Énergétiques Bloqués
 
 Ce site propose une **approche de lecture énergétique du corps par radiesthésie au pendule**, centrée sur l’identification et l’interprétation des **points bloqués** le long des méridiens.
 
@@ -6,7 +6,7 @@ Il s’agit d’un outil d’exploration et de compréhension des déséquilibre
 
 ---
 
-## 🎯 Intention du site
+## Intention du site
 
 L’objectif principal est de fournir un **support de lecture et d’aide à l’interprétation radiesthésique**, à travers :
 
@@ -20,7 +20,7 @@ chaque section correspond à un méridien ou à une zone énergétique spécifiq
 
 ---
 
-## 🧭 Principe de la radiesthésie utilisée
+## Principe de la radiesthésie utilisée
 
 La radiesthésie est une pratique de perception énergétique utilisant un **pendule comme amplificateur de réponses subtiles**.
 
@@ -35,11 +35,11 @@ Les réponses sont interprétées selon :
 - son intensité
 - la clarté de l’intention posée
 
-> ⚠️ Les résultats dépendent fortement de la qualité de centrage, de l’intention et de la neutralité de l’observateur.
+> Les résultats dépendent fortement de la qualité de centrage, de l’intention et de la neutralité de l’observateur.
 
 ---
 
-## 📌 Contenu du site
+## Contenu du site
 
 Le site est organisé autour des **méridiens énergétiques traditionnels**.
 
@@ -68,7 +68,7 @@ Pour chaque méridien, tu trouveras :
 
 ---
 
-## 🧠 Lecture des points bloqués
+## Lecture des points bloqués
 
 Lorsqu’un point est identifié comme « bloqué » au pendule, cela peut indiquer :
 
@@ -81,7 +81,7 @@ Les interprétations proposées sur le site sont **indicatives** et servent de s
 
 ---
 
-## 🛠️ Conseils d’utilisation
+## Conseils d’utilisation
 
 - Pose des **questions simples, claires et neutres**
 - Travaille dans un état de calme et de centrage
@@ -91,7 +91,7 @@ Les interprétations proposées sur le site sont **indicatives** et servent de s
 
 ---
 
-## ⚖️ Avertissement
+## Avertissement
 
 Ce site est destiné à un usage personnel, pédagogique et exploratoire.
 
@@ -104,11 +104,11 @@ Toute pratique énergétique engage la responsabilité de l’utilisateur.
 
 ---
 
-## 🌱 Conclusion
+## Conclusion
 
 Ce projet vise à offrir une **lecture symbolique et énergétique du corps**, accessible et structurée, pour accompagner une démarche de compréhension de soi, d’écoute corporelle et de cheminement personnel.
 
-Bonne exploration ✨
+Bonne exploration
 
 
 Auteur et Contact : Patrick PRUVOST | Bien-être et Géobiologie - Granville, France | https://bien-etre-geobiologie.fr | info.geobiologie@gmail.com
