@@ -51,7 +51,13 @@ Object.assign(SPECIAL_CURVES, {
     "p2-p3": "(1.6;1.9;1.2|0|1|1.15|3.4)",
     "p2-r-p3-r": "(1.6;1.9;1.2|0|1|1.15|3.4)",
     
-    "Cœur-global": "(0.4;0.8;0.4|-60|1|1.4|3.2)"    // seul paramètre angle à adapter si besoin pour méridien du coeur
+    "Cœur-global": "(0.4;0.8;0.4|-60|1|1.4|3.2)",    // seul paramètre angle à adapter si besoin pour méridien du coeur
+
+    "v10-v41": "(-0.85;8.49;1.05|0|1|8.53|8.59)",
+    "v10-r-v41-r": "(0.85;8.49;1.05|0|1|8.53|8.59)",
+
+    "v10-v11": "(0;5.9;0.1|0|1|5.9|5.9)",
+    "v10-r-v11-r": "(-0;5.9;0.1|0|1|5.9|5.9)"
 });
 
 // Fonction pour analyser les paramètres des courbes spéciales
