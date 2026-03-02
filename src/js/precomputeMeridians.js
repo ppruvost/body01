@@ -416,6 +416,82 @@ function buildMeridianCurves(scene) {
         for (var i = 0; i < points.length - 1; i++) {
             var p1 = points[i];
             var p2 = points[i + 1];
+            // Détection de la bifurcation pour v10 → v11 et v10 → v41
+            if (p1.name === "v10" && (p2.name === "v11" || p2.name === "v41")) {
+                // 1. Courbe v10 → v11
+                if (p2.name === "v11") {
+                    var geometryV10ToV11 = new THREE.Geometry();
+                    geometryV10ToV11.vertices.push(new THREE.Vector3(p1.x, p1.y, p1.z));
+                    var specialProfileV10ToV11 = getSpecialCurveProfile(p1, { name: "v11" });
+                    var bodyCenterKeyV10ToV11 = getBodyCenterKey(p1, { name: "v11" });
+                    for (var s = 1; s <= segments; s++) {
+                        var t = s / segments;
+                        var point = calculateInclinedParabolicCurve(t, p1, { name: "v11", x: 1.7, y: 56.1, z: -12.8 }, specialProfileV10ToV11, bodyCenterKeyV10ToV11);
+                        geometryV10ToV11.vertices.push(new THREE.Vector3(point.x, point.y, point.z));
+                    }
+                    geometryV10ToV11.vertices.push(new THREE.Vector3(1.7, 56.1, -12.8));
+                    var lineV10ToV11 = new THREE.Line(geometryV10ToV11, new THREE.LineBasicMaterial({ color: getMeridianColor(meridian), transparent: true, opacity: 0.75 }));
+                    scene.add(lineV10ToV11);
+                }
+
+                // 2. Courbe v10 → v41
+                if (p2.name === "v41") {
+                    var geometryV10ToV41 = new THREE.Geometry();
+                    geometryV10ToV41.vertices.push(new THREE.Vector3(p1.x, p1.y, p1.z));
+                    var specialProfileV10ToV41 = getSpecialCurveProfile(p1, { name: "v41" });
+                    var bodyCenterKeyV10ToV41 = getBodyCenterKey(p1, { name: "v41" });
+                    for (var s = 1; s <= segments; s++) {
+                        var t = s / segments;
+                        var point = calculateInclinedParabolicCurve(t, p1, { name: "v41", x: 2.55, y: 53.51, z: -13.75 }, specialProfileV10ToV41, bodyCenterKeyV10ToV41);
+                        geometryV10ToV41.vertices.push(new THREE.Vector3(point.x, point.y, point.z));
+                    }
+                    geometryV10ToV41.vertices.push(new THREE.Vector3(2.55, 53.51, -13.75));
+                    var lineV10ToV41 = new THREE.Line(geometryV10ToV41, new THREE.LineBasicMaterial({ color: getMeridianColor(meridian), transparent: true, opacity: 0.75 }));
+                    scene.add(lineV10ToV41);
+                }
+
+                // On saute l'itération suivante pour éviter de dupliquer la courbe
+                i++;
+                continue;
+            }
+
+            // Gestion des points droits (v10-r → v11-r et v10-r → v41-r)
+            if (p1.name === "v10-r" && (p2.name === "v11-r" || p2.name === "v41-r")) {
+                // Même logique que ci-dessus, mais pour les points droits
+                if (p2.name === "v11-r") {
+                    var geometryV10ToV11_r = new THREE.Geometry();
+                    geometryV10ToV11_r.vertices.push(new THREE.Vector3(p1.x, p1.y, p1.z));
+                    var specialProfileV10ToV11_r = getSpecialCurveProfile(p1, { name: "v11-r" });
+                    var bodyCenterKeyV10ToV11_r = getBodyCenterKey(p1, { name: "v11-r" });
+                    for (var s = 1; s <= segments; s++) {
+                        var t = s / segments;
+                        var point = calculateInclinedParabolicCurve(t, p1, { name: "v11-r", x: -1.7, y: 56.1, z: -12.8 }, specialProfileV10ToV11_r, bodyCenterKeyV10ToV11_r);
+                        geometryV10ToV11_r.vertices.push(new THREE.Vector3(point.x, point.y, point.z));
+                    }
+                    geometryV10ToV11_r.vertices.push(new THREE.Vector3(-1.7, 56.1, -12.8));
+                    var lineV10ToV11_r = new THREE.Line(geometryV10ToV11_r, new THREE.LineBasicMaterial({ color: getMeridianColor(meridian), transparent: true, opacity: 0.75 }));
+                    scene.add(lineV10ToV11_r);
+                }
+
+                if (p2.name === "v41-r") {
+                    var geometryV10ToV41_r = new THREE.Geometry();
+                    geometryV10ToV41_r.vertices.push(new THREE.Vector3(p1.x, p1.y, p1.z));
+                    var specialProfileV10ToV41_r = getSpecialCurveProfile(p1, { name: "v41-r" });
+                    var bodyCenterKeyV10ToV41_r = getBodyCenterKey(p1, { name: "v41-r" });
+                    for (var s = 1; s <= segments; s++) {
+                        var t = s / segments;
+                        var point = calculateInclinedParabolicCurve(t, p1, { name: "v41-r", x: -2.55, y: 53.51, z: -13.75 }, specialProfileV10ToV41_r, bodyCenterKeyV10ToV41_r);
+                        geometryV10ToV41_r.vertices.push(new THREE.Vector3(point.x, point.y, point.z));
+                    }
+                    geometryV10ToV41_r.vertices.push(new THREE.Vector3(-2.55, 53.51, -13.75));
+                    var lineV10ToV41_r = new THREE.Line(geometryV10ToV41_r, new THREE.LineBasicMaterial({ color: getMeridianColor(meridian), transparent: true, opacity: 0.75 }));
+                    scene.add(lineV10ToV41_r);
+                }
+
+                i++;
+                continue;
+            }
+
             var geometry = new THREE.Geometry();
             geometry.vertices.push(new THREE.Vector3(p1.x, p1.y, p1.z));
 
