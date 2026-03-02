@@ -24,7 +24,7 @@
             font-family: Arial, sans-serif;
             white-space: nowrap;
 
-            z-index: 9999;   /* 🔥 ESSENTIEL */
+            z-index: 9999;
             pointer-events: none;
         }
 
@@ -312,7 +312,7 @@
             });
 
             const loaderObj = new THREE.OBJLoader(manager);
-            loaderObj.load('three/modelo/corpo.obj', (object) => {
+            loaderObj.load('three/modelo/corps.obj', (object) => {
                 object.traverse((child) => {
                     if (child instanceof THREE.Mesh) {
                         child.material.map = texture;
