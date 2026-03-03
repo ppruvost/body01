@@ -47,11 +47,11 @@ Object.assign(SPECIAL_CURVES, {
     "p2-p3": "(1.6;1.9;1.2|0|1|1.15|3.4)",
     "p2-r-p3-r": "(1.6;1.9;1.2|0|1|1.15|3.4)",
     
-    "Cœur-global": "(0.4;0.8;0.4|60|1|1.4|3.2)",    // seul paramètre angle à adapter si besoin pour méridien du coeur
+    "Cœur-global": "(0.4;0.8;0.4|-90|1|1.4|3.2)",    // seul paramètre angle à adapter si besoin pour méridien du coeur
 
     "vc1-vc2": "(1.1;1.4;0.9|0|1|1.1|3.2)",    
     "vc13-vc12": "(0.15;0.35;0.15|0|1.6|1.6|4.2)",
-    "vc22-vc23": "(0.05;0.12;0.05|0|1|1.1|2.8)",
+    "vc22-vc23": "(0.08;0.18;0.08|0|1|1.3|3.4)",
     "vc23-vc24": "(0.08;0.18;0.08|0|1|1.25|3.2)"
     
 });
