@@ -245,12 +245,12 @@ function calculateInclinedParabolicCurve(t, p1, p2, specialProfile, centerKey) {
     // Récupération du centre correspondant au segment
     var BODY_CENTER = BODY_CENTERS[centerKey] || { x: 0, y: 0, z: 0 };
 
-    // 1️⃣ Position linéaire
+    // Position linéaire
     var x = p1.x + (p2.x - p1.x) * t;
     var y = p1.y + (p2.y - p1.y) * t;
     var z = p1.z + (p2.z - p1.z) * t;
 
-    // 2️⃣ Paramètres
+    // Paramètres
     var ventreDos = specialProfile ? specialProfile.ventreDos : 1;
     if (centerKey === "piedDroit" || centerKey === "piedGauche") {
         ventreDos = 1; // mettre -1 si projection part dessous
@@ -258,11 +258,11 @@ function calculateInclinedParabolicCurve(t, p1, p2, specialProfile, centerKey) {
     var peakFactor     = specialProfile ? specialProfile.peakFactor     : 1.2;
     var parabolaFactor = specialProfile ? specialProfile.parabolaFactor : 3.5;
 
-    // 3️⃣ Courbe
+    // Courbe
     var parabola = Math.pow(Math.sin(Math.PI * t), 0.75) * ventreDos;
     var peak = peakFactor * parabola * parabolaFactor;
 
-    // 4️⃣ Direction initiale (utile pour zones non bras)
+    // Direction initiale (utile pour zones non bras)
     var dirX = x - BODY_CENTER.x;
     var dirY = y - BODY_CENTER.y;
     var dirZ = z - BODY_CENTER.z;
@@ -274,12 +274,12 @@ function calculateInclinedParabolicCurve(t, p1, p2, specialProfile, centerKey) {
     dirY /= length;
     dirZ /= length;
 
-    // 🔴 Rotation angulaire si profil spécial Cœur
+    // Rotation angulaire si profil spécial Cœur
     if (specialProfile && specialProfile.angleDegrees !== 0) {
 
         var angle = specialProfile.angleDegrees;
 
-        // 🔁 Inversion automatique pour le côté gauche
+        // Inversion automatique pour le côté gauche
         if (p1.x > 0) {   // côté gauche (tes x positifs)
             angle = -angle;
         }
@@ -297,12 +297,12 @@ function calculateInclinedParabolicCurve(t, p1, p2, specialProfile, centerKey) {
         dirZ = rotatedZ;
     }
 
-    // 5️⃣ Application de la projection
+    // Application de la projection
     x += dirX * peak;
     y += dirY * peak;
     z += dirZ * peak;
 
-    // 6️⃣ Micro-élévations locales
+    // Micro-élévations locales
     if (specialProfile) {
         var spread = 2.0;
         var influence25 = Math.exp(-Math.pow((t - 0.25) * spread, 2)) * specialProfile.z25;
@@ -454,7 +454,7 @@ function buildMeridianCurves(scene) {
             return na - nb;
         });
 
-        // 🔥 BIFURCATION VESSIE GAUCHE
+        // BIFURCATION VESSIE GAUCHE
         if (meridian === "Vessie") {
 
             var v10 = points.find(p => p.name === "v10");
@@ -465,7 +465,7 @@ function buildMeridianCurves(scene) {
             if (v10 && v41) drawCurveBetween(v10, v41, meridian, scene);
         }
 
-        // 🔥 BIFURCATION VESSIE DROITE
+        // BIFURCATION VESSIE DROITE
         if (meridian === "Vessie-r") {
 
             var v10r = points.find(p => p.name === "v10-r");
@@ -489,7 +489,13 @@ function buildMeridianCurves(scene) {
             ) {
                 continue;
             }
-
+            // interdit le tracé v40 -> v41 (et variante droite)
+            if (
+                (p1.name === "v40" && p2.name === "v41") ||
+                (p1.name === "v40-r" && p2.name === "v41-r")
+            ) {
+                continue;
+            }
             drawCurveBetween(p1, p2, meridian, scene);
         }
 
