@@ -227,7 +227,7 @@ const ACU_POINTS = [
 	{ name: "v20-r", x: -1.7, y: 32.79, z: -18.85, meridian: "Vessie-r" },
 	{ name: "v21-r", x: -1.7, y: 30.20, z: -18.52, meridian: "Vessie-r" },
 	{ name: "v22-r", x: -1.7, y: 27.61, z: -18.00, meridian: "Vessie-r" },
-	{ name: "v23-r", x: -1.7, y: 25.02, z: -17.60, meridian: "Vessie-r" },
+	{ name: "v23-r", x: -1.7, y: 25.02, z: -17.50, meridian: "Vessie-r" },
 	{ name: "v24-r", x: -1.7, y: 22.43, z: -16.60, meridian: "Vessie-r" },
 	{ name: "v25-r", x: -1.7, y: 17.25, z: -14.85, meridian: "Vessie-r" },
 	{ name: "v26-r", x: -1.7, y: 14.66, z: -14.05, meridian: "Vessie-r" },
@@ -239,7 +239,7 @@ const ACU_POINTS = [
 	{ name: "v32-r", x: -0.85, y: 9.48, z: -13.60, meridian: "Vessie-r" },
 	{ name: "v33-r", x: -0.85, y: 6.89, z: -14.05, meridian: "Vessie-r" },
 	{ name: "v34-r", x: -0.85, y: 4.30, z: -14.60, meridian: "Vessie-r" },
-	{ name: "v35-r", x: -0.85, y: 0.42, z: -15.65, meridian: "Vessie-r" },
+	{ name: "v35-r", x: -0.85, y: 0.42, z: -15.45, meridian: "Vessie-r" },
 
 	{ name: "v41-r", x: -2.55, y: 53.51, z: -13.75, meridian: "Vessie-r" },
 
@@ -265,7 +265,7 @@ const ACU_POINTS = [
 	{ name: "v20", x: 1.7, y: 32.79, z: -18.85, meridian: "Vessie" },
 	{ name: "v21", x: 1.7, y: 30.20, z: -18.52, meridian: "Vessie" },
 	{ name: "v22", x: 1.7, y: 27.61, z: -18.00, meridian: "Vessie" },
-	{ name: "v23", x: 1.7, y: 25.02, z: -17.60, meridian: "Vessie" },
+	{ name: "v23", x: 1.7, y: 25.02, z: -17.50, meridian: "Vessie" },
 	{ name: "v24", x: 1.7, y: 22.43, z: -16.60, meridian: "Vessie" },
 	{ name: "v25", x: 1.7, y: 17.25, z: -14.85, meridian: "Vessie" },
 	{ name: "v26", x: 1.7, y: 14.66, z: -14.05, meridian: "Vessie" },
@@ -277,7 +277,7 @@ const ACU_POINTS = [
 	{ name: "v32", x: 0.85, y: 9.48, z: -13.60, meridian: "Vessie" },
 	{ name: "v33", x: 0.85, y: 6.89, z: -14.05, meridian: "Vessie" },
 	{ name: "v34", x: 0.85, y: 4.30, z: -14.60, meridian: "Vessie" },
-	{ name: "v35", x: 0.85, y: 0.42, z: -15.65, meridian: "Vessie" },
+	{ name: "v35", x: 0.85, y: 0.42, z: -15.45, meridian: "Vessie" },
 
 	{ name: "v41", x: 2.55, y: 53.51, z: -13.75, meridian: "Vessie" }
 	
