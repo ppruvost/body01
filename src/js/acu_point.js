@@ -249,7 +249,7 @@ const ACU_POINTS = [
 	{ name: "v41-r", x: -2.55, y: 53.51, z: -13.75, meridian: "Vessie-r" },
 	{ name: "v42-r", x: -2.55, y: 50.92, z: -15.00, meridian: "Vessie-r" },
 	{ name: "v43-r", x: -2.55, y: 48.33, z: -16.00, meridian: "Vessie-r" },
-	{ name: "v44-r", x: -2.55, y: 43.15, z: -17.50, meridian: "Vessie-r" },
+	{ name: "v44-r", x: -2.55, y: 43.15, z: -18.50, meridian: "Vessie-r" },
 	{ name: "v45-r", x: -2.55, y: 40.56, z: -19.05, meridian: "Vessie-r" },
 	
 	{ name: "v46-r", x: -2.55, y: 37.97, z: -19.25, meridian: "Vessie-r" },
