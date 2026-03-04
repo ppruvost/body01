@@ -462,10 +462,10 @@ function buildMeridianCurves(scene) {
 
             var v10 = points.find(p => p.name === "v10");
             var v11 = points.find(p => p.name === "v11");
-            var v41 = points.find(p => p.name === "v41");
+            var v36 = points.find(p => p.name === "v36");
 
             if (v10 && v11) drawCurveBetween(v10, v11, meridian, scene);
-            if (v10 && v41) drawCurveBetween(v10, v41, meridian, scene);
+            if (v10 && v36) drawCurveBetween(v10, v36, meridian, scene);
         }
 
         // BIFURCATION VESSIE DROITE
@@ -473,10 +473,10 @@ function buildMeridianCurves(scene) {
 
             var v10r = points.find(p => p.name === "v10-r");
             var v11r = points.find(p => p.name === "v11-r");
-            var v41r = points.find(p => p.name === "v41-r");
+            var v36r = points.find(p => p.name === "v36-r");
 
             if (v10r && v11r) drawCurveBetween(v10r, v11r, meridian, scene);
-            if (v10r && v41r) drawCurveBetween(v10r, v41r, meridian, scene);
+            if (v10r && v36r) drawCurveBetween(v10r, v36r, meridian, scene);
         }
 
         // 🔁 Boucle normale
@@ -492,10 +492,10 @@ function buildMeridianCurves(scene) {
             ) {
                 continue;
             }
-            // interdit le tracé v40 -> v41 (et variante droite)
+            // interdit le tracé v49 -> v50 (et variante droite)
             if (
-                (p1.name === "v40" && p2.name === "v41") ||
-                (p1.name === "v40-r" && p2.name === "v41-r")
+                (p1.name === "v49" && p2.name === "v50") ||
+                (p1.name === "v49-r" && p2.name === "v50-r")
             ) {
                 continue;
             }
