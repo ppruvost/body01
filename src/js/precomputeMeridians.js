@@ -457,48 +457,78 @@ function buildMeridianCurves(scene) {
             return na - nb;
         });
 
+        // ==========================
         // BIFURCATION VESSIE GAUCHE
+        // ==========================
         if (meridian === "Vessie") {
 
             var v10 = points.find(p => p.name === "v10");
             var v11 = points.find(p => p.name === "v11");
             var v36 = points.find(p => p.name === "v36");
+            var v35 = points.find(p => p.name === "v35");
+            var v50 = points.find(p => p.name === "v50");
 
             if (v10 && v11) drawCurveBetween(v10, v11, meridian, scene);
             if (v10 && v36) drawCurveBetween(v10, v36, meridian, scene);
+
+            // Traçage forcé v35 → v50
+            if (v35 && v50) {
+                drawCurveBetween(v35, v50, meridian, scene);
+            }
         }
 
+        // ==========================
         // BIFURCATION VESSIE DROITE
+        // ==========================
         if (meridian === "Vessie-r") {
 
             var v10r = points.find(p => p.name === "v10-r");
             var v11r = points.find(p => p.name === "v11-r");
             var v36r = points.find(p => p.name === "v36-r");
+            var v35r = points.find(p => p.name === "v35-r");
+            var v50r = points.find(p => p.name === "v50-r");
 
             if (v10r && v11r) drawCurveBetween(v10r, v11r, meridian, scene);
             if (v10r && v36r) drawCurveBetween(v10r, v36r, meridian, scene);
+
+            // Traçage forcé v35-r → v50-r
+            if (v35r && v50r) {
+                drawCurveBetween(v35r, v50r, meridian, scene);
+            }
         }
 
-        // 🔁 Boucle normale
+        // ==========================
+        // Boucle normale
+        // ==========================
         for (var i = 0; i < points.length - 1; i++) {
 
             var p1 = points[i];
             var p2 = points[i + 1];
 
-            // On saute v10 car déjà géré
+            // saute v10 car déjà géré
             if (
                 (meridian === "Vessie" && p1.name === "v10") ||
                 (meridian === "Vessie-r" && p1.name === "v10-r")
             ) {
                 continue;
             }
-            // interdit le tracé v49 -> v50 (et variante droite)
+
+            // bloque le tracé intermédiaire v35 → v36
+            if (
+                (p1.name === "v35" && p2.name === "v36") ||
+                (p1.name === "v35-r" && p2.name === "v36-r")
+            ) {
+                continue;
+            }
+
+            // interdit le tracé v49 → v50
             if (
                 (p1.name === "v49" && p2.name === "v50") ||
                 (p1.name === "v49-r" && p2.name === "v50-r")
             ) {
                 continue;
             }
+
             drawCurveBetween(p1, p2, meridian, scene);
         }
 
