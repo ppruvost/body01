@@ -513,7 +513,7 @@ function buildMeridianCurves(scene) {
                 continue;
             }
 
-            // bloque le tracé intermédiaire v35 → v36
+            // interdit le tracé v35 → v36
             if (
                 (p1.name === "v35" && p2.name === "v36") ||
                 (p1.name === "v35-r" && p2.name === "v36-r")
