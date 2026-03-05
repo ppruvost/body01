@@ -341,7 +341,7 @@ function computeChakraCenters() {
         hautJambeDroiteSup:   { minY: -25,  maxY: -10 },
         hautJambeDroiteInf:   { minY: -40,  maxY: -25 },
         hautJambeGaucheSup:   { minY: -25,  maxY: -10 },
-        hautJambeGaucheInf:   { minY: -40,  maxY: -10 },
+        hautJambeGaucheInf:   { minY: -40,  maxY: -25 },
 
         basJambeDroiteSup:   { minY: -66,  maxY: -40 },
         basJambeDroiteInf:   { minY: -80,  maxY: -66 },
