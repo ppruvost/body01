@@ -522,6 +522,14 @@ function buildMeridianCurves(scene) {
                 continue;
             }
 
+            // interdit le tracé v40 → v41 droit et gauche
+            if (
+                (p1.name === "v40" && p2.name === "v41") ||
+                (p1.name === "v40-r" && p2.name === "v41-r")
+            ) {
+                continue;
+            }
+
             drawCurveBetween(p1, p2, meridian, scene);
         }
 
