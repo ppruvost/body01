@@ -325,14 +325,14 @@ function computeChakraCenters() {
         couronne:        { minY: 68,  maxY: 100 },
         troisiemeOeil:   { minY: 58,  maxY: 68 },
         gorge:           { minY: 26,  maxY: 34 },
-        Cœur:           { minY: 16,  maxY: 26 },
+        Cœur:            { minY: 16,  maxY: 26 },
         plexusSolaire:   { minY: 10,  maxY: 16 },
         sacre:           { minY: 2,   maxY: 10 },
         racine:          { minY: -10, maxY: 2 },
 
-        hautBrasDroit:          { minY: 16, maxY: 33 },
-        hautBrasGauche:          { minY: 16, maxY: 33 },
-        avantBrasDroit:          { minY: -6, maxY: 16 },
+        hautBrasDroit:            { minY: 16, maxY: 33 },
+        hautBrasGauche:           { minY: 16, maxY: 33 },
+        avantBrasDroit:           { minY: -6, maxY: 16 },
         avantBrasGauche:          { minY: -6, maxY: 16 },
 
         mainDroite:          { minY: -25, maxY: -6 },
@@ -348,7 +348,7 @@ function computeChakraCenters() {
         basJambeGaucheSup:   { minY: -66,  maxY: -40 },
         basJambeGaucheInf:   { minY: -80,  maxY: -66 },
 
-        piedDroit:   { minY: -96,  maxY: -80 },
+        piedDroit:    { minY: -96,  maxY: -80 },
         piedGauche:   { minY: -96,  maxY: -80 },
     };
 
@@ -378,7 +378,7 @@ function computeChakraCenters() {
 
         // Décalage spécifique chakra couronne vers l’arrière
         if (key === "couronne") {
-            BODY_CENTERS[key].z -= 5;   // recule de 5 unités
+            BODY_CENTERS[key].z = -5;   // recule de 5 unités
         }
 
         // Décalage spécifique du chakra Cœur vers l’arrière
