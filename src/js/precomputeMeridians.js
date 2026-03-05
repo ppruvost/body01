@@ -464,17 +464,23 @@ function buildMeridianCurves(scene) {
 
             var v10 = points.find(p => p.name === "v10");
             var v11 = points.find(p => p.name === "v11");
-            var v36 = points.find(p => p.name === "v36");
-            var v35 = points.find(p => p.name === "v35");
-            var v50 = points.find(p => p.name === "v50");
+            var v40 = points.find(p => p.name === "v40")
+            var v41 = points.find(p => p.name === "v41");
+            var v54 = points.find(p => p.name === "v54");
+            var v55 = points.find(p => p.name === "v55");
 
             if (v10 && v11) drawCurveBetween(v10, v11, meridian, scene);
-            if (v10 && v36) drawCurveBetween(v10, v36, meridian, scene);
+            if (v10 && v41) drawCurveBetween(v10, v41, meridian, scene);
 
-            // Traçage forcé v35 → v50
-            if (v35 && v50) {
-                drawCurveBetween(v35, v50, meridian, scene);
+            // Traçage forcé v40 → v55
+            if (v40 && v55) {
+                drawCurveBetween(v40, v55, meridian, scene);
             }
+            // Traçage forcé v54 → v40
+            if (v54 && v40) {
+                drawCurveBetween(v54, v40, meridian, scene);
+            }
+            
         }
 
         // ==========================
