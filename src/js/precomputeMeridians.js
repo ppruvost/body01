@@ -54,10 +54,10 @@ Object.assign(SPECIAL_CURVES, {
     "vc22-vc23": "(0.08;0.18;0.08|0|1|1.3|3.4)",
     "vc23-vc24": "(0.08;0.16;1.6|0|-1|0.92|3.1416)",
 
-"gi18-gi19": "(0.37;0.55;1.1|70|0|0.8|3.1416)",
-"gi18-r-gi19-r": "(0.37;0.55;1.1|70|0|0.8|3.1416)"
+    "gi18-gi19": "(0.37;0.55;1.1|70|0|0.8|3.1416)",
+    "gi18-r-gi19-r": "(0.37;0.55;1.1|70|0|0.8|3.1416)"
     
-});
+    });
 
 // Fonction pour analyser les paramètres des courbes spéciales
 function parseElevationString(str) {
@@ -128,127 +128,120 @@ function getBodyCenterKey(p1, p2) {
     if (inZone(p1, -10, 2) || inZone(p2, -10, 2))
         return "racine";
 
-// Haut bras droit
-if (
-    (inZone(p1, 16, 33) && isRight(p1) && Math.abs(p1.x) > 5) ||
-    (inZone(p2, 16, 33) && isRight(p2) && Math.abs(p2.x) > 5)
-)
-    return "hautBrasDroit";
+    // Haut bras droit
+    if (
+        (inZone(p1, 16, 33) && isRight(p1) && Math.abs(p1.x) > 5) ||
+        (inZone(p2, 16, 33) && isRight(p2) && Math.abs(p2.x) > 5)
+    )
+        return "hautBrasDroit";
 
-// Haut bras gauche
-if (
-    (inZone(p1, 16, 33) && isLeft(p1) && Math.abs(p1.x) > 5) ||
-    (inZone(p2, 16, 33) && isLeft(p2) && Math.abs(p2.x) > 5)
-)
-    return "hautBrasGauche";
+    // Haut bras gauche
+    if (
+        (inZone(p1, 16, 33) && isLeft(p1) && Math.abs(p1.x) > 5) ||
+        (inZone(p2, 16, 33) && isLeft(p2) && Math.abs(p2.x) > 5)
+    )
+        return "hautBrasGauche";
 
+    // Avant bras droit
+    if (
+        (inZone(p1, -6, 16) && isRight(p1)) ||
+        (inZone(p2, -6, 16) && isRight(p2))
+    )
+        return "avantBrasDroit";
 
-// Avant bras droit
-if (
-    (inZone(p1, -6, 16) && isRight(p1)) ||
-    (inZone(p2, -6, 16) && isRight(p2))
-)
-    return "avantBrasDroit";
+    // Avant bras gauche
+    if (
+        (inZone(p1, -6, 16) && isLeft(p1)) ||
+        (inZone(p2, -6, 16) && isLeft(p2))
+    )
+        return "avantBrasGauche";
 
-// Avant bras gauche
-if (
-    (inZone(p1, -6, 16) && isLeft(p1)) ||
-    (inZone(p2, -6, 16) && isLeft(p2))
-)
-    return "avantBrasGauche";
+    // Main droite
+    if (
+        (inZone(p1, -25, -6) && isRight(p1)) ||
+        (inZone(p2, -25, -6) && isRight(p2))
+    )
+        return "mainDroite";
 
+    // Main gauche
+    if (
+        (inZone(p1, -25, -6) && isLeft(p1)) ||
+        (inZone(p2, -25, -6) && isLeft(p2))
+    )
+        return "mainGauche";
 
-// Main droite
-if (
-    (inZone(p1, -25, -6) && isRight(p1)) ||
-    (inZone(p2, -25, -6) && isRight(p2))
-)
-    return "mainDroite";
+    // Haut jambe droite Sup
+    if (
+        (inZone(p1, -25, -10) && isRight(p1)) ||
+        (inZone(p2, -25, -10) && isRight(p2))
+    )
+        return "hautJambeDroiteSup";
 
-// Main gauche
-if (
-    (inZone(p1, -25, -6) && isLeft(p1)) ||
-    (inZone(p2, -25, -6) && isLeft(p2))
-)
-    return "mainGauche";
+    // Haut jambe droite Inf
+    if (
+        (inZone(p1, -40, -25) && isRight(p1)) ||
+        (inZone(p2, -40, -25) && isRight(p2))
+    )
+        return "hautJambeDroiteInf";
 
+    // Haut jambe gauche Sup
+    if (
+        (inZone(p1, -25, -10) && isLeft(p1)) ||
+        (inZone(p2, -25, -10) && isLeft(p2))
+    )
+        return "hautJambeGaucheSup";
 
-// Haut jambe droite Sup
-if (
-    (inZone(p1, -25, -10) && isRight(p1)) ||
-    (inZone(p2, -25, -10) && isRight(p2))
-)
-    return "hautJambeDroiteSup";
+    // Haut jambe gauche Inf
+    if (
+        (inZone(p1, -40, -25) && isLeft(p1)) ||
+        (inZone(p2, -40, -25) && isLeft(p2))
+    )
+        return "hautJambeGaucheInf";
 
-// Haut jambe droite Inf
-if (
-    (inZone(p1, -40, -25) && isRight(p1)) ||
-    (inZone(p2, -40, -25) && isRight(p2))
-)
-    return "hautJambeDroiteInf";
+    // Bas jambe droite Sup
+    if (
+        (inZone(p1, -66, -40) && isRight(p1)) ||
+        (inZone(p2, -66, -40) && isRight(p2))
+    )
+        return "basJambeDroiteSup";
 
+    // Bas jambe droite Inf
+    if (
+        (inZone(p1, -80, -66) && isRight(p1)) ||
+        (inZone(p2, -80, -66) && isRight(p2))
+    )
+        return "basJambeDroiteInf";
 
-// Haut jambe gauche Sup
-if (
-    (inZone(p1, -25, -10) && isLeft(p1)) ||
-    (inZone(p2, -25, -10) && isLeft(p2))
-)
-    return "hautJambeGaucheSup";
+    // Bas jambe gauche Sup
+    if (
+        (inZone(p1, -66, -40) && isLeft(p1)) ||
+        (inZone(p2, -66, -40) && isLeft(p2))
+    )
+        return "basJambeGaucheSup";
 
-// Haut jambe gauche Inf
-if (
-    (inZone(p1, -40, -25) && isLeft(p1)) ||
-    (inZone(p2, -40, -25) && isLeft(p2))
-)
-    return "hautJambeGaucheInf";
+    // Bas jambe gauche Inf
+    if (
+        (inZone(p1, -80, -66) && isLeft(p1)) ||
+        (inZone(p2, -80, -66) && isLeft(p2))
+    )
+        return "basJambeGaucheInf";
 
+    // Pied droit
+    if (
+        (inZone(p1, -96, -80) && isRight(p1)) ||
+        (inZone(p2, -96, -80) && isRight(p2))
+    )
+        return "piedDroit";
 
-// Bas jambe droite Sup
-if (
-    (inZone(p1, -66, -40) && isRight(p1)) ||
-    (inZone(p2, -66, -40) && isRight(p2))
-)
-    return "basJambeDroiteSup";
+    // Pied gauche
+    if (
+        (inZone(p1, -96, -80) && isLeft(p1)) ||
+        (inZone(p2, -96, -80) && isLeft(p2))
+    )
+        return "piedGauche";
 
-// Bas jambe droite Inf
-if (
-    (inZone(p1, -80, -66) && isRight(p1)) ||
-    (inZone(p2, -80, -66) && isRight(p2))
-)
-    return "basJambeDroiteInf";
-
-
-// Bas jambe gauche Sup
-if (
-    (inZone(p1, -66, -40) && isLeft(p1)) ||
-    (inZone(p2, -66, -40) && isLeft(p2))
-)
-    return "basJambeGaucheSup";
-
-// Bas jambe gauche Inf
-if (
-    (inZone(p1, -80, -66) && isLeft(p1)) ||
-    (inZone(p2, -80, -66) && isLeft(p2))
-)
-    return "basJambeGaucheInf";
-
-
-// Pied droit
-if (
-    (inZone(p1, -96, -80) && isRight(p1)) ||
-    (inZone(p2, -96, -80) && isRight(p2))
-)
-    return "piedDroit";
-
-// Pied gauche
-if (
-    (inZone(p1, -96, -80) && isLeft(p1)) ||
-    (inZone(p2, -96, -80) && isLeft(p2))
-)
-    return "piedGauche";
-
-    return null;
-}
+        return null;
+    }
 
 // Fonction pour calculer une courbe méridienne
 function calculateInclinedParabolicCurve(t, p1, p2, specialProfile, centerKey) {
