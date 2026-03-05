@@ -101,144 +101,151 @@ function getBodyCenterKey(p1, p2) {
     }
 
     // Couronne
-    if (inZone(p1, 68, 100) || inZone(p2, 71, 80))
+    if (inZone(p1, 68, 100) || inZone(p2, 68, 100))
         return "couronne";
 
     // Troisième œil
-    if (inZone(p1, 58, 68) || inZone(p2, 63, 71))
+    if (inZone(p1, 58, 68) || inZone(p2, 58, 68))
         return "troisiemeOeil";
 
     // Gorge
-    if (inZone(p1, 26, 34) || inZone(p2, 49, 63))
+    if (inZone(p1, 26, 34) || inZone(p2, 26, 34))
         return "gorge";
 
     // Cœur
-    if (inZone(p1, 16, 26) || inZone(p2, 31, 49))
+    if (inZone(p1, 16, 26) || inZone(p2, 16, 26))
         return "Cœur";
 
     // Plexus solaire
-    if (inZone(p1, 10, 16) || inZone(p2, 14, 31))
+    if (inZone(p1, 10, 16) || inZone(p2, 10, 16))
         return "plexusSolaire";
 
     // Sacré
-    if (inZone(p1, 2, 10) || inZone(p2, 7, 14))
+    if (inZone(p1, 2, 10) || inZone(p2, 2, 10))
         return "sacre";
 
     // Racine
-    if (inZone(p1, -10, 2) || inZone(p2, -13, 7))
+    if (inZone(p1, -10, 2) || inZone(p2, -10, 2))
         return "racine";
 
-    // Haut bras droit
-    if (
-        (inZone(p1, 16, 33) && isRight(p1)) ||
-        (inZone(p2, 16, 33) && isRight(p2))
-    )
-        return "hautBrasDroit";
+// Haut bras droit
+if (
+    (inZone(p1, 16, 33) && isRight(p1) && Math.abs(p1.x) > 5) ||
+    (inZone(p2, 16, 33) && isRight(p2) && Math.abs(p2.x) > 5)
+)
+    return "hautBrasDroit";
 
-        // Haut bras gauche
-    if (
-        (inZone(p1, 16, 33) && isLeft(p1)) ||
-        (inZone(p2, 16, 33) && isLeft(p2))
-    )
-        return "hautBrasGauche";
-    
-        // Avant bras droit
-    if (
-        (inZone(p1, -6, 16) && isRight(p1)) ||
-        (inZone(p2, -6, 16) && isRight(p2))
-    )
-        return "avantBrasDroit";
+// Haut bras gauche
+if (
+    (inZone(p1, 16, 33) && isLeft(p1) && Math.abs(p1.x) > 5) ||
+    (inZone(p2, 16, 33) && isLeft(p2) && Math.abs(p2.x) > 5)
+)
+    return "hautBrasGauche";
 
-        // Avant bras gauche
-    if (
-        (inZone(p1, -6, 16) && isLeft(p1)) ||
-        (inZone(p2, -6, 16) && isLeft(p2))
-    )
-        return "avantBrasGauche";
 
-    // Main droite
-    if (
-        (inZone(p1, -25, -6) && isRight(p1)) ||
-        (inZone(p2, -25, -6) && isRight(p2))
-    )
-        return "mainDroite";
+// Avant bras droit
+if (
+    (inZone(p1, -6, 16) && isRight(p1)) ||
+    (inZone(p2, -6, 16) && isRight(p2))
+)
+    return "avantBrasDroit";
 
-        // Main gauche
-    if (
-        (inZone(p1, -25, -6) && isLeft(p1)) ||
-        (inZone(p2, -25, -6) && isLeft(p2))
-    )
-        return "mainGauche";
-    
-    // Haut jambe droite Sup
-    if (
-        (inZone(p1, -25, -10) && isRight(p1)) ||
-        (inZone(p2, -25, -10) && isRight(p2))
-    )
-        return "hautJambeDroiteSup";
+// Avant bras gauche
+if (
+    (inZone(p1, -6, 16) && isLeft(p1)) ||
+    (inZone(p2, -6, 16) && isLeft(p2))
+)
+    return "avantBrasGauche";
 
-     // Haut jambe droite Inf
-    if (
-        (inZone(p1, -40, -25) && isRight(p1)) ||
-        (inZone(p2, -40, -25) && isRight(p2))
-    )
-        return "hautJambeDroiteInf";
 
-    // Haut jambe gauche Sup
-    if (
-        (inZone(p1, -25, -10) && isLeft(p1)) ||
-        (inZone(p2, -25, -10) && isLeft(p2))
-    )
-        return "hautJambeGaucheSup";
+// Main droite
+if (
+    (inZone(p1, -25, -6) && isRight(p1)) ||
+    (inZone(p2, -25, -6) && isRight(p2))
+)
+    return "mainDroite";
 
-    // Haut jambe gauche Inf
-    if (
-        (inZone(p1, -40, -25) && isLeft(p1)) ||
-        (inZone(p2, -40, -25) && isLeft(p2))
-    )
-        return "hautJambeGaucheInf";
-   
-    // Bas jambe droite Sup
-    if (
-        (inZone(p1, -66, -40) && isRight(p1)) ||
-        (inZone(p2, -66, -40) && isRight(p2))
-    )
-        return "basJambeDroiteSup";
+// Main gauche
+if (
+    (inZone(p1, -25, -6) && isLeft(p1)) ||
+    (inZone(p2, -25, -6) && isLeft(p2))
+)
+    return "mainGauche";
 
-     // Bas jambe droite Inf
-    if (
-        (inZone(p1, -80, -66) && isRight(p1)) ||
-        (inZone(p2, -80, -66) && isRight(p2))
-    )
-        return "basJambeDroiteInf";
 
-    // Bas jambe gauche Sup
-    if (
-        (inZone(p1, -66, -40) && isLeft(p1)) ||
-        (inZone(p2, -66, -40) && isLeft(p2))
-    )
-        return "basJambeGaucheSup";
+// Haut jambe droite Sup
+if (
+    (inZone(p1, -25, -10) && isRight(p1)) ||
+    (inZone(p2, -25, -10) && isRight(p2))
+)
+    return "hautJambeDroiteSup";
 
-    // Bas jambe gauche Inf
-    if (
-        (inZone(p1, -80, -66) && isLeft(p1)) ||
-        (inZone(p2, -80, -66) && isLeft(p2))
-    )
-        return "basJambeGaucheInf";
+// Haut jambe droite Inf
+if (
+    (inZone(p1, -40, -25) && isRight(p1)) ||
+    (inZone(p2, -40, -25) && isRight(p2))
+)
+    return "hautJambeDroiteInf";
 
-    // Pied droit
-    if (
-        (inZone(p1, -96, -80) && isRight(p1)) ||
-        (inZone(p2, -96, -80) && isRight(p2))
-    )
-        return "piedDroit";
 
-    // Pied gauche
-    if (
-        (inZone(p1, -96, -80) && isLeft(p1)) ||
-        (inZone(p2, -96, -80) && isLeft(p2))
-    )
-        return "piedGauche";
+// Haut jambe gauche Sup
+if (
+    (inZone(p1, -25, -10) && isLeft(p1)) ||
+    (inZone(p2, -25, -10) && isLeft(p2))
+)
+    return "hautJambeGaucheSup";
+
+// Haut jambe gauche Inf
+if (
+    (inZone(p1, -40, -25) && isLeft(p1)) ||
+    (inZone(p2, -40, -25) && isLeft(p2))
+)
+    return "hautJambeGaucheInf";
+
+
+// Bas jambe droite Sup
+if (
+    (inZone(p1, -66, -40) && isRight(p1)) ||
+    (inZone(p2, -66, -40) && isRight(p2))
+)
+    return "basJambeDroiteSup";
+
+// Bas jambe droite Inf
+if (
+    (inZone(p1, -80, -66) && isRight(p1)) ||
+    (inZone(p2, -80, -66) && isRight(p2))
+)
+    return "basJambeDroiteInf";
+
+
+// Bas jambe gauche Sup
+if (
+    (inZone(p1, -66, -40) && isLeft(p1)) ||
+    (inZone(p2, -66, -40) && isLeft(p2))
+)
+    return "basJambeGaucheSup";
+
+// Bas jambe gauche Inf
+if (
+    (inZone(p1, -80, -66) && isLeft(p1)) ||
+    (inZone(p2, -80, -66) && isLeft(p2))
+)
+    return "basJambeGaucheInf";
+
+
+// Pied droit
+if (
+    (inZone(p1, -96, -80) && isRight(p1)) ||
+    (inZone(p2, -96, -80) && isRight(p2))
+)
+    return "piedDroit";
+
+// Pied gauche
+if (
+    (inZone(p1, -96, -80) && isLeft(p1)) ||
+    (inZone(p2, -96, -80) && isLeft(p2))
+)
+    return "piedGauche";
 
     return null;
 }
