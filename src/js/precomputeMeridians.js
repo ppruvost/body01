@@ -301,9 +301,18 @@ function calculateInclinedParabolicCurve(t, p1, p2, specialProfile, centerKey) {
     }
 
     // Application de la projection
-    x += dirX * peak;
-    y += dirY * peak;
-    z += dirZ * peak;
+    if (centerKey === "piedDroit" || centerKey === "piedGauche") {
+
+        // projection verticale pure
+        y += peak;
+
+    } else {
+
+        x += dirX * peak;
+        y += dirY * peak;
+        z += dirZ * peak;
+
+    }
 
     // Micro-élévations locales
     if (specialProfile) {
