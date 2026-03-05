@@ -464,7 +464,7 @@ function buildMeridianCurves(scene) {
 
             var v10 = points.find(p => p.name === "v10");
             var v11 = points.find(p => p.name === "v11");
-            var v40 = points.find(p => p.name === "v40")
+            var v40 = points.find(p => p.name === "v40");
             var v41 = points.find(p => p.name === "v41");
             var v54 = points.find(p => p.name === "v54");
             var v55 = points.find(p => p.name === "v55");
@@ -488,23 +488,23 @@ function buildMeridianCurves(scene) {
         // ==========================
         if (meridian === "Vessie-r") {
 
-            var v10-r = points.find(p => p.name === "v10-r");
-            var v11-r = points.find(p => p.name === "v11-r");
-            var v40-r = points.find(p => p.name === "v40-r")
-            var v41-r = points.find(p => p.name === "v41-r");
-            var v54-r = points.find(p => p.name === "v54-r");
-            var v55-r = points.find(p => p.name === "v55-r");
+            var v10r = points.find(p => p.name === "v10-r");
+            var v11r = points.find(p => p.name === "v11-r");
+            var v40r = points.find(p => p.name === "v40-r");
+            var v41r = points.find(p => p.name === "v41-r");
+            var v54r = points.find(p => p.name === "v54-r");
+            var v55r = points.find(p => p.name === "v55-r");
 
-            if (v10-r && v11-r) drawCurveBetween(v10-r, v11-r, meridian, scene);
-            if (v10-r && v41-r) drawCurveBetween(v10-r, v41-r, meridian, scene);
+            if (v10r && v11r) drawCurveBetween(v10r, v11r, meridian, scene);
+            if (v10r && v41r) drawCurveBetween(v10r, v41r, meridian, scene);
 
             // Traçage forcé v40-r → v55-r
-            if (v40-r && v55-r) {
-                drawCurveBetween(v40-r, v55-r, meridian, scene);
+            if (v40r && v55r) {
+                drawCurveBetween(v40r, v55r, meridian, scene);
             }
             // Traçage forcé v54-r → v40-r
-            if (v54-r && v40-r) {
-                drawCurveBetween(v54-r, v40-r, meridian, scene);
+            if (v54r && v40r) {
+                drawCurveBetween(v54r, v40r, meridian, scene);
             }
             
         }
