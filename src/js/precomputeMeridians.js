@@ -466,7 +466,6 @@ function buildMeridianCurves(scene) {
             var v11 = points.find(p => p.name === "v11");
             var v40 = points.find(p => p.name === "v40");
             var v41 = points.find(p => p.name === "v41");
-            var v54 = points.find(p => p.name === "v54");
             var v55 = points.find(p => p.name === "v55");
 
             if (v10 && v11) drawCurveBetween(v10, v11, meridian, scene);
@@ -475,10 +474,6 @@ function buildMeridianCurves(scene) {
             // Traçage forcé v40 → v55
             if (v40 && v55) {
                 drawCurveBetween(v40, v55, meridian, scene);
-            }
-            // Traçage forcé v54 → v40
-            if (v54 && v40) {
-                drawCurveBetween(v54, v40, meridian, scene);
             }
             
         }
@@ -492,7 +487,6 @@ function buildMeridianCurves(scene) {
             var v11r = points.find(p => p.name === "v11-r");
             var v40r = points.find(p => p.name === "v40-r");
             var v41r = points.find(p => p.name === "v41-r");
-            var v54r = points.find(p => p.name === "v54-r");
             var v55r = points.find(p => p.name === "v55-r");
 
             if (v10r && v11r) drawCurveBetween(v10r, v11r, meridian, scene);
@@ -501,10 +495,6 @@ function buildMeridianCurves(scene) {
             // Traçage forcé v40-r → v55-r
             if (v40r && v55r) {
                 drawCurveBetween(v40r, v55r, meridian, scene);
-            }
-            // Traçage forcé v54-r → v40-r
-            if (v54r && v40r) {
-                drawCurveBetween(v54r, v40r, meridian, scene);
             }
             
         }
