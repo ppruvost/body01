@@ -488,21 +488,26 @@ function buildMeridianCurves(scene) {
         // ==========================
         if (meridian === "Vessie-r") {
 
-            var v10r = points.find(p => p.name === "v10-r");
-            var v11r = points.find(p => p.name === "v11-r");
-            var v36r = points.find(p => p.name === "v36-r");
-            var v35r = points.find(p => p.name === "v35-r");
-            var v50r = points.find(p => p.name === "v50-r");
+            var v10-r = points.find(p => p.name === "v10-r");
+            var v11-r = points.find(p => p.name === "v11-r");
+            var v40-r = points.find(p => p.name === "v40-r")
+            var v41-r = points.find(p => p.name === "v41-r");
+            var v54-r = points.find(p => p.name === "v54-r");
+            var v55-r = points.find(p => p.name === "v55-r");
 
-            if (v10r && v11r) drawCurveBetween(v10r, v11r, meridian, scene);
-            if (v10r && v36r) drawCurveBetween(v10r, v36r, meridian, scene);
+            if (v10-r && v11-r) drawCurveBetween(v10-r, v11-r, meridian, scene);
+            if (v10-r && v41-r) drawCurveBetween(v10-r, v41-r, meridian, scene);
 
-            // Traçage forcé v35-r → v50-r
-            if (v35r && v50r) {
-                drawCurveBetween(v35r, v50r, meridian, scene);
+            // Traçage forcé v40-r → v55-r
+            if (v40-r && v55-r) {
+                drawCurveBetween(v40-r, v55-r, meridian, scene);
             }
+            // Traçage forcé v54-r → v40-r
+            if (v54-r && v40-r) {
+                drawCurveBetween(v54-r, v40-r, meridian, scene);
+            }
+            
         }
-
         // ==========================
         // Boucle normale
         // ==========================
@@ -519,18 +524,10 @@ function buildMeridianCurves(scene) {
                 continue;
             }
 
-            // interdit le tracé v35 → v36
+            // interdit le tracé v54 → v55 droit et gauche
             if (
-                (p1.name === "v35" && p2.name === "v36") ||
-                (p1.name === "v35-r" && p2.name === "v36-r")
-            ) {
-                continue;
-            }
-
-            // interdit le tracé v49 → v50
-            if (
-                (p1.name === "v49" && p2.name === "v50") ||
-                (p1.name === "v49-r" && p2.name === "v50-r")
+                (p1.name === "v54" && p2.name === "v55") ||
+                (p1.name === "v54-r" && p2.name === "v55-r")
             ) {
                 continue;
             }
