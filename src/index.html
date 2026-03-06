@@ -22,7 +22,43 @@
 
   <!-- Favicon -->
   <link rel="icon" href="img/favicon.ico" type="image/x-icon">
-    
+
+  <!-- Début code pour gestion molette souris sur index -->
+  <style>
+
+/* Hauteur écran */
+html, body {
+  height: 100%;
+  overflow: hidden;
+}
+
+/* Colonnes scrollables */
+.col-md-3,
+#contenu {
+  height: calc(100vh - 80px);
+  overflow-y: auto;
+}
+
+/* Colonne centrale fixe */
+.col-3d {
+  position: sticky;
+  top: 20px;
+  height: calc(100vh - 40px);
+}
+
+/* iframe prend toute la hauteur */
+.iframe-wrapper {
+  height: 100%;
+}
+
+.iframe-wrapper iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+}
+
+</style>
+<!-- Fin code pour gestion molette souris sur index -->    
 </head>
 
 <body>
