@@ -702,17 +702,17 @@ document.addEventListener('DOMContentLoaded', () => {
     iframe.contentWindow.focusPoint(pointId);
   });
 
-  // Scroll molette uniquement sur la colonne 3
-  const contenu = document.getElementById('contenu');
+  // Scroll molette uniquement sur la colonne 3 A SUPPRIMER SI OK
+  // const contenu = document.getElementById('contenu');
 
-  if (contenu) {
-    contenu.addEventListener('wheel', function(e) {
-      e.preventDefault();            // empêche le scroll global
-      contenu.scrollTop += e.deltaY;  // fait défiler la colonne
-    }, { passive: false });
-  }
+  // if (contenu) {
+    // contenu.addEventListener('wheel', function(e) {
+      // e.preventDefault();            // empêche le scroll global
+      // contenu.scrollTop += e.deltaY;  // fait défiler la colonne
+    // }, { passive: false });
+  // }
 
-}); // fin DOMContentLoaded  
+// }); // fin DOMContentLoaded  
 </script>
 
  <!---------------Script Fin------------------------>
