@@ -325,6 +325,18 @@ const ACU_POINTS = [
 	{ name: "v50", x: 2.55, y: 27.61, z: -18.25, meridian: "Vessie" },
 	{ name: "v52", x: 2.55, y: 25.02, z: -17.55, meridian: "Vessie" },
 	{ name: "v53", x: 2.55, y: 9.48, z: -13.70, meridian: "Vessie" },	
-	{ name: "v54", x: 2.55, y: 4.30, z: -14.75, meridian: "Vessie" }
-	
+	{ name: "v54", x: 2.55, y: 4.30, z: -14.75, meridian: "Vessie" },
+	{ name: "v55", x: 10.5, y: -55, z: -10.25, meridian: "Vessie" },
+	{ name: "v56", x: 10.0, y: -65, z: -11.70, meridian: "Vessie" },
+	{ name: "v57", x: 9.50, y: -70, z: -10.15, meridian: "Vessie" },
+	{ name: "v58", x: 12.50, y: -72, z: -8.05, meridian: "Vessie" },
+	{ name: "v59", x: 10.45, y: -80, z: -7.90, meridian: "Vessie" },
+	{ name: "v60", x: 9.30, y: -88, z: -8.05, meridian: "Vessie" },
+	{ name: "v61", x: 10.40, y: -91.2, z: -7.80, meridian: "Vessie" },
+	{ name: "v62", x: 11.65, y: -90.5, z: -5.05, meridian: "Vessie" },
+	{ name: "v63", x: 12.85, y: -91.95, z:-0.55, meridian: "Vessie" },
+	{ name: "v64", x: 13.20, y: -92.35, z: 0.80, meridian: "Vessie" },
+	{ name: "v65", x: 13.60, y: -92.50, z: 2.05, meridian: "Vessie" },
+	{ name: "v66", x: 14.05, y: -93.20, z: 4.95, meridian: "Vessie" },
+	{ name: "v67", x: 14.10, y: -93.80, z: 7.40, meridian: "Vessie" }
 ];
