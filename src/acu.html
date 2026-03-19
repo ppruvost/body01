@@ -277,25 +277,34 @@ function animate(){
 
 function render(){
 
-    if(isMoving){
-        controls.target.lerp(targetPosition, 0.1);
-        camera.position.lerp(
-            new THREE.Vector3(
-                targetPosition.x + cameraOffsetX,
-                targetPosition.y + 20,
-                targetPosition.z + cameraOffsetZ
-            ),
-            0.1
-        );
-
-        if(controls.target.distanceTo(targetPosition) < 0.01){
-            isMoving = false;
-        }
-    }
-
     controls.update();
     renderer.render(scene,camera);
 }
+/* ================= RECEPTION MENU ================= */
+
+window.addEventListener("message", function(event){
+
+    if(event.data.type === "focusPoint"){
+
+        const pointName = event.data.point;
+
+        const target = clickableObjects.find(obj => 
+            obj.name.replace(/-r$/, '') === pointName
+        );
+
+        if(!target) return;
+
+        if(lastSelectedPoint)
+            lastSelectedPoint.material.color.setHex(lastSelectedPoint.originalColor);
+
+        target.material.color.setHex(0xffff00);
+        lastSelectedPoint = target;
+
+        updatePointLabel(target);
+        focusOnPoint(target);
+    }
+
+});
 
 /* ================= START ================= */
 
