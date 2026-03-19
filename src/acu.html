@@ -230,22 +230,21 @@ function focusOnPoint(object) {
 
     const newTarget = object.position.clone();
 
-    // désactiver le damping temporairement
+    // Désactiver damping temporairement
     controls.enableDamping = false;
 
-    // définir le nouveau point de focus
+    // Calcul du vecteur caméra → cible actuel
+    const offset = camera.position.clone().sub(controls.target);
+
+    // Nouveau centre
     controls.target.copy(newTarget);
 
-    // positionner la caméra autour du point
-    camera.position.set(
-        newTarget.x + cameraOffsetX,
-        newTarget.y + 20,
-        newTarget.z + cameraOffsetZ
-    );
+    // Garder le même angle de vue !
+    camera.position.copy(newTarget.clone().add(offset));
 
     controls.update();
 
-    // réactiver le damping après mise à jour
+    // Réactiver damping
     controls.enableDamping = true;
 }
 
