@@ -53,8 +53,9 @@ var cameraOffsetX = 0;
 var cameraOffsetZ = 45;
 var lastSelectedPoint = null;
 var curvesData = {};
-
 var sphereGeometry = new THREE.SphereGeometry(0.3,16,16);
+var targetPosition = new THREE.Vector3();
+var isMoving = false;
 
 /* ================= COLORS ================= */
 
@@ -226,9 +227,16 @@ function onMouseClick(event) {
 }
 
 function focusOnPoint(object) {
+
     const newTarget = object.position.clone();
+
+    // désactiver le damping temporairement
+    controls.enableDamping = false;
+
+    // définir le nouveau point de focus
     controls.target.copy(newTarget);
 
+    // positionner la caméra autour du point
     camera.position.set(
         newTarget.x + cameraOffsetX,
         newTarget.y + 20,
@@ -236,6 +244,9 @@ function focusOnPoint(object) {
     );
 
     controls.update();
+
+    // réactiver le damping après mise à jour
+    controls.enableDamping = true;
 }
 
 /* ==========Print Label ================= */ 
@@ -266,7 +277,25 @@ function animate(){
 }
 
 function render(){
-        renderer.render(scene,camera);
+
+    if(isMoving){
+        controls.target.lerp(targetPosition, 0.1);
+        camera.position.lerp(
+            new THREE.Vector3(
+                targetPosition.x + cameraOffsetX,
+                targetPosition.y + 20,
+                targetPosition.z + cameraOffsetZ
+            ),
+            0.1
+        );
+
+        if(controls.target.distanceTo(targetPosition) < 0.01){
+            isMoving = false;
+        }
+    }
+
+    controls.update();
+    renderer.render(scene,camera);
 }
 
 /* ================= START ================= */
