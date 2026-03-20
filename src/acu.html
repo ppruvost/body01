@@ -228,10 +228,20 @@ function onMouseClick(event) {
 
 function focusOnPoint(object) {
 
-    const direction = camera.position.clone().sub(target).normalize();
-    const distance = 25;
+    const target = object.position.clone();
+    const distance = 30;
 
-    const direction = target.clone().normalize();
+    // Détection avant / arrière
+    let direction;
+
+    if (target.z > 0) {
+        // point devant → caméra devant
+        direction = new THREE.Vector3(0, 0, 1);
+    } else {
+        // point derrière → caméra derrière
+        direction = new THREE.Vector3(0, 0, -1);
+    }
+
     const newCameraPos = target.clone().add(direction.multiplyScalar(distance));
 
     const startPos = camera.position.clone();
@@ -241,20 +251,15 @@ function focusOnPoint(object) {
 
     function animateMove() {
         t += 0.05;
+        if (t > 1) t = 1;
 
-        if (t >= 1) t = 1;
-
-        // interpolation position caméra
         camera.position.lerpVectors(startPos, newCameraPos, t);
-
-        // interpolation cible
         controls.target.lerpVectors(startTarget, target, t);
 
+        camera.lookAt(controls.target);
         controls.update();
 
-        if (t < 1) {
-            requestAnimationFrame(animateMove);
-        }
+        if (t < 1) requestAnimationFrame(animateMove);
     }
 
     animateMove();
