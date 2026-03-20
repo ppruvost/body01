@@ -228,24 +228,36 @@ function onMouseClick(event) {
 
 function focusOnPoint(object) {
 
-    const newTarget = object.position.clone();
+    const target = object.position.clone();
+    const distance = 25;
 
-    // Désactiver damping temporairement
-    controls.enableDamping = false;
+    const direction = target.clone().normalize();
+    const newCameraPos = target.clone().add(direction.multiplyScalar(distance));
 
-    // Calcul du vecteur caméra → cible actuel
-    const offset = camera.position.clone().sub(controls.target);
+    const startPos = camera.position.clone();
+    const startTarget = controls.target.clone();
 
-    // Nouveau centre
-    controls.target.copy(newTarget);
+    let t = 0;
 
-    // Garder le même angle de vue !
-    camera.position.copy(newTarget.clone().add(offset));
+    function animateMove() {
+        t += 0.05;
 
-    controls.update();
+        if (t >= 1) t = 1;
 
-    // Réactiver damping
-    controls.enableDamping = true;
+        // interpolation position caméra
+        camera.position.lerpVectors(startPos, newCameraPos, t);
+
+        // interpolation cible
+        controls.target.lerpVectors(startTarget, target, t);
+
+        controls.update();
+
+        if (t < 1) {
+            requestAnimationFrame(animateMove);
+        }
+    }
+
+    animateMove();
 }
 
 /* ==========Print Label ================= */ 
