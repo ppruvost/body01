@@ -684,24 +684,25 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   // Gestion des clics sur les points du menu
- document.addEventListener("click", function(e) {
-  const li = e.target.closest(".submenu li");
-  if (!li) return;
+document.querySelectorAll(".submenu li").forEach(li => {
+  li.addEventListener("click", function(e) {
 
-  const pointId = li.getAttribute("data-id");
-  const iframe = document.getElementById("acu");
+    const pointId = this.getAttribute("data-id");
+    const iframe = document.getElementById("acu");
 
-  if (!iframe || !iframe.contentWindow) {
-    console.warn("Iframe non prête");
-    return;
-  }
+    if (!iframe || !iframe.contentWindow) {
+      console.warn("Iframe non prête");
+      return;
+    }
 
-  iframe.contentWindow.postMessage({
-    type: "focusPoint",
-    point: pointId
-  }, "*");
+    iframe.contentWindow.postMessage({
+      type: "focusPoint",
+      point: pointId
+    }, "*");
+
+  });
 });
-
+  
   // Scroll molette uniquement sur la colonne 3 A SUPPRIMER SI OK
   // const contenu = document.getElementById('contenu');
 
