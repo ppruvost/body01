@@ -228,7 +228,7 @@ function onMouseClick(event) {
 
 function focusOnPoint(object) {
 
-    const target = object.position.clone();
+    const direction = camera.position.clone().sub(target).normalize();
     const distance = 25;
 
     const direction = target.clone().normalize();
