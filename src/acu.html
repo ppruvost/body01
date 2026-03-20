@@ -289,7 +289,7 @@ window.addEventListener("message", function(event){
         const pointName = event.data.point;
 
         const target = clickableObjects.find(obj => 
-            obj.name.replace(/-r$/, '') === pointName
+            obj.name.replace(/-r$/, '').toLowerCase() === pointName.toLowerCase()
         );
 
         if(!target) return;
