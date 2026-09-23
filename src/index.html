@@ -29,6 +29,29 @@
 /* Hauteur écran */
 html, body {
   height: 100%;
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
+/* Utilisation de toute la largeur disponible de l'écran
+   (au lieu de la largeur fixe imposée par .container) */
+.container,
+.container-fluid {
+  width: 100% !important;
+  max-width: 100% !important;
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+  box-sizing: border-box;
+}
+
+.row {
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+}
+
+.row > [class*="col-"] {
+  box-sizing: border-box;
+  max-width: 100%;
 }
 
 /* Colonnes scrollables */
@@ -36,12 +59,18 @@ html, body {
 #contenu {
   height: calc(100vh - 40px);
   overflow-y: auto;
+  overflow-x: hidden !important;
+  box-sizing: border-box;
+  max-width: 100%;
 }
 
 /* Colonne centrale fixe */
 .col-3d {
   position: sticky;
-  top: 80px;  
+  top: 80px;
+  box-sizing: border-box;
+  max-width: 100%;
+  overflow: hidden;
 }
 
 /* iframe prend toute la hauteur */
@@ -52,12 +81,31 @@ html, body {
   border: none;
 }
 
+/* Retour à la ligne automatique garanti pour tout le texte
+   affiché dans la colonne de droite : le texte ne doit jamais
+   être tronqué, quelle que soit sa longueur. */
+#contenu,
+#content-p,
+#content-p * {
+  white-space: normal !important;
+  word-wrap: break-word !important;
+  overflow-wrap: break-word !important;
+  word-break: break-word !important;
+  max-width: 100% !important;
+  box-sizing: border-box;
+}
+
+#content-p img {
+  max-width: 100% !important;
+  height: auto !important;
+}
+
 </style>
 <!-- Fin code pour gestion molette souris sur index -->    
 </head>
 
 <body>
-<div class="container py-4">
+<div class="container-fluid py-4">
   <h3 class="text-center">Soins énergétiques par radiesthésie</h3>
 <!-- Compatible code version for three.js r71 written by ppruvost github.com for https://bien-etre-geobiologie.fr-->
 <!-- 3 colonnes -->
