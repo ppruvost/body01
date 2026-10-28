@@ -1,0 +1,43 @@
+name: Déploiement GitHub Pages
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Récupérer le dépôt
+        uses: actions/checkout@v4
+
+      - name: Vérifier qu'aucune image PNG/JPG de point n'est encore référencée
+        run: |
+          if grep -rEo 'img/[A-Za-z]+/[A-Za-z0-9_-]+\.(png|jpg)' src/*.html; then
+            echo "Des références PNG/JPG subsistent dans les pages HTML."; exit 1
+          fi
+
+      - name: Configurer Pages
+        uses: actions/configure-pages@v5
+
+      - name: Publier le dossier src
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: src
+
+      - name: Déployer
+        id: deployment
+        uses: actions/deploy-pages@v4
